@@ -48,9 +48,10 @@
     }
     .slider img {
       width: 100%;
-      height: 350px;
-      object-fit: cover;
+      height: auto;
+      object-fit: contain;
       flex-shrink: 0;
+      display: block;
     }
     .slider-controls {
       position: absolute;
@@ -81,7 +82,7 @@
     }
     section { padding: 60px 20px; max-width: 1000px; margin: auto; }
     h2 { text-align: center; font-family: 'Playfair Display', serif; color: #d62828; font-size: 28px; }
-    .galeria { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; margin-top: 30px; }
+    .galeria { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; margin-top: 30px; justify-items: center; }
     .pizza-card { position: relative; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
     .pizza-card img { width: 100%; display: block; }
     .pizza-info { padding: 15px; text-align: center; }
@@ -119,7 +120,7 @@
 
   <section id="ofertas" class="slider">
     <div class="slider-wrapper">
-      <img src="images/Oferta1.png" alt="Oferta 1">
+      <img src="images/oferta1.png" alt="Oferta 1">
       <img src="images/oferta2.png" alt="Oferta 2">
       <img src="images/oferta3.png" alt="Oferta 3">
       <img src="images/oferta4.png" alt="Oferta 4">
@@ -214,27 +215,6 @@
         <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale">
         <div class="pizza-info">
           <div class="pizza-name">Calzone Tradizionale</div>
-          <div class="pizza-price">12€</div>
-        </div>
-        <div class="pizza-description">San Marzano, fior di latte, prosciutto y champiñones</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni">
-        <div class="pizza-info">
-          <div class="pizza-name">Calzone Pepperoni</div>
-          <div class="pizza-price">12€</div>
-        </div>
-        <div class="pizza-description">Tomate San Marzano, fior di latte, prosciutto y pepperoni</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano">
-        <div class="pizza-info">
-          <div class="pizza-name">Calzone Vegetariano</div>
-          <div class="pizza-price">12€</div>
-        </div>
-        <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena</div>
-      </div>
-    </div>
   </section>
   <section id="pedido">
     <h2>📦 Pedido a Domicilio</h2>
