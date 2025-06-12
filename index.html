@@ -61,15 +61,25 @@
       transform: translateY(-50%);
       padding: 0 20px;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .slider:hover .slider-controls {
+      opacity: 1;
     }
     .slider-controls button {
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       border: none;
       color: white;
-      font-size: 2em;
-      padding: 10px;
+      font-size: 1.5em;
+      padding: 12px;
+      border-radius: 50%;
       cursor: pointer;
       pointer-events: all;
+      transition: background 0.3s;
+    }
+    .slider-controls button:hover {
+      background: rgba(0, 0, 0, 0.8);
     }
     @keyframes slide {
       0% { transform: translateX(0%); }
@@ -148,6 +158,8 @@
       const wrapper = document.querySelector('.slider-wrapper');
       const totalSlides = wrapper.children.length;
       currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      wrapper.style.animation = 'none';
+      wrapper.offsetHeight; // trigger reflow
       wrapper.style.transition = 'transform 0.5s ease-in-out';
       wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
@@ -178,6 +190,7 @@
     </div>
   </div>
 
+  <!-- Contenido restante -->
   <section id="menu">
     <h2>🍕 Nuestro Menú</h2>
     <div class="menu">
