@@ -46,14 +46,15 @@
       animation: slide 24s infinite ease-in-out;
       transition: transform 0.5s ease-in-out;
       width: 100%;
-      max-width: 100%;
       margin: 0 auto;
       justify-content: center;
     }
     .slider img {
-      width: 100%;
-      height: 350px;
-      object-fit: cover;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 350px;
+      object-fit: contain;
       flex: 1 0 100%;
     }
     .slider-controls {
@@ -109,6 +110,7 @@
       font-family: 'Playfair Display', serif;
       color: #d62828;
       font-size: 28px;
+      text-align: center;
     }
     .button {
       display: inline-block;
@@ -122,9 +124,10 @@
     }
     .galeria {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 30px;
       margin-top: 30px;
+      justify-items: center;
     }
     .pizza-card {
       text-align: center;
@@ -166,12 +169,6 @@
     .pizza-card:hover .pizza-description {
       bottom: 0;
     }
-    footer {
-      background-color: #1f1f1f;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
   </style>
   <script>
     let currentSlide = 0;
@@ -180,13 +177,12 @@
       const totalSlides = wrapper.children.length;
       currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
       wrapper.style.animation = 'none';
-      wrapper.offsetHeight; // trigger reflow
+      wrapper.offsetHeight;
       wrapper.style.transition = 'transform 0.5s ease-in-out';
       wrapper.style.transform = 'translateX(-' + currentSlide * 100 + '%)';
     }
   </script>
 </head>
-
 <body>
   <header>
     <h1>Fratelli Pazzi</h1>
@@ -199,18 +195,19 @@
     </nav>
   </header>
 
-  <section id="ofertas" class="slider" style="height: 350px; padding: 0; max-width: 100%;">
-  <div class="slider-wrapper">
-    <img src="images/oferta1.png" alt="Oferta 1">
-    <img src="images/oferta2.png" alt="Oferta 2">
-    <img src="images/oferta3.png" alt="Oferta 3">
-    <img src="images/oferta4.png" alt="Oferta 4">
-  </div>
-  <div class="slider-controls">
-    <button onclick="moveSlider(-1)">&#10094;</button>
-    <button onclick="moveSlider(1)">&#10095;</button>
-  </div>
-</section>
+  <section id="ofertas" class="slider" style="height: 350px;">
+    <div class="slider-wrapper">
+      <img src="images/oferta1.png" alt="Oferta 1">
+      <img src="images/oferta2.png" alt="Oferta 2">
+      <img src="images/oferta3.png" alt="Oferta 3">
+      <img src="images/oferta4.png" alt="Oferta 4">
+    </div>
+    <div class="slider-controls">
+      <button onclick="moveSlider(-1)">&#10094;</button>
+      <button onclick="moveSlider(1)">&#10095;</button>
+    </div>
+  </section>
+
   <section id="nuestras-pizzas">
     <h2>🍕 Nuestras Pizzas</h2>
     <div class="galeria">
@@ -238,96 +235,54 @@
         </div>
         <div class="pizza-description">Fior di latte, pecorino, gorgonzola y grana padano</div>
       </div>
+    </div>
+  </section>
+
+  <section id="calzones">
+    <h2>🌯 Calzones</h2>
+    <div class="galeria">
       <div class="pizza-card">
-        <img src="images/Capriciossa.png" alt="Capricciosa">
+        <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale">
         <div class="pizza-info">
-          <div class="pizza-name">Capricciosa</div>
+          <div class="pizza-name">Calzone Tradizionale</div>
           <div class="pizza-price">12€</div>
         </div>
-        <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa</div>
+        <div class="pizza-description">San Marzano, fior di latte, prosciutto y champiñones</div>
       </div>
       <div class="pizza-card">
-        <img src="images/LeonardoDaVinci.png" alt="Leonardo Da Vinci">
+        <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni">
         <div class="pizza-info">
-          <div class="pizza-name">Leonardo Da Vinci</div>
-          <div class="pizza-price">14€</div>
-        </div>
-        <div class="pizza-description">Tomate San Marzano, fior di latte, jamón serrano, queso grana padano y rúcula</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/SalchichaFriarielli.png" alt="Salchicha y Friarielli">
-        <div class="pizza-info">
-          <div class="pizza-name">Salchicha y Friarielli</div>
+          <div class="pizza-name">Calzone Pepperoni</div>
           <div class="pizza-price">12€</div>
         </div>
-        <div class="pizza-description">Tomate San Marzano, fior di latte, salchicha italiana, grana padano y friarielli</div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, prosciutto y pepperoni</div>
       </div>
       <div class="pizza-card">
         <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano">
         <div class="pizza-info">
-          <div class="pizza-name">Vegetariana</div>
+          <div class="pizza-name">Calzone Vegetariano</div>
           <div class="pizza-price">12€</div>
         </div>
-        <div class="pizza-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, aceitunas negras</div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena</div>
       </div>
-      <div class="pizza-card">
-        <img src="images/Focaccia.png" alt="Focaccia">
-        <div class="pizza-info">
-          <div class="pizza-name">Focaccia</div>
-          <div class="pizza-price">5€</div>
-        </div>
-        <div class="pizza-description">Base de pizza con mantequilla de ajo y romero</div>
-      </div>
-      
-        
-      
-        
     </div>
   </section>
 
-<section id="calzones">
-  <h2>🌯 Calzones</h2>
-  <div class="galeria">
-    <div class="pizza-card">
-      <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale">
-      <div class="pizza-info">
-        <div class="pizza-name">Calzone Tradizionale</div>
-        <div class="pizza-price">12€</div>
-      </div>
-      <div class="pizza-description">San Marzano, fior di latte, prosciutto y champiñones</div>
-    </div>
-    <div class="pizza-card">
-      <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni">
-      <div class="pizza-info">
-        <div class="pizza-name">Calzone Pepperoni</div>
-        <div class="pizza-price">12€</div>
-      </div>
-      <div class="pizza-description">Tomate San Marzano, fior di latte, prosciutto y pepperoni</div>
-    </div>
-    <div class="pizza-card">
-      <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano">
-      <div class="pizza-info">
-        <div class="pizza-name">Calzone Vegetariano</div>
-        <div class="pizza-price">12€</div>
-      </div>
-      <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena</div>
-    </div>
-  </div>
-</section>
+  <section id="pedido">
+    <h2>📦 Pedido a Domicilio</h2>
+    <p style="text-align:center;">Haz tu pedido directamente desde casa. Estamos trabajando para ofrecer una experiencia propia sin redirecciones.</p>
+    <div style="text-align:center;"><a class="button" href="#">¡Haz tu pedido ahora!</a></div>
+  </section>
 
-<section id="pedido">
-  <h2>📦 Pedido a Domicilio</h2>
-  <p>Haz tu pedido directamente desde casa. Estamos trabajando para ofrecer una experiencia propia sin redirecciones.</p>
-  <a class="button" href="#">¡Haz tu pedido ahora!</a>
-</section>
+  <section id="contacto">
+    <h2>📞 Contacto</h2>
+    <p style="text-align:center;">📍 Las Rozas, Madrid</p>
+    <p style="text-align:center;">📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
+    <p style="text-align:center;">📩 Email: <a href="mailto:info@fratellipazzi.com">info@fratellipazzi.com</a></p>
+  </section>
 
-<section id="contacto">
-  <h2>📞 Contacto</h2>
-  <p>📍 Las Rozas, Madrid</p>
-  <p>📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
-  <p>📩 Email: <a href="mailto:info@fratellipazzi.com">info@fratellipazzi.com</a></p>
-</section>
-
-<footer>
-  <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados.</p>
-</footer>
+  <footer>
+    <p style="text-align:center;">&copy; 2025 Fratelli Pazzi. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
