@@ -4,23 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fratelli Pazzi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f7f7f7; margin: 0; padding: 0; }
-    header { background-color: #1f1f1f; color: white; padding: 20px; text-align: center; }
-    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    section { padding: 40px 20px; max-width: 900px; margin: auto; }
-    h1, h2 { color: #d62828; }
-    .menu { background-color: white; padding: 20px; border-radius: 10px; }
-    .menu-item { margin-bottom: 10px; }
-    footer { background-color: #1f1f1f; color: white; text-align: center; padding: 20px; }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #fefefe;
+      color: #333;
+    }
+    header {
+      background-color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      margin: 0;
+      color: #d62828;
+    }
+    nav {
+      margin-top: 10px;
+    }
+    nav a {
+      color: #d62828;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .hero {
+      background-image: url('https://yourdomain.com/images/hero-pizza.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 3em;
+    }
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #d62828;
+      font-size: 28px;
+    }
+    .menu-item, .oferta-item {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
     .button {
       display: inline-block;
       background-color: #d62828;
       color: white;
-      padding: 10px 20px;
+      padding: 12px 25px;
       text-decoration: none;
-      border-radius: 5px;
-      margin-top: 20px;
+      border-radius: 6px;
+      margin-top: 25px;
+      font-weight: bold;
+    }
+    .menu, .ofertas {
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    footer {
+      background-color: #1f1f1f;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
     }
   </style>
 </head>
@@ -29,10 +92,15 @@
     <h1>Fratelli Pazzi</h1>
     <nav>
       <a href="#menu">Menú</a>
-      <a href="#horarios">Horarios</a>
+      <a href="#pedir">Pedir</a>
+      <a href="#ofertas">Ofertas</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
+
+  <div class="hero">
+    Auténtica pizza napolitana
+  </div>
 
   <section id="menu">
     <h2>🍕 Nuestro Menú</h2>
@@ -41,14 +109,22 @@
       <div class="menu-item"><strong>Prosciutto</strong> – Tomate San Marzano, fior di latte y jamón cocido (12€)</div>
       <div class="menu-item"><strong>Il Padrino</strong> – Tomate San Marzano, fior di latte, jamón serrano, tomate natural y burrata (15€)</div>
       <div class="menu-item">... y muchas más</div>
-      <a class="button" href="https://www.just-eat.es" target="_blank">Haz tu pedido</a>
     </div>
   </section>
 
-  <section id="horarios">
-    <h2>🕒 Horarios</h2>
-    <p>Martes, Miércoles, Viernes, Sábados y Domingos: 20:00 a 23:00</p>
-    <p>Cerramos los lunes y jueves.</p>
+  <section id="pedir">
+    <h2>📦 Pide a Domicilio</h2>
+    <p>Haz tu pedido rápido y sencillo desde nuestras plataformas asociadas:</p>
+    <a class="button" href="https://www.just-eat.es" target="_blank">Pedir ahora</a>
+  </section>
+
+  <section id="ofertas">
+    <h2>🔥 Ofertas Especiales</h2>
+    <div class="ofertas">
+      <div class="oferta-item">Martes locos: 2x1 en pizzas clásicas</div>
+      <div class="oferta-item">Domingo familiar: Calzone + Refresco gratis</div>
+      <div class="oferta-item">Estudiantes: 15% de descuento con carnet</div>
+    </div>
   </section>
 
   <section id="contacto">
