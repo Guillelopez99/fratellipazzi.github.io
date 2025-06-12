@@ -6,9 +6,7 @@
   <title>Fratelli Pazzi</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Open Sans', sans-serif;
@@ -36,18 +34,31 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .hero {
-      background-image: url('https://yourdomain.com/images/hero-pizza.jpg');
-      background-size: cover;
-      background-position: center;
-      height: 60vh;
+    .slider {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .slider-wrapper {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      font-family: 'Playfair Display', serif;
-      font-size: 3em;
+      width: 400%;
+      animation: slide 24s infinite ease-in-out;
+    }
+    .slider img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      flex: 1 0 100%;
+    }
+    @keyframes slide {
+      0% { transform: translateX(0%); }
+      25% { transform: translateX(0%); }
+      30% { transform: translateX(-100%); }
+      50% { transform: translateX(-100%); }
+      55% { transform: translateX(-200%); }
+      75% { transform: translateX(-200%); }
+      80% { transform: translateX(-300%); }
+      100% { transform: translateX(-300%); }
     }
     section {
       padding: 60px 20px;
@@ -123,6 +134,15 @@
     </nav>
   </header>
 
+  <div class="slider">
+    <div class="slider-wrapper">
+      <img src="images/oferta1.jpg" alt="Oferta 1">
+      <img src="images/oferta2.jpg" alt="Oferta 2">
+      <img src="images/oferta3.jpg" alt="Oferta 3">
+      <img src="images/oferta4.jpg" alt="Oferta 4">
+    </div>
+  </div>
+
   <div class="hero">
     Auténtica pizza napolitana
   </div>
@@ -137,65 +157,10 @@
     </div>
   </section>
 
-  <section id="nuestras-pizzas">
-    <h2>🍕 Nuestras Pizzas</h2>
-    <div class="galeria">
-      <div class="pizza-card">
-        <img src="images/Margarita.png" alt="Margarita">
-        <div class="pizza-name">Margarita</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Prosciutto.png" alt="Prosciutto">
-        <div class="pizza-name">Prosciutto</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/LeonardoDaVinci.png" alt="Leonardo Da Vinci">
-        <div class="pizza-name">Leonardo Da Vinci</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Quatro formaggi.png" alt="Quatro Formaggi">
-        <div class="pizza-name">Quatro Formaggi</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/SalchichaFriarielli.png" alt="Salchicha y Friarielli">
-        <div class="pizza-name">Salchicha y Friarielli</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano">
-        <div class="pizza-name">Calzone Vegetariano</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Capriciossa.png" alt="Capricciosa">
-        <div class="pizza-name">Capricciosa</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Focaccia.png" alt="Focaccia">
-        <div class="pizza-name">Focaccia</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Calzone Traditionale.png" alt="Calzone Traditionale">
-        <div class="pizza-name">Calzone Traditionale</div>
-      </div>
-      <div class="pizza-card">
-        <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni">
-        <div class="pizza-name">Calzone Pepperoni</div>
-      </div>
-    </div>
-  </section>
-
   <section id="pedir">
     <h2>📦 Pide a Domicilio</h2>
     <p>Haz tu pedido rápido y sencillo desde nuestras plataformas asociadas:</p>
     <a class="button" href="https://www.just-eat.es" target="_blank">Pedir ahora</a>
-  </section>
-
-  <section id="ofertas">
-    <h2>🔥 Ofertas Especiales</h2>
-    <div class="ofertas">
-      <div class="oferta-item">Martes locos: 2x1 en pizzas clásicas</div>
-      <div class="oferta-item">Domingo familiar: Calzone + Refresco gratis</div>
-      <div class="oferta-item">Estudiantes: 15% de descuento con carnet</div>
-    </div>
   </section>
 
   <section id="contacto">
