@@ -44,12 +44,12 @@
       display: flex;
       animation: slide 24s infinite ease-in-out;
       transition: transform 0.5s ease-in-out;
-      width: 100%;
+      /* width auto to allow each slide full viewport */
     }
     .slider img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
+      width: 100vw; /* full viewport width */
+      height: 350px;
+      object-fit: cover; /* fill without empty spaces */
       flex-shrink: 0;
       display: block;
     }
@@ -120,10 +120,10 @@
 
   <section id="ofertas" class="slider">
     <div class="slider-wrapper">
-      <img src="images/oferta1.png" alt="Oferta 1">
-      <img src="images/oferta2.png" alt="Oferta 2">
-      <img src="images/oferta3.png" alt="Oferta 3">
-      <img src="images/oferta4.png" alt="Oferta 4">
+      <img src="images/Oferta1.png" alt="Oferta 1">
+      <img src="images/Oferta2.png" alt="Oferta 2">
+      <img src="images/Oferta3.png" alt="Oferta 3">
+      <img src="images/Oferta4.png" alt="Oferta 4">
     </div>
     <div class="slider-controls">
       <button onclick="moveSlider(-1)">&#10094;</button>
@@ -215,20 +215,3 @@
         <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale">
         <div class="pizza-info">
           <div class="pizza-name">Calzone Tradizionale</div>
-  </section>
-  <section id="pedido">
-    <h2>📦 Pedido a Domicilio</h2>
-    <p style="text-align:center;">Haz tu pedido directamente desde casa. Estamos trabajando para ofrecer una experiencia propia sin redirecciones.</p>
-    <div style="text-align:center;"><a class="button" href="#">¡Haz tu pedido ahora!</a></div>
-  </section>
-  <section id="contacto">
-    <h2>📞 Contacto</h2>
-    <p style="text-align:center;">📍 Las Rozas, Madrid</p>
-    <p style="text-align:center;">📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
-    <p style="text-align:center;">📩 Email: <a href="mailto:info@fratellipazzi.com">info@fratellipazzi.com</a></p>
-  </section>
-  <footer>
-    <p style="text-align:center;">&copy; 2025 Fratelli Pazzi. Todos los derechos reservados.</p>
-  </footer>
-</body>
-</html>
