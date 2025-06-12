@@ -182,7 +182,8 @@
       wrapper.style.animation = 'none';
       wrapper.offsetHeight; // trigger reflow
       wrapper.style.transition = 'transform 0.5s ease-in-out';
-      wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      wrapper.style.transform = 'translateX(-' + currentSlide * 100 + '%)';
+    }
     }
   </script>
 </head>
@@ -201,7 +202,7 @@
 
   <section id="ofertas" class="slider" style="height: 350px; padding: 0; max-width: 100%;">
   <div class="slider-wrapper">
-    <img src="images/oferta1.png" alt="Oferta 1">
+    <img src="images/oferta1.png" alt="Oferta 1" onerror="this.style.display='none'">
     <img src="images/oferta2.png" alt="Oferta 2">
     <img src="images/oferta3.png" alt="Oferta 3">
     <img src="images/oferta4.png" alt="Oferta 4">
@@ -247,7 +248,7 @@
         <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa</div>
       </div>
       <div class="pizza-card">
-        <img src="images/Leonardo.png" alt="LeonardoDaVinci">
+        <img src="images/LeonardoDaVinci.png" alt="Leonardo Da Vinci">
         <div class="pizza-info">
           <div class="pizza-name">Leonardo Da Vinci</div>
           <div class="pizza-price">14€</div>
@@ -255,7 +256,7 @@
         <div class="pizza-description">Tomate San Marzano, fior di latte, jamón serrano, queso grana padano y rúcula</div>
       </div>
       <div class="pizza-card">
-        <img src="images/Salchicha.png" alt="SalchichaFriarielli">
+        <img src="images/SalchichaFriarielli.png" alt="Salchicha y Friarielli">
         <div class="pizza-info">
           <div class="pizza-name">Salchicha y Friarielli</div>
           <div class="pizza-price">12€</div>
@@ -263,7 +264,7 @@
         <div class="pizza-description">Tomate San Marzano, fior di latte, salchicha italiana, grana padano y friarielli</div>
       </div>
       <div class="pizza-card">
-        <img src="images/vege.png" alt="Vegetariana">
+        <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano">
         <div class="pizza-info">
           <div class="pizza-name">Vegetariana</div>
           <div class="pizza-price">12€</div>
@@ -271,7 +272,7 @@
         <div class="pizza-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, aceitunas negras</div>
       </div>
       <div class="pizza-card">
-        <img src="images/focaccia.png" alt="Focaccia">
+        <img src="images/Focaccia.png" alt="Focaccia">
         <div class="pizza-info">
           <div class="pizza-name">Focaccia</div>
           <div class="pizza-price">5€</div>
@@ -279,11 +280,9 @@
         <div class="pizza-description">Base de pizza con mantequilla de ajo y romero</div>
       </div>
       
-        <div class="pizza-description">San Marzano, fior di latte, prosciutto y champiñones</div>
-      </div>
+        
       
-        <div class="pizza-description">Tomate San Marzano, fior di latte, prosciutto y pepperoni</div>
-      </div>
+        
     </div>
   </section>
 
