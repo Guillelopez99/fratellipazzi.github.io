@@ -16,9 +16,9 @@
     header h1 { font-family:'Playfair Display', serif; font-size:36px; color:#d62828; }
     nav { margin-top:10px; }
     nav a { color:#d62828; margin:0 15px; text-decoration:none; font-weight:bold; }
-    .slider { position:relative; overflow:hidden; height:350px; width:100vw; max-width:100%; box-shadow:0 8px 30px rgba(0,0,0,0.2); margin: 0 auto; }
-    .slider-wrapper { display:flex; width:400%; transition:transform 1s cubic-bezier(0.77, 0, 0.175, 1); }
-    .slider img { flex:0 0 25%; width:100vw; height:100%; object-fit:cover; background-color: #000; }
+    .slider { position:relative; overflow:hidden; width:100vw; height:auto; max-width:100%; box-shadow:0 8px 30px rgba(0,0,0,0.2); margin: 0 auto; }
+    .slider-wrapper { display:flex; transition:transform 1s cubic-bezier(0.77, 0, 0.175, 1); }
+    .slider img { flex:0 0 100vw; width:100vw; height:auto; object-fit:cover; }
     .slider-controls { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 20px; opacity:0; transition:opacity 0.3s; }
     .slider:hover .slider-controls { opacity:1; }
     .slider-controls button { background:rgba(0,0,0,0.5); border:none; color:#fff; font-size:1.5em; padding:12px; border-radius:50%; cursor:pointer; }
@@ -115,6 +115,13 @@
     <p>📍 Las Rozas, Madrid</p>
     <p>📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
     <p>📩 Email: <a href="mailto:info@fratellipazzi.com">info@fratellipazzi.com</a></p>
+  </section>
+
+  <section class="newsletter">
+    <h2>📬 Suscríbete a nuestro boletín</h2>
+    <p>Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
+    <input type="email" placeholder="Tu email">
+    <button>Suscribirse</button>
   </section>
 
   <footer>
