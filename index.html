@@ -45,22 +45,20 @@
     .slider-wrapper {
       display: flex;
       animation: slide 24s infinite ease-in-out;
-      /* smooth transition on transform only */
-     transition: transform 1.5s cubic-bezier(0.75, 0, 0.25, 1);
-      width: 400%; /* 4 slides */
-      width: 400%; /* 4 slides */
+      transition: transform 1.2s cubic-bezier(0.7,0,0.3,1);
+      width: 500%; /* 5 slides para loop */
     }
     .slider-wrapper.moving {
-      filter: blur(2px);
+      filter: blur(10px);
     }
     .slider-wrapper.moving {
-      filter: blur(2px);
+      filter: blur(5px);
     }
     .slider img {
-      flex: 0 0 25%; /* each slide 25% of wrapper */
+      flex: 0 0 20%; /* cada slide ocupa 20% */
       width: 100%;
       height: 350px;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
     }
     .slider-controls {
@@ -119,15 +117,22 @@
     function moveSlider(direction) {
       const wrapper = document.querySelector('.slider-wrapper');
       const total = wrapper.children.length;
+      // Calcular siguiente
       currentSlide = (currentSlide + direction + total) % total;
-      // add motion blur class
-      wrapper.classList.add('moving');
+      // Desplazar
       wrapper.style.transition = 'transform 1.2s cubic-bezier(0.7,0,0.3,1)';
-      wrapper.style.transform = 'translateX(-' + currentSlide * 25 + '%)';
-      // remove blur after transition
-      setTimeout(() => wrapper.classList.remove('moving'), 1200);
+      wrapper.style.transform = 'translateX(-' + (currentSlide * 20) + '%)';
+      // Si llegamos al clon final, resetear al real con salto sin animación
+      if (currentSlide === total - 1) {
+        wrapper.addEventListener('transitionend', function reset() {
+          wrapper.style.transition = 'none';
+          wrapper.style.transform = 'translateX(0)';
+          currentSlide = 0;
+          wrapper.removeEventListener('transitionend', reset);
+        });
+      }
     }
-    // Autoplay cada 6 segundos
+    // Autoplay cada 6s
     setInterval(() => moveSlider(1), 6000);
   </script>
 </head>
