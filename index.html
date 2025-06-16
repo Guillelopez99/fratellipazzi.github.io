@@ -18,7 +18,7 @@
     nav a { color:#d62828; margin:0 15px; text-decoration:none; font-weight:bold; }
     .slider { position:relative; overflow:hidden; height:350px; width:100vw; max-width:100%; box-shadow:0 8px 30px rgba(0,0,0,0.2); margin: 0 auto; }
     .slider-wrapper { display:flex; width:400%; transition:transform 1s cubic-bezier(0.77, 0, 0.175, 1); }
-    .slider img { flex:0 0 25%; width:100vw; height:350px; object-fit:cover; filter: blur(0.7px); }
+    .slider img { flex:0 0 25%; width:100vw; height:100%; object-fit:fill; filter: blur(0.7px); }
     .slider-controls { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 20px; opacity:0; transition:opacity 0.3s; }
     .slider:hover .slider-controls { opacity:1; }
     .slider-controls button { background:rgba(0,0,0,0.5); border:none; color:#fff; font-size:1.5em; padding:12px; border-radius:50%; cursor:pointer; }
@@ -101,17 +101,6 @@
   </script>
 </head>
 <body>
-  <header>
-    <h1>Fratelli Pazzi</h1>
-    <nav>
-      <a href="#ofertas">Ofertas</a>
-      <a href="#nuestras-pizzas">Pizzas</a>
-      <a href="#calzones">Calzones</a>
-      <a href="#pedido">Pedido</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </header>
-
   <section id="ofertas" class="slider">
     <div class="slider-wrapper">
       <img src="images/oferta1.png" alt="oferta 1">
