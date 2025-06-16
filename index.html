@@ -96,6 +96,34 @@
       <div class="pizza-card"><img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano"><div class="pizza-info"><div class="pizza-name">Calzone Vegetariano</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena</div></div>
     </div>
   </section>
+  <section id="carrito">
+    <h2>🛒 Tu pedido</h2>
+    <ul id="lista-pedido"></ul>
+    <p><strong>Total:</strong> <span id="total-pedido">0€</span></p>
+    <a class="button" href="#">Proceder al pago</a>
+  </section>
+
+  <script>
+    const carrito = [];
+    function agregarAlCarrito(nombre, precio) {
+      carrito.push({ nombre, precio });
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const lista = document.getElementById('lista-pedido');
+      const total = document.getElementById('total-pedido');
+      lista.innerHTML = '';
+      let suma = 0;
+      carrito.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.nombre} - ${item.precio}€`;
+        lista.appendChild(li);
+        suma += parseFloat(item.precio);
+      });
+      total.textContent = suma.toFixed(2) + '€';
+    }
+  </script>
   <section id="pedido">
     <h2>📦 Pedido a Domicilio</h2>
     <p>Haz tu pedido directamente desde casa. Estamos trabajando para ofrecer una experiencia propia sin redirecciones.</p>
