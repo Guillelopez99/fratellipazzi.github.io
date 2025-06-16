@@ -96,15 +96,33 @@
       <div class="pizza-card"><img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano"><div class="pizza-info"><div class="pizza-name">Calzone Vegetariano</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena</div></div>
     </div>
   </section>
-  <section id="carrito">
-    <h2>🛒 Tu pedido</h2>
+  <section id="pedido">
+    <h2>📦 Haz tu pedido</h2>
+    <p>Selecciona tus pizzas o calzones favoritos y añádelos al carrito.</p>
+    <div class="galeria" id="menu-pedido"></div>
+    <h3>🛒 Tu carrito</h3>
     <ul id="lista-pedido"></ul>
     <p><strong>Total:</strong> <span id="total-pedido">0€</span></p>
     <a class="button" href="#">Proceder al pago</a>
   </section>
 
   <script>
+    const productos = [
+      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png' },
+      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png' },
+      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png' },
+      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png' },
+      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png' },
+      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png' },
+      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Calzone Vegetariano.png' },
+      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png' },
+      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png' },
+      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png' },
+      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png' }
+    ];
+
     const carrito = [];
+
     function agregarAlCarrito(nombre, precio) {
       carrito.push({ nombre, precio });
       actualizarCarrito();
@@ -123,12 +141,21 @@
       });
       total.textContent = suma.toFixed(2) + '€';
     }
+
+    const menu = document.getElementById('menu-pedido');
+    productos.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'pizza-card';
+      card.innerHTML = `
+        <img src="${p.imagen}" alt="${p.nombre}" style="max-width:120px; margin: 0 auto; margin-top: 10px; border-radius: 10px;">
+        <div class="pizza-info">
+          <div class="pizza-name">${p.nombre}</div>
+          <div class="pizza-price">${p.precio}€</div>
+          <button class="add-to-cart" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
+        </div>`;
+      menu.appendChild(card);
+    });
   </script>
-  <section id="pedido">
-    <h2>📦 Pedido a Domicilio</h2>
-    <p>Haz tu pedido directamente desde casa. Estamos trabajando para ofrecer una experiencia propia sin redirecciones.</p>
-    <a class="button" href="#">¡Haz tu pedido ahora!</a>
-  </section>
 
   <section id="contacto">
     <h2>📞 Contacto</h2>
