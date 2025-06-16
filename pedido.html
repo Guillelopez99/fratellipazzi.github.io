@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fratelli Pazzi</title>
+  <meta name="description" content="Fratelli Pazzi: auténtica pizzería napolitana en Madrid. Pizzas artesanas con ingredientes de calidad.">
+  <meta name="keywords" content="pizzería, pizza napolitana, Madrid, comida a domicilio, ofertas">
+  <meta property="og:title" content="Fratelli Pazzi">
+  <meta property="og:description" content="Descubre nuestra carta de pizzas napolitanas y ofertas especiales. Pide online o visítanos en Madrid.">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap">
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: 'Open Sans', sans-serif; background-color: #fefefe; color: #333; line-height: 1.6; }
+    header { background-color: #fff; padding:30px 20px; text-align:center; border-bottom:1px solid #eee; }
+    header h1 { font-family:'Playfair Display', serif; font-size:36px; color:#d62828; }
+    nav { margin-top:10px; }
+    nav a { color:#d62828; margin:0 15px; text-decoration:none; font-weight:bold; }
+    section { padding:60px 20px; max-width:1000px; margin:auto; }
+    .button { display:inline-block; background:#d62828; color:#fff; padding:12px 25px; border-radius:6px; text-decoration:none; font-weight:bold; margin-top:10px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fratelli Pazzi</h1>
+    <nav>
+      <a href="index.html#ofertas">Ofertas</a>
+      <a href="index.html#nuestras-pizzas">Pizzas</a>
+      <a href="index.html#calzones">Calzones</a>
+      <a href="index.html#servicio-pedidos">Pedido</a>
+      <a href="index.html#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section id="pedido">
+    <h2>📦 Haz tu pedido</h2>
+    <p>Selecciona tus pizzas o calzones favoritos y añádelos al carrito.</p>
+    <div class="galeria" id="menu-pedido"></div>
+    <h3>🛒 Tu carrito</h3>
+    <ul id="lista-pedido"></ul>
+    <p><strong>Total:</strong> <span id="total-pedido">0€</span></p>
+    <a class="button" href="#">Proceder al pago</a>
+  </section>
+
+  <script>
+    const productos = [
+      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png' },
+      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png' },
+      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png' },
+      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png' },
+      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png' },
+      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png' },
+      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Calzone Vegetariano.png' },
+      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png' },
+      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png' },
+      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png' },
+      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png' }
+    ];
+
+    const carrito = [];
+
+    function agregarAlCarrito(nombre, precio) {
+      carrito.push({ nombre, precio });
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const lista = document.getElementById('lista-pedido');
+      const total = document.getElementById('total-pedido');
+      lista.innerHTML = '';
+      let suma = 0;
+      carrito.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.nombre} - ${item.precio}€`;
+        lista.appendChild(li);
+        suma += parseFloat(item.precio);
+      });
+      total.textContent = suma.toFixed(2) + '€';
+    }
+
+    const menu = document.getElementById('menu-pedido');
+    productos.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'pizza-card';
+      card.style = 'max-width:200px;margin:auto;text-align:center';
+      card.innerHTML = `
+        <img src="${p.imagen}" alt="${p.nombre}" style="max-width:120px; margin: 0 auto; margin-top: 10px; border-radius: 10px;">
+        <div class="pizza-info">
+          <div class="pizza-name">${p.nombre}</div>
+          <div class="pizza-price">${p.precio}€</div>
+          <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
+        </div>`;
+      menu.appendChild(card);
+    });
+  </script>
+</body>
+</html>
