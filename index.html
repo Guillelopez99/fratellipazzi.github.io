@@ -45,8 +45,9 @@
     .slider-wrapper {
       display: flex;
       animation: slide 24s infinite ease-in-out;
-      /* smooth transition on transform and filter with pronounced ease-in-out */
-      transition: transform 1.2s cubic-bezier(0.7,0,0.3,1), filter 1.2s cubic-bezier(0.7,0,0.3,1);
+      /* smooth transition on transform only */
+      transition: transform 1.2s cubic-bezier(0.7,0,0.3,1);
+      width: 400%; /* 4 slides */
       width: 400%; /* 4 slides */
     }
     .slider-wrapper.moving {
@@ -121,7 +122,7 @@
       currentSlide = (currentSlide + direction + total) % total;
       // add motion blur class
       wrapper.classList.add('moving');
-      wrapper.style.transition = 'transform 1.2s cubic-bezier(0.7,0,0.3,1), filter 1.2s cubic-bezier(0.7,0,0.3,1)';
+      wrapper.style.transition = 'transform 1.2s cubic-bezier(0.7,0,0.3,1)';
       wrapper.style.transform = 'translateX(-' + currentSlide * 25 + '%)';
       // remove blur after transition
       setTimeout(() => wrapper.classList.remove('moving'), 1200);
@@ -129,6 +130,31 @@
     // Autoplay cada 6 segundos
     setInterval(() => moveSlider(1), 6000);
   </script>
+</head>
+<body>
+  <header>
+    <h1>Fratelli Pazzi</h1>
+    <nav>
+      <a href="#ofertas">Ofertas</a>
+      <a href="#nuestras-pizzas">Pizzas</a>
+      <a href="#calzones">Calzones</a>
+      <a href="#pedido">Pedido</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section id="ofertas" class="slider">
+    <div class="slider-wrapper">
+      <img src="images/oferta1.png" alt="oferta 1">
+      <img src="images/oferta2.png" alt="oferta 2">
+      <img src="images/oferta3.png" alt="oferta 3">
+      <img src="images/oferta4.png" alt="oferta 4">
+    </div>
+    <div class="slider-controls">
+      <button onclick="moveSlider(-1)">&#10094;</button>
+      <button onclick="moveSlider(1)">&#10095;</button>
+    </div>
+  </section>
 </head>
 <body>
   <header>
