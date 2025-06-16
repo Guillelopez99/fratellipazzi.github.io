@@ -106,21 +106,14 @@
     .button { display: inline-block; background: #d62828; color: #fff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; }
     footer { text-align: center; background: #1f1f1f; color: #fff; padding: 30px 20px; }
   </style>
-  <script>
+ <script>
     let currentSlide = 0;
     function moveSlider(direction) {
       const wrapper = document.querySelector('.slider-wrapper');
-      const totalSlides = wrapper.children.length;
-      const prevSlide = currentSlide;
-      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-      // Fade out
-      wrapper.style.opacity = 0;
-      // After fade out complete, move and fade in
-      setTimeout(() => {
-        wrapper.style.transition = 'transform 0.5s ease, opacity 1s ease';
-        wrapper.style.transform = 'translateX(-' + currentSlide * 25 + '%)';
-        wrapper.style.opacity = 1;
-      }, 500); // wait for opacity transition out
+      const total = wrapper.children.length;
+      currentSlide = (currentSlide + direction + total) % total;
+      wrapper.style.transition = 'transform 1s ease-in-out';
+      wrapper.style.transform = 'translateX(-' + currentSlide * 25 + '%)';
     }
     // Autoplay cada 6 segundos
     setInterval(() => moveSlider(1), 6000);
