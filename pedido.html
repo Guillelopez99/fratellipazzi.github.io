@@ -1,36 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fratelli Pazzi</title>
-  <meta name="description" content="Fratelli Pazzi: auténtica pizzería napolitana en Madrid. Pizzas artesanas con ingredientes de calidad.">
-  <meta name="keywords" content="pizzería, pizza napolitana, Madrid, comida a domicilio, ofertas">
-  <meta property="og:title" content="Fratelli Pazzi">
-  <meta property="og:description" content="Descubre nuestra carta de pizzas napolitanas y ofertas especiales. Pide online o visítanos en Madrid.">
+  <title>Fratelli Pazzi - Pedido</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap">
   <style>
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Open Sans', sans-serif; background-color: #fefefe; color: #333; line-height: 1.6; }
-    header { background-color: #fff; padding:30px 20px; text-align:center; border-bottom:1px solid #eee; }
-    header h1 { font-family:'Playfair Display', serif; font-size:36px; color:#d62828; }
-    nav { margin-top:10px; }
-    nav a { color:#d62828; margin:0 15px; text-decoration:none; font-weight:bold; }
-    section { padding:60px 20px; max-width:1000px; margin:auto; }
-    .button { display:inline-block; background:#d62828; color:#fff; padding:12px 25px; border-radius:6px; text-decoration:none; font-weight:bold; margin-top:10px; cursor:pointer; }
+    header { background-color: #fff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #eee; }
+    header h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #d62828; }
+    section { padding: 60px 20px; max-width: 1200px; margin: auto; }
+    .button { display: inline-block; background: #d62828; color: #fff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+    .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; }
+    .pizza-card { background-color: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); text-align: center; padding: 20px; }
+    .pizza-card img { max-width: 120px; border-radius: 10px; margin-bottom: 10px; }
+    .pizza-name { font-family: 'Playfair Display', serif; font-size: 18px; color: #111; margin: 10px 0 5px; }
+    .pizza-price { font-weight: bold; color: #d62828; margin-bottom: 10px; }
+    ul { list-style: none; padding-left: 0; }
   </style>
 </head>
 <body>
   <header>
     <h1>Fratelli Pazzi</h1>
-    <nav>
-      <a href="index.html#ofertas">Ofertas</a>
-      <a href="index.html#nuestras-pizzas">Pizzas</a>
-      <a href="index.html#calzones">Calzones</a>
-      <a href="index.html#servicio-pedidos">Pedido</a>
-      <a href="index.html#contacto">Contacto</a>
-    </nav>
   </header>
 
   <section id="pedido">
@@ -83,14 +75,12 @@
     productos.forEach(p => {
       const card = document.createElement('div');
       card.className = 'pizza-card';
-      card.style = 'max-width:200px;margin:auto;text-align:center';
       card.innerHTML = `
-        <img src="${p.imagen}" alt="${p.nombre}" style="max-width:120px; margin: 0 auto; margin-top: 10px; border-radius: 10px;">
-        <div class="pizza-info">
-          <div class="pizza-name">${p.nombre}</div>
-          <div class="pizza-price">${p.precio}€</div>
-          <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
-        </div>`;
+        <img src="${p.imagen}" alt="${p.nombre}">
+        <div class="pizza-name">${p.nombre}</div>
+        <div class="pizza-price">${p.precio}€</div>
+        <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
+      `;
       menu.appendChild(card);
     });
   </script>
