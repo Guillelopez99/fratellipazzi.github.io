@@ -1,6 +1,50 @@
-function mostrarFormularioPago() {
-      if (carrito.length === 0) {
-        mostrarNotific<!DOCTYPE html>
+// Cerrar modal al hacer click fuera de él
+    document.getElementById('carrito-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        cerrarCarritoModal();
+      }
+    });
+
+    // Cerrar modal con tecla Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        cerrarCarritoModal();
+      }
+    });
+
+    // Smooth scroll para los enlaces de navegación
+    document.querySelectorAll('nav.indice a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          const offsetTop = targetElement.offsetTop - 140;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Hacer funciones globales
+    window.agregarAlCarrito = agregarAlCarrito;
+    window.eliminarDelCarrito = eliminarDelCarrito;
+    window.abrirCarritoModal = abrirCarritoModal;
+    window.cerrarCarritoModal = cerrarCarritoModal;
+    window.procederAlPago = procederAlPago;
+
+    // Inicializar las categorías
+    ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
+      renderCategoria(categoria, categoria);
+    });
+
+    // Actualizar carrito al cargar la página
+    actualizarCarrito();
+  </script>
+</body>
+</html><!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -87,12 +131,12 @@ function mostrarFormularioPago() {
     }
     
     nav.indice { 
-      flex: 0.6; 
+      flex: 0.4; 
       position: sticky; 
       top: 120px; 
       align-self: flex-start; 
       background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-      padding: 25px;
+      padding: 20px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border: 1px solid rgba(214, 40, 40, 0.1);
@@ -102,29 +146,30 @@ function mostrarFormularioPago() {
     nav.indice h3 {
       font-family: 'Playfair Display', serif;
       color: #d62828;
-      font-size: 20px;
-      margin-bottom: 20px;
+      font-size: 18px;
+      margin-bottom: 15px;
       text-align: center;
-      padding-bottom: 15px;
+      padding-bottom: 12px;
       border-bottom: 2px solid rgba(214, 40, 40, 0.1);
     }
     
     nav.indice ul { list-style: none; padding: 0; }
     
-    nav.indice li { margin-bottom: 8px; }
+    nav.indice li { margin-bottom: 6px; }
     
     nav.indice a { 
       text-decoration: none; 
       color: #555; 
       font-weight: 600; 
-      padding: 12px 18px;
-      border-radius: 12px;
+      padding: 10px 15px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      font-size: 14px;
     }
     
     nav.indice a::before {
@@ -149,7 +194,7 @@ function mostrarFormularioPago() {
       box-shadow: 0 5px 15px rgba(214, 40, 40, 0.3);
     }
     
-    section { flex: 1; max-width: 1200px; }
+    section { flex: 2.5; max-width: 1200px; }
     
     /* NUEVO: Botón flotante del carrito */
     .carrito-float-btn {
@@ -246,6 +291,7 @@ function mostrarFormularioPago() {
       align-items: center;
       justify-content: center;
       gap: 12px;
+      color: white;
     }
     
     .carrito-close {
@@ -926,7 +972,7 @@ function mostrarFormularioPago() {
     <div class="carrito-modal-content">
       <div class="carrito-modal-header">
         <button class="carrito-close" onclick="cerrarCarritoModal()">×</button>
-        <h2>🛒 Tu Carrito</h2>
+        <h2>🛒 <span style="color: white;">Tu Carrito</span></h2>
       </div>
       <div class="carrito-modal-body" id="carrito-modal-body">
         <!-- Aquí se insertarán los items del carrito -->
@@ -1118,10 +1164,12 @@ function mostrarFormularioPago() {
               <h4>${item.nombre}</h4>
               <p>${(item.precio * item.cantidad).toFixed(2)}€ (${item.cantidad} unidad${item.cantidad > 1 ? 'es' : ''})</p>
             </div>
-            <button class="carrito-btn-eliminar" onclick="eliminarDelCarrito('${item.nombre}')">
+            <button class="carrito-btn-eliminar" onclick="eliminarDelCarrito(this.dataset.nombre)">
               Eliminar
             </button>
           `;
+          // Añadir el nombre como data attribute para evitar problemas con comillas
+          itemElement.querySelector('.carrito-btn-eliminar').dataset.nombre = item.nombre;
           modalBody.appendChild(itemElement);
           suma += item.precio * item.cantidad;
         });
