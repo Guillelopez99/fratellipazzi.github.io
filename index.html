@@ -18,6 +18,8 @@
       color: #333; 
       line-height: 1.6; 
       overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
     
     header { 
@@ -83,14 +85,12 @@
     .slider { 
       position: relative; 
       overflow: hidden; 
-      width: 100%; 
-      max-width: 1200px;
-      height: 60vh;
-      min-height: 400px;
-      max-height: 600px;
+      width: 100vw; 
+      height: 350px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-      margin: 40px auto;
-      border-radius: 20px;
+      margin: 0;
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
     }
     
     .slider-wrapper { 
@@ -101,12 +101,11 @@
     
     .slider img { 
       flex: 0 0 100%; 
-      width: 100%; 
-      height: 100%;
-      object-fit: contain; 
+      width: 100vw; 
+      height: 350px;
+      object-fit: cover; 
       filter: brightness(0.9);
       transition: filter 0.3s ease;
-      background: #f8f9fa;
     }
     
     .slider:hover img {
@@ -241,8 +240,10 @@
     .pizza-card img { 
       width: 100%; 
       height: 220px;
-      object-fit: cover;
+      object-fit: contain;
       transition: transform 0.3s ease;
+      background: #f8f9fa;
+      border-radius: 18px 18px 0 0;
     }
     
     .pizza-card:hover img {
@@ -269,6 +270,11 @@
       font-weight: 600; 
       font-size: 20px;
       margin-bottom: 10px;
+      transition: opacity 0.3s ease;
+    }
+    
+    .pizza-card:hover .pizza-price {
+      opacity: 0;
     }
     
     .pizza-description { 
@@ -519,10 +525,14 @@
       }
       
       .slider {
-        height: 40vh;
-        min-height: 300px;
-        margin: 30px 15px;
-        border-radius: 15px;
+        height: 250px;
+        margin: 0;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+      }
+      
+      .slider img {
+        height: 250px;
       }
       
       section {
@@ -544,6 +554,9 @@
       
       .pizza-card img {
         height: 200px;
+        object-fit: contain;
+        background: #f8f9fa;
+        border-radius: 15px 15px 0 0;
       }
       
       .pizza-info {
@@ -630,10 +643,14 @@
       }
       
       .slider {
-        height: 35vh;
-        min-height: 250px;
-        margin: 20px 10px;
-        border-radius: 12px;
+        height: 200px;
+        margin: 0;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+      }
+      
+      .slider img {
+        height: 200px;
       }
     }
   </style>
