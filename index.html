@@ -86,38 +86,39 @@
       /* Eliminado - ya no se usa */
     }
     
-    .slider { 
-      position: relative; 
-      overflow: hidden; 
+    /* Reset completo para el slider */
+    .fullwidth-slider {
       width: 100vw;
       height: 500px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-      margin-left: -50vw;
-      margin-right: -50vw;
-      left: 50%;
-      right: 50%;
+      position: relative;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
     }
     
-    .slider-wrapper { 
+    .fullwidth-slider .slider-wrapper { 
       display: flex; 
       transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
       height: 100%;
+      width: 100%;
     }
     
-    .slider img { 
+    .fullwidth-slider img { 
       flex: 0 0 100%; 
-      width: 100%; 
+      width: 100vw; 
       height: 500px;
-      object-fit: cover; 
+      object-fit: contain; 
       filter: brightness(0.95);
       transition: filter 0.3s ease;
+      background: #f8f9fa;
     }
     
-    .slider:hover img {
+    .fullwidth-slider:hover img {
       filter: brightness(1);
     }
     
-    .slider-controls { 
+    .fullwidth-slider .slider-controls { 
       position: absolute; 
       top: 50%; 
       width: 100%; 
@@ -129,9 +130,9 @@
       transition: opacity 0.3s; 
     }
     
-    .slider:hover .slider-controls { opacity: 1; }
+    .fullwidth-slider:hover .slider-controls { opacity: 1; }
     
-    .slider-controls button { 
+    .fullwidth-slider .slider-controls button { 
       background: rgba(214, 40, 40, 0.8); 
       border: none; 
       color: #fff; 
@@ -143,19 +144,19 @@
       backdrop-filter: blur(10px);
     }
     
-    .slider-controls button:hover {
+    .fullwidth-slider .slider-controls button:hover {
       background: rgba(214, 40, 40, 1);
       transform: scale(1.1);
     }
     
-    .slider-dots { 
+    .fullwidth-slider .slider-dots { 
       position: absolute; 
       bottom: 20px; 
       width: 100%; 
       text-align: center; 
     }
     
-    .slider-dots span { 
+    .fullwidth-slider .slider-dots span { 
       display: inline-block; 
       width: 12px; 
       height: 12px; 
@@ -167,12 +168,12 @@
       border: 2px solid transparent;
     }
     
-    .slider-dots span:hover {
+    .fullwidth-slider .slider-dots span:hover {
       background: rgba(255,255,255,0.8);
       transform: scale(1.2);
     }
     
-    .slider-dots span.active { 
+    .fullwidth-slider .slider-dots span.active { 
       background: #d62828; 
       border-color: white;
       transform: scale(1.3);
@@ -530,10 +531,8 @@
       
       .slider {
         height: 350px;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        left: 50%;
-        right: 50%;
+        margin: 0;
+        transform: translateX(calc(-50vw + 50%));
       }
       
       .slider img {
@@ -646,15 +645,11 @@
         font-size: 24px;
       }
       
-      .slider {
+      .fullwidth-slider {
         height: 280px;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        left: 50%;
-        right: 50%;
       }
       
-      .slider img {
+      .fullwidth-slider img {
         height: 280px;
       }
     }
@@ -672,7 +667,7 @@
     </nav>
   </header>
 
-  <section id="ofertas" class="slider">
+  <div class="fullwidth-slider" id="ofertas">
     <div class="slider-wrapper">
       <img src="images/oferta1.png" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
       <img src="images/oferta2.png" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
@@ -689,7 +684,7 @@
       <span onclick="moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
       <span onclick="moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
     </div>
-  </section>
+  </div>
 
   <section id="nuestras-pizzas">
     <h2>🍕 Nuestras Pizzas</h2>
