@@ -525,6 +525,9 @@
       mostrarNotificacion(`${nombre} añadido al carrito`);
     }
 
+    // Función global para ser llamada desde el HTML
+    window.agregarAlCarrito = agregarAlCarrito;
+
     function eliminarDelCarrito(nombre) {
       const index = carrito.findIndex(p => p.nombre === nombre);
       if (index > -1) {
@@ -537,6 +540,9 @@
         mostrarNotificacion('Producto eliminado del carrito');
       }
     }
+
+    // Función global para ser llamada desde el HTML
+    window.eliminarDelCarrito = eliminarDelCarrito;
 
     function actualizarCarrito() {
       const lista = document.getElementById('lista-pedido');
@@ -609,10 +615,16 @@
       form.scrollIntoView({ behavior: 'smooth' });
     }
 
+    // Función global para ser llamada desde el HTML
+    window.mostrarFormularioPago = mostrarFormularioPago;
+
     function toggleCarrito() {
       const carrito = document.getElementById('carrito-container');
       carrito.classList.toggle('expanded');
     }
+
+    // Función global para ser llamada desde el HTML
+    window.toggleCarrito = toggleCarrito;
 
     // Funcionalidad para móviles
     if (window.innerWidth <= 768) {
@@ -630,9 +642,11 @@
         const targetId = this.getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
-          targetElement.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
+          // Ajustar el scroll para que se vea el título, no la primera imagen
+          const offsetTop = targetElement.offsetTop - 160; // 160px de offset para el header sticky
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
           });
         }
       });
