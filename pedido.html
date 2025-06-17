@@ -140,6 +140,22 @@
       transform: translateY(0);
     }
     
+    .button-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+      margin-left: 10px;
+    }
+    
+    .button-danger:hover {
+      box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    }
+    
+    .carrito-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
     .galeria { 
       display: grid; 
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -401,6 +417,16 @@
         font-size: 24px;
         margin-top: 30px;
       }
+      
+      /* Botones en móvil para que no se amontonen */
+      .carrito-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .button-danger {
+        margin-left: 0 !important;
+      }
     }
   </style>
 </head>
@@ -450,7 +476,10 @@
         <div class="total-section">
           <p><strong>Total: <span id="total-pedido">0,00€</span></strong></p>
         </div>
-        <button class="button" onclick="mostrarFormularioPago()">Proceder al pago</button>
+        <div class="carrito-buttons">
+          <button class="button" onclick="mostrarFormularioPago()">Proceder al pago</button>
+          <button class="button button-danger" id="vaciar-carrito-btn">Vaciar carrito</button>
+        </div>
 
         <form id="checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
           <input type="hidden" name="cmd" value="_xclick">
@@ -504,6 +533,26 @@
         notification.classList.remove('show');
       }, 2000);
     }
+
+    function vaciarCarrito() {
+      if (carrito.length === 0) {
+        alert('El carrito ya está vacío');
+        return;
+      }
+      
+      if (confirm('¿Estás seguro de que quieres vaciar todo el carrito?')) {
+        carrito.length = 0; // Vacía el array
+        actualizarCarrito();
+        mostrarNotificacion('Carrito vaciado');
+        
+        // Ocultar formulario de pago si está visible
+        const form = document.getElementById('checkout-form');
+        form.style.display = 'none';
+      }
+    }
+
+    // Función global para ser llamada desde el HTML
+    window.vaciarCarrito = vaciarCarrito;
 
     function agregarAlCarrito(nombre, precio, buttonElement) {
       const existente = carrito.find(p => p.nombre === nombre);
@@ -585,12 +634,33 @@
       productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
         const card = document.createElement('div');
         card.className = 'pizza-card';
-        card.innerHTML = `
-          <img src="${p.imagen}" alt="${p.nombre}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEzMCIgdmlld0JveD0iMCAwIDEzMCAxMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMzAiIGhlaWdodD0iMTMwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik00MCA0MEg5MFY5MEg0MFY0MFoiIHN0cm9rZT0iI0NDQyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHA+PHRleHQgeD0iNjUiIHk9IjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5OTkiPkltYWdlbjwvdGV4dD48L3A+Cjwvc3ZnPg=='">
-          <div class="pizza-name">${p.nombre}</div>
-          <div class="pizza-price">${p.precio}€</div>
-          <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio}, this)">Añadir al carrito</button>
-        `;
+        // Crear elementos individualmente para evitar problemas con comillas
+        const img = document.createElement('img');
+        img.src = p.imagen;
+        img.alt = p.nombre;
+        img.onerror = function() {
+          this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEzMCIgdmlld0JveD0iMCAwIDEzMCAxMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMzAiIGhlaWdodD0iMTMwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik00MCA0MEg5MFY5MEg0MFY0MFoiIHN0cm9rZT0iI0NDQyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHA+PHRleHQgeD0iNjUiIHk9IjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5OTkiPkltYWdlbjwvdGV4dD48L3A+Cjwvc3ZnPg==';
+        };
+
+        const nombreDiv = document.createElement('div');
+        nombreDiv.className = 'pizza-name';
+        nombreDiv.textContent = p.nombre;
+
+        const precioDiv = document.createElement('div');
+        precioDiv.className = 'pizza-price';
+        precioDiv.textContent = p.precio + '€';
+
+        const button = document.createElement('button');
+        button.className = 'button';
+        button.textContent = 'Añadir al carrito';
+        button.addEventListener('click', function() {
+          agregarAlCarrito(p.nombre, p.precio, this);
+        });
+
+        card.appendChild(img);
+        card.appendChild(nombreDiv);
+        card.appendChild(precioDiv);
+        card.appendChild(button);
         contenedor.appendChild(card);
       });
     }
@@ -656,6 +726,9 @@
     ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
       renderCategoria(categoria, categoria);
     });
+
+    // Agregar event listener al botón de vaciar carrito
+    document.getElementById('vaciar-carrito-btn').addEventListener('click', vaciarCarrito);
 
     // Actualizar carrito al cargar la página
     actualizarCarrito();
