@@ -24,37 +24,10 @@
       z-index: 100; 
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       backdrop-filter: blur(10px);
-      position: relative;
-    }
-    
-    .back-button {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      text-decoration: none;
-    }
-    
-    .back-button:hover {
-      transform: translateY(-50%) translateX(-3px) scale(1.02);
-      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.4);
-    }
-    
-    .back-button:active {
-      transform: translateY(-50%) translateX(-1px) scale(1.02);
+      justify-content: center;
+      position: relative;
     }
     
     header h1 { 
@@ -66,7 +39,31 @@
       position: relative;
     }
     
-    header h1::after {
+    .btn-volver {
+      position: absolute;
+      left: 20px;
+      background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 110;
+    }
+    
+    .btn-volver:hover {
+      transform: translateX(-3px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.4);
+      background: linear-gradient(135deg, #ff6b6b 0%, #d62828 100%);
+    }
       content: '';
       position: absolute;
       bottom: -8px;
@@ -507,7 +504,7 @@
     
     /* Responsive */
     @media (max-width: 768px) {
-      .back-button {
+      .btn-volver {
         left: 15px;
         padding: 10px 16px;
         font-size: 13px;
@@ -515,7 +512,7 @@
       
       header h1 {
         font-size: 24px;
-        margin-left: 20px;
+        margin-left: 0;
       }
       
       .main-container {
@@ -662,9 +659,7 @@
 </head>
 <body>
   <header>
-    <button class="back-button" onclick="window.location.href='index.html'">
-      ← Volver
-    </button>
+    <a href="index.html" class="btn-volver">← Volver</a>
     <h1>Fratelli Pazzi</h1>
   </header>
 
