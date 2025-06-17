@@ -803,4 +803,134 @@
 
     function updateSlider() {
       const wrapper = document.querySelector('.slider-wrapper');
-      wrapper.style.transform = `translateX(-${current
+      wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      if (dots[currentSlide]) {
+        dots[currentSlide].classList.add('active');
+      }
+    }
+
+    function moveSlider(direction) {
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      updateSlider();
+    }
+
+    function moveSliderTo(index) {
+      currentSlide = index;
+      updateSlider();
+    }
+
+    // Auto-play del slider
+    let autoPlayInterval = setInterval(() => {
+      moveSlider(1);
+    }, 5000);
+
+    // Pausar auto-play cuando el usuario interactúa
+    const sliderElement = document.querySelector('.slider');
+    sliderElement.addEventListener('mouseenter', () => {
+      clearInterval(autoPlayInterval);
+    });
+
+    sliderElement.addEventListener('mouseleave', () => {
+      autoPlayInterval = setInterval(() => {
+        moveSlider(1);
+      }, 5000);
+    });
+
+    // Función para suscribirse al newsletter
+    function suscribirse() {
+      const email = document.getElementById('newsletter-email').value;
+      if (email && email.includes('@')) {
+        alert('¡Gracias por suscribirte! Recibirás nuestras ofertas en ' + email);
+        document.getElementById('newsletter-email').value = '';
+      } else {
+        alert('Por favor, introduce un email válido');
+      }
+    }
+
+    // Función para hacer global la suscripción
+    window.suscribirse = suscribirse;
+
+    // Animaciones al hacer scroll
+    function observeElements() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      // Observar las tarjetas de pizza
+      document.querySelectorAll('.pizza-card').forEach(card => {
+        observer.observe(card);
+      });
+
+      // Observar las secciones
+      document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+      });
+    }
+
+    // Smooth scroll para los enlaces de navegación
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        
+        // Solo aplicar smooth scroll a enlaces internos (que empiecen con #)
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const targetId = href.substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 100; // Offset para el header sticky
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        }
+        // Para enlaces externos como pedido.html, dejar el comportamiento normal
+      });
+    });
+
+    // Control del slider con teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        moveSlider(-1);
+      } else if (e.key === 'ArrowRight') {
+        moveSlider(1);
+      }
+    });
+
+    // Inicializar animaciones cuando se carga la página
+    document.addEventListener('DOMContentLoaded', () => {
+      observeElements();
+      
+      // Animar la aparición del header
+      setTimeout(() => {
+        document.querySelector('header').style.animation = 'fadeInUp 0.6s ease forwards';
+      }, 200);
+    });
+
+    // Precargar imágenes del slider para mejorar la experiencia
+    function preloadImages() {
+      const imageUrls = [
+        'images/oferta1.png',
+        'images/oferta2.png', 
+        'images/oferta3.png',
+        'images/oferta4.png'
+      ];
+      
+      imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+      });
+    }
+
+    // Llamar a precargar imágenes
+    preloadImages();
+  </script>
