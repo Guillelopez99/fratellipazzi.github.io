@@ -1,35 +1,407 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fratelli Pazzi - Pedido</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Open Sans', sans-serif; background-color: #fefefe; color: #333; line-height: 1.6; }
-    header { background-color: #fff; padding: 30px 20px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
-    header h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #d62828; text-align: center; }
-    .main-container { display: flex; max-width: 1400px; margin: auto; padding: 60px 20px; gap: 40px; align-items: flex-start; }
-    nav.indice { flex: 0.7; position: sticky; top: 120px; align-self: flex-start; }
+    
+    body { 
+      font-family: 'Open Sans', sans-serif; 
+      background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
+      color: #333; 
+      line-height: 1.6; 
+    }
+    
+    header { 
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      padding: 30px 20px; 
+      border-bottom: 1px solid #eee; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header h1 { 
+      font-family: 'Playfair Display', serif; 
+      font-size: 36px; 
+      color: #d62828; 
+      text-align: center; 
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .main-container { 
+      display: flex; 
+      max-width: 1400px; 
+      margin: auto; 
+      padding: 60px 20px; 
+      gap: 40px; 
+      align-items: flex-start; 
+    }
+    
+    nav.indice { 
+      flex: 0.7; 
+      position: sticky; 
+      top: 140px; 
+      align-self: flex-start; 
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
     nav.indice ul { list-style: none; padding: 0; }
-    nav.indice li { margin-bottom: 10px; }
-    nav.indice a { text-decoration: none; color: #d62828; font-weight: bold; }
+    
+    nav.indice li { margin-bottom: 15px; }
+    
+    nav.indice a { 
+      text-decoration: none; 
+      color: #d62828; 
+      font-weight: 600; 
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    
+    nav.indice a:hover {
+      background-color: #d62828;
+      color: white;
+      transform: translateX(5px);
+    }
+    
     section { flex: 4; max-width: 900px; }
-    .carrito-container { flex: 1; position: sticky; top: 120px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; height: fit-content; }
-    .button { display: inline-block; background: #d62828; color: #fff; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 5px; cursor: pointer; font-size: 14px; }
-    .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin-top: 30px; }
-    .pizza-card { background-color: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); text-align: center; padding: 20px; }
-    .pizza-card img { max-width: 120px; border-radius: 10px; margin-bottom: 10px; }
-    .pizza-name { font-family: 'Playfair Display', serif; font-size: 18px; color: #111; margin: 10px 0 5px; }
-    .pizza-price { font-weight: bold; color: #d62828; margin-bottom: 10px; }
+    
+    .carrito-container { 
+      flex: 1; 
+      position: sticky; 
+      top: 140px; 
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+      padding: 25px; 
+      border-radius: 15px; 
+      height: fit-content;
+      border: 1px solid #e9ecef;
+    }
+    
+    .carrito-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #d62828;
+      color: white;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .carrito-header {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .button { 
+      display: inline-block; 
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      color: #fff; 
+      padding: 12px 24px; 
+      border-radius: 8px; 
+      text-decoration: none; 
+      font-weight: 600; 
+      margin-top: 10px; 
+      cursor: pointer; 
+      font-size: 14px; 
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.4);
+    }
+    
+    .button:active {
+      transform: translateY(0);
+    }
+    
+    .galeria { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 30px; 
+      margin-top: 30px; 
+    }
+    
+    .pizza-card { 
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      border-radius: 15px; 
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
+      text-align: center; 
+      padding: 25px; 
+      transition: all 0.4s ease;
+      border: 1px solid #e9ecef;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pizza-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .pizza-card:hover::before {
+      left: 100%;
+    }
+    
+    .pizza-card:hover { 
+      transform: translateY(-8px) scale(1.02); 
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .pizza-card img { 
+      max-width: 130px; 
+      border-radius: 12px; 
+      margin-bottom: 15px; 
+      transition: transform 0.3s ease;
+    }
+    
+    .pizza-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .pizza-name { 
+      font-family: 'Playfair Display', serif; 
+      font-size: 20px; 
+      color: #111; 
+      margin: 15px 0 8px; 
+      font-weight: 700;
+    }
+    
+    .pizza-price { 
+      font-weight: 600; 
+      color: #d62828; 
+      margin-bottom: 15px; 
+      font-size: 18px;
+    }
+    
     ul { list-style: none; padding-left: 0; }
-    h2 { font-family: 'Playfair Display', serif; color: #d62828; font-size: 28px; margin-top: 40px; }
-    .carrito-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .carrito-item span { flex: 1; }
-    .carrito-item button { background: #999; border: none; color: #fff; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
-    form#checkout-form { display: none; margin-top: 20px; }
-    form#checkout-form input { padding: 10px; width: 100%; margin-bottom: 10px; }
+    
+    h2 { 
+      font-family: 'Playfair Display', serif; 
+      color: #d62828; 
+      font-size: 32px; 
+      margin-top: 50px; 
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .carrito-item { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 12px; 
+      padding: 10px;
+      background: rgba(214, 40, 40, 0.05);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .carrito-item:hover {
+      background: rgba(214, 40, 40, 0.1);
+      transform: translateX(5px);
+    }
+    
+    .carrito-item span { flex: 1; font-weight: 500; }
+    
+    .carrito-item button { 
+      background: #dc3545; 
+      border: none; 
+      color: #fff; 
+      padding: 6px 10px; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 12px; 
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    
+    .carrito-item button:hover {
+      background: #c82333;
+      transform: scale(1.1);
+    }
+    
+    form#checkout-form { 
+      display: none; 
+      margin-top: 25px; 
+      padding: 20px;
+      background: rgba(214, 40, 40, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(214, 40, 40, 0.1);
+    }
+    
+    form#checkout-form input { 
+      padding: 12px; 
+      width: 100%; 
+      margin-bottom: 15px; 
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    
+    .total-section {
+      background: rgba(214, 40, 40, 0.05);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border: 1px solid rgba(214, 40, 40, 0.1);
+    }
+    
+    .total-section strong {
+      font-size: 18px;
+      color: #d62828;
+    }
+    
+    /* Animaciones para agregar productos */
+    @keyframes addToCart {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); background-color: #28a745; }
+      100% { transform: scale(1); }
+    }
+    
+    .button-added {
+      animation: addToCart 0.6s ease;
+    }
+    
+    .carrito-vacio {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      padding: 20px;
+    }
+    
+    /* Notificación */
+    .notification {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: #28a745;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        padding: 20px 10px;
+      }
+      
+      nav.indice {
+        position: static;
+        order: 2;
+        margin-top: 20px;
+      }
+      
+      .carrito-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 50;
+      }
+      
+      .carrito-container.expanded {
+        position: fixed;
+        top: 100px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        width: auto;
+        height: auto;
+        border-radius: 15px;
+        padding: 25px;
+        overflow-y: auto;
+      }
+      
+      .carrito-content {
+        display: none;
+      }
+      
+      .carrito-container.expanded .carrito-content {
+        display: block;
+      }
+      
+      .carrito-close {
+        display: none;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      
+      .carrito-container.expanded .carrito-close {
+        display: block;
+      }
+      
+      .galeria {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      
+      header h1 {
+        font-size: 28px;
+      }
+      
+      h2 {
+        font-size: 24px;
+        margin-top: 30px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -40,46 +412,60 @@
   <div class="main-container">
     <nav class="indice">
       <ul>
-        <li><a href="#entrantes">Entrantes</a></li>
-        <li><a href="#pizzas">Pizzas</a></li>
-        <li><a href="#calzones">Calzones</a></li>
-        <li><a href="#bebidas">Bebidas</a></li>
-        <li><a href="#helados">Helados</a></li>
+        <li><a href="#entrantes">🧄 Entrantes</a></li>
+        <li><a href="#pizzas">🍕 Pizzas</a></li>
+        <li><a href="#calzones">🌯 Calzones</a></li>
+        <li><a href="#bebidas">🥤 Bebidas</a></li>
+        <li><a href="#helados">🍨 Helados</a></li>
       </ul>
     </nav>
 
     <section id="pedido">
-      <h2 id="entrantes">🧶 Entrantes</h2>
-      <div class="galeria" id="entrantes"></div>
+      <h2 id="entrantes">🧄 Entrantes</h2>
+      <div class="galeria" data-categoria="entrantes"></div>
 
       <h2 id="pizzas">🍕 Pizzas</h2>
-      <div class="galeria" id="pizzas"></div>
+      <div class="galeria" data-categoria="pizzas"></div>
 
       <h2 id="calzones">🌯 Calzones</h2>
-      <div class="galeria" id="calzones"></div>
+      <div class="galeria" data-categoria="calzones"></div>
 
       <h2 id="bebidas">🥤 Bebidas</h2>
-      <div class="galeria" id="bebidas"></div>
+      <div class="galeria" data-categoria="bebidas"></div>
 
       <h2 id="helados">🍨 Helados</h2>
-      <div class="galeria" id="helados"></div>
+      <div class="galeria" data-categoria="helados"></div>
     </section>
 
-    <aside class="carrito-container">
-      <h3>🛒 Tu carrito</h3>
-      <ul id="lista-pedido"></ul>
-      <p><strong>Total:</strong> <span id="total-pedido">0€</span></p>
-      <button class="button" onclick="mostrarFormularioPago()">Proceder al pago</button>
+    <aside class="carrito-container" id="carrito-container">
+      <button class="carrito-close" onclick="toggleCarrito()">×</button>
+      <div class="carrito-header">
+        <h3>🛒 Tu carrito</h3>
+        <div class="carrito-badge" id="carrito-badge" style="display: none;">0</div>
+      </div>
+      <div class="carrito-content">
+        <ul id="lista-pedido">
+          <li class="carrito-vacio">Tu carrito está vacío</li>
+        </ul>
+        <div class="total-section">
+          <p><strong>Total: <span id="total-pedido">0,00€</span></strong></p>
+        </div>
+        <button class="button" onclick="mostrarFormularioPago()">Proceder al pago</button>
 
-      <form id="checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="tu-correo-paypal@example.com">
-        <input type="hidden" name="currency_code" value="EUR">
-        <input type="text" name="item_name" id="item_name" placeholder="Resumen del pedido" readonly>
-        <input type="text" name="amount" id="amount" placeholder="Total" readonly>
-        <button class="button" type="submit">Pagar con PayPal</button>
-      </form>
+        <form id="checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="tu-correo-paypal@example.com">
+          <input type="hidden" name="currency_code" value="EUR">
+          <input type="text" name="item_name" id="item_name" placeholder="Resumen del pedido" readonly>
+          <input type="text" name="amount" id="amount" placeholder="Total" readonly>
+          <button class="button" type="submit">Pagar con PayPal</button>
+        </form>
+      </div>
     </aside>
+  </div>
+
+  <div class="notification" id="notification">
+    ¡Producto añadido al carrito!
   </div>
 
   <script>
@@ -105,19 +491,38 @@
       { nombre: "BEN & JERRY'S CHOCOLATE FUDGE BROWNIE 100ML", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados' },
       { nombre: "BEN & JERRY'S STRAWBERRY CHEESECAKE 100ML", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados' },
       { nombre: "BEN & JERRY'S PEANUT BUTTER CUP 100ML", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados' },
-      { nombre: "BEN & JERRY’S COOKIE DOUGH 100ML", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados' },
+      { nombre: "BEN & JERRY'S COOKIE DOUGH 100ML", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados' },
     ];
 
     const carrito = [];
 
-    function agregarAlCarrito(nombre, precio) {
+    function mostrarNotificacion(mensaje) {
+      const notification = document.getElementById('notification');
+      notification.textContent = mensaje;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 2000);
+    }
+
+    function agregarAlCarrito(nombre, precio, buttonElement) {
       const existente = carrito.find(p => p.nombre === nombre);
       if (existente) {
         existente.cantidad++;
       } else {
         carrito.push({ nombre, precio, cantidad: 1 });
       }
+      
+      // Animación en el botón
+      if (buttonElement) {
+        buttonElement.classList.add('button-added');
+        setTimeout(() => {
+          buttonElement.classList.remove('button-added');
+        }, 600);
+      }
+      
       actualizarCarrito();
+      mostrarNotificacion(`${nombre} añadido al carrito`);
     }
 
     function eliminarDelCarrito(nombre) {
@@ -129,61 +534,117 @@
           carrito.splice(index, 1);
         }
         actualizarCarrito();
+        mostrarNotificacion('Producto eliminado del carrito');
       }
     }
 
     function actualizarCarrito() {
       const lista = document.getElementById('lista-pedido');
       const total = document.getElementById('total-pedido');
+      const badge = document.getElementById('carrito-badge');
+      
       lista.innerHTML = '';
       let suma = 0;
+      let totalItems = 0;
       let resumen = [];
-      carrito.forEach(item => {
-        const li = document.createElement('li');
-        li.className = 'carrito-item';
-        li.innerHTML = `
-          <span>${item.nombre} (${item.cantidad}) - ${(item.precio * item.cantidad).toFixed(2)}€</span>
-          <button onclick="eliminarDelCarrito('${item.nombre}')">X</button>
-        `;
-        lista.appendChild(li);
-        suma += item.precio * item.cantidad;
-        resumen.push(`${item.nombre} (${item.cantidad})`);
-      });
+      
+      if (carrito.length === 0) {
+        lista.innerHTML = '<li class="carrito-vacio">Tu carrito está vacío</li>';
+        badge.style.display = 'none';
+      } else {
+        carrito.forEach(item => {
+          const li = document.createElement('li');
+          li.className = 'carrito-item';
+          li.innerHTML = `
+            <span>${item.nombre} (${item.cantidad}) - ${(item.precio * item.cantidad).toFixed(2)}€</span>
+            <button onclick="eliminarDelCarrito('${item.nombre}')">×</button>
+          `;
+          lista.appendChild(li);
+          suma += item.precio * item.cantidad;
+          totalItems += item.cantidad;
+          resumen.push(`${item.nombre} (${item.cantidad})`);
+        });
+        
+        badge.textContent = totalItems;
+        badge.style.display = 'flex';
+      }
+      
       total.textContent = suma.toFixed(2) + '€';
       document.getElementById('item_name').value = resumen.join(', ');
       document.getElementById('amount').value = suma.toFixed(2);
     }
 
     function renderCategoria(categoriaId, categoriaNombre) {
-      const contenedor = document.getElementById(categoriaId);
+      const contenedor = document.querySelector(`[data-categoria="${categoriaId}"]`);
       productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
         const card = document.createElement('div');
         card.className = 'pizza-card';
         card.innerHTML = `
-          <img src="${p.imagen}" alt="${p.nombre}">
+          <img src="${p.imagen}" alt="${p.nombre}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEzMCIgdmlld0JveD0iMCAwIDEzMCAxMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMzAiIGhlaWdodD0iMTMwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik00MCA0MEg5MFY5MEg0MFY0MFoiIHN0cm9rZT0iI0NDQyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHA+PHRleHQgeD0iNjUiIHk9IjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5OTkiPkltYWdlbjwvdGV4dD48L3A+Cjwvc3ZnPg=='">
           <div class="pizza-name">${p.nombre}</div>
           <div class="pizza-price">${p.precio}€</div>
-          <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
+          <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio}, this)">Añadir al carrito</button>
         `;
         contenedor.appendChild(card);
       });
     }
 
-     function mostrarFormularioPago() {
+    function mostrarFormularioPago() {
+      if (carrito.length === 0) {
+        alert('Tu carrito está vacío. Añade algunos productos antes de proceder al pago.');
+        return;
+      }
+      
       const form = document.getElementById('checkout-form');
       const itemNameInput = document.getElementById('item_name');
       const amountInput = document.getElementById('amount');
 
-      const resumen = carrito.map(item => item.nombre).join(', ');
-      const total = carrito.reduce((acc, item) => acc + item.precio, 0).toFixed(2);
+      const resumen = carrito.map(item => `${item.nombre} (${item.cantidad})`).join(', ');
+      const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0).toFixed(2);
 
       itemNameInput.value = resumen;
       amountInput.value = total;
 
       form.style.display = 'block';
+      form.scrollIntoView({ behavior: 'smooth' });
     }
 
-    ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => renderCategoria(categoria, categoria));
+    function toggleCarrito() {
+      const carrito = document.getElementById('carrito-container');
+      carrito.classList.toggle('expanded');
+    }
+
+    // Funcionalidad para móviles
+    if (window.innerWidth <= 768) {
+      document.getElementById('carrito-container').addEventListener('click', function(e) {
+        if (!this.classList.contains('expanded') && e.target === this) {
+          toggleCarrito();
+        }
+      });
+    }
+
+    // Smooth scroll para los enlaces de navegación
+    document.querySelectorAll('nav.indice a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Inicializar las categorías
+    ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
+      renderCategoria(categoria, categoria);
+    });
+
+    // Actualizar carrito al cargar la página
+    actualizarCarrito();
   </script>
 </body>
 </html>
