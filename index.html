@@ -89,7 +89,7 @@
     /* Reset completo para el slider */
     .fullwidth-slider {
       width: 100vw;
-      height: 325px;
+      height: calc(100vw * 325 / 1920);
       position: relative;
       overflow: hidden;
       margin: 0;
@@ -107,7 +107,7 @@
     .fullwidth-slider img { 
       flex: 0 0 100%; 
       width: 100vw; 
-      height: 325px;
+      height: calc(100vw * 325 / 1920);
       object-fit: fill; 
       filter: brightness(0.95);
       transition: filter 0.3s ease;
