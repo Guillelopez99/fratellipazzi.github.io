@@ -8,6 +8,96 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
+    /* LOADING ANIMATIONS PARA PEDIDOS */
+    .mini-loader {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .mini-loader.show {
+      display: flex;
+    }
+    
+    .pizza-mini-spinner {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      animation: spin 1.5s linear infinite;
+    }
+    
+    .pizza-mini-base {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #FFE4B5 0%, #DEB887 100%);
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(222, 184, 135, 0.4);
+    }
+    
+    .pizza-mini-sauce {
+      width: 80%;
+      height: 80%;
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      border-radius: 50%;
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .pizza-mini-cheese {
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      animation: cheeseFloat 2s ease-in-out infinite;
+    }
+    
+    .pizza-mini-cheese:nth-child(1) { top: 25%; left: 30%; animation-delay: 0s; }
+    .pizza-mini-cheese:nth-child(2) { top: 40%; left: 60%; animation-delay: 0.5s; }
+    .pizza-mini-cheese:nth-child(3) { top: 60%; left: 35%; animation-delay: 1s; }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes cheeseFloat {
+      0%, 100% { transform: scale(1) translateY(0); opacity: 0.8; }
+      50% { transform: scale(1.3) translateY(-1px); opacity: 1; }
+    }
+    
+    .loader-text {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    /* TRANSICIONES SUAVES PARA SECCIONES */
+    .section-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    .section-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
     body { 
       font-family: 'Open Sans', sans-serif; 
       background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
@@ -596,6 +686,19 @@
   </style>
 </head>
 <body>
+  <!-- MINI LOADER PARA PROCESOS -->
+  <div class="mini-loader" id="miniLoader">
+    <div class="pizza-mini-spinner">
+      <div class="pizza-mini-base">
+        <div class="pizza-mini-sauce">
+          <div class="pizza-mini-cheese"></div>
+          <div class="pizza-mini-cheese"></div>
+          <div class="pizza-mini-cheese"></div>
+        </div>
+      </div>
+    </div>
+    <div class="loader-text">Procesando tu pedido...</div>
+  </div>
   <header>
     <a href="index.html" class="btn-volver">← Volver</a>
     <h1>Fratelli Pazzi</h1>
@@ -614,20 +717,20 @@
     </nav>
 
     <section id="pedido">
-      <h2 id="entrantes">🧄 Entrantes</h2>
-      <div class="galeria" data-categoria="entrantes"></div>
+      <h2 id="entrantes" class="section-fade">🧄 Entrantes</h2>
+      <div class="galeria section-fade" data-categoria="entrantes"></div>
 
-      <h2 id="pizzas">🍕 Pizzas</h2>
-      <div class="galeria" data-categoria="pizzas"></div>
+      <h2 id="pizzas" class="section-fade">🍕 Pizzas</h2>
+      <div class="galeria section-fade" data-categoria="pizzas"></div>
 
-      <h2 id="calzones">🌯 Calzones</h2>
-      <div class="galeria" data-categoria="calzones"></div>
+      <h2 id="calzones" class="section-fade">🌯 Calzones</h2>
+      <div class="galeria section-fade" data-categoria="calzones"></div>
 
-      <h2 id="bebidas">🥤 Bebidas</h2>
-      <div class="galeria" data-categoria="bebidas"></div>
+      <h2 id="bebidas" class="section-fade">🥤 Bebidas</h2>
+      <div class="galeria section-fade" data-categoria="bebidas"></div>
 
-      <h2 id="helados">🍨 Helados</h2>
-      <div class="galeria" data-categoria="helados"></div>
+      <h2 id="helados" class="section-fade">🍨 Helados</h2>
+      <div class="galeria section-fade" data-categoria="helados"></div>
     </section>
   </div>
 
@@ -674,7 +777,7 @@ const productos = [
   { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.' },
   { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.' },
   { nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.' },
-  { nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
+  { nombre: 'Diavola', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
   { nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, anchimini negras.' },
   { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.' },
   { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.' },
@@ -701,18 +804,6 @@ function mostrarNotificacion(mensaje) {
   setTimeout(() => {
     notification.classList.remove('show');
   }, 3000);
-}
-
-function agregarAlCarrito(nombre, precio, buttonElement) {
-  const existente = carrito.find(p => p.nombre === nombre);
-  if (existente) {
-    existente.cantidad++;
-  } else {
-    carrito.push({ nombre, precio, cantidad: 1 });
-  }
-  
-  actualizarCarrito();
-  mostrarNotificacion(nombre + ' añadido al carrito');
 }
 
 function eliminarDelCarrito(nombre) {
@@ -797,9 +888,16 @@ function procederAlPago() {
     return;
   }
   
-  cerrarCarritoModal();
-  document.getElementById('checkout-form').submit();
-  mostrarNotificacion('Redirigiendo a PayPal...');
+  // Mostrar mini loader
+  const loader = document.getElementById('miniLoader');
+  loader.classList.add('show');
+  
+  setTimeout(() => {
+    cerrarCarritoModal();
+    document.getElementById('checkout-form').submit();
+    mostrarNotificacion('Redirigiendo a PayPal...');
+    loader.classList.remove('show');
+  }, 2000);
 }
 
 function renderCategoria(categoriaId, categoriaNombre) {
