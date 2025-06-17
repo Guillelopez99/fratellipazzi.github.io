@@ -169,8 +169,18 @@
       });
     }
 
-    function mostrarFormularioPago() {
-      document.getElementById('checkout-form').style.display = 'block';
+     function mostrarFormularioPago() {
+      const form = document.getElementById('checkout-form');
+      const itemNameInput = document.getElementById('item_name');
+      const amountInput = document.getElementById('amount');
+
+      const resumen = carrito.map(item => item.nombre).join(', ');
+      const total = carrito.reduce((acc, item) => acc + item.precio, 0).toFixed(2);
+
+      itemNameInput.value = resumen;
+      amountInput.value = total;
+
+      form.style.display = 'block';
     }
 
     ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => renderCategoria(categoria, categoria));
