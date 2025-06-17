@@ -108,10 +108,10 @@
       flex: 0 0 100%; 
       width: 100vw; 
       height: 500px;
-      object-fit: contain; 
+      object-fit: cover; 
+      object-position: center;
       filter: brightness(0.95);
       transition: filter 0.3s ease;
-      background: #f8f9fa;
     }
     
     .fullwidth-slider:hover img {
@@ -651,6 +651,7 @@
       
       .fullwidth-slider img {
         height: 280px;
+        object-position: center;
       }
     }
   </style>
