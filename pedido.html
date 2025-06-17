@@ -13,7 +13,7 @@
     .main-container { display: flex; max-width: 1400px; margin: auto; padding: 60px 20px; gap: 40px; }
     section { flex: 3; }
     .carrito-container { flex: 1; position: sticky; top: 120px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; height: fit-content; }
-    .button { display: inline-block; background: #d62828; color: #fff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+    .button { display: inline-block; background: #d62828; color: #fff; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 5px; cursor: pointer; font-size: 14px; }
     .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; }
     .pizza-card { background-color: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); text-align: center; padding: 20px; }
     .pizza-card img { max-width: 120px; border-radius: 10px; margin-bottom: 10px; }
@@ -21,6 +21,11 @@
     .pizza-price { font-weight: bold; color: #d62828; margin-bottom: 10px; }
     ul { list-style: none; padding-left: 0; }
     h2 { font-family: 'Playfair Display', serif; color: #d62828; font-size: 28px; margin-top: 40px; }
+    .carrito-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .carrito-item span { flex: 1; }
+    .carrito-item button { background: #999; border: none; color: #fff; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    form#checkout-form { display: none; margin-top: 20px; }
+    form#checkout-form input { padding: 10px; width: 100%; margin-bottom: 10px; }
   </style>
 </head>
 <body>
@@ -50,7 +55,16 @@
       <h3>🛒 Tu carrito</h3>
       <ul id="lista-pedido"></ul>
       <p><strong>Total:</strong> <span id="total-pedido">0€</span></p>
-      <a class="button" href="#">Proceder al pago</a>
+      <button class="button" onclick="mostrarFormularioPago()">Proceder al pago</button>
+
+      <form id="checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="tu-correo-paypal@example.com">
+        <input type="hidden" name="currency_code" value="EUR">
+        <input type="text" name="item_name" id="item_name" placeholder="Resumen del pedido" readonly>
+        <input type="text" name="amount" id="amount" placeholder="Total" readonly>
+        <button class="button" type="submit">Pagar con PayPal</button>
+      </form>
     </aside>
   </div>
 
@@ -83,8 +97,25 @@
     const carrito = [];
 
     function agregarAlCarrito(nombre, precio) {
-      carrito.push({ nombre, precio });
+      const existente = carrito.find(p => p.nombre === nombre);
+      if (existente) {
+        existente.cantidad++;
+      } else {
+        carrito.push({ nombre, precio, cantidad: 1 });
+      }
       actualizarCarrito();
+    }
+
+    function eliminarDelCarrito(nombre) {
+      const index = carrito.findIndex(p => p.nombre === nombre);
+      if (index > -1) {
+        if (carrito[index].cantidad > 1) {
+          carrito[index].cantidad--;
+        } else {
+          carrito.splice(index, 1);
+        }
+        actualizarCarrito();
+      }
     }
 
     function actualizarCarrito() {
@@ -92,13 +123,21 @@
       const total = document.getElementById('total-pedido');
       lista.innerHTML = '';
       let suma = 0;
+      let resumen = [];
       carrito.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = `${item.nombre} - ${item.precio}€`;
+        li.className = 'carrito-item';
+        li.innerHTML = `
+          <span>${item.nombre} (${item.cantidad}) - ${(item.precio * item.cantidad).toFixed(2)}€</span>
+          <button onclick="eliminarDelCarrito('${item.nombre}')">X</button>
+        `;
         lista.appendChild(li);
-        suma += parseFloat(item.precio);
+        suma += item.precio * item.cantidad;
+        resumen.push(`${item.nombre} (${item.cantidad})`);
       });
       total.textContent = suma.toFixed(2) + '€';
+      document.getElementById('item_name').value = resumen.join(', ');
+      document.getElementById('amount').value = suma.toFixed(2);
     }
 
     function renderCategoria(categoriaId, categoriaNombre) {
@@ -114,6 +153,10 @@
         `;
         contenedor.appendChild(card);
       });
+    }
+
+    function mostrarFormularioPago() {
+      document.getElementById('checkout-form').style.display = 'block';
     }
 
     ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => renderCategoria(categoria, categoria));
