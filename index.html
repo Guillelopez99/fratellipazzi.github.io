@@ -20,8 +20,6 @@
       overflow-x: hidden;
       margin: 0;
       padding: 0;
-      display: grid;
-      grid-template-columns: 1fr;
     }
     
     header { 
@@ -85,20 +83,19 @@
     }
     
     .slider-container {
-      width: 100vw;
-      display: grid;
-      grid-column: 1 / -1;
-      justify-self: center;
-      margin: 0;
+      /* Eliminado - ya no se usa */
     }
     
     .slider { 
       position: relative; 
       overflow: hidden; 
-      width: 100%;
+      width: 100vw;
       height: 350px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-      margin: 0;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      left: 50%;
+      right: 50%;
     }
     
     .slider-wrapper { 
@@ -532,21 +529,12 @@
         font-size: 14px;
       }
       
-      body {
-        display: block;
-      }
-      
-      .slider-container {
-        width: 100vw;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 0;
-      }
-      
       .slider {
         height: 250px;
-        margin: 0;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        left: 50%;
+        right: 50%;
       }
       
       .slider img {
@@ -660,17 +648,12 @@
         font-size: 24px;
       }
       
-      .slider-container {
-        width: 100vw;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 0;
-      }
-      
       .slider {
         height: 200px;
-        margin: 0;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        left: 50%;
+        right: 50%;
       }
       
       .slider img {
@@ -691,26 +674,24 @@
     </nav>
   </header>
 
-  <div class="slider-container">
-    <section id="ofertas" class="slider">
-      <div class="slider-wrapper">
-        <img src="images/oferta1.png" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
-        <img src="images/oferta2.png" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
-        <img src="images/oferta3.png" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
-        <img src="images/oferta4.png" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
-      </div>
-      <div class="slider-controls">
-        <button onclick="moveSlider(-1)" aria-label="Oferta anterior">&#10094;</button>
-        <button onclick="moveSlider(1)" aria-label="Siguiente oferta">&#10095;</button>
-      </div>
-      <div class="slider-dots">
-        <span onclick="moveSliderTo(0)" class="active" aria-label="Ir a oferta 1"></span>
-        <span onclick="moveSliderTo(1)" aria-label="Ir a oferta 2"></span>
-        <span onclick="moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
-        <span onclick="moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
-      </div>
-    </section>
-  </div>
+  <section id="ofertas" class="slider">
+    <div class="slider-wrapper">
+      <img src="images/oferta1.png" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
+      <img src="images/oferta2.png" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
+      <img src="images/oferta3.png" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
+      <img src="images/oferta4.png" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
+    </div>
+    <div class="slider-controls">
+      <button onclick="moveSlider(-1)" aria-label="Oferta anterior">&#10094;</button>
+      <button onclick="moveSlider(1)" aria-label="Siguiente oferta">&#10095;</button>
+    </div>
+    <div class="slider-dots">
+      <span onclick="moveSliderTo(0)" class="active" aria-label="Ir a oferta 1"></span>
+      <span onclick="moveSliderTo(1)" aria-label="Ir a oferta 2"></span>
+      <span onclick="moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
+      <span onclick="moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
+    </div>
+  </section>
 
   <section id="nuestras-pizzas">
     <h2>🍕 Nuestras Pizzas</h2>
