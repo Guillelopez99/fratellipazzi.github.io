@@ -108,9 +108,10 @@
       flex: 0 0 100%; 
       width: 100%; 
       height: 350px;
-      object-fit: cover; 
+      object-fit: contain; 
       filter: brightness(0.9);
       transition: filter 0.3s ease;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     }
     
     .slider:hover img {
@@ -245,9 +246,8 @@
     .pizza-card img { 
       width: 100%; 
       height: 220px;
-      object-fit: contain;
+      object-fit: cover;
       transition: transform 0.3s ease;
-      background: #f8f9fa;
       border-radius: 18px 18px 0 0;
     }
     
@@ -560,8 +560,7 @@
       
       .pizza-card img {
         height: 200px;
-        object-fit: contain;
-        background: #f8f9fa;
+        object-fit: cover;
         border-radius: 15px 15px 0 0;
       }
       
