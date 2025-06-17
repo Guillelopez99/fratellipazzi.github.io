@@ -17,12 +17,13 @@
     
     header { 
       background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-      padding: 30px 20px; 
+      padding: 25px 20px; 
       border-bottom: 1px solid #eee; 
       position: sticky; 
       top: 0; 
       z-index: 100; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      backdrop-filter: blur(10px);
     }
     
     header h1 { 
@@ -31,146 +32,235 @@
       color: #d62828; 
       text-align: center; 
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #d62828, #ff6b6b);
+      border-radius: 2px;
     }
     
     .main-container { 
       display: flex; 
       max-width: 1400px; 
       margin: auto; 
-      padding: 60px 20px; 
-      gap: 40px; 
+      padding: 40px 20px; 
+      gap: 30px; 
       align-items: flex-start; 
     }
     
     nav.indice { 
-      flex: 0.7; 
+      flex: 0.6; 
       position: sticky; 
-      top: 140px; 
+      top: 120px; 
       align-self: flex-start; 
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid rgba(214, 40, 40, 0.1);
+    }
+    
+    nav.indice h3 {
+      font-family: 'Playfair Display', serif;
+      color: #d62828;
+      font-size: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(214, 40, 40, 0.1);
     }
     
     nav.indice ul { list-style: none; padding: 0; }
     
-    nav.indice li { margin-bottom: 15px; }
+    nav.indice li { margin-bottom: 8px; }
     
     nav.indice a { 
       text-decoration: none; 
-      color: #d62828; 
+      color: #555; 
       font-weight: 600; 
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: block;
-      transition: all 0.3s ease;
+      padding: 12px 18px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    nav.indice a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(214, 40, 40, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    nav.indice a:hover::before {
+      left: 100%;
     }
     
     nav.indice a:hover {
-      background-color: #d62828;
+      background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
       color: white;
-      transform: translateX(5px);
+      transform: translateX(8px) scale(1.02);
+      box-shadow: 0 5px 15px rgba(214, 40, 40, 0.3);
     }
     
-    section { flex: 4; max-width: 900px; }
+    section { flex: 3.5; max-width: 900px; }
     
     .carrito-container { 
       flex: 1; 
       position: sticky; 
-      top: 140px; 
+      top: 120px; 
       background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
-      padding: 25px; 
-      border-radius: 15px; 
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+      padding: 30px; 
+      border-radius: 20px; 
       height: fit-content;
-      border: 1px solid #e9ecef;
+      border: 1px solid rgba(214, 40, 40, 0.1);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .carrito-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .carrito-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    .carrito-container::-webkit-scrollbar-thumb {
+      background: #d62828;
+      border-radius: 3px;
     }
     
     .carrito-badge {
       position: absolute;
-      top: -10px;
-      right: -10px;
-      background: #d62828;
+      top: -8px;
+      right: -8px;
+      background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
       color: white;
       border-radius: 50%;
-      width: 25px;
-      height: 25px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 12px;
       font-weight: bold;
+      box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4);
       animation: pulse 2s infinite;
     }
     
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+      0% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4); }
+      50% { transform: scale(1.1); box-shadow: 0 6px 16px rgba(214, 40, 40, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4); }
     }
     
     .carrito-header {
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    
+    .carrito-header h3 {
+      font-family: 'Playfair Display', serif;
+      color: #d62828;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
     
     .button { 
       display: inline-block; 
-      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
       color: #fff; 
-      padding: 12px 24px; 
-      border-radius: 8px; 
+      padding: 14px 28px; 
+      border-radius: 12px; 
       text-decoration: none; 
       font-weight: 600; 
-      margin-top: 10px; 
+      margin-top: 12px; 
       cursor: pointer; 
       font-size: 14px; 
       border: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .button:hover::before {
+      left: 100%;
     }
     
     .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.4);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(214, 40, 40, 0.4);
     }
     
     .button:active {
-      transform: translateY(0);
+      transform: translateY(-1px) scale(1.02);
     }
     
     .button-danger {
-      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-      margin-left: 10px;
+      background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+      box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
     }
     
     .button-danger:hover {
-      box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+      box-shadow: 0 10px 30px rgba(220, 53, 69, 0.4);
     }
     
     .carrito-buttons {
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
     }
     
     .galeria { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-      gap: 30px; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 25px; 
       margin-top: 30px; 
     }
     
     .pizza-card { 
       background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-      border-radius: 15px; 
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); 
+      border-radius: 20px; 
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); 
       text-align: center; 
       padding: 25px; 
-      transition: all 0.4s ease;
-      border: 1px solid #e9ecef;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(214, 40, 40, 0.1);
       position: relative;
       overflow: hidden;
     }
@@ -191,45 +281,71 @@
     }
     
     .pizza-card:hover { 
-      transform: translateY(-8px) scale(1.02); 
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      transform: translateY(-10px) scale(1.02); 
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      border-color: rgba(214, 40, 40, 0.2);
     }
     
     .pizza-card img { 
-      max-width: 130px; 
-      border-radius: 12px; 
-      margin-bottom: 15px; 
-      transition: transform 0.3s ease;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%; 
+      margin-bottom: 20px; 
+      transition: all 0.3s ease;
+      border: 4px solid rgba(214, 40, 40, 0.1);
+      background: #f8f9fa;
     }
     
     .pizza-card:hover img {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(5deg);
+      border-color: rgba(214, 40, 40, 0.3);
+      box-shadow: 0 10px 25px rgba(214, 40, 40, 0.2);
     }
     
     .pizza-name { 
       font-family: 'Playfair Display', serif; 
-      font-size: 20px; 
+      font-size: 22px; 
       color: #111; 
-      margin: 15px 0 8px; 
+      margin: 15px 0 10px; 
       font-weight: 700;
+      line-height: 1.3;
     }
     
     .pizza-price { 
       font-weight: 600; 
       color: #d62828; 
-      margin-bottom: 15px; 
-      font-size: 18px;
+      margin-bottom: 20px; 
+      font-size: 20px;
+      background: rgba(214, 40, 40, 0.1);
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
     }
-    
-    ul { list-style: none; padding-left: 0; }
     
     h2 { 
       font-family: 'Playfair Display', serif; 
       color: #d62828; 
-      font-size: 32px; 
-      margin-top: 50px; 
-      margin-bottom: 10px;
+      font-size: 36px; 
+      margin: 60px 0 20px 0; 
       text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    h2::after {
+      content: '';
+      flex-grow: 1;
+      height: 2px;
+      background: linear-gradient(90deg, #d62828, transparent);
+      border-radius: 1px;
+    }
+    
+    h2:first-of-type {
+      margin-top: 20px;
     }
     
     .carrito-item { 
@@ -237,71 +353,90 @@
       justify-content: space-between; 
       align-items: center; 
       margin-bottom: 12px; 
-      padding: 10px;
+      padding: 15px;
       background: rgba(214, 40, 40, 0.05);
-      border-radius: 8px;
+      border-radius: 12px;
       transition: all 0.3s ease;
+      border: 1px solid rgba(214, 40, 40, 0.1);
     }
     
     .carrito-item:hover {
       background: rgba(214, 40, 40, 0.1);
       transform: translateX(5px);
+      border-color: rgba(214, 40, 40, 0.2);
     }
     
-    .carrito-item span { flex: 1; font-weight: 500; }
+    .carrito-item span { 
+      flex: 1; 
+      font-weight: 500;
+      font-size: 14px;
+      color: #333;
+    }
     
     .carrito-item button { 
-      background: #dc3545; 
+      background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
       border: none; 
       color: #fff; 
-      padding: 6px 10px; 
-      border-radius: 6px; 
+      padding: 8px 12px; 
+      border-radius: 8px; 
       cursor: pointer; 
       font-size: 12px; 
       transition: all 0.3s ease;
       font-weight: 600;
+      box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
     }
     
     .carrito-item button:hover {
-      background: #c82333;
+      background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
       transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
     }
     
     form#checkout-form { 
       display: none; 
       margin-top: 25px; 
-      padding: 20px;
+      padding: 25px;
       background: rgba(214, 40, 40, 0.05);
-      border-radius: 12px;
+      border-radius: 15px;
       border: 1px solid rgba(214, 40, 40, 0.1);
     }
     
     form#checkout-form input { 
-      padding: 12px; 
+      padding: 14px 16px; 
       width: 100%; 
       margin-bottom: 15px; 
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
       font-family: 'Open Sans', sans-serif;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    form#checkout-form input:focus {
+      outline: none;
+      border-color: #d62828;
+      box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.1);
     }
     
     .total-section {
-      background: rgba(214, 40, 40, 0.05);
-      padding: 15px;
-      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(214, 40, 40, 0.05) 0%, rgba(214, 40, 40, 0.1) 100%);
+      padding: 20px;
+      border-radius: 15px;
       margin: 20px 0;
       border: 1px solid rgba(214, 40, 40, 0.1);
+      text-align: center;
     }
     
     .total-section strong {
-      font-size: 18px;
+      font-size: 20px;
       color: #d62828;
+      font-family: 'Playfair Display', serif;
     }
     
     /* Animaciones para agregar productos */
     @keyframes addToCart {
       0% { transform: scale(1); }
-      50% { transform: scale(1.1); background-color: #28a745; }
+      50% { transform: scale(1.05); background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
       100% { transform: scale(1); }
     }
     
@@ -311,9 +446,12 @@
     
     .carrito-vacio {
       text-align: center;
-      color: #666;
+      color: #999;
       font-style: italic;
-      padding: 20px;
+      padding: 30px 20px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 12px;
+      border: 2px dashed #ddd;
     }
     
     /* Notificación */
@@ -321,14 +459,15 @@
       position: fixed;
       top: 100px;
       right: 20px;
-      background: #28a745;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
       color: white;
-      padding: 15px 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 18px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
       z-index: 1000;
       transform: translateX(100%);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 600;
     }
     
     .notification.show {
@@ -339,41 +478,48 @@
     @media (max-width: 768px) {
       .main-container {
         flex-direction: column;
-        padding: 20px 10px;
+        padding: 20px 15px;
+        gap: 20px;
       }
       
       nav.indice {
         position: static;
         order: 2;
         margin-top: 20px;
+        padding: 20px;
+      }
+      
+      nav.indice h3 {
+        font-size: 18px;
       }
       
       .carrito-container {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
+        font-size: 28px;
         cursor: pointer;
         transition: all 0.3s ease;
         z-index: 50;
+        box-shadow: 0 8px 25px rgba(214, 40, 40, 0.3);
       }
       
       .carrito-container.expanded {
         position: fixed;
-        top: 100px;
-        left: 20px;
-        right: 20px;
-        bottom: 20px;
+        top: 80px;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
         width: auto;
         height: auto;
-        border-radius: 15px;
+        border-radius: 20px;
         padding: 25px;
         overflow-y: auto;
       }
@@ -391,21 +537,25 @@
         position: absolute;
         top: 15px;
         right: 15px;
-        background: #dc3545;
+        background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
         color: white;
         border: none;
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         cursor: pointer;
+        font-size: 18px;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
       }
       
       .carrito-container.expanded .carrito-close {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       
       .galeria {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
       }
       
@@ -414,18 +564,55 @@
       }
       
       h2 {
-        font-size: 24px;
-        margin-top: 30px;
+        font-size: 28px;
+        margin: 40px 0 15px 0;
       }
       
-      /* Botones en móvil para que no se amontonen */
+      .pizza-card {
+        padding: 20px;
+      }
+      
+      .pizza-card img {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .pizza-name {
+        font-size: 20px;
+      }
+      
+      .pizza-price {
+        font-size: 18px;
+      }
+      
       .carrito-buttons {
-        flex-direction: column;
         gap: 10px;
       }
       
-      .button-danger {
-        margin-left: 0 !important;
+      .notification {
+        right: 15px;
+        left: 15px;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .carrito-container {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+      
+      .galeria {
+        grid-template-columns: 1fr;
+      }
+      
+      header h1 {
+        font-size: 24px;
+      }
+      
+      h2 {
+        font-size: 24px;
       }
     }
   </style>
@@ -437,6 +624,7 @@
 
   <div class="main-container">
     <nav class="indice">
+      <h3>🍽️ Menú</h3>
       <ul>
         <li><a href="#entrantes">🧄 Entrantes</a></li>
         <li><a href="#pizzas">🍕 Pizzas</a></li>
@@ -477,8 +665,8 @@
           <p><strong>Total: <span id="total-pedido">0,00€</span></strong></p>
         </div>
         <div class="carrito-buttons">
-          <button class="button" onclick="mostrarFormularioPago()">Proceder al pago</button>
-          <button class="button button-danger" id="vaciar-carrito-btn">Vaciar carrito</button>
+          <button class="button" onclick="mostrarFormularioPago()">💳 Proceder al pago</button>
+          <button class="button button-danger" id="vaciar-carrito-btn">🗑️ Vaciar carrito</button>
         </div>
 
         <form id="checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
@@ -487,7 +675,7 @@
           <input type="hidden" name="currency_code" value="EUR">
           <input type="text" name="item_name" id="item_name" placeholder="Resumen del pedido" readonly>
           <input type="text" name="amount" id="amount" placeholder="Total" readonly>
-          <button class="button" type="submit">Pagar con PayPal</button>
+          <button class="button" type="submit">💳 Pagar con PayPal</button>
         </form>
       </div>
     </aside>
@@ -499,17 +687,19 @@
 
   <script>
     const productos = [
-      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes' },
-      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas' },
-      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas' },
-      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas' },
-      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas' },
-      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas' },
-      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas' },
-      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'pizzas' },
-      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones' },
-      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones' },
-      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones' },
+      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.' },
+      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y albahaca.' },
+      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y jamón cocido.' },
+      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas', ingredientes: 'Fior di latte, pecorino, gorgonzola y grana padano.' },
+      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.' },
+      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.' },
+      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.' },
+      { nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.' },
+      { nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
+      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, anchimini negras.' },
+      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.' },
+      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.' },
+      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.' },
       { nombre: 'Coca Cola', precio: 2, imagen: 'images/CocaCola.png', categoria: 'bebidas' },
       { nombre: 'Coca Cola zero', precio: 2, imagen: 'images/CocaColaZero.png', categoria: 'bebidas' },
       { nombre: 'Aquarius de limón', precio: 2, imagen: 'images/Aquarius.png', categoria: 'bebidas' },
@@ -531,27 +721,25 @@
       notification.classList.add('show');
       setTimeout(() => {
         notification.classList.remove('show');
-      }, 2000);
+      }, 3000);
     }
 
     function vaciarCarrito() {
       if (carrito.length === 0) {
-        alert('El carrito ya está vacío');
+        mostrarNotificacion('El carrito ya está vacío');
         return;
       }
       
       if (confirm('¿Estás seguro de que quieres vaciar todo el carrito?')) {
-        carrito.length = 0; // Vacía el array
+        carrito.length = 0;
         actualizarCarrito();
-        mostrarNotificacion('Carrito vaciado');
+        mostrarNotificacion('Carrito vaciado exitosamente');
         
-        // Ocultar formulario de pago si está visible
         const form = document.getElementById('checkout-form');
         form.style.display = 'none';
       }
     }
 
-    // Función global para ser llamada desde el HTML
     window.vaciarCarrito = vaciarCarrito;
 
     function agregarAlCarrito(nombre, precio, buttonElement) {
@@ -574,7 +762,6 @@
       mostrarNotificacion(`${nombre} añadido al carrito`);
     }
 
-    // Función global para ser llamada desde el HTML
     window.agregarAlCarrito = agregarAlCarrito;
 
     function eliminarDelCarrito(nombre) {
@@ -590,7 +777,6 @@
       }
     }
 
-    // Función global para ser llamada desde el HTML
     window.eliminarDelCarrito = eliminarDelCarrito;
 
     function actualizarCarrito() {
@@ -634,12 +820,12 @@
       productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
         const card = document.createElement('div');
         card.className = 'pizza-card';
-        // Crear elementos individualmente para evitar problemas con comillas
+        
         const img = document.createElement('img');
         img.src = p.imagen;
         img.alt = p.nombre;
         img.onerror = function() {
-          this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEzMCIgdmlld0JveD0iMCAwIDEzMCAxMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMzAiIGhlaWdodD0iMTMwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik00MCA0MEg5MFY5MEg0MFY0MFoiIHN0cm9rZT0iI0NDQyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHA+PHRleHQgeD0iNjUiIHk9IjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5OTkiPkltYWdlbjwvdGV4dD48L3A+Cjwvc3ZnPg==';
+          this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjMwIiBzdHJva2U9IiNDQ0MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI3MCIgeT0iNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OSI+SW1hZ2VuPC90ZXh0Pgo8L3N2Zz4=';
         };
 
         const nombreDiv = document.createElement('div');
@@ -661,13 +847,22 @@
         card.appendChild(nombreDiv);
         card.appendChild(precioDiv);
         card.appendChild(button);
+
+        // Añadir ingredientes solo para pizzas y calzones
+        if (p.ingredientes && (p.categoria === 'pizzas' || p.categoria === 'calzones' || p.categoria === 'entrantes')) {
+          const ingredientesDiv = document.createElement('div');
+          ingredientesDiv.className = 'pizza-ingredients';
+          ingredientesDiv.textContent = p.ingredientes;
+          card.appendChild(ingredientesDiv);
+        }
+
         contenedor.appendChild(card);
       });
     }
 
     function mostrarFormularioPago() {
       if (carrito.length === 0) {
-        alert('Tu carrito está vacío. Añade algunos productos antes de proceder al pago.');
+        mostrarNotificacion('Tu carrito está vacío. Añade algunos productos antes de proceder al pago.');
         return;
       }
       
@@ -685,7 +880,6 @@
       form.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Función global para ser llamada desde el HTML
     window.mostrarFormularioPago = mostrarFormularioPago;
 
     function toggleCarrito() {
@@ -693,7 +887,6 @@
       carrito.classList.toggle('expanded');
     }
 
-    // Función global para ser llamada desde el HTML
     window.toggleCarrito = toggleCarrito;
 
     // Funcionalidad para móviles
@@ -712,8 +905,7 @@
         const targetId = this.getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
-          // Ajustar el scroll para que se vea el título, no la primera imagen
-          const offsetTop = targetElement.offsetTop - 160; // 160px de offset para el header sticky
+          const offsetTop = targetElement.offsetTop - 140;
           window.scrollTo({
             top: offsetTop,
             behavior: 'smooth'
