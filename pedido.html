@@ -18,6 +18,7 @@
     .pizza-name { font-family: 'Playfair Display', serif; font-size: 18px; color: #111; margin: 10px 0 5px; }
     .pizza-price { font-weight: bold; color: #d62828; margin-bottom: 10px; }
     ul { list-style: none; padding-left: 0; }
+    h2 { font-family: 'Playfair Display', serif; color: #d62828; font-size: 28px; margin-bottom: 20px; }
   </style>
 </head>
 <body>
@@ -27,8 +28,23 @@
 
   <section id="pedido">
     <h2>📦 Haz tu pedido</h2>
-    <p>Selecciona tus pizzas o calzones favoritos y añádelos al carrito.</p>
-    <div class="galeria" id="menu-pedido"></div>
+    <p>Selecciona tus productos favoritos y añádelos al carrito.</p>
+
+    <h2>🍕 Pizzas</h2>
+    <div class="galeria" id="pizzas"></div>
+
+    <h2>🌯 Calzones</h2>
+    <div class="galeria" id="calzones"></div>
+
+    <h2>🥖 Entrantes</h2>
+    <div class="galeria" id="entrantes"></div>
+
+    <h2>🥤 Bebidas</h2>
+    <div class="galeria" id="bebidas"></div>
+
+    <h2>🍨 Helados</h2>
+    <div class="galeria" id="helados"></div>
+
     <h3>🛒 Tu carrito</h3>
     <ul id="lista-pedido"></ul>
     <p><strong>Total:</strong> <span id="total-pedido">0€</span></p>
@@ -37,17 +53,27 @@
 
   <script>
     const productos = [
-      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png' },
-      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png' },
-      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png' },
-      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png' },
-      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png' },
-      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png' },
-      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Calzone Vegetariano.png' },
-      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png' },
-      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png' },
-      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png' },
-      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png' }
+      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas' },
+      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas' },
+      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas' },
+      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas' },
+      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas' },
+      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas' },
+      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'pizzas' },
+      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones' },
+      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones' },
+      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones' },
+      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes' },
+      { nombre: 'Coca Cola', precio: 2, imagen: 'images/CocaCola.png', categoria: 'bebidas' },
+      { nombre: 'Coca Cola zero', precio: 2, imagen: 'images/CocaColaZero.png', categoria: 'bebidas' },
+      { nombre: 'Aquarius de limón', precio: 2, imagen: 'images/Aquarius.png', categoria: 'bebidas' },
+      { nombre: 'Fanta de limón', precio: 2, imagen: 'images/FantaLimon.png', categoria: 'bebidas' },
+      { nombre: 'Fanta naranja', precio: 2, imagen: 'images/FantaNaranja.png', categoria: 'bebidas' },
+      { nombre: 'Nestea', precio: 2, imagen: 'images/Nestea.png', categoria: 'bebidas' },
+      { nombre: 'Cerveza', precio: 2.4, imagen: 'images/Cerveza.png', categoria: 'bebidas' },
+      { nombre: "BEN & JERRY'S CHOCOLATE FUDGE BROWNIE 100ML", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados' },
+      { nombre: "BEN & JERRY'S STRAWBERRY CHEESECAKE 100ML", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados' },
+      { nombre: "BEN & JERRY'S PEANUT BUTTER CUP 100ML", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados' },
     ];
 
     const carrito = [];
@@ -71,18 +97,22 @@
       total.textContent = suma.toFixed(2) + '€';
     }
 
-    const menu = document.getElementById('menu-pedido');
-    productos.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'pizza-card';
-      card.innerHTML = `
-        <img src="${p.imagen}" alt="${p.nombre}">
-        <div class="pizza-name">${p.nombre}</div>
-        <div class="pizza-price">${p.precio}€</div>
-        <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
-      `;
-      menu.appendChild(card);
-    });
+    function renderCategoria(categoriaId, categoriaNombre) {
+      const contenedor = document.getElementById(categoriaId);
+      productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'pizza-card';
+        card.innerHTML = `
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <div class="pizza-name">${p.nombre}</div>
+          <div class="pizza-price">${p.precio}€</div>
+          <button class="button" onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Añadir al carrito</button>
+        `;
+        contenedor.appendChild(card);
+      });
+    }
+
+    ['pizzas', 'calzones', 'entrantes', 'bebidas', 'helados'].forEach(categoria => renderCategoria(categoria, categoria));
   </script>
 </body>
 </html>
