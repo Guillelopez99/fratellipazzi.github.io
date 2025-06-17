@@ -255,25 +255,36 @@
     }
     
     .pizza-info { 
-      padding: 25px; 
+      padding: 30px 25px; 
       text-align: center; 
       position: relative;
       z-index: 2;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
     }
     
     .pizza-name { 
       font-family: 'Playfair Display', serif; 
-      font-size: 22px; 
+      font-size: 24px; 
       color: #111; 
       margin-bottom: 8px;
       font-weight: 700;
+      line-height: 1.2;
+      transition: opacity 0.3s ease;
+    }
+    
+    .pizza-card:hover .pizza-name {
+      opacity: 0;
     }
     
     .pizza-price { 
       color: #d62828; 
       font-weight: 600; 
-      font-size: 20px;
-      margin-bottom: 10px;
+      font-size: 22px;
+      margin-bottom: 0;
       transition: opacity 0.3s ease;
     }
     
@@ -288,12 +299,16 @@
       width: 100%; 
       background: linear-gradient(135deg, rgba(214, 40, 40, 0.95) 0%, rgba(193, 30, 30, 0.95) 100%);
       color: white;
-      padding: 20px; 
-      font-size: 14px; 
-      line-height: 1.5; 
+      padding: 25px 20px; 
+      font-size: 15px; 
+      line-height: 1.6; 
       transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       backdrop-filter: blur(10px);
       border-radius: 0 0 18px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
     
     .pizza-card:hover .pizza-description { 
@@ -562,15 +577,23 @@
       }
       
       .pizza-info {
-        padding: 20px;
+        padding: 25px 20px;
+        min-height: 100px;
+        gap: 6px;
       }
       
       .pizza-name {
-        font-size: 20px;
+        font-size: 22px;
       }
       
       .pizza-price {
-        font-size: 18px;
+        font-size: 20px;
+      }
+      
+      .pizza-description {
+        padding: 20px 15px;
+        font-size: 14px;
+        line-height: 1.5;
       }
       
       #servicio-pedidos {
@@ -645,11 +668,11 @@
       }
       
       .fullwidth-slider {
-        height: 200px;
+        height: calc(100vw * 325 / 1920);
       }
       
       .fullwidth-slider img {
-        height: 200px;
+        height: calc(100vw * 325 / 1920);
         object-fit: fill;
       }
     }
