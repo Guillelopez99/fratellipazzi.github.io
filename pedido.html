@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -8,17 +8,17 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Open Sans', sans-serif; background-color: #fefefe; color: #333; line-height: 1.6; }
-    header { background-color: #fff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
-    header h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #d62828; }
-    .main-container { display: flex; max-width: 1400px; margin: auto; padding: 60px 20px; gap: 40px; }
-    nav.indice { flex: 0.5; position: sticky; top: 120px; align-self: flex-start; }
+    header { background-color: #fff; padding: 30px 20px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
+    header h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #d62828; text-align: center; }
+    .main-container { display: flex; max-width: 1400px; margin: auto; padding: 60px 20px; gap: 40px; align-items: flex-start; }
+    nav.indice { flex: 0.7; position: sticky; top: 120px; align-self: flex-start; }
     nav.indice ul { list-style: none; padding: 0; }
     nav.indice li { margin-bottom: 10px; }
     nav.indice a { text-decoration: none; color: #d62828; font-weight: bold; }
-    section { flex: 3; }
+    section { flex: 4; max-width: 900px; }
     .carrito-container { flex: 1; position: sticky; top: 120px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; height: fit-content; }
     .button { display: inline-block; background: #d62828; color: #fff; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 5px; cursor: pointer; font-size: 14px; }
-    .galeria { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 30px; }
+    .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin-top: 30px; }
     .pizza-card { background-color: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); text-align: center; padding: 20px; }
     .pizza-card img { max-width: 120px; border-radius: 10px; margin-bottom: 10px; }
     .pizza-name { font-family: 'Playfair Display', serif; font-size: 18px; color: #111; margin: 10px 0 5px; }
