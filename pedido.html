@@ -11,6 +11,10 @@
     header { background-color: #fff; padding: 30px 20px; text-align: center; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
     header h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #d62828; }
     .main-container { display: flex; max-width: 1400px; margin: auto; padding: 60px 20px; gap: 40px; }
+    nav.indice { flex: 0.5; position: sticky; top: 120px; align-self: flex-start; }
+    nav.indice ul { list-style: none; padding: 0; }
+    nav.indice li { margin-bottom: 10px; }
+    nav.indice a { text-decoration: none; color: #d62828; font-weight: bold; }
     section { flex: 3; }
     .carrito-container { flex: 1; position: sticky; top: 120px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; height: fit-content; }
     .button { display: inline-block; background: #d62828; color: #fff; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 5px; cursor: pointer; font-size: 14px; }
@@ -34,20 +38,30 @@
   </header>
 
   <div class="main-container">
+    <nav class="indice">
+      <ul>
+        <li><a href="#entrantes">Entrantes</a></li>
+        <li><a href="#pizzas">Pizzas</a></li>
+        <li><a href="#calzones">Calzones</a></li>
+        <li><a href="#bebidas">Bebidas</a></li>
+        <li><a href="#helados">Helados</a></li>
+      </ul>
+    </nav>
+
     <section id="pedido">
-      <h2>🧶 Entrantes</h2>
+      <h2 id="entrantes">🧶 Entrantes</h2>
       <div class="galeria" id="entrantes"></div>
 
-      <h2>🍕 Pizzas</h2>
+      <h2 id="pizzas">🍕 Pizzas</h2>
       <div class="galeria" id="pizzas"></div>
 
-      <h2>🌯 Calzones</h2>
+      <h2 id="calzones">🌯 Calzones</h2>
       <div class="galeria" id="calzones"></div>
 
-      <h2>🥤 Bebidas</h2>
+      <h2 id="bebidas">🥤 Bebidas</h2>
       <div class="galeria" id="bebidas"></div>
 
-      <h2>🍨 Helados</h2>
+      <h2 id="helados">🍨 Helados</h2>
       <div class="galeria" id="helados"></div>
     </section>
 
