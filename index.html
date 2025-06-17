@@ -3,103 +3,776 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fratelli Pazzi</title>
+  <title>Fratelli Pazzi - Auténtica Pizzería Napolitana en Madrid</title>
   <meta name="description" content="Fratelli Pazzi: auténtica pizzería napolitana en Madrid. Pizzas artesanas con ingredientes de calidad.">
   <meta name="keywords" content="pizzería, pizza napolitana, Madrid, comida a domicilio, ofertas">
-  <meta property="og:title" content="Fratelli Pazzi">
+  <meta property="og:title" content="Fratelli Pazzi - Auténtica Pizzería Napolitana">
   <meta property="og:description" content="Descubre nuestra carta de pizzas napolitanas y ofertas especiales. Pide online o visítanos en Madrid.">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap">
   <style>
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body { font-family: 'Open Sans', sans-serif; background-color: #fefefe; color: #333; line-height: 1.6; }
-    header { background-color: #fff; padding:30px 20px; text-align:center; border-bottom:1px solid #eee; }
-    header h1 { font-family:'Playfair Display', serif; font-size:36px; color:#d62828; }
-    nav { margin-top:10px; }
-    nav a { color:#d62828; margin:0 15px; text-decoration:none; font-weight:bold; }
-    .slider { position:relative; overflow:hidden; width:100vw; height:auto; max-width:100%; box-shadow:0 8px 30px rgba(0,0,0,0.2); margin: 0 auto; }
-    .slider-wrapper { display:flex; transition:transform 1s cubic-bezier(0.77, 0, 0.175, 1); }
-    .slider img { flex:0 0 100vw; width:100vw; height:auto; object-fit:cover; }
-    .slider-controls { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 20px; opacity:0; transition:opacity 0.3s; }
-    .slider:hover .slider-controls { opacity:1; }
-    .slider-controls button { background:rgba(0,0,0,0.5); border:none; color:#fff; font-size:1.5em; padding:12px; border-radius:50%; cursor:pointer; }
-    .slider-dots { position:absolute; bottom:15px; width:100%; text-align:center; }
-    .slider-dots span { display:inline-block; width:10px; height:10px; margin:0 5px; background:rgba(255,255,255,0.6); border-radius:50%; cursor:pointer; transition:background 0.3s; }
-    .slider-dots span.active { background:#d62828; }
-    section { padding:60px 20px; max-width:1000px; margin:auto; }
-    .galeria { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-top:30px; }
-    @media(max-width:768px) { .galeria { grid-template-columns:repeat(2,1fr); } }
-    @media(max-width:480px) { .galeria { grid-template-columns:1fr; } }
-    .pizza-card { position:relative; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.08); }
-    .pizza-card img { width:100%; display:block; }
-    .pizza-info { padding:15px; text-align:center; }
-    .pizza-name { font-family:'Playfair Display', serif; font-size:20px; color:#111; }
-    .pizza-price { color:#d62828; font-weight:bold; margin-top:5px; }
-    .pizza-description { position:absolute; bottom:-100%; left:0; width:100%; background:rgba(255,255,255,0.95); padding:15px; font-size:14px; line-height:1.4; transition:bottom 0.3s ease; }
-    .pizza-card:hover .pizza-description { bottom:0; }
-    .button { display:inline-block; background:#d62828; color:#fff; padding:12px 25px; border-radius:6px; text-decoration:none; font-weight:bold; }
-    .newsletter { background:#f9f9f9; padding:40px 20px; text-align:center; margin-top:60px; }
-    .newsletter input[type=email] { padding:10px; width:250px; border:1px solid #ccc; border-radius:4px; margin-right:10px; }
-    .newsletter button { padding:10px 20px; background:#d62828; color:#fff; border:none; border-radius:4px; cursor:pointer; }
-    .social-links a { margin:0 10px; color:#d62828; font-size:1.2em; text-decoration:none; }
-    footer { text-align:center; background:#1f1f1f; color:#fff; padding:30px 20px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: 'Open Sans', sans-serif; 
+      background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
+      color: #333; 
+      line-height: 1.6; 
+      overflow-x: hidden;
+    }
+    
+    header { 
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      padding: 30px 20px; 
+      text-align: center; 
+      border-bottom: 1px solid #eee; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    header h1 { 
+      font-family: 'Playfair Display', serif; 
+      font-size: 42px; 
+      color: #d62828; 
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    
+    nav { 
+      margin-top: 10px; 
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    nav a { 
+      color: #d62828; 
+      padding: 10px 20px;
+      text-decoration: none; 
+      font-weight: 600; 
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+    
+    nav a:hover::before {
+      left: 0;
+    }
+    
+    nav a:hover {
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+    }
+    
+    .slider { 
+      position: relative; 
+      overflow: hidden; 
+      width: 100%; 
+      height: 60vh;
+      min-height: 400px;
+      max-height: 600px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
+      margin: 0;
+    }
+    
+    .slider-wrapper { 
+      display: flex; 
+      transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
+      height: 100%;
+    }
+    
+    .slider img { 
+      flex: 0 0 100%; 
+      width: 100%; 
+      height: 100%;
+      object-fit: cover; 
+      filter: brightness(0.9);
+      transition: filter 0.3s ease;
+    }
+    
+    .slider:hover img {
+      filter: brightness(1);
+    }
+    
+    .slider-controls { 
+      position: absolute; 
+      top: 50%; 
+      width: 100%; 
+      display: flex; 
+      justify-content: space-between; 
+      transform: translateY(-50%); 
+      padding: 0 30px; 
+      opacity: 0; 
+      transition: opacity 0.3s; 
+    }
+    
+    .slider:hover .slider-controls { opacity: 1; }
+    
+    .slider-controls button { 
+      background: rgba(214, 40, 40, 0.8); 
+      border: none; 
+      color: #fff; 
+      font-size: 1.8em; 
+      padding: 15px 20px; 
+      border-radius: 50%; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .slider-controls button:hover {
+      background: rgba(214, 40, 40, 1);
+      transform: scale(1.1);
+    }
+    
+    .slider-dots { 
+      position: absolute; 
+      bottom: 20px; 
+      width: 100%; 
+      text-align: center; 
+    }
+    
+    .slider-dots span { 
+      display: inline-block; 
+      width: 12px; 
+      height: 12px; 
+      margin: 0 8px; 
+      background: rgba(255,255,255,0.6); 
+      border-radius: 50%; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .slider-dots span:hover {
+      background: rgba(255,255,255,0.8);
+      transform: scale(1.2);
+    }
+    
+    .slider-dots span.active { 
+      background: #d62828; 
+      border-color: white;
+      transform: scale(1.3);
+    }
+    
+    section { 
+      padding: 80px 20px; 
+      max-width: 1200px; 
+      margin: auto; 
+    }
+    
+    h2 { 
+      font-family: 'Playfair Display', serif; 
+      color: #d62828; 
+      font-size: 36px; 
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .section-intro {
+      text-align: center;
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 50px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .galeria { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+      gap: 35px; 
+      margin-top: 40px; 
+    }
+    
+    .pizza-card { 
+      position: relative; 
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      border-radius: 18px; 
+      overflow: hidden; 
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12); 
+      transition: all 0.5s ease;
+      border: 1px solid #e9ecef;
+      transform-style: preserve-3d;
+    }
+    
+    .pizza-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s ease;
+      z-index: 1;
+    }
+    
+    .pizza-card:hover::before {
+      left: 100%;
+    }
+    
+    .pizza-card:hover { 
+      transform: translateY(-12px) rotateX(5deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    
+    .pizza-card img { 
+      width: 100%; 
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .pizza-card:hover img {
+      transform: scale(1.05);
+    }
+    
+    .pizza-info { 
+      padding: 25px; 
+      text-align: center; 
+      position: relative;
+      z-index: 2;
+    }
+    
+    .pizza-name { 
+      font-family: 'Playfair Display', serif; 
+      font-size: 22px; 
+      color: #111; 
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    
+    .pizza-price { 
+      color: #d62828; 
+      font-weight: 600; 
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .pizza-description { 
+      position: absolute; 
+      bottom: -100%; 
+      left: 0; 
+      width: 100%; 
+      background: linear-gradient(135deg, rgba(214, 40, 40, 0.95) 0%, rgba(193, 30, 30, 0.95) 100%);
+      color: white;
+      padding: 20px; 
+      font-size: 14px; 
+      line-height: 1.5; 
+      transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      backdrop-filter: blur(10px);
+      border-radius: 0 0 18px 18px;
+    }
+    
+    .pizza-card:hover .pizza-description { 
+      bottom: 0; 
+    }
+    
+    .button { 
+      display: inline-block; 
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      color: #fff; 
+      padding: 15px 30px; 
+      border-radius: 10px; 
+      text-decoration: none; 
+      font-weight: 600; 
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(214, 40, 40, 0.4);
+    }
+    
+    .button:active {
+      transform: translateY(-1px);
+    }
+    
+    .button-large {
+      padding: 20px 40px;
+      font-size: 18px;
+      margin-top: 30px;
+    }
+    
+    #servicio-pedidos {
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      color: white;
+      text-align: center;
+      margin: 80px 0;
+      border-radius: 20px;
+      padding: 60px 40px;
+      box-shadow: 0 15px 35px rgba(214, 40, 40, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #servicio-pedidos::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #servicio-pedidos h2 {
+      color: white;
+      font-size: 42px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    #servicio-pedidos p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    #servicio-pedidos .button {
+      background: white;
+      color: #d62828;
+      font-size: 18px;
+      padding: 18px 35px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    #servicio-pedidos .button:hover {
+      background: #f8f9fa;
+      transform: translateY(-3px) scale(1.05);
+    }
+    
+    #contacto {
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    #contacto h2 {
+      margin-bottom: 30px;
+    }
+    
+    #contacto p {
+      font-size: 18px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    #contacto a {
+      color: #d62828;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    #contacto a:hover {
+      color: #c11e1e;
+      transform: scale(1.05);
+    }
+    
+    .newsletter { 
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+      padding: 60px 40px; 
+      text-align: center; 
+      margin: 80px 0;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    
+    .newsletter h2 {
+      color: white;
+      margin-bottom: 15px;
+      font-size: 32px;
+    }
+    
+    .newsletter p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .newsletter input[type=email] { 
+      padding: 15px 20px; 
+      flex: 1;
+      min-width: 250px;
+      border: none; 
+      border-radius: 10px; 
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .newsletter button { 
+      padding: 15px 30px; 
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      color: #fff; 
+      border: none; 
+      border-radius: 10px; 
+      cursor: pointer; 
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+    }
+    
+    .newsletter button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.4);
+    }
+    
+    footer { 
+      text-align: center; 
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #fff; 
+      padding: 40px 20px; 
+      font-size: 16px;
+    }
+    
+    footer p {
+      opacity: 0.8;
+    }
+    
+    /* Animaciones adicionales */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 32px;
+      }
+      
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      nav a {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+      
+      .slider {
+        height: 40vh;
+        min-height: 300px;
+      }
+      
+      section {
+        padding: 60px 15px;
+      }
+      
+      h2 {
+        font-size: 28px;
+      }
+      
+      .galeria { 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 25px;
+      }
+      
+      .pizza-card {
+        border-radius: 15px;
+      }
+      
+      .pizza-card img {
+        height: 200px;
+      }
+      
+      .pizza-info {
+        padding: 20px;
+      }
+      
+      .pizza-name {
+        font-size: 20px;
+      }
+      
+      .pizza-price {
+        font-size: 18px;
+      }
+      
+      #servicio-pedidos {
+        padding: 40px 20px;
+        margin: 60px 15px;
+      }
+      
+      #servicio-pedidos h2 {
+        font-size: 32px;
+      }
+      
+      #servicio-pedidos p {
+        font-size: 18px;
+      }
+      
+      #contacto {
+        padding: 30px 20px;
+        margin: 40px 15px;
+      }
+      
+      #contacto p {
+        font-size: 16px;
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .newsletter {
+        padding: 40px 20px;
+        margin: 60px 15px;
+      }
+      
+      .newsletter h2 {
+        font-size: 26px;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .newsletter input[type=email] {
+        min-width: 100%;
+        margin-bottom: 15px;
+      }
+      
+      .newsletter button {
+        width: 100%;
+      }
+      
+      .slider-controls {
+        padding: 0 15px;
+      }
+      
+      .slider-controls button {
+        font-size: 1.4em;
+        padding: 12px 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .galeria { 
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      header h1 {
+        font-size: 28px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+      
+      .slider {
+        height: 35vh;
+        min-height: 250px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Fratelli Pazzi</h1>
     <nav>
-      <a href="#ofertas">Ofertas</a>
-      <a href="#nuestras-pizzas">Pizzas</a>
-      <a href="#calzones">Calzones</a>
-      <a href="#pedido">Pedido</a>
-      <a href="#contacto">Contacto</a>
+      <a href="#ofertas">🔥 Ofertas</a>
+      <a href="#nuestras-pizzas">🍕 Pizzas</a>
+      <a href="#calzones">🌯 Calzones</a>
+      <a href="pedido.html">📋 Pedido</a>
+      <a href="#contacto">📞 Contacto</a>
     </nav>
   </header>
+
   <section id="ofertas" class="slider">
     <div class="slider-wrapper">
-      <img src="images/oferta1.png" alt="oferta 1">
-      <img src="images/oferta2.png" alt="oferta 2">
-      <img src="images/oferta3.png" alt="oferta 3">
-      <img src="images/oferta4.png" alt="oferta 4">
+      <img src="images/oferta1.png" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
+      <img src="images/oferta2.png" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
+      <img src="images/oferta3.png" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
+      <img src="images/oferta4.png" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
     </div>
     <div class="slider-controls">
-      <button onclick="moveSlider(-1)">&#10094;</button>
-      <button onclick="moveSlider(1)">&#10095;</button>
+      <button onclick="moveSlider(-1)" aria-label="Oferta anterior">&#10094;</button>
+      <button onclick="moveSlider(1)" aria-label="Siguiente oferta">&#10095;</button>
     </div>
     <div class="slider-dots">
-      <span onclick="moveSliderTo(0)" class="active"></span>
-      <span onclick="moveSliderTo(1)"></span>
-      <span onclick="moveSliderTo(2)"></span>
-      <span onclick="moveSliderTo(3)"></span>
+      <span onclick="moveSliderTo(0)" class="active" aria-label="Ir a oferta 1"></span>
+      <span onclick="moveSliderTo(1)" aria-label="Ir a oferta 2"></span>
+      <span onclick="moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
+      <span onclick="moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
     </div>
   </section>
 
   <section id="nuestras-pizzas">
     <h2>🍕 Nuestras Pizzas</h2>
+    <p class="section-intro">Elaboradas con ingredientes frescos importados directamente de Italia. Masa fermentada 48 horas y cocidas en horno de leña.</p>
     <div class="galeria">
-      <div class="pizza-card"><img src="images/Margarita.png" alt="Margarita"><div class="pizza-info"><div class="pizza-name">Margarita</div><div class="pizza-price">10€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte y albahaca</div></div>
-      <div class="pizza-card"><img src="images/Prosciutto.png" alt="Prosciutto"><div class="pizza-info"><div class="pizza-name">Prosciutto</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte y jamón cocido</div></div>
-      <div class="pizza-card"><img src="images/Quatro formaggi.png" alt="Cuatro Formaggi"><div class="pizza-info"><div class="pizza-name">Cuatro Formaggi</div><div class="pizza-price">12€</div></div><div class="pizza-description">Fior di latte, pecorino, gorgonzola y grana padano</div></div>
-      <div class="pizza-card"><img src="images/Capriciossa.png" alt="Capricciosa"><div class="pizza-info"><div class="pizza-name">Capricciosa</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa</div></div>
-      <div class="pizza-card"><img src="images/LeonardoDaVinci.png" alt="Leonardo Da Vinci"><div class="pizza-info"><div class="pizza-name">Leonardo Da Vinci</div><div class="pizza-price">14€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, jamón serrano, queso grana padano y rúcula</div></div>
-      <div class="pizza-card"><img src="images/SalchichaFriarielli.png" alt="Salchicha y Friarielli"><div class="pizza-info"><div class="pizza-name">Salchicha y Friarielli</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, salchicha italiana, grana padano y friarielli</div></div>
-      <div class="pizza-card"><img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano"><div class="pizza-info"><div class="pizza-name">Vegetariana</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, aceitunas negras</div></div>
-      <div class="pizza-card"><img src="images/Focaccia.png" alt="Focaccia"><div class="pizza-info"><div class="pizza-name">Focaccia</div><div class="pizza-price">5€</div></div><div class="pizza-description">Base de pizza con mantequilla de ajo y romero</div></div>
+      <div class="pizza-card">
+        <img src="images/Margarita.png" alt="Pizza Margarita" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Margarita</div>
+          <div class="pizza-price">10€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Prosciutto.png" alt="Pizza Prosciutto" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Prosciutto</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Cuatro Formaggi</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Capriciossa.png" alt="Pizza Capricciosa" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Capricciosa</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Leonardo Da Vinci</div>
+          <div class="pizza-price">14€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, jamón serrano, queso grana padano y rúcula fresca.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Salchicha y Friarielli</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, salchicha italiana, grana padano y friarielli napolitanos.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Calzone Vegetariano.png" alt="Pizza Vegetariana" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Vegetariana</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural y aceitunas negras.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Focaccia.png" alt="Focaccia" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Focaccia</div>
+          <div class="pizza-price">5€</div>
+        </div>
+        <div class="pizza-description">Base de pizza crujiente con mantequilla de ajo, romero fresco y sal marina.</div>
+      </div>
     </div>
   </section>
 
   <section id="calzones">
     <h2>🌯 Calzones</h2>
+    <p class="section-intro">Nuestros calzones están rellenos de los mejores ingredientes y horneados hasta conseguir una textura perfecta.</p>
     <div class="galeria">
-      <div class="pizza-card"><img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale"><div class="pizza-info"><div class="pizza-name">Calzone Tradizionale</div><div class="pizza-price">12€</div></div><div class="pizza-description">San Marzano, fior di latte, prosciutto y champiñones</div></div>
-      <div class="pizza-card"><img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni"><div class="pizza-info"><div class="pizza-name">Calzone Pepperoni</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, prosciutto y pepperoni</div></div>
-      <div class="pizza-card"><img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano"><div class="pizza-info"><div class="pizza-name">Calzone Vegetariano</div><div class="pizza-price">12€</div></div><div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena</div></div>
+      <div class="pizza-card">
+        <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Calzone Tradizionale</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">San Marzano, fior di latte, prosciutto cotto y champiñones frescos. El calzone más tradicional.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Calzone Pepperoni</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, prosciutto cotto y pepperoni picante.</div>
+      </div>
+      
+      <div class="pizza-card">
+        <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano" loading="lazy">
+        <div class="pizza-info">
+          <div class="pizza-name">Calzone Vegetariano</div>
+          <div class="pizza-price">12€</div>
+        </div>
+        <div class="pizza-description">Tomate San Marzano, fior di latte, champiñones, aceitunas, cebolla y berenjena a la parrilla.</div>
+      </div>
     </div>
   </section>
-<section id="servicio-pedidos" style="text-align: center; margin-top: 60px;">
+
+  <section id="servicio-pedidos">
     <h2>🍽️ ¿Tienes hambre?</h2>
-    <p>Haz tu pedido online desde nuestra plataforma segura.</p>
-    <a class="button" href="pedido.html">Haz tu pedido ahora</a>
+    <p>Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.</p>
+    <a class="button button-large" href="pedido.html">Haz tu pedido ahora</a>
   </section>
 
   <section id="contacto">
@@ -107,17 +780,20 @@
     <p>📍 Las Rozas, Madrid</p>
     <p>📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
     <p>📩 Email: <a href="mailto:info@fratellipazzi.com">info@fratellipazzi.com</a></p>
+    <p>🕒 Horarios: Lunes a Domingo 19:00 - 23:30</p>
   </section>
 
   <section class="newsletter">
     <h2>📬 Suscríbete a nuestro boletín</h2>
     <p>Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
-    <input type="email" placeholder="Tu email">
-    <button>Suscribirse</button>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Tu email" id="newsletter-email" required>
+      <button onclick="suscribirse()">Suscribirse</button>
+    </div>
   </section>
 
   <footer>
-    <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Auténtica cocina italiana en Madrid</p>
   </footer>
 
   <script>
@@ -127,24 +803,4 @@
 
     function updateSlider() {
       const wrapper = document.querySelector('.slider-wrapper');
-      wrapper.style.transform = 'translateX(-' + currentSlide * 100 + 'vw)';
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[currentSlide].classList.add('active');
-    }
-
-    function moveSlider(direction) {
-      currentSlide = (currentSlide + direction + slides.length) % slides.length;
-      updateSlider();
-    }
-
-    function moveSliderTo(index) {
-      currentSlide = index;
-      updateSlider();
-    }
-
-    setInterval(() => {
-      moveSlider(1);
-    }, 5000);
-  </script>
-</body>
-</html>
+      wrapper.style.transform = `translateX(-${current
