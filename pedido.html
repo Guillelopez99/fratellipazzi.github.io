@@ -1,50 +1,4 @@
-// Cerrar modal al hacer click fuera de él
-    document.getElementById('carrito-modal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        cerrarCarritoModal();
-      }
-    });
-
-    // Cerrar modal con tecla Escape
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        cerrarCarritoModal();
-      }
-    });
-
-    // Smooth scroll para los enlaces de navegación
-    document.querySelectorAll('nav.indice a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          const offsetTop = targetElement.offsetTop - 140;
-          window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Hacer funciones globales
-    window.agregarAlCarrito = agregarAlCarrito;
-    window.eliminarDelCarrito = eliminarDelCarrito;
-    window.abrirCarritoModal = abrirCarritoModal;
-    window.cerrarCarritoModal = cerrarCarritoModal;
-    window.procederAlPago = procederAlPago;
-
-    // Inicializar las categorías
-    ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
-      renderCategoria(categoria, categoria);
-    });
-
-    // Actualizar carrito al cargar la página
-    actualizarCarrito();
-  </script>
-</body>
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -196,7 +150,7 @@
     
     section { flex: 2.5; max-width: 1200px; }
     
-    /* NUEVO: Botón flotante del carrito */
+    /* Botón flotante del carrito */
     .carrito-float-btn {
       position: fixed;
       bottom: 30px;
@@ -225,8 +179,31 @@
       box-shadow: 0 15px 35px rgba(214, 40, 40, 0.5);
     }
     
+    .carrito-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+      animation: pulse 2s infinite;
+    }
     
-    /* NUEVO: Modal del carrito */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Modal del carrito */
     .carrito-modal {
       position: fixed;
       top: 0;
@@ -321,19 +298,6 @@
       padding: 0;
       max-height: 400px;
       overflow-y: auto;
-    }
-    
-    .carrito-modal-body::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .carrito-modal-body::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-    
-    .carrito-modal-body::-webkit-scrollbar-thumb {
-      background: #d62828;
-      border-radius: 3px;
     }
     
     .carrito-item-modal {
@@ -462,60 +426,6 @@
       font-size: 16px;
     }
     
-    .carrito-container::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .carrito-container::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 3px;
-    }
-    
-    .carrito-container::-webkit-scrollbar-thumb {
-      background: #d62828;
-      border-radius: 3px;
-    }
-    
-    .carrito-badge {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
-      color: white;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4);
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4); }
-      50% { transform: scale(1.1); box-shadow: 0 6px 16px rgba(214, 40, 40, 0.6); }
-      100% { transform: scale(1); box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4); }
-    }
-    
-    .carrito-header {
-      position: relative;
-      margin-bottom: 25px;
-      text-align: center;
-    }
-    
-    .carrito-header h3 {
-      font-family: 'Playfair Display', serif;
-      color: #d62828;
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    
     .button { 
       display: inline-block; 
       background: linear-gradient(135deg, #d62828 0%, #ff6b6b 100%);
@@ -534,44 +444,9 @@
       overflow: hidden;
     }
     
-    .button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .button:hover::before {
-      left: 100%;
-    }
-    
     .button:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow: 0 10px 30px rgba(214, 40, 40, 0.4);
-    }
-    
-    .button:active {
-      transform: translateY(-1px) scale(1.02);
-    }
-    
-    .button-danger {
-      background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
-      box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
-    }
-    
-    .button-danger:hover {
-      box-shadow: 0 10px 30px rgba(220, 53, 69, 0.4);
-    }
-    
-    .carrito-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
     }
     
     .galeria { 
@@ -591,21 +466,6 @@
       border: 1px solid rgba(214, 40, 40, 0.1);
       position: relative;
       overflow: hidden;
-    }
-    
-    .pizza-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.5s ease;
-    }
-    
-    .pizza-card:hover::before {
-      left: 100%;
     }
     
     .pizza-card:hover { 
@@ -685,113 +545,6 @@
       margin-top: 20px;
     }
     
-    .carrito-item { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      margin-bottom: 12px; 
-      padding: 15px;
-      background: rgba(214, 40, 40, 0.05);
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(214, 40, 40, 0.1);
-    }
-    
-    .carrito-item:hover {
-      background: rgba(214, 40, 40, 0.1);
-      transform: translateX(5px);
-      border-color: rgba(214, 40, 40, 0.2);
-    }
-    
-    .carrito-item span { 
-      flex: 1; 
-      font-weight: 500;
-      font-size: 14px;
-      color: #333;
-    }
-    
-    .carrito-item button { 
-      background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
-      border: none; 
-      color: #fff; 
-      padding: 8px 12px; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      font-size: 12px; 
-      transition: all 0.3s ease;
-      font-weight: 600;
-      box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
-    }
-    
-    .carrito-item button:hover {
-      background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
-    }
-    
-    form#checkout-form { 
-      display: none; 
-      margin-top: 25px; 
-      padding: 25px;
-      background: rgba(214, 40, 40, 0.05);
-      border-radius: 15px;
-      border: 1px solid rgba(214, 40, 40, 0.1);
-    }
-    
-    form#checkout-form input { 
-      padding: 14px 16px; 
-      width: 100%; 
-      margin-bottom: 15px; 
-      border: 2px solid #e9ecef;
-      border-radius: 10px;
-      font-family: 'Open Sans', sans-serif;
-      transition: all 0.3s ease;
-      background: white;
-    }
-    
-    form#checkout-form input:focus {
-      outline: none;
-      border-color: #d62828;
-      box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.1);
-    }
-    
-    .total-section {
-      background: linear-gradient(135deg, rgba(214, 40, 40, 0.05) 0%, rgba(214, 40, 40, 0.1) 100%);
-      padding: 20px;
-      border-radius: 15px;
-      margin: 20px 0;
-      border: 1px solid rgba(214, 40, 40, 0.1);
-      text-align: center;
-    }
-    
-    .total-section strong {
-      font-size: 20px;
-      color: #d62828;
-      font-family: 'Playfair Display', serif;
-    }
-    
-    /* Animaciones para agregar productos */
-    @keyframes addToCart {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
-      100% { transform: scale(1); }
-    }
-    
-    .button-added {
-      animation: addToCart 0.6s ease;
-    }
-    
-    .carrito-vacio {
-      text-align: center;
-      color: #999;
-      font-style: italic;
-      padding: 30px 20px;
-      background: rgba(0,0,0,0.02);
-      border-radius: 12px;
-      border: 2px dashed #ddd;
-    }
-    
-    /* Notificación */
     .notification {
       position: fixed;
       top: 100px;
@@ -813,12 +566,6 @@
     
     /* Responsive */
     @media (max-width: 768px) {
-      .btn-volver {
-        left: 15px;
-        padding: 10px 16px;
-        font-size: 13px;
-      }
-      
       .main-container {
         flex-direction: column;
         padding: 20px 15px;
@@ -830,10 +577,6 @@
         order: 2;
         margin-top: 20px;
         padding: 20px;
-      }
-      
-      nav.indice h3 {
-        font-size: 18px;
       }
       
       .carrito-float-btn {
@@ -848,79 +591,6 @@
         margin: 10px;
         max-width: none;
         max-height: 90vh;
-      }
-      
-      .carrito-modal-header {
-        padding: 20px;
-      }
-      
-      .carrito-modal-header h2 {
-        font-size: 24px;
-      }
-      
-      .carrito-item-modal {
-        padding: 15px 20px;
-      }
-      
-      .carrito-modal-footer {
-        padding: 20px;
-      }
-      
-      .galeria {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-      }
-      
-      header h1 {
-        font-size: 28px;
-      }
-      
-      h2 {
-        font-size: 28px;
-        margin: 40px 0 15px 0;
-      }
-      
-      .pizza-card {
-        padding: 20px;
-      }
-      
-      .pizza-card img {
-        width: 120px;
-        height: 120px;
-      }
-      
-      .pizza-name {
-        font-size: 20px;
-      }
-      
-      .pizza-price {
-        font-size: 18px;
-      }
-      
-      .notification {
-        right: 15px;
-        left: 15px;
-        text-align: center;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .carrito-float-btn {
-        width: 90px;
-        height: 45px;
-        font-size: 13px;
-      }
-      
-      .galeria {
-        grid-template-columns: 1fr;
-      }
-      
-      header h1 {
-        font-size: 24px;
-      }
-      
-      h2 {
-        font-size: 24px;
       }
     }
   </style>
@@ -961,22 +631,18 @@
     </section>
   </div>
 
-  <!-- NUEVO: Botón flotante del carrito -->
   <button class="carrito-float-btn" onclick="abrirCarritoModal()">
     🛒 <span id="total-float">0,00€</span>
     <div class="carrito-badge" id="carrito-badge" style="display: none;">0</div>
   </button>
 
-  <!-- NUEVO: Modal del carrito -->
   <div class="carrito-modal" id="carrito-modal">
     <div class="carrito-modal-content">
       <div class="carrito-modal-header">
         <button class="carrito-close" onclick="cerrarCarritoModal()">×</button>
         <h2>🛒 <span style="color: white;">Tu Carrito</span></h2>
       </div>
-      <div class="carrito-modal-body" id="carrito-modal-body">
-        <!-- Aquí se insertarán los items del carrito -->
-      </div>
+      <div class="carrito-modal-body" id="carrito-modal-body"></div>
       <div class="carrito-modal-footer">
         <div class="carrito-total">
           Total: <span id="total-modal">0,00€</span>
@@ -988,11 +654,8 @@
     </div>
   </div>
 
-  <div class="notification" id="notification">
-    ¡Producto añadido al carrito!
-  </div>
+  <div class="notification" id="notification">¡Producto añadido al carrito!</div>
 
-  <!-- Formulario oculto para PayPal -->
   <form id="checkout-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display: none;">
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="business" value="tu-correo-paypal@example.com">
@@ -1002,306 +665,228 @@
   </form>
 
   <script>
-    const productos = [
-      { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.' },
-      { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y albahaca.' },
-      { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y jamón cocido.' },
-      { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas', ingredientes: 'Fior di latte, pecorino, gorgonzola y grana padano.' },
-      { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.' },
-      { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.' },
-      { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.' },
-      { nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.' },
-      { nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
-      { nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, anchimini negras.' },
-      { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.' },
-      { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.' },
-      { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.' },
-      { nombre: 'Coca Cola', precio: 2, imagen: 'images/CocaCola.png', categoria: 'bebidas' },
-      { nombre: 'Coca Cola zero', precio: 2, imagen: 'images/CocaColaZero.png', categoria: 'bebidas' },
-      { nombre: 'Aquarius de limón', precio: 2, imagen: 'images/Aquarius.png', categoria: 'bebidas' },
-      { nombre: 'Fanta de limón', precio: 2, imagen: 'images/FantaLimon.png', categoria: 'bebidas' },
-      { nombre: 'Fanta naranja', precio: 2, imagen: 'images/FantaNaranja.png', categoria: 'bebidas' },
-      { nombre: 'Nestea', precio: 2, imagen: 'images/Nestea.png', categoria: 'bebidas' },
-      { nombre: 'Cerveza', precio: 2.4, imagen: 'images/Cerveza.png', categoria: 'bebidas' },
-      { nombre: "BEN & JERRY'S CHOCOLATE FUDGE BROWNIE 100ML", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados' },
-      { nombre: "BEN & JERRY'S STRAWBERRY CHEESECAKE 100ML", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados' },
-      { nombre: "BEN & JERRY'S PEANUT BUTTER CUP 100ML", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados' },
-      { nombre: "BEN & JERRY'S COOKIE DOUGH 100ML", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados' },
-    ];
+const productos = [
+  { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.' },
+  { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y albahaca.' },
+  { nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y jamón cocido.' },
+  { nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas', ingredientes: 'Fior di latte, pecorino, gorgonzola y grana padano.' },
+  { nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.' },
+  { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.' },
+  { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.' },
+  { nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.' },
+  { nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
+  { nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, anchimini negras.' },
+  { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.' },
+  { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.' },
+  { nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.' },
+  { nombre: 'Coca Cola', precio: 2, imagen: 'images/CocaCola.png', categoria: 'bebidas' },
+  { nombre: 'Coca Cola zero', precio: 2, imagen: 'images/CocaColaZero.png', categoria: 'bebidas' },
+  { nombre: 'Aquarius de limón', precio: 2, imagen: 'images/Aquarius.png', categoria: 'bebidas' },
+  { nombre: 'Fanta de limón', precio: 2, imagen: 'images/FantaLimon.png', categoria: 'bebidas' },
+  { nombre: 'Fanta naranja', precio: 2, imagen: 'images/FantaNaranja.png', categoria: 'bebidas' },
+  { nombre: 'Nestea', precio: 2, imagen: 'images/Nestea.png', categoria: 'bebidas' },
+  { nombre: 'Cerveza', precio: 2.4, imagen: 'images/Cerveza.png', categoria: 'bebidas' },
+  { nombre: "BEN & JERRY'S CHOCOLATE FUDGE BROWNIE 100ML", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados' },
+  { nombre: "BEN & JERRY'S STRAWBERRY CHEESECAKE 100ML", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados' },
+  { nombre: "BEN & JERRY'S PEANUT BUTTER CUP 100ML", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados' },
+  { nombre: "BEN & JERRY'S COOKIE DOUGH 100ML", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados' }
+];
 
-    const carrito = [];
+const carrito = [];
 
-    function mostrarNotificacion(mensaje) {
-      const notification = document.getElementById('notification');
-      notification.textContent = mensaje;
-      notification.classList.add('show');
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 3000);
+function mostrarNotificacion(mensaje) {
+  const notification = document.getElementById('notification');
+  notification.textContent = mensaje;
+  notification.classList.add('show');
+  setTimeout(() => {
+    notification.classList.remove('show');
+  }, 3000);
+}
+
+function agregarAlCarrito(nombre, precio, buttonElement) {
+  const existente = carrito.find(p => p.nombre === nombre);
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({ nombre, precio, cantidad: 1 });
+  }
+  
+  actualizarCarrito();
+  mostrarNotificacion(nombre + ' añadido al carrito');
+}
+
+function eliminarDelCarrito(nombre) {
+  const index = carrito.findIndex(p => p.nombre === nombre);
+  if (index > -1) {
+    if (carrito[index].cantidad > 1) {
+      carrito[index].cantidad--;
+    } else {
+      carrito.splice(index, 1);
     }
-
-    function vaciarCarrito() {
-      if (carrito.length === 0) {
-        mostrarNotificacion('El carrito ya está vacío');
-        return;
-      }
-      
-      if (confirm('¿Estás seguro de que quieres vaciar todo el carrito?')) {
-        carrito.length = 0;
-        actualizarCarrito();
-        mostrarNotificacion('Carrito vaciado exitosamente');
-        
-        const form = document.getElementById('checkout-form');
-        form.style.display = 'none';
-      }
-    }
-
-    window.vaciarCarrito = vaciarCarrito;
-
-    function agregarAlCarrito(nombre, precio, buttonElement) {
-      const existente = carrito.find(p => p.nombre === nombre);
-      if (existente) {
-        existente.cantidad++;
-      } else {
-        carrito.push({ nombre, precio, cantidad: 1 });
-      }
-      
-      // Animación en el botón
-      if (buttonElement) {
-        buttonElement.classList.add('button-added');
-        setTimeout(() => {
-          buttonElement.classList.remove('button-added');
-        }, 600);
-      }
-      
-      actualizarCarrito();
-      mostrarNotificacion(`${nombre} añadido al carrito`);
-    }
-
-    window.agregarAlCarrito = agregarAlCarrito;
-
-    function eliminarDelCarrito(nombre) {
-      const index = carrito.findIndex(p => p.nombre === nombre);
-      if (index > -1) {
-        if (carrito[index].cantidad > 1) {
-          carrito[index].cantidad--;
-        } else {
-          carrito.splice(index, 1);
-        }
-        actualizarCarrito();
-        actualizarModalCarrito();
-        mostrarNotificacion('Producto eliminado del carrito');
-      }
-    }
-
-    window.eliminarDelCarrito = eliminarDelCarrito;
-
-    function actualizarCarrito() {
-      const badge = document.getElementById('carrito-badge');
-      const totalFloat = document.getElementById('total-float');
-      
-      let suma = 0;
-      let totalItems = 0;
-      let resumen = [];
-      
-      carrito.forEach(item => {
-        suma += item.precio * item.cantidad;
-        totalItems += item.cantidad;
-        resumen.push(`${item.nombre} (${item.cantidad})`);
-      });
-      
-      // Actualizar badge
-      if (totalItems > 0) {
-        badge.textContent = totalItems;
-        badge.style.display = 'flex';
-      } else {
-        badge.style.display = 'none';
-      }
-      
-      // Actualizar precio en botón flotante
-      totalFloat.textContent = suma.toFixed(2) + '€';
-      
-      // Actualizar formulario PayPal
-      document.getElementById('item_name').value = resumen.join(', ');
-      document.getElementById('amount').value = suma.toFixed(2);
-    }
-
-    function abrirCarritoModal() {
-      const modal = document.getElementById('carrito-modal');
-      modal.classList.add('show');
-      actualizarModalCarrito();
-      document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-    }
-
-    function cerrarCarritoModal() {
-      const modal = document.getElementById('carrito-modal');
-      modal.classList.remove('show');
-      document.body.style.overflow = 'auto'; // Restaurar scroll del body
-    }
-
-    function actualizarModalCarrito() {
-      const modalBody = document.getElementById('carrito-modal-body');
-      const totalModal = document.getElementById('total-modal');
-      
-      let suma = 0;
-      modalBody.innerHTML = '';
-      
-      if (carrito.length === 0) {
-        modalBody.innerHTML = `
-          <div class="carrito-vacio-modal">
-            <span class="emoji">🛒</span>
-            <h3>Tu carrito está vacío</h3>
-            <p>Añade algunos productos deliciosos para empezar</p>
-          </div>
-        `;
-      } else {
-        carrito.forEach(item => {
-          const itemElement = document.createElement('div');
-          itemElement.className = 'carrito-item-modal';
-          itemElement.innerHTML = `
-            <div class="carrito-item-indicator"></div>
-            <div class="carrito-item-info">
-              <h4>${item.nombre}</h4>
-              <p>${(item.precio * item.cantidad).toFixed(2)}€ (${item.cantidad} unidad${item.cantidad > 1 ? 'es' : ''})</p>
-            </div>
-            <button class="carrito-btn-eliminar" onclick="eliminarDelCarrito(this.dataset.nombre)">
-              Eliminar
-            </button>
-          `;
-          // Añadir el nombre como data attribute para evitar problemas con comillas
-          itemElement.querySelector('.carrito-btn-eliminar').dataset.nombre = item.nombre;
-          modalBody.appendChild(itemElement);
-          suma += item.precio * item.cantidad;
-        });
-      }
-      
-      totalModal.textContent = suma.toFixed(2) + '€';
-    }
-
-    function procederAlPago() {
-      if (carrito.length === 0) {
-        mostrarNotificacion('Tu carrito está vacío. Añade algunos productos antes de proceder al pago.');
-        return;
-      }
-      
-      // Cerrar modal y abrir PayPal
-      cerrarCarritoModal();
-      document.getElementById('checkout-form').submit();
-      mostrarNotificacion('Redirigiendo a PayPal...');
-    }
-
-    function renderCategoria(categoriaId, categoriaNombre) {
-      const contenedor = document.querySelector(`[data-categoria="${categoriaId}"]`);
-      productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'pizza-card';
-        
-        const img = document.createElement('img');
-        img.src = p.imagen;
-        img.alt = p.nombre;
-        img.onerror = function() {
-          this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjMwIiBzdHJva2U9IiNDQ0MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI3MCIgeT0iNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OSI+SW1hZ2VuPC90ZXh0Pgo8L3N2Zz4=';
-        };
-
-        const nombreDiv = document.createElement('div');
-        nombreDiv.className = 'pizza-name';
-        nombreDiv.textContent = p.nombre;
-
-        // Añadir ingredientes si existen
-        let ingredientesDiv = null;
-        if (p.ingredientes && (p.categoria === 'pizzas' || p.categoria === 'calzones' || p.categoria === 'entrantes')) {
-          ingredientesDiv = document.createElement('div');
-          ingredientesDiv.className = 'pizza-ingredients';
-          ingredientesDiv.textContent = p.ingredientes;
-        }
-
-        const precioDiv = document.createElement('div');
-        precioDiv.className = 'pizza-price';
-        precioDiv.textContent = p.precio + '€';
-
-        const button = document.createElement('button');
-        button.className = 'button';
-        button.textContent = 'Añadir al carrito';
-        button.addEventListener('click', function() {
-          agregarAlCarrito(p.nombre, p.precio, this);
-        });
-
-        card.appendChild(img);
-        card.appendChild(nombreDiv);
-        if (ingredientesDiv) {
-          card.appendChild(ingredientesDiv);
-        }
-        card.appendChild(precioDiv);
-        card.appendChild(button);
-
-        contenedor.appendChild(card);
-      });
-    }
-
-    function mostrarFormularioPago() {
-      if (carrito.length === 0) {
-        mostrarNotificacion('Tu carrito está vacío. Añade algunos productos antes de proceder al pago.');
-        return;
-      }
-      
-      const form = document.getElementById('checkout-form');
-      const itemNameInput = document.getElementById('item_name');
-      const amountInput = document.getElementById('amount');
-
-      const resumen = carrito.map(item => `${item.nombre} (${item.cantidad})`).join(', ');
-      const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0).toFixed(2);
-
-      itemNameInput.value = resumen;
-      amountInput.value = total;
-
-      form.style.display = 'block';
-      form.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    window.mostrarFormularioPago = mostrarFormularioPago;
-
-    function toggleCarrito() {
-      const carrito = document.getElementById('carrito-container');
-      carrito.classList.toggle('expanded');
-    }
-
-    window.toggleCarrito = toggleCarrito;
-
-    // Funcionalidad para móviles
-    if (window.innerWidth <= 768) {
-      document.getElementById('carrito-container').addEventListener('click', function(e) {
-        if (!this.classList.contains('expanded') && e.target === this) {
-          toggleCarrito();
-        }
-      });
-    }
-
-    // Smooth scroll para los enlaces de navegación
-    document.querySelectorAll('nav.indice a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          const offsetTop = targetElement.offsetTop - 140;
-          window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Inicializar las categorías
-    ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
-      renderCategoria(categoria, categoria);
-    });
-
-    // Agregar event listener al botón de vaciar carrito
-    document.getElementById('vaciar-carrito-btn').addEventListener('click', vaciarCarrito);
-
-    // Actualizar carrito al cargar la página
     actualizarCarrito();
+    actualizarModalCarrito();
+    mostrarNotificacion('Producto eliminado del carrito');
+  }
+}
+
+function actualizarCarrito() {
+  const badge = document.getElementById('carrito-badge');
+  const totalFloat = document.getElementById('total-float');
+  
+  let suma = 0;
+  let totalItems = 0;
+  let resumen = [];
+  
+  carrito.forEach(item => {
+    suma += item.precio * item.cantidad;
+    totalItems += item.cantidad;
+    resumen.push(item.nombre + ' (' + item.cantidad + ')');
+  });
+  
+  if (totalItems > 0) {
+    badge.textContent = totalItems;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+  
+  totalFloat.textContent = suma.toFixed(2) + '€';
+  
+  document.getElementById('item_name').value = resumen.join(', ');
+  document.getElementById('amount').value = suma.toFixed(2);
+}
+
+function abrirCarritoModal() {
+  const modal = document.getElementById('carrito-modal');
+  modal.classList.add('show');
+  actualizarModalCarrito();
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarCarritoModal() {
+  const modal = document.getElementById('carrito-modal');
+  modal.classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+function actualizarModalCarrito() {
+  const modalBody = document.getElementById('carrito-modal-body');
+  const totalModal = document.getElementById('total-modal');
+  
+  let suma = 0;
+  modalBody.innerHTML = '';
+  
+  if (carrito.length === 0) {
+    modalBody.innerHTML = '<div class="carrito-vacio-modal"><span class="emoji">🛒</span><h3>Tu carrito está vacío</h3><p>Añade algunos productos deliciosos para empezar</p></div>';
+  } else {
+    carrito.forEach(item => {
+      const itemElement = document.createElement('div');
+      itemElement.className = 'carrito-item-modal';
+      itemElement.innerHTML = '<div class="carrito-item-indicator"></div><div class="carrito-item-info"><h4>' + item.nombre + '</h4><p>' + (item.precio * item.cantidad).toFixed(2) + '€ (' + item.cantidad + ' unidad' + (item.cantidad > 1 ? 'es' : '') + ')</p></div><button class="carrito-btn-eliminar" onclick="eliminarDelCarrito(\'' + item.nombre.replace(/'/g, "\\'") + '\')">Eliminar</button>';
+      modalBody.appendChild(itemElement);
+      suma += item.precio * item.cantidad;
+    });
+  }
+  
+  totalModal.textContent = suma.toFixed(2) + '€';
+}
+
+function procederAlPago() {
+  if (carrito.length === 0) {
+    mostrarNotificacion('Tu carrito está vacío. Añade algunos productos antes de proceder al pago.');
+    return;
+  }
+  
+  cerrarCarritoModal();
+  document.getElementById('checkout-form').submit();
+  mostrarNotificacion('Redirigiendo a PayPal...');
+}
+
+function renderCategoria(categoriaId, categoriaNombre) {
+  const contenedor = document.querySelector('[data-categoria="' + categoriaId + '"]');
+  productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'pizza-card';
+    
+    const img = document.createElement('img');
+    img.src = p.imagen;
+    img.alt = p.nombre;
+    img.onerror = function() {
+      this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjMwIiBzdHJva2U9IiNDQ0MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI3MCIgeT0iNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OSI+SW1hZ2VuPC90ZXh0Pgo8L3N2Zz4=';
+    };
+
+    const nombreDiv = document.createElement('div');
+    nombreDiv.className = 'pizza-name';
+    nombreDiv.textContent = p.nombre;
+
+    let ingredientesDiv = null;
+    if (p.ingredientes && (p.categoria === 'pizzas' || p.categoria === 'calzones' || p.categoria === 'entrantes')) {
+      ingredientesDiv = document.createElement('div');
+      ingredientesDiv.className = 'pizza-ingredients';
+      ingredientesDiv.textContent = p.ingredientes;
+    }
+
+    const precioDiv = document.createElement('div');
+    precioDiv.className = 'pizza-price';
+    precioDiv.textContent = p.precio + '€';
+
+    const button = document.createElement('button');
+    button.className = 'button';
+    button.textContent = 'Añadir al carrito';
+    button.addEventListener('click', function() {
+      agregarAlCarrito(p.nombre, p.precio, this);
+    });
+
+    card.appendChild(img);
+    card.appendChild(nombreDiv);
+    if (ingredientesDiv) {
+      card.appendChild(ingredientesDiv);
+    }
+    card.appendChild(precioDiv);
+    card.appendChild(button);
+
+    contenedor.appendChild(card);
+  });
+}
+
+document.getElementById('carrito-modal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    cerrarCarritoModal();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    cerrarCarritoModal();
+  }
+});
+
+document.querySelectorAll('nav.indice a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href').substring(1);
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      const offsetTop = targetElement.offsetTop - 140;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+window.agregarAlCarrito = agregarAlCarrito;
+window.eliminarDelCarrito = eliminarDelCarrito;
+window.abrirCarritoModal = abrirCarritoModal;
+window.cerrarCarritoModal = cerrarCarritoModal;
+window.procederAlPago = procederAlPago;
+
+['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
+  renderCategoria(categoria, categoria);
+});
+
+actualizarCarrito();
   </script>
 </body>
 </html>
