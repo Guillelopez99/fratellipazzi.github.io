@@ -717,20 +717,20 @@
     </nav>
 
     <section id="pedido">
-      <h2 id="entrantes" class="section-fade">🧄 Entrantes</h2>
-      <div class="galeria section-fade" data-categoria="entrantes"></div>
+      <h2 id="entrantes">🧄 Entrantes</h2>
+      <div class="galeria" data-categoria="entrantes"></div>
 
-      <h2 id="pizzas" class="section-fade">🍕 Pizzas</h2>
-      <div class="galeria section-fade" data-categoria="pizzas"></div>
+      <h2 id="pizzas">🍕 Pizzas</h2>
+      <div class="galeria" data-categoria="pizzas"></div>
 
-      <h2 id="calzones" class="section-fade">🌯 Calzones</h2>
-      <div class="galeria section-fade" data-categoria="calzones"></div>
+      <h2 id="calzones">🌯 Calzones</h2>
+      <div class="galeria" data-categoria="calzones"></div>
 
-      <h2 id="bebidas" class="section-fade">🥤 Bebidas</h2>
-      <div class="galeria section-fade" data-categoria="bebidas"></div>
+      <h2 id="bebidas">🥤 Bebidas</h2>
+      <div class="galeria" data-categoria="bebidas"></div>
 
-      <h2 id="helados" class="section-fade">🍨 Helados</h2>
-      <div class="galeria section-fade" data-categoria="helados"></div>
+      <h2 id="helados">🍨 Helados</h2>
+      <div class="galeria" data-categoria="helados"></div>
     </section>
   </div>
 
@@ -777,7 +777,7 @@ const productos = [
   { nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.' },
   { nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.' },
   { nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.' },
-  { nombre: 'Diavola', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
+  { nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.' },
   { nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, anchimini negras.' },
   { nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.' },
   { nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.' },
@@ -804,6 +804,18 @@ function mostrarNotificacion(mensaje) {
   setTimeout(() => {
     notification.classList.remove('show');
   }, 3000);
+}
+
+function agregarAlCarrito(nombre, precio, buttonElement) {
+  const existente = carrito.find(p => p.nombre === nombre);
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({ nombre, precio, cantidad: 1 });
+  }
+  
+  actualizarCarrito();
+  mostrarNotificacion(nombre + ' añadido al carrito');
 }
 
 function eliminarDelCarrito(nombre) {
@@ -888,16 +900,9 @@ function procederAlPago() {
     return;
   }
   
-  // Mostrar mini loader
-  const loader = document.getElementById('miniLoader');
-  loader.classList.add('show');
-  
-  setTimeout(() => {
-    cerrarCarritoModal();
-    document.getElementById('checkout-form').submit();
-    mostrarNotificacion('Redirigiendo a PayPal...');
-    loader.classList.remove('show');
-  }, 2000);
+  cerrarCarritoModal();
+  document.getElementById('checkout-form').submit();
+  mostrarNotificacion('Redirigiendo a PayPal...');
 }
 
 function renderCategoria(categoriaId, categoriaNombre) {
