@@ -12,6 +12,165 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
+    /* LOADING ANIMATIONS */
+    .fullscreen-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    
+    .fullscreen-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
+    .logo-loader {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #d62828;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: logoGlow 2s ease-in-out infinite alternate;
+      margin-bottom: 15px;
+    }
+    
+    @keyframes logoGlow {
+      0% { 
+        transform: scale(1);
+        filter: brightness(1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+      100% { 
+        transform: scale(1.05);
+        filter: brightness(1.2);
+        text-shadow: 0 0 30px rgba(214, 40, 40, 0.8), 2px 2px 4px rgba(0,0,0,0.3);
+      }
+    }
+    
+    .logo-underline {
+      width: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #d62828, #ff6b6b);
+      margin: 15px auto;
+      border-radius: 2px;
+      animation: underlineGrow 3s ease-in-out infinite;
+    }
+    
+    @keyframes underlineGrow {
+      0%, 100% { width: 0; }
+      50% { width: 100%; }
+    }
+    
+    .loading-text {
+      color: #ccc;
+      font-size: 18px;
+      margin-top: 20px;
+      animation: fadeInOut 2s ease-in-out infinite;
+    }
+    
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    /* PIZZA SPINNER para transiciones */
+    .pizza-spinner {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      animation: spin 1.5s linear infinite;
+      margin: 20px auto;
+    }
+    
+    .pizza-base {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #FFE4B5 0%, #DEB887 100%);
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(222, 184, 135, 0.4);
+    }
+    
+    .pizza-sauce {
+      width: 75%;
+      height: 75%;
+      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      border-radius: 50%;
+      position: absolute;
+      top: 12.5%;
+      left: 12.5%;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .pizza-cheese {
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      animation: cheeseFloat 2s ease-in-out infinite;
+    }
+    
+    .pizza-cheese:nth-child(1) { top: 25%; left: 30%; animation-delay: 0s; }
+    .pizza-cheese:nth-child(2) { top: 40%; left: 60%; animation-delay: 0.5s; }
+    .pizza-cheese:nth-child(3) { top: 60%; left: 35%; animation-delay: 1s; }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes cheeseFloat {
+      0%, 100% { transform: scale(1) translateY(0); opacity: 0.8; }
+      50% { transform: scale(1.3) translateY(-1px); opacity: 1; }
+    }
+    
+    /* TRANSICIONES DE SECCIÓN */
+    .section-transition {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+    
+    .section-transition.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* OVERLAY DE TRANSICIÓN */
+    .page-transition-overlay {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, #d62828 50%, transparent 100%);
+      z-index: 8888;
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
+    
+    .page-transition-overlay.active {
+      left: 100%;
+    }
+    
     body { 
       font-family: 'Open Sans', sans-serif; 
       background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
@@ -679,6 +838,26 @@
   </style>
 </head>
 <body>
+  <!-- FULLSCREEN LOADER -->
+  <div class="fullscreen-loader" id="pageLoader">
+    <div class="logo-loader">
+      <div class="logo-text">Fratelli Pazzi</div>
+      <div class="logo-underline"></div>
+    </div>
+    <div class="loading-text">Preparando tu experiencia italiana...</div>
+    <div class="pizza-spinner">
+      <div class="pizza-base">
+        <div class="pizza-sauce">
+          <div class="pizza-cheese"></div>
+          <div class="pizza-cheese"></div>
+          <div class="pizza-cheese"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY DE TRANSICIÓN -->
+  <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
   <header>
     <h1>Fratelli Pazzi</h1>
     <nav>
@@ -709,7 +888,7 @@
     </div>
   </div>
 
-  <section id="nuestras-pizzas">
+  <section id="nuestras-pizzas" class="section-transition">
     <h2>🍕 Nuestras Pizzas</h2>
     <p class="section-intro">Elaboradas con ingredientes frescos importados directamente de Italia. Masa fermentada 48 horas y cocidas en horno de leña.</p>
     <div class="galeria">
@@ -808,7 +987,7 @@
     </div>
   </section>
 
-  <section id="calzones">
+  <section id="calzones" class="section-transition">
     <h2>🌯 Calzones</h2>
     <p class="section-intro">Nuestros calzones están rellenos de los mejores ingredientes y horneados hasta conseguir una textura perfecta.</p>
     <div class="galeria">
@@ -841,13 +1020,13 @@
     </div>
   </section>
 
-  <section id="servicio-pedidos">
+  <section id="servicio-pedidos" class="section-transition">
     <h2>🍽️ ¿Tienes hambre?</h2>
     <p>Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.</p>
     <a class="button button-large" href="pedido.html">Haz tu pedido ahora</a>
   </section>
 
-  <section id="contacto">
+  <section id="contacto" class="section-transition">
     <h2>📞 Contacto</h2>
     <p>📍 Avenida de Atenas 3, Local 109, Las Rozas, Madrid</p>
     <p>📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
@@ -855,7 +1034,7 @@
     <p>🕒 Horarios: Lunes a Domingo 20:00 - 23:00</p>
   </section>
 
-  <section class="newsletter">
+  <section class="newsletter section-transition">
     <h2>📬 Suscríbete a nuestro boletín</h2>
     <p>Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
     <div class="newsletter-form">
@@ -869,10 +1048,61 @@
   </footer>
 
   <script>
+    // ========== VARIABLES GLOBALES ==========
     let currentSlide = 0;
     const slides = document.querySelectorAll('.slider-wrapper img');
     const dots = document.querySelectorAll('.slider-dots span');
+    let autoPlayInterval;
 
+    // ========== LOADER PRINCIPAL ==========
+    function hideMainLoader() {
+      const loader = document.getElementById('pageLoader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        // Iniciar animaciones de entrada cuando se oculte el loader
+        startSectionAnimations();
+      }, 3000); // 3 segundos de animación del logo
+    }
+
+    // ========== TRANSICIONES DE SECCIÓN ==========
+    function startSectionAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      // Observar todas las secciones con transición
+      document.querySelectorAll('.section-transition').forEach(section => {
+        observer.observe(section);
+      });
+
+      // Observar las tarjetas de pizza individualmente
+      document.querySelectorAll('.pizza-card').forEach(card => {
+        observer.observe(card);
+      });
+    }
+
+    // ========== TRANSICIÓN DE PÁGINA ==========
+    function showPageTransition(callback) {
+      const overlay = document.getElementById('pageTransitionOverlay');
+      overlay.classList.add('active');
+      
+      setTimeout(() => {
+        if (callback) callback();
+      }, 300);
+      
+      setTimeout(() => {
+        overlay.classList.remove('active');
+      }, 600);
+    }
+
+    // ========== SLIDER FUNCTIONS ==========
     function updateSlider() {
       const wrapper = document.querySelector('.slider-wrapper');
       wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -892,82 +1122,82 @@
       updateSlider();
     }
 
-    // Auto-play del slider
-    let autoPlayInterval = setInterval(() => {
-      moveSlider(1);
-    }, 5000);
-
-    // Pausar auto-play cuando el usuario interactúa
-    const sliderElement = document.querySelector('.fullwidth-slider');
-    sliderElement.addEventListener('mouseenter', () => {
-      clearInterval(autoPlayInterval);
-    });
-
-    sliderElement.addEventListener('mouseleave', () => {
+    function startAutoPlay() {
       autoPlayInterval = setInterval(() => {
         moveSlider(1);
       }, 5000);
-    });
+    }
 
-    // Función para suscribirse al newsletter
+    function stopAutoPlay() {
+      clearInterval(autoPlayInterval);
+    }
+
+    // ========== NEWSLETTER ==========
     function suscribirse() {
       const email = document.getElementById('newsletter-email').value;
       if (email && email.includes('@')) {
-        alert('¡Gracias por suscribirte! Recibirás nuestras ofertas en ' + email);
-        document.getElementById('newsletter-email').value = '';
+        // Mostrar spinner de pizza durante el "proceso"
+        const button = event.target;
+        const originalText = button.innerHTML;
+        
+        button.innerHTML = '<div class="pizza-spinner" style="width: 20px; height: 20px; margin: 0 auto;"><div class="pizza-base"><div class="pizza-sauce"><div class="pizza-cheese"></div><div class="pizza-cheese"></div></div></div></div>';
+        button.disabled = true;
+        
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.disabled = false;
+          alert('¡Gracias por suscribirte! Recibirás nuestras ofertas en ' + email);
+          document.getElementById('newsletter-email').value = '';
+        }, 2000);
       } else {
         alert('Por favor, introduce un email válido');
       }
     }
 
-    // Función para hacer global la suscripción
-    window.suscribirse = suscribirse;
-
-    // Animaciones al hacer scroll
-    function observeElements() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      });
-
-      // Observar las tarjetas de pizza
-      document.querySelectorAll('.pizza-card').forEach(card => {
-        observer.observe(card);
-      });
-
-      // Observar las secciones
-      document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
-      });
-    }
-
-    // Smooth scroll para los enlaces de navegación
+    // ========== NAVIGATION CON TRANSICIONES ==========
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         
-        // Solo aplicar smooth scroll a enlaces internos (que empiecen con #)
         if (href.startsWith('#')) {
           e.preventDefault();
           const targetId = href.substring(1);
           const targetElement = document.getElementById(targetId);
+          
           if (targetElement) {
-            const offsetTop = targetElement.offsetTop - 100; // Offset para el header sticky
-            window.scrollTo({
-              top: offsetTop,
-              behavior: 'smooth'
+            // Mostrar transición suave
+            showPageTransition(() => {
+              const offsetTop = targetElement.offsetTop - 100;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
             });
           }
+        } else if (href === 'pedido.html') {
+          e.preventDefault();
+          // Transición especial para ir a pedidos
+          showPageTransition(() => {
+            window.location.href = href;
+          });
         }
-        // Para enlaces externos como pedido.html, dejar el comportamiento normal
       });
     });
+
+    // ========== EVENT LISTENERS ==========
+    
+    // Cuando la página carga completamente
+    window.addEventListener('load', function() {
+      hideMainLoader();
+      startAutoPlay();
+    });
+
+    // Slider controls
+    const sliderElement = document.querySelector('.fullwidth-slider');
+    if (sliderElement) {
+      sliderElement.addEventListener('mouseenter', stopAutoPlay);
+      sliderElement.addEventListener('mouseleave', startAutoPlay);
+    }
 
     // Control del slider con teclado
     document.addEventListener('keydown', (e) => {
@@ -978,17 +1208,7 @@
       }
     });
 
-    // Inicializar animaciones cuando se carga la página
-    document.addEventListener('DOMContentLoaded', () => {
-      observeElements();
-      
-      // Animar la aparición del header
-      setTimeout(() => {
-        document.querySelector('header').style.animation = 'fadeInUp 0.6s ease forwards';
-      }, 200);
-    });
-
-    // Precargar imágenes del slider para mejorar la experiencia
+    // ========== PRELOAD IMAGES ==========
     function preloadImages() {
       const imageUrls = [
         'images/oferta1.png',
@@ -1003,8 +1223,77 @@
       });
     }
 
-    // Llamar a precargar imágenes
-    preloadImages();
+    // ========== FUNCIONES GLOBALES ==========
+    window.moveSlider = moveSlider;
+    window.moveSliderTo = moveSliderTo;
+    window.suscribirse = suscribirse;
+
+    // ========== INICIALIZACIÓN ==========
+    document.addEventListener('DOMContentLoaded', () => {
+      preloadImages();
+      
+      // Animar la aparición del header después del loader
+      setTimeout(() => {
+        document.querySelector('header').style.animation = 'fadeInUp 0.6s ease forwards';
+      }, 3500);
+    });
+
+    // ========== EFECTOS ADICIONALES ==========
+    
+    // Efecto hover mejorado para las pizza cards
+    document.querySelectorAll('.pizza-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-12px) rotateX(5deg) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) rotateX(0) scale(1)';
+      });
+    });
+
+    // Efecto de partículas en el botón principal (opcional)
+    const mainButton = document.querySelector('#servicio-pedidos .button-large');
+    if (mainButton) {
+      mainButton.addEventListener('click', function(e) {
+        // Crear efecto de "partículas" cuando se hace clic
+        for (let i = 0; i < 6; i++) {
+          const particle = document.createElement('div');
+          particle.innerHTML = '🍕';
+          particle.style.position = 'absolute';
+          particle.style.left = e.pageX + 'px';
+          particle.style.top = e.pageY + 'px';
+          particle.style.fontSize = '20px';
+          particle.style.pointerEvents = 'none';
+          particle.style.zIndex = '9999';
+          particle.style.animation = `particleFloat 1.5s ease-out forwards`;
+          
+          // CSS para la animación de partículas
+          if (!document.querySelector('#particle-styles')) {
+            const style = document.createElement('style');
+            style.id = 'particle-styles';
+            style.textContent = `
+              @keyframes particleFloat {
+                0% { 
+                  transform: translate(0, 0) rotate(0deg) scale(1);
+                  opacity: 1;
+                }
+                100% { 
+                  transform: translate(${(Math.random() - 0.5) * 200}px, ${-100 - Math.random() * 100}px) rotate(${Math.random() * 360}deg) scale(0);
+                  opacity: 0;
+                }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+          
+          document.body.appendChild(particle);
+          
+          setTimeout(() => {
+            document.body.removeChild(particle);
+          }, 1500);
+        }
+      });
+    }
   </script>
 </body>
 </html>
