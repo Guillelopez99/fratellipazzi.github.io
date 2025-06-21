@@ -829,6 +829,21 @@
       color: #000;
     }
     
+    /* Estilos para el select de ofertas */
+    #oferta-select {
+      transition: all 0.3s ease;
+    }
+    
+    #oferta-select:hover {
+      border-color: #d62828;
+      box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.1);
+    }
+    
+    #oferta-select:focus {
+      border-color: #d62828;
+      box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.2);
+    }
+    
     /* Responsive */
     @media (max-width: 768px) {
       .main-container {
@@ -1014,14 +1029,97 @@ let carrito = [];
 let favoritos = [];
 let codigoAplicado = ''; // Inicializar con sin descuento
 
-// Códigos de descuento
+// Códigos de descuento con días de la semana
 const codigosDescuento = {
-  '': { descuento: 0, tipo: 'ninguno', descripcion: 'Sin descuento' },
-  'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento' },
-  'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento' },
-  'FRATELLI': { descuento: 15, tipo: 'porcentaje', descripcion: '15% de descuento' },
-  'GRATIS': { descuento: 1.99, tipo: 'envio', descripcion: 'Envío gratis' }
+  '': { descuento: 0, tipo: 'ninguno', descripcion: 'Sin descuento', dias: [0,1,2,3,4,5,6] },
+  'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento', dias: [1,2,3,4,5] }, // Lunes a Viernes
+  'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento', dias: [0,1,2,3,4,5,6] }, // Todos los días
+  'FRATELLI': { descuento: 15, tipo: 'porcentaje', descripcion: '15% de descuento', dias: [6,0] }, // Sábado y Domingo
+  'GRATIS': { descuento: 1.99, tipo: 'envio', descripcion: 'Envío gratis', dias: [1,3,5] }, // Lunes, Miércoles, Viernes
+  'LUNES_PIZZA': { descuento: 20, tipo: 'porcentaje', descripcion: '¡Lunes de Pizza! 20% OFF', dias: [1] }, // Solo Lunes
+  'MIERCOLES_LOCO': { descuento: 3, tipo: 'fijo', descripcion: '¡Miércoles Loco! 3€ OFF', dias: [3] }, // Solo Miércoles
+  'FINDE_ESPECIAL': { descuento: 12, tipo: 'porcentaje', descripcion: '¡Weekend Special! 12% OFF', dias: [6,0] } // Fin de semana
 };
+
+// Función para obtener ofertas disponibles hoy
+function getOfertasDisponiblesHoy() {
+  const hoy = new Date().getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+  const ofertasDisponibles = {};
+  
+  Object.entries(codigosDescuento).forEach(([codigo, oferta]) => {
+    if (oferta.dias.includes(hoy)) {
+      ofertasDisponibles[codigo] = oferta;
+    }
+  });
+  
+  return ofertasDisponibles;
+}
+
+// Función para mostrar indicador de ofertas especiales en el header
+function mostrarIndicadorOfertasEspeciales() {
+  const ofertasEspeciales = getOfertasEspecialesHoy();
+  const header = document.querySelector('header h1');
+  
+  // Remover indicador existente
+  const indicadorExistente = document.querySelector('.oferta-especial-badge');
+  if (indicadorExistente) {
+    indicadorExistente.remove();
+  }
+  
+  if (ofertasEspeciales.length > 0) {
+    const badge = document.createElement('div');
+    badge.className = 'oferta-especial-badge';
+    badge.innerHTML = '⚡ ¡Ofertas especiales hoy!';
+    badge.style.cssText = `
+      position: absolute;
+      top: -10px;
+      right: -80px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      animation: pulse 2s infinite;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+      font-family: 'Open Sans', sans-serif;
+      z-index: 200;
+    `;
+    
+    header.style.position = 'relative';
+    header.appendChild(badge);
+  }
+}
+
+// Función para verificar y notificar ofertas del día
+function verificarOfertasDelDia() {
+  const ofertasEspeciales = getOfertasEspecialesHoy();
+  const nombreDia = getNombreDia();
+  
+  if (ofertasEspeciales.length > 0) {
+    setTimeout(() => {
+      mostrarNotificacion(`¡${nombreDia} tiene ofertas especiales! Revisa el carrito 🎉`, 'success');
+    }, 3000);
+  }
+}
+
+// Función para verificar si hay ofertas especiales hoy
+function getOfertasEspecialesHoy() {
+  const hoy = new Date().getDay();
+  const especiales = [];
+  
+  if (hoy === 1) { // Lunes
+    especiales.push('LUNES_PIZZA');
+  }
+  if (hoy === 3) { // Miércoles
+    especiales.push('MIERCOLES_LOCO');
+  }
+  if (hoy === 6 || hoy === 0) { // Fin de semana
+    especiales.push('FINDE_ESPECIAL');
+  }
+  
+  return especiales;
+}
 
 // Funciones principales
 function mostrarNotificacion(mensaje, tipo = 'success') {
@@ -1035,9 +1133,11 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 }
 
 function calcularDescuento(subtotal) {
-  if (!codigoAplicado || !codigosDescuento[codigoAplicado]) return 0;
+  const ofertasHoy = getOfertasDisponiblesHoy();
   
-  const codigo = codigosDescuento[codigoAplicado];
+  if (!codigoAplicado || !ofertasHoy[codigoAplicado]) return 0;
+  
+  const codigo = ofertasHoy[codigoAplicado];
   
   if (codigo.tipo === 'ninguno') {
     return 0;
@@ -1178,17 +1278,45 @@ function actualizarModalCarrito() {
   const descuento = calcularDescuento(suma);
   const total = suma + envio - descuento;
   
-  // Generar opciones del select de ofertas
+  // Obtener ofertas disponibles hoy
+  const ofertasHoy = getOfertasDisponiblesHoy();
+  const ofertasEspeciales = getOfertasEspecialesHoy();
+  const nombreDia = getNombreDia();
+  
+  // Verificar si el código actual sigue siendo válido
+  if (codigoAplicado && !ofertasHoy[codigoAplicado]) {
+    codigoAplicado = ''; // Resetear si la oferta ya no está disponible
+  }
+  
+  // Generar opciones del select de ofertas (solo las disponibles hoy)
   let optionsHtml = '';
-  Object.entries(codigosDescuento).forEach(([codigo, oferta]) => {
+  Object.entries(ofertasHoy).forEach(([codigo, oferta]) => {
     const selected = codigoAplicado === codigo ? 'selected' : '';
     const icon = codigo === '' ? '🚫' : 
                  codigo === 'GRATIS' ? '🚚' :
                  codigo === 'PIZZA10' ? '🍕' :
                  codigo === 'FRATELLI' ? '👨‍🍳' :
-                 codigo === 'BIENVENIDO' ? '🎉' : '🎁';
-    optionsHtml += `<option value="${codigo}" ${selected}>${icon} ${oferta.descripcion}</option>`;
+                 codigo === 'BIENVENIDO' ? '🎉' : 
+                 codigo === 'LUNES_PIZZA' ? '🍕' :
+                 codigo === 'MIERCOLES_LOCO' ? '🤪' :
+                 codigo === 'FINDE_ESPECIAL' ? '🎊' : '🎁';
+    
+    // Resaltar ofertas especiales del día
+    const esEspecial = ofertasEspeciales.includes(codigo);
+    const textoExtra = esEspecial ? ' ⚡ ¡HOY!' : '';
+    
+    optionsHtml += `<option value="${codigo}" ${selected}>${icon} ${oferta.descripcion}${textoExtra}</option>`;
   });
+  
+  // Mensaje especial si hay ofertas del día
+  let mensajeEspecial = '';
+  if (ofertasEspeciales.length > 0) {
+    mensajeEspecial = `
+      <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; padding: 8px 12px; border-radius: 8px; margin-bottom: 12px; text-align: center; font-size: 13px; font-weight: 600;">
+        ⚡ ¡Ofertas especiales de ${nombreDia}! ⚡
+      </div>
+    `;
+  }
   
   const footer = document.querySelector('.carrito-modal-footer');
   if (carrito.length > 0) {
@@ -1209,8 +1337,9 @@ function actualizarModalCarrito() {
         </div>
         ` : ''}
         <div style="margin: 16px 0;">
+          ${mensajeEspecial}
           <label for="oferta-select" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">
-            🎁 Seleccionar oferta:
+            🎁 Ofertas disponibles (${nombreDia}):
           </label>
           <select id="oferta-select" 
                   onchange="aplicarOferta()"
@@ -1245,13 +1374,21 @@ function actualizarModalCarrito() {
 function aplicarOferta() {
   const select = document.getElementById('oferta-select');
   const codigo = select.value;
+  const ofertasHoy = getOfertasDisponiblesHoy();
+  
+  // Verificar que la oferta esté disponible hoy
+  if (codigo !== '' && !ofertasHoy[codigo]) {
+    mostrarNotificacion('Esta oferta no está disponible hoy', 'error');
+    select.value = codigoAplicado; // Revertir selección
+    return;
+  }
   
   codigoAplicado = codigo;
   
   if (codigo === '') {
     mostrarNotificacion('Descuento eliminado', 'warning');
   } else {
-    mostrarNotificacion(`¡Oferta aplicada! ${codigosDescuento[codigo].descripcion}`, 'success');
+    mostrarNotificacion(`¡Oferta aplicada! ${ofertasHoy[codigo].descripcion}`, 'success');
   }
   
   actualizarCarrito();
@@ -1269,8 +1406,9 @@ function procederAlPago() {
   const descuento = calcularDescuento(subtotal);
   const total = subtotal + envio - descuento;
   
-  const mensajeDescuento = codigoAplicado && codigoAplicado !== '' ? 
-    `\n(${codigosDescuento[codigoAplicado].descripcion})` : '';
+  const ofertasHoy = getOfertasDisponiblesHoy();
+  const mensajeDescuento = codigoAplicado && codigoAplicado !== '' && ofertasHoy[codigoAplicado] ? 
+    `\n(${ofertasHoy[codigoAplicado].descripcion})` : '';
   
   cerrarCarritoModal();
   
@@ -1444,11 +1582,32 @@ document.addEventListener('DOMContentLoaded', function() {
   cargarDatos();
   crearProductos();
   
+  // Mostrar indicadores de ofertas especiales
+  mostrarIndicadorOfertasEspeciales();
+  verificarOfertasDelDia();
+  
   setTimeout(() => {
     actualizarFavoritos();
     console.log('Aplicación inicializada completamente');
+    console.log('Día actual:', getNombreDia());
+    console.log('Ofertas disponibles hoy:', Object.keys(getOfertasDisponiblesHoy()));
   }, 100);
 });
+
+// Hacer funciones disponibles globalmente
+window.agregarAlCarrito = agregarAlCarrito;
+window.eliminarDelCarrito = eliminarDelCarrito;
+window.cambiarCantidad = cambiarCantidad;
+window.abrirCarritoModal = abrirCarritoModal;
+window.cerrarCarritoModal = cerrarCarritoModal;
+window.procederAlPago = procederAlPago;
+window.buscarProductos = buscarProductos;
+window.toggleClearButton = toggleClearButton;
+window.limpiarBusqueda = limpiarBusqueda;
+window.toggleFavorito = toggleFavorito;
+window.aplicarOferta = aplicarOferta;
+window.getOfertasDisponiblesHoy = getOfertasDisponiblesHoy;
+window.getNombreDia = getNombreDia;
 
 console.log('JavaScript cargado correctamente');
   </script>
