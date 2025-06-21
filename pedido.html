@@ -1133,20 +1133,9 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 }
 
 function calcularDescuento(subtotal) {
-  if (!codigoAplicado || codigoAplicado === '') return 0;
+  if (!codigoAplicado || !codigosDescuento[codigoAplicado]) return 0;
   
-  // Verificar que la oferta esté disponible hoy, si no está disponible, permitir las básicas
-  const ofertasHoy = getOfertasDisponiblesHoy();
-  let codigo = null;
-  
-  if (ofertasHoy[codigoAplicado]) {
-    codigo = ofertasHoy[codigoAplicado];
-  } else if (codigosDescuento[codigoAplicado]) {
-    // Si no está en ofertas de hoy, pero existe en el catálogo general, usar esa
-    codigo = codigosDescuento[codigoAplicado];
-  }
-  
-  if (!codigo) return 0;
+  const codigo = codigosDescuento[codigoAplicado];
   
   if (codigo.tipo === 'ninguno') {
     return 0;
@@ -1399,12 +1388,7 @@ function aplicarOferta() {
   if (codigo === '') {
     mostrarNotificacion('Descuento eliminado', 'warning');
   } else {
-    // Buscar la descripción en ofertas de hoy o en el catálogo general
-    const ofertasHoy = getOfertasDisponiblesHoy();
-    const descripcion = ofertasHoy[codigo] ? ofertasHoy[codigo].descripcion : 
-                       codigosDescuento[codigo] ? codigosDescuento[codigo].descripcion : 'Oferta aplicada';
-    
-    mostrarNotificacion(`¡Oferta aplicada! ${descripcion}`, 'success');
+    mostrarNotificacion(`¡Oferta aplicada! ${codigosDescuento[codigo].descripcion}`, 'success');
   }
   
   actualizarCarrito();
@@ -1422,9 +1406,16 @@ function procederAlPago() {
   const descuento = calcularDescuento(subtotal);
   const total = subtotal + envio - descuento;
   
-  const ofertasHoy = getOfertasDisponiblesHoy();
-  const mensajeDescuento = codigoAplicado && codigoAplicado !== '' && ofertasHoy[codigoAplicado] ? 
-    `\n(${ofertasHoy[codigoAplicado].descripcion})` : '';
+  // Buscar descripción del descuento actual
+  let mensajeDescuento = '';
+  if (codigoAplicado && codigoAplicado !== '') {
+    const ofertasHoy = getOfertasDisponiblesHoy();
+    const descripcion = ofertasHoy[codigoAplicado] ? ofertasHoy[codigoAplicado].descripcion : 
+                       codigosDescuento[codigoAplicado] ? codigosDescuento[codigoAplicado].descripcion : '';
+    if (descripcion) {
+      mensajeDescuento = `\n(${descripcion})`;
+    }
+  }
   
   cerrarCarritoModal();
   
