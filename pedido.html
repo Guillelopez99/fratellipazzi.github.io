@@ -1084,7 +1084,53 @@ const productos = [
 
 let carrito = [];
 let favoritos = [];
+let codigoAplicado = null;
 
+// Sistema de códigos de descuento
+const codigosDescuento = {
+  'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento' },
+  'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento' },
+  'FRATELLI': { descuento: 15, tipo: 'porcentaje', descripcion: '15% de descuento' },
+  'GRATIS': { descuento: 1.99, tipo: 'envio', descripcion: 'Envío gratis' }
+};
+
+function calcularDescuento(subtotal) {
+  if (!codigoAplicado) return 0;
+  
+  const codigo = codigosDescuento[codigoAplicado];
+  if (!codigo) return 0;
+  
+  if (codigo.tipo === 'porcentaje') {
+    return subtotal * (codigo.descuento / 100);
+  } else if (codigo.tipo === 'fijo') {
+    return Math.min(codigo.descuento, subtotal);
+  } else if (codigo.tipo === 'envio') {
+    return 1.99; // Descuento del envío
+  }
+  
+  return 0;
+}
+
+function aplicarCodigo() {
+  const input = document.getElementById('codigo-input');
+  const codigo = input.value.toUpperCase().trim();
+  
+  if (!codigo) {
+    mostrarNotificacion('Introduce un código de descuento', 'warning');
+    return;
+  }
+  
+  if (codigosDescuento[codigo]) {
+    codigoAplicado = codigo;
+    mostrarNotificacion(`¡Código aplicado! ${codigosDescuento[codigo].descripcion}`, 'success');
+    input.value = '';
+    actualizarCarrito();
+    actualizarModalCarrito();
+  } else {
+    mostrarNotificacion('Código de descuento no válido', 'error');
+    input.value = '';
+  }
+}
 // Cargar datos del localStorage
 function loadData() {
   try {
@@ -1181,6 +1227,11 @@ function actualizarCarrito() {
     totalItems += item.cantidad;
   });
   
+  // Añadir envío si hay productos
+  const envio = carrito.length > 0 ? 1.99 : 0;
+  const descuento = calcularDescuento(suma);
+  const total = suma + envio - descuento;
+  
   if (totalItems > 0) {
     badge.textContent = totalItems;
     badge.style.display = 'flex';
@@ -1188,7 +1239,7 @@ function actualizarCarrito() {
     badge.style.display = 'none';
   }
   
-  totalFloat.textContent = suma.toFixed(2) + '€';
+  totalFloat.textContent = total.toFixed(2) + '€';
 }
 
 function abrirCarritoModal() {
@@ -1200,6 +1251,53 @@ function abrirCarritoModal() {
 function cerrarCarritoModal() {
   document.getElementById('carrito-modal').classList.remove('show');
   document.body.style.overflow = 'auto';
+}
+
+let codigoAplicado = null;
+
+// Sistema de códigos de descuento
+const codigosDescuento = {
+  'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento' },
+  'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento' },
+  'FRATELLI': { descuento: 15, tipo: 'porcentaje', descripcion: '15% de descuento' },
+  'GRATIS': { descuento: 1.99, tipo: 'envio', descripcion: 'Envío gratis' }
+};
+
+function calcularDescuento(subtotal) {
+  if (!codigoAplicado) return 0;
+  
+  const codigo = codigosDescuento[codigoAplicado];
+  if (!codigo) return 0;
+  
+  if (codigo.tipo === 'porcentaje') {
+    return subtotal * (codigo.descuento / 100);
+  } else if (codigo.tipo === 'fijo') {
+    return Math.min(codigo.descuento, subtotal);
+  } else if (codigo.tipo === 'envio') {
+    return 1.99; // Descuento del envío
+  }
+  
+  return 0;
+}
+
+function aplicarCodigo() {
+  const input = document.getElementById('codigo-input');
+  const codigo = input.value.toUpperCase().trim();
+  
+  if (!codigo) {
+    mostrarNotificacion('Introduce un código de descuento', 'warning');
+    return;
+  }
+  
+  if (codigosDescuento[codigo]) {
+    codigoAplicado = codigo;
+    mostrarNotificacion(`¡Código aplicado! ${codigosDescuento[codigo].descripcion}`, 'success');
+    input.value = '';
+    actualizarModalCarrito();
+  } else {
+    mostrarNotificacion('Código de descuento no válido', 'error');
+    input.value = '';
+  }
 }
 
 function actualizarModalCarrito() {
@@ -1322,7 +1420,11 @@ function procederAlPago() {
     return;
   }
   
-  const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+  const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+  const envio = 1.99;
+  const descuento = calcularDescuento(subtotal);
+  const total = subtotal + envio - descuento;
+  
   const orderId = 'FP' + Date.now();
   const descripcion = carrito.map(item => `${item.nombre} (${item.cantidad})`).join(', ');
   
@@ -1334,7 +1436,7 @@ function procederAlPago() {
   cerrarCarritoModal();
   
   // Para demo: confirmar antes de enviar
-  if (confirm(`¿Proceder al pago de ${total.toFixed(2)}€?`)) {
+  if (confirm(`¿Proceder al pago de ${total.toFixed(2)}€?${codigoAplicado ? `\n(Descuento aplicado: ${codigosDescuento[codigoAplicado].descripcion})` : ''}`)) {
     // document.getElementById('tpv-form').submit(); // Descomentar para TPV real
     simularPago(); // Solo para demo
   }
@@ -1347,6 +1449,7 @@ function simularPago() {
     document.getElementById('miniLoader').classList.remove('show');
     mostrarNotificacion('¡Pago procesado con éxito!', 'success');
     carrito = [];
+    codigoAplicado = null; // Resetear código aplicado
     saveData();
     actualizarCarrito();
   }, 2000);
@@ -1471,6 +1574,7 @@ window.toggleFavorito = toggleFavorito;
 window.buscarProductos = buscarProductos;
 window.toggleClearButton = toggleClearButton;
 window.limpiarBusqueda = limpiarBusqueda;
+window.aplicarCodigo = aplicarCodigo;
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
