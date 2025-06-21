@@ -1,0 +1,5 @@
+[
+  {"id":1,"nombre":"Margarita","precio":10,"imagen":"images/Margarita.png","categoria":"pizzas","toppings":[{"nombre":"Extra queso","precio":1}],"picante":false,"veggie":true,"singluten":false,"top":true,"ingredientes":"Tomate San Marzano, mozzarella y albahaca"},
+  {"id":2,"nombre":"Prosciutto","precio":12,"imagen":"images/Prosciutto.png","categoria":"pizzas","toppings":[{"nombre":"Pepperoni","precio":1}],"picante":false,"veggie":false,"singluten":false,"top":false,"ingredientes":"Jamón cocido y mozzarella"},
+  {"id":3,"nombre":"Coca Cola","precio":2,"imagen":"images/CocaCola.png","categoria":"bebidas","picante":false,"veggie":true,"singluten":true,"top":false}
+]
