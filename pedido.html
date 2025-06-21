@@ -1012,10 +1012,11 @@ const productos = [
 // Variables globales
 let carrito = [];
 let favoritos = [];
-let codigoAplicado = null;
+let codigoAplicado = ''; // Inicializar con sin descuento
 
 // Códigos de descuento
 const codigosDescuento = {
+  '': { descuento: 0, tipo: 'ninguno', descripcion: 'Sin descuento' },
   'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento' },
   'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento' },
   'FRATELLI': { descuento: 15, tipo: 'porcentaje', descripcion: '15% de descuento' },
@@ -1038,7 +1039,9 @@ function calcularDescuento(subtotal) {
   
   const codigo = codigosDescuento[codigoAplicado];
   
-  if (codigo.tipo === 'porcentaje') {
+  if (codigo.tipo === 'ninguno') {
+    return 0;
+  } else if (codigo.tipo === 'porcentaje') {
     return subtotal * (codigo.descuento / 100);
   } else if (codigo.tipo === 'fijo') {
     return Math.min(codigo.descuento, subtotal);
@@ -1175,6 +1178,18 @@ function actualizarModalCarrito() {
   const descuento = calcularDescuento(suma);
   const total = suma + envio - descuento;
   
+  // Generar opciones del select de ofertas
+  let optionsHtml = '';
+  Object.entries(codigosDescuento).forEach(([codigo, oferta]) => {
+    const selected = codigoAplicado === codigo ? 'selected' : '';
+    const icon = codigo === '' ? '🚫' : 
+                 codigo === 'GRATIS' ? '🚚' :
+                 codigo === 'PIZZA10' ? '🍕' :
+                 codigo === 'FRATELLI' ? '👨‍🍳' :
+                 codigo === 'BIENVENIDO' ? '🎉' : '🎁';
+    optionsHtml += `<option value="${codigo}" ${selected}>${icon} ${oferta.descripcion}</option>`;
+  });
+  
   const footer = document.querySelector('.carrito-modal-footer');
   if (carrito.length > 0) {
     footer.innerHTML = `
@@ -1194,17 +1209,14 @@ function actualizarModalCarrito() {
         </div>
         ` : ''}
         <div style="margin: 16px 0;">
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="text" 
-                   id="codigo-input" 
-                   placeholder="Código de descuento" 
-                   style="flex: 1; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 14px; outline: none;"
-                   onkeypress="if(event.key==='Enter') aplicarCodigo()">
-            <button onclick="aplicarCodigo()" 
-                    style="background: #d62828; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
-              Aplicar
-            </button>
-          </div>
+          <label for="oferta-select" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">
+            🎁 Seleccionar oferta:
+          </label>
+          <select id="oferta-select" 
+                  onchange="aplicarOferta()"
+                  style="width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 14px; outline: none; background: white; cursor: pointer; font-weight: 500;">
+            ${optionsHtml}
+          </select>
         </div>
         <div class="summary-row total">
           <span>Total</span>
@@ -1230,25 +1242,20 @@ function actualizarModalCarrito() {
   }
 }
 
-function aplicarCodigo() {
-  const input = document.getElementById('codigo-input');
-  const codigo = input.value.toUpperCase().trim();
+function aplicarOferta() {
+  const select = document.getElementById('oferta-select');
+  const codigo = select.value;
   
-  if (!codigo) {
-    mostrarNotificacion('Introduce un código de descuento', 'warning');
-    return;
-  }
+  codigoAplicado = codigo;
   
-  if (codigosDescuento[codigo]) {
-    codigoAplicado = codigo;
-    mostrarNotificacion(`¡Código aplicado! ${codigosDescuento[codigo].descripcion}`, 'success');
-    input.value = '';
-    actualizarCarrito();
-    actualizarModalCarrito();
+  if (codigo === '') {
+    mostrarNotificacion('Descuento eliminado', 'warning');
   } else {
-    mostrarNotificacion('Código de descuento no válido', 'error');
-    input.value = '';
+    mostrarNotificacion(`¡Oferta aplicada! ${codigosDescuento[codigo].descripcion}`, 'success');
   }
+  
+  actualizarCarrito();
+  actualizarModalCarrito();
 }
 
 function procederAlPago() {
@@ -1262,16 +1269,19 @@ function procederAlPago() {
   const descuento = calcularDescuento(subtotal);
   const total = subtotal + envio - descuento;
   
+  const mensajeDescuento = codigoAplicado && codigoAplicado !== '' ? 
+    `\n(${codigosDescuento[codigoAplicado].descripcion})` : '';
+  
   cerrarCarritoModal();
   
-  if (confirm(`¿Proceder al pago de ${total.toFixed(2)}€?`)) {
+  if (confirm(`¿Proceder al pago de ${total.toFixed(2)}€?${mensajeDescuento}`)) {
     document.getElementById('miniLoader').classList.add('show');
     
     setTimeout(() => {
       document.getElementById('miniLoader').classList.remove('show');
       mostrarNotificacion('¡Pago procesado con éxito!', 'success');
       carrito = [];
-      codigoAplicado = null;
+      codigoAplicado = ''; // Resetear a sin descuento
       actualizarCarrito();
       guardarDatos();
     }, 2000);
