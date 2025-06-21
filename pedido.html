@@ -1133,20 +1133,11 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 }
 
 function calcularDescuento(subtotal) {
-  if (!codigoAplicado || codigoAplicado === '') return 0;
-  
-  // Verificar que la oferta esté disponible hoy, si no está disponible, permitir las básicas
   const ofertasHoy = getOfertasDisponiblesHoy();
-  let codigo = null;
   
-  if (ofertasHoy[codigoAplicado]) {
-    codigo = ofertasHoy[codigoAplicado];
-  } else if (codigosDescuento[codigoAplicado]) {
-    // Si no está en ofertas de hoy, pero existe en el catálogo general, usar esa
-    codigo = codigosDescuento[codigoAplicado];
-  }
+  if (!codigoAplicado || !ofertasHoy[codigoAplicado]) return 0;
   
-  if (!codigo) return 0;
+  const codigo = ofertasHoy[codigoAplicado];
   
   if (codigo.tipo === 'ninguno') {
     return 0;
@@ -1615,8 +1606,6 @@ window.toggleClearButton = toggleClearButton;
 window.limpiarBusqueda = limpiarBusqueda;
 window.toggleFavorito = toggleFavorito;
 window.aplicarOferta = aplicarOferta;
-window.getOfertasDisponiblesHoy = getOfertasDisponiblesHoy;
-window.getNombreDia = getNombreDia;
 
 console.log('JavaScript cargado correctamente');
   </script>
