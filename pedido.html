@@ -1528,13 +1528,35 @@ function renderCategoria(categoriaId, categoriaNombre) {
       this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjMwIiBzdHJva2U9IiNDQ0MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI3MCIgeT0iNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OSI+SW1hZ2VuPC90ZXh0Pgo8L3N2Zz4=';
     };
 
-    card.innerHTML = `
-      ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}">` : ''}
-      <div class="pizza-name">${p.nombre}</div>
-      ${p.ingredientes ? `<div class="pizza-ingredients">${p.ingredientes}</div>` : ''}
-      <div class="pizza-price">${p.precio}€</div>
-      <button class="button" onclick="agregarAlCarrito('${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, this)">Añadir al carrito</button>
-    `;
+    const nombreDiv = document.createElement('div');
+    nombreDiv.className = 'pizza-name';
+    nombreDiv.textContent = p.nombre;
+
+    let ingredientesDiv = null;
+    if (p.ingredientes && (p.categoria === 'pizzas' || p.categoria === 'calzones' || p.categoria === 'entrantes')) {
+      ingredientesDiv = document.createElement('div');
+      ingredientesDiv.className = 'pizza-ingredients';
+      ingredientesDiv.textContent = p.ingredientes;
+    }
+
+    const precioDiv = document.createElement('div');
+    precioDiv.className = 'pizza-price';
+    precioDiv.textContent = p.precio + '€';
+
+    const button = document.createElement('button');
+    button.className = 'button';
+    button.textContent = 'Añadir al carrito';
+    button.addEventListener('click', function() {
+      agregarAlCarrito(p.nombre, p.precio, this);
+    });
+
+    card.appendChild(img);
+    card.appendChild(nombreDiv);
+    if (ingredientesDiv) {
+      card.appendChild(ingredientesDiv);
+    }
+    card.appendChild(precioDiv);
+    card.appendChild(button);
 
     contenedor.appendChild(card);
   });
