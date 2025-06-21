@@ -873,87 +873,11 @@
         font-size: 14px;
       }
       
-      /* Modal del carrito responsive */
       .carrito-modal-content {
         margin: 10px;
         max-width: none;
         max-height: 90vh;
         border-radius: 16px;
-      }
-      
-      .carrito-modal-header {
-        padding: 20px 20px 0 20px;
-      }
-      
-      .carrito-modal-header h2 {
-        font-size: 20px;
-      }
-      
-      .carrito-close {
-        top: 15px;
-        right: 15px;
-        width: 32px;
-        height: 32px;
-        font-size: 20px;
-      }
-      
-      .carrito-item-modal {
-        padding: 16px 20px;
-      }
-      
-      .item-image {
-        width: 50px;
-        height: 50px;
-        margin-right: 12px;
-        font-size: 20px;
-      }
-      
-      .carrito-item-info h4 {
-        font-size: 14px;
-      }
-      
-      .carrito-item-price {
-        font-size: 14px;
-      }
-      
-      .quantity-controls {
-        gap: 2px;
-        padding: 2px;
-      }
-      
-      .quantity-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-      }
-      
-      .quantity-display {
-        min-width: 28px;
-        font-size: 14px;
-        padding: 4px 6px;
-      }
-      
-      .remove-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 18px;
-      }
-      
-      .carrito-modal-footer {
-        padding: 20px;
-      }
-      
-      .carrito-btn-pagar {
-        padding: 14px 24px;
-        font-size: 14px;
-      }
-      
-      .summary-row {
-        font-size: 13px;
-      }
-      
-      .summary-row.total {
-        font-size: 18px;
       }
     }
   </style>
@@ -1038,7 +962,7 @@
             <span id="total-modal">0,00€</span>
           </div>
         </div>
-        <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar" disabled>
+        <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar">
           💳 Proceder al Pago
         </button>
       </div>
@@ -1055,6 +979,9 @@
   </form>
 
   <script>
+// JAVASCRIPT COMPLETAMENTE NUEVO Y SIMPLE
+
+// Datos de productos
 const productos = [
   { nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.' },
   { nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y albahaca.' },
@@ -1076,17 +1003,18 @@ const productos = [
   { nombre: 'Fanta naranja', precio: 2, imagen: 'images/FantaNaranja.png', categoria: 'bebidas' },
   { nombre: 'Nestea', precio: 2, imagen: 'images/Nestea.png', categoria: 'bebidas' },
   { nombre: 'Cerveza', precio: 2.4, imagen: 'images/Cerveza.png', categoria: 'bebidas' },
-  { nombre: "BEN & JERRY'S CHOCOLATE FUDGE BROWNIE 100ML", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados' },
-  { nombre: "BEN & JERRY'S STRAWBERRY CHEESECAKE 100ML", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados' },
-  { nombre: "BEN & JERRY'S PEANUT BUTTER CUP 100ML", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados' },
-  { nombre: "BEN & JERRY'S COOKIE DOUGH 100ML", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados' }
+  { nombre: "BEN & JERRY'S CHOCOLATE", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados' },
+  { nombre: "BEN & JERRY'S STRAWBERRY", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados' },
+  { nombre: "BEN & JERRY'S PEANUT BUTTER", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados' },
+  { nombre: "BEN & JERRY'S COOKIE DOUGH", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados' }
 ];
 
+// Variables globales
 let carrito = [];
 let favoritos = [];
 let codigoAplicado = null;
 
-// Sistema de códigos de descuento
+// Códigos de descuento
 const codigosDescuento = {
   'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento' },
   'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento' },
@@ -1094,75 +1022,10 @@ const codigosDescuento = {
   'GRATIS': { descuento: 1.99, tipo: 'envio', descripcion: 'Envío gratis' }
 };
 
-function calcularDescuento(subtotal) {
-  if (!codigoAplicado) return 0;
-  
-  const codigo = codigosDescuento[codigoAplicado];
-  if (!codigo) return 0;
-  
-  if (codigo.tipo === 'porcentaje') {
-    return subtotal * (codigo.descuento / 100);
-  } else if (codigo.tipo === 'fijo') {
-    return Math.min(codigo.descuento, subtotal);
-  } else if (codigo.tipo === 'envio') {
-    return 1.99; // Descuento del envío
-  }
-  
-  return 0;
-}
-
-function aplicarCodigo() {
-  const input = document.getElementById('codigo-input');
-  const codigo = input.value.toUpperCase().trim();
-  
-  if (!codigo) {
-    mostrarNotificacion('Introduce un código de descuento', 'warning');
-    return;
-  }
-  
-  if (codigosDescuento[codigo]) {
-    codigoAplicado = codigo;
-    mostrarNotificacion(`¡Código aplicado! ${codigosDescuento[codigo].descripcion}`, 'success');
-    input.value = '';
-    actualizarCarrito();
-    actualizarModalCarrito();
-  } else {
-    mostrarNotificacion('Código de descuento no válido', 'error');
-    input.value = '';
-  }
-}
-// Cargar datos del localStorage
-function loadData() {
-  try {
-    const savedCart = localStorage.getItem('fratelli_carrito');
-    const savedFavs = localStorage.getItem('fratelli_favoritos');
-    
-    if (savedCart) carrito = JSON.parse(savedCart);
-    if (savedFavs) favoritos = JSON.parse(savedFavs);
-    
-    actualizarCarrito();
-  } catch (error) {
-    console.log('Error cargando datos:', error);
-  }
-}
-
-// Guardar datos en localStorage
-function saveData() {
-  try {
-    localStorage.setItem('fratelli_carrito', JSON.stringify(carrito));
-    localStorage.setItem('fratelli_favoritos', JSON.stringify(favoritos));
-  } catch (error) {
-    console.log('Error guardando datos:', error);
-  }
-}
-
+// Funciones principales
 function mostrarNotificacion(mensaje, tipo = 'success') {
   const notification = document.getElementById('notification');
-  notification.className = 'notification show';
-  
-  if (tipo === 'error') notification.classList.add('error');
-  if (tipo === 'warning') notification.classList.add('warning');
-  
+  notification.className = 'notification show ' + tipo;
   notification.textContent = mensaje;
   
   setTimeout(() => {
@@ -1170,7 +1033,23 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
   }, 3000);
 }
 
-function agregarAlCarrito(nombre, precio, buttonElement) {
+function calcularDescuento(subtotal) {
+  if (!codigoAplicado || !codigosDescuento[codigoAplicado]) return 0;
+  
+  const codigo = codigosDescuento[codigoAplicado];
+  
+  if (codigo.tipo === 'porcentaje') {
+    return subtotal * (codigo.descuento / 100);
+  } else if (codigo.tipo === 'fijo') {
+    return Math.min(codigo.descuento, subtotal);
+  } else if (codigo.tipo === 'envio') {
+    return 1.99;
+  }
+  
+  return 0;
+}
+
+function agregarAlCarrito(nombre, precio) {
   const existente = carrito.find(p => p.nombre === nombre);
   if (existente) {
     existente.cantidad++;
@@ -1178,26 +1057,19 @@ function agregarAlCarrito(nombre, precio, buttonElement) {
     carrito.push({ nombre, precio, cantidad: 1 });
   }
   
-  saveData();
   actualizarCarrito();
   mostrarNotificacion(nombre + ' añadido al carrito');
-  
-  if (buttonElement) {
-    buttonElement.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-      buttonElement.style.transform = '';
-    }, 150);
-  }
+  guardarDatos();
 }
 
 function eliminarDelCarrito(nombre) {
   const index = carrito.findIndex(p => p.nombre === nombre);
   if (index > -1) {
     carrito.splice(index, 1);
-    saveData();
     actualizarCarrito();
     actualizarModalCarrito();
     mostrarNotificacion('Producto eliminado', 'warning');
+    guardarDatos();
   }
 }
 
@@ -1208,9 +1080,9 @@ function cambiarCantidad(nombre, cambio) {
     if (item.cantidad <= 0) {
       eliminarDelCarrito(nombre);
     } else {
-      saveData();
       actualizarCarrito();
       actualizarModalCarrito();
+      guardarDatos();
     }
   }
 }
@@ -1227,7 +1099,6 @@ function actualizarCarrito() {
     totalItems += item.cantidad;
   });
   
-  // Añadir envío si hay productos
   const envio = carrito.length > 0 ? 1.99 : 0;
   const descuento = calcularDescuento(suma);
   const total = suma + envio - descuento;
@@ -1253,56 +1124,8 @@ function cerrarCarritoModal() {
   document.body.style.overflow = 'auto';
 }
 
-let codigoAplicado = null;
-
-// Sistema de códigos de descuento
-const codigosDescuento = {
-  'PIZZA10': { descuento: 10, tipo: 'porcentaje', descripcion: '10% de descuento' },
-  'BIENVENIDO': { descuento: 5, tipo: 'fijo', descripcion: '5€ de descuento' },
-  'FRATELLI': { descuento: 15, tipo: 'porcentaje', descripcion: '15% de descuento' },
-  'GRATIS': { descuento: 1.99, tipo: 'envio', descripcion: 'Envío gratis' }
-};
-
-function calcularDescuento(subtotal) {
-  if (!codigoAplicado) return 0;
-  
-  const codigo = codigosDescuento[codigoAplicado];
-  if (!codigo) return 0;
-  
-  if (codigo.tipo === 'porcentaje') {
-    return subtotal * (codigo.descuento / 100);
-  } else if (codigo.tipo === 'fijo') {
-    return Math.min(codigo.descuento, subtotal);
-  } else if (codigo.tipo === 'envio') {
-    return 1.99; // Descuento del envío
-  }
-  
-  return 0;
-}
-
-function aplicarCodigo() {
-  const input = document.getElementById('codigo-input');
-  const codigo = input.value.toUpperCase().trim();
-  
-  if (!codigo) {
-    mostrarNotificacion('Introduce un código de descuento', 'warning');
-    return;
-  }
-  
-  if (codigosDescuento[codigo]) {
-    codigoAplicado = codigo;
-    mostrarNotificacion(`¡Código aplicado! ${codigosDescuento[codigo].descripcion}`, 'success');
-    input.value = '';
-    actualizarModalCarrito();
-  } else {
-    mostrarNotificacion('Código de descuento no válido', 'error');
-    input.value = '';
-  }
-}
-
 function actualizarModalCarrito() {
   const modalBody = document.getElementById('carrito-modal-body');
-  const totalModal = document.getElementById('total-modal');
   
   let suma = 0;
   let totalItems = 0;
@@ -1317,12 +1140,8 @@ function actualizarModalCarrito() {
       </div>`;
   } else {
     carrito.forEach(item => {
-      const itemElement = document.createElement('div');
-      itemElement.className = 'carrito-item-modal';
-      
-      // Obtener emoji basado en la categoría del producto
       const producto = productos.find(p => p.nombre === item.nombre);
-      let emoji = '🍕'; // default
+      let emoji = '🍕';
       if (producto) {
         if (producto.categoria === 'bebidas') emoji = '🥤';
         else if (producto.categoria === 'helados') emoji = '🍨';
@@ -1330,33 +1149,32 @@ function actualizarModalCarrito() {
         else if (producto.categoria === 'entrantes') emoji = '🧄';
       }
       
-      itemElement.innerHTML = `
-        <div class="item-image">${emoji}</div>
-        <div class="carrito-item-info">
-          <h4>${item.nombre}</h4>
-          <div class="carrito-item-price">${(item.precio * item.cantidad).toFixed(2)}€</div>
-        </div>
-        <div class="carrito-controls">
-          <div class="quantity-controls">
-            <button class="quantity-btn" onclick="cambiarCantidad('${item.nombre.replace(/'/g, "\\'")}', -1)">−</button>
-            <span class="quantity-display">${item.cantidad}</span>
-            <button class="quantity-btn" onclick="cambiarCantidad('${item.nombre.replace(/'/g, "\\'")}', 1)">+</button>
+      modalBody.innerHTML += `
+        <div class="carrito-item-modal">
+          <div class="item-image">${emoji}</div>
+          <div class="carrito-item-info">
+            <h4>${item.nombre}</h4>
+            <div class="carrito-item-price">${(item.precio * item.cantidad).toFixed(2)}€</div>
           </div>
-          <button class="remove-btn" onclick="eliminarDelCarrito('${item.nombre.replace(/'/g, "\\'")}')">🗑️</button>
+          <div class="carrito-controls">
+            <div class="quantity-controls">
+              <button class="quantity-btn" onclick="cambiarCantidad('${item.nombre}', -1)">−</button>
+              <span class="quantity-display">${item.cantidad}</span>
+              <button class="quantity-btn" onclick="cambiarCantidad('${item.nombre}', 1)">+</button>
+            </div>
+            <button class="remove-btn" onclick="eliminarDelCarrito('${item.nombre}')">🗑️</button>
+          </div>
         </div>
       `;
-      modalBody.appendChild(itemElement);
       suma += item.precio * item.cantidad;
       totalItems += item.cantidad;
     });
   }
   
-  // Calcular envío y descuentos
   const envio = carrito.length > 0 ? 1.99 : 0;
   const descuento = calcularDescuento(suma);
   const total = suma + envio - descuento;
   
-  // Actualizar el footer con resumen
   const footer = document.querySelector('.carrito-modal-footer');
   if (carrito.length > 0) {
     footer.innerHTML = `
@@ -1375,7 +1193,7 @@ function actualizarModalCarrito() {
           <span>-${descuento.toFixed(2)}€</span>
         </div>
         ` : ''}
-        <div class="codigo-descuento" style="margin: 16px 0;">
+        <div style="margin: 16px 0;">
           <div style="display: flex; gap: 8px; align-items: center;">
             <input type="text" 
                    id="codigo-input" 
@@ -1383,19 +1201,17 @@ function actualizarModalCarrito() {
                    style="flex: 1; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 14px; outline: none;"
                    onkeypress="if(event.key==='Enter') aplicarCodigo()">
             <button onclick="aplicarCodigo()" 
-                    style="background: #d62828; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;"
-                    onmouseover="this.style.background='#b71c1c'" 
-                    onmouseout="this.style.background='#d62828'">
+                    style="background: #d62828; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">
               Aplicar
             </button>
           </div>
         </div>
         <div class="summary-row total">
           <span>Total</span>
-          <span id="total-modal">${total.toFixed(2)}€</span>
+          <span>${total.toFixed(2)}€</span>
         </div>
       </div>
-      <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar">
+      <button class="carrito-btn-pagar" onclick="procederAlPago()">
         💳 Proceder al Pago
       </button>
     `;
@@ -1404,13 +1220,34 @@ function actualizarModalCarrito() {
       <div class="carrito-summary">
         <div class="summary-row total">
           <span>Total</span>
-          <span id="total-modal">0,00€</span>
+          <span>0,00€</span>
         </div>
       </div>
-      <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar" disabled style="opacity: 0.5; cursor: not-allowed;">
+      <button class="carrito-btn-pagar" disabled style="opacity: 0.5; cursor: not-allowed;">
         💳 Proceder al Pago
       </button>
     `;
+  }
+}
+
+function aplicarCodigo() {
+  const input = document.getElementById('codigo-input');
+  const codigo = input.value.toUpperCase().trim();
+  
+  if (!codigo) {
+    mostrarNotificacion('Introduce un código de descuento', 'warning');
+    return;
+  }
+  
+  if (codigosDescuento[codigo]) {
+    codigoAplicado = codigo;
+    mostrarNotificacion(`¡Código aplicado! ${codigosDescuento[codigo].descripcion}`, 'success');
+    input.value = '';
+    actualizarCarrito();
+    actualizarModalCarrito();
+  } else {
+    mostrarNotificacion('Código de descuento no válido', 'error');
+    input.value = '';
   }
 }
 
@@ -1425,63 +1262,20 @@ function procederAlPago() {
   const descuento = calcularDescuento(subtotal);
   const total = subtotal + envio - descuento;
   
-  const orderId = 'FP' + Date.now();
-  const descripcion = carrito.map(item => `${item.nombre} (${item.cantidad})`).join(', ');
-  
-  // Rellenar formulario TPV
-  document.getElementById('amount').value = total.toFixed(2);
-  document.getElementById('order_id').value = orderId;
-  document.getElementById('description').value = descripcion;
-  
   cerrarCarritoModal();
   
-  // Para demo: confirmar antes de enviar
-  if (confirm(`¿Proceder al pago de ${total.toFixed(2)}€?${codigoAplicado ? `\n(Descuento aplicado: ${codigosDescuento[codigoAplicado].descripcion})` : ''}`)) {
-    // document.getElementById('tpv-form').submit(); // Descomentar para TPV real
-    simularPago(); // Solo para demo
-  }
-}
-
-function simularPago() {
-  document.getElementById('miniLoader').classList.add('show');
-  
-  setTimeout(() => {
-    document.getElementById('miniLoader').classList.remove('show');
-    mostrarNotificacion('¡Pago procesado con éxito!', 'success');
-    carrito = [];
-    codigoAplicado = null; // Resetear código aplicado
-    saveData();
-    actualizarCarrito();
-  }, 2000);
-}
-
-function toggleFavorito(nombre) {
-  const index = favoritos.indexOf(nombre);
-  if (index > -1) {
-    favoritos.splice(index, 1);
-    mostrarNotificacion('Eliminado de favoritos', 'warning');
-  } else {
-    favoritos.push(nombre);
-    mostrarNotificacion('Añadido a favoritos', 'success');
-  }
-  saveData();
-  actualizarFavoritos();
-}
-
-function actualizarFavoritos() {
-  document.querySelectorAll('.pizza-card').forEach(card => {
-    const nombre = card.querySelector('.pizza-name').textContent;
-    let favBtn = card.querySelector('.fav-btn');
+  if (confirm(`¿Proceder al pago de ${total.toFixed(2)}€?`)) {
+    document.getElementById('miniLoader').classList.add('show');
     
-    if (!favBtn) {
-      favBtn = document.createElement('button');
-      favBtn.className = 'fav-btn';
-      favBtn.onclick = () => toggleFavorito(nombre);
-      card.appendChild(favBtn);
-    }
-    
-    favBtn.textContent = favoritos.includes(nombre) ? '❤️' : '🤍';
-  });
+    setTimeout(() => {
+      document.getElementById('miniLoader').classList.remove('show');
+      mostrarNotificacion('¡Pago procesado con éxito!', 'success');
+      carrito = [];
+      codigoAplicado = null;
+      actualizarCarrito();
+      guardarDatos();
+    }, 2000);
+  }
 }
 
 function buscarProductos(query) {
@@ -1513,64 +1307,113 @@ function limpiarBusqueda() {
   searchInput.focus();
 }
 
-function renderCategoria(categoriaId, categoriaNombre) {
-  const contenedor = document.querySelector(`[data-categoria="${categoriaId}"]`);
-  if (!contenedor) return;
-  
-  productos.filter(p => p.categoria === categoriaNombre).forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'pizza-card';
+function toggleFavorito(nombre) {
+  const index = favoritos.indexOf(nombre);
+  if (index > -1) {
+    favoritos.splice(index, 1);
+    mostrarNotificacion('Eliminado de favoritos', 'warning');
+  } else {
+    favoritos.push(nombre);
+    mostrarNotificacion('Añadido a favoritos', 'success');
+  }
+  actualizarFavoritos();
+  guardarDatos();
+}
+
+function actualizarFavoritos() {
+  document.querySelectorAll('.pizza-card').forEach(card => {
+    const nombre = card.querySelector('.pizza-name').textContent;
+    let favBtn = card.querySelector('.fav-btn');
     
-    const img = document.createElement('img');
-    img.src = p.imagen;
-    img.alt = p.nombre;
-    img.onerror = function() {
-      this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjMwIiBzdHJva2U9IiNDQ0MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI3MCIgeT0iNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OSI+SW1hZ2VuPC90ZXh0Pgo8L3N2Zz4=';
-    };
-
-    const nombreDiv = document.createElement('div');
-    nombreDiv.className = 'pizza-name';
-    nombreDiv.textContent = p.nombre;
-
-    let ingredientesDiv = null;
-    if (p.ingredientes && (p.categoria === 'pizzas' || p.categoria === 'calzones' || p.categoria === 'entrantes')) {
-      ingredientesDiv = document.createElement('div');
-      ingredientesDiv.className = 'pizza-ingredients';
-      ingredientesDiv.textContent = p.ingredientes;
+    if (!favBtn) {
+      favBtn = document.createElement('button');
+      favBtn.className = 'fav-btn';
+      favBtn.onclick = () => toggleFavorito(nombre);
+      card.appendChild(favBtn);
     }
-
-    const precioDiv = document.createElement('div');
-    precioDiv.className = 'pizza-price';
-    precioDiv.textContent = p.precio + '€';
-
-    const button = document.createElement('button');
-    button.className = 'button';
-    button.textContent = 'Añadir al carrito';
-    button.addEventListener('click', function() {
-      agregarAlCarrito(p.nombre, p.precio, this);
-    });
-
-    card.appendChild(img);
-    card.appendChild(nombreDiv);
-    if (ingredientesDiv) {
-      card.appendChild(ingredientesDiv);
-    }
-    card.appendChild(precioDiv);
-    card.appendChild(button);
-
-    contenedor.appendChild(card);
+    
+    favBtn.textContent = favoritos.includes(nombre) ? '❤️' : '🤍';
   });
 }
 
+function guardarDatos() {
+  try {
+    localStorage.setItem('fratelli_carrito', JSON.stringify(carrito));
+    localStorage.setItem('fratelli_favoritos', JSON.stringify(favoritos));
+  } catch (error) {
+    console.log('Error guardando datos');
+  }
+}
+
+function cargarDatos() {
+  try {
+    const savedCart = localStorage.getItem('fratelli_carrito');
+    const savedFavs = localStorage.getItem('fratelli_favoritos');
+    
+    if (savedCart) carrito = JSON.parse(savedCart);
+    if (savedFavs) favoritos = JSON.parse(savedFavs);
+    
+    actualizarCarrito();
+  } catch (error) {
+    console.log('Error cargando datos');
+  }
+}
+
+// Renderizar productos
+function crearProductos() {
+  console.log('Iniciando renderizado de productos...');
+  
+  const categorias = {
+    'entrantes': 'entrantes',
+    'pizzas': 'pizzas', 
+    'calzones': 'calzones',
+    'bebidas': 'bebidas',
+    'helados': 'helados'
+  };
+  
+  Object.entries(categorias).forEach(([categoria, nombre]) => {
+    const contenedor = document.querySelector(`[data-categoria="${categoria}"]`);
+    if (!contenedor) {
+      console.log('No se encontró contenedor para:', categoria);
+      return;
+    }
+    
+    const productosCategoria = productos.filter(p => p.categoria === nombre);
+    console.log(`Renderizando ${productosCategoria.length} productos en ${categoria}`);
+    
+    productosCategoria.forEach(producto => {
+      const card = document.createElement('div');
+      card.className = 'pizza-card';
+      
+      card.innerHTML = `
+        <img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNzAiIHI9IjMwIiBzdHJva2U9IiNDQ0MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI3MCIgeT0iNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OSI+SW1hZ2VuPC90ZXh0Pgo8L3N2Zz4='">
+        <div class="pizza-name">${producto.nombre}</div>
+        ${producto.ingredientes ? `<div class="pizza-ingredients">${producto.ingredientes}</div>` : ''}
+        <div class="pizza-price">${producto.precio}€</div>
+        <button class="button" onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio})">Añadir al carrito</button>
+      `;
+      
+      contenedor.appendChild(card);
+    });
+  });
+  
+  console.log('Productos renderizados correctamente');
+}
+
 // Event listeners
-document.getElementById('carrito-modal').addEventListener('click', function(e) {
-  if (e.target === this) cerrarCarritoModal();
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'carrito-modal') {
+    cerrarCarritoModal();
+  }
 });
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') cerrarCarritoModal();
+  if (e.key === 'Escape') {
+    cerrarCarritoModal();
+  }
 });
 
+// Navegación suave
 document.querySelectorAll('nav.indice a').forEach(link => {
   link.addEventListener('click', function(e) {
     e.preventDefault();
@@ -1585,31 +1428,19 @@ document.querySelectorAll('nav.indice a').forEach(link => {
   });
 });
 
-// Hacer funciones globales
-window.agregarAlCarrito = agregarAlCarrito;
-window.eliminarDelCarrito = eliminarDelCarrito;
-window.cambiarCantidad = cambiarCantidad;
-window.abrirCarritoModal = abrirCarritoModal;
-window.cerrarCarritoModal = cerrarCarritoModal;
-window.procederAlPago = procederAlPago;
-window.toggleFavorito = toggleFavorito;
-window.buscarProductos = buscarProductos;
-window.toggleClearButton = toggleClearButton;
-window.limpiarBusqueda = limpiarBusqueda;
-window.aplicarCodigo = aplicarCodigo;
-
-// Inicialización
+// Inicialización cuando carga la página
 document.addEventListener('DOMContentLoaded', function() {
-  loadData();
-  
-  ['entrantes', 'pizzas', 'calzones', 'bebidas', 'helados'].forEach(categoria => {
-    renderCategoria(categoria, categoria);
-  });
+  console.log('Página cargada, iniciando aplicación...');
+  cargarDatos();
+  crearProductos();
   
   setTimeout(() => {
     actualizarFavoritos();
+    console.log('Aplicación inicializada completamente');
   }, 100);
 });
+
+console.log('JavaScript cargado correctamente');
   </script>
 </body>
 </html>
