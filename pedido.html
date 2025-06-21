@@ -1133,11 +1133,20 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
 }
 
 function calcularDescuento(subtotal) {
+  if (!codigoAplicado || codigoAplicado === '') return 0;
+  
+  // Verificar que la oferta esté disponible hoy, si no está disponible, permitir las básicas
   const ofertasHoy = getOfertasDisponiblesHoy();
+  let codigo = null;
   
-  if (!codigoAplicado || !ofertasHoy[codigoAplicado]) return 0;
+  if (ofertasHoy[codigoAplicado]) {
+    codigo = ofertasHoy[codigoAplicado];
+  } else if (codigosDescuento[codigoAplicado]) {
+    // Si no está en ofertas de hoy, pero existe en el catálogo general, usar esa
+    codigo = codigosDescuento[codigoAplicado];
+  }
   
-  const codigo = ofertasHoy[codigoAplicado];
+  if (!codigo) return 0;
   
   if (codigo.tipo === 'ninguno') {
     return 0;
@@ -1278,19 +1287,23 @@ function actualizarModalCarrito() {
   const descuento = calcularDescuento(suma);
   const total = suma + envio - descuento;
   
-  // Obtener ofertas disponibles hoy
+  // Obtener todas las ofertas disponibles (combinando las de hoy con las generales)
   const ofertasHoy = getOfertasDisponiblesHoy();
   const ofertasEspeciales = getOfertasEspecialesHoy();
   const nombreDia = getNombreDia();
   
-  // Verificar si el código actual sigue siendo válido
-  if (codigoAplicado && !ofertasHoy[codigoAplicado]) {
-    codigoAplicado = ''; // Resetear si la oferta ya no está disponible
-  }
-  
-  // Generar opciones del select de ofertas (solo las disponibles hoy)
-  let optionsHtml = '';
+  // Crear un objeto combinado con todas las ofertas disponibles
+  const todasLasOfertas = { ...codigosDescuento };
+  // Añadir ofertas especiales del día si no están ya
   Object.entries(ofertasHoy).forEach(([codigo, oferta]) => {
+    if (!todasLasOfertas[codigo]) {
+      todasLasOfertas[codigo] = oferta;
+    }
+  });
+  
+  // Generar opciones del select
+  let optionsHtml = '';
+  Object.entries(todasLasOfertas).forEach(([codigo, oferta]) => {
     const selected = codigoAplicado === codigo ? 'selected' : '';
     const icon = codigo === '' ? '🚫' : 
                  codigo === 'GRATIS' ? '🚚' :
@@ -1304,8 +1317,13 @@ function actualizarModalCarrito() {
     // Resaltar ofertas especiales del día
     const esEspecial = ofertasEspeciales.includes(codigo);
     const textoExtra = esEspecial ? ' ⚡ ¡HOY!' : '';
+    const esDisponibleHoy = ofertasHoy[codigo] !== undefined;
+    const textoDisponibilidad = !esDisponibleHoy && codigo !== '' ? ' (No disponible hoy)' : '';
     
-    optionsHtml += `<option value="${codigo}" ${selected}>${icon} ${oferta.descripcion}${textoExtra}</option>`;
+    // Solo mostrar ofertas disponibles hoy o la opción "sin descuento"
+    if (codigo === '' || esDisponibleHoy) {
+      optionsHtml += `<option value="${codigo}" ${selected}>${icon} ${oferta.descripcion}${textoExtra}${textoDisponibilidad}</option>`;
+    }
   });
   
   // Mensaje especial si hay ofertas del día
@@ -1373,22 +1391,20 @@ function actualizarModalCarrito() {
 
 function aplicarOferta() {
   const select = document.getElementById('oferta-select');
+  if (!select) return;
+  
   const codigo = select.value;
-  const ofertasHoy = getOfertasDisponiblesHoy();
-  
-  // Verificar que la oferta esté disponible hoy
-  if (codigo !== '' && !ofertasHoy[codigo]) {
-    mostrarNotificacion('Esta oferta no está disponible hoy', 'error');
-    select.value = codigoAplicado; // Revertir selección
-    return;
-  }
-  
   codigoAplicado = codigo;
   
   if (codigo === '') {
     mostrarNotificacion('Descuento eliminado', 'warning');
   } else {
-    mostrarNotificacion(`¡Oferta aplicada! ${ofertasHoy[codigo].descripcion}`, 'success');
+    // Buscar la descripción en ofertas de hoy o en el catálogo general
+    const ofertasHoy = getOfertasDisponiblesHoy();
+    const descripcion = ofertasHoy[codigo] ? ofertasHoy[codigo].descripcion : 
+                       codigosDescuento[codigo] ? codigosDescuento[codigo].descripcion : 'Oferta aplicada';
+    
+    mostrarNotificacion(`¡Oferta aplicada! ${descripcion}`, 'success');
   }
   
   actualizarCarrito();
