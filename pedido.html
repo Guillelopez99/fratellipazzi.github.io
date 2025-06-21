@@ -380,7 +380,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 24px;
       margin: 0 0 20px 0;
-      color: #2c3e50;
+      color: #000;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -873,10 +873,87 @@
         font-size: 14px;
       }
       
+      /* Modal del carrito responsive */
       .carrito-modal-content {
         margin: 10px;
         max-width: none;
         max-height: 90vh;
+        border-radius: 16px;
+      }
+      
+      .carrito-modal-header {
+        padding: 20px 20px 0 20px;
+      }
+      
+      .carrito-modal-header h2 {
+        font-size: 20px;
+      }
+      
+      .carrito-close {
+        top: 15px;
+        right: 15px;
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+      }
+      
+      .carrito-item-modal {
+        padding: 16px 20px;
+      }
+      
+      .item-image {
+        width: 50px;
+        height: 50px;
+        margin-right: 12px;
+        font-size: 20px;
+      }
+      
+      .carrito-item-info h4 {
+        font-size: 14px;
+      }
+      
+      .carrito-item-price {
+        font-size: 14px;
+      }
+      
+      .quantity-controls {
+        gap: 2px;
+        padding: 2px;
+      }
+      
+      .quantity-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+      }
+      
+      .quantity-display {
+        min-width: 28px;
+        font-size: 14px;
+        padding: 4px 6px;
+      }
+      
+      .remove-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
+      
+      .carrito-modal-footer {
+        padding: 20px;
+      }
+      
+      .carrito-btn-pagar {
+        padding: 14px 24px;
+        font-size: 14px;
+      }
+      
+      .summary-row {
+        font-size: 13px;
+      }
+      
+      .summary-row.total {
+        font-size: 18px;
       }
     }
   </style>
@@ -951,15 +1028,18 @@
     <div class="carrito-modal-content">
       <div class="carrito-modal-header">
         <button class="carrito-close" onclick="cerrarCarritoModal()">×</button>
-        <h2>🛒 <span style="color: white;">Tu Carrito</span></h2>
+        <h2>🛒 Tu Carrito</h2>
       </div>
       <div class="carrito-modal-body" id="carrito-modal-body"></div>
       <div class="carrito-modal-footer">
-        <div class="carrito-total">
-          Total: <span id="total-modal">0,00€</span>
+        <div class="carrito-summary">
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="total-modal">0,00€</span>
+          </div>
         </div>
-        <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar">
-          💳 Pagar con TPV
+        <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar" disabled>
+          💳 Proceder al Pago
         </button>
       </div>
     </div>
@@ -1173,6 +1253,11 @@ function actualizarModalCarrito() {
     });
   }
   
+  // Calcular envío y descuentos
+  const envio = carrito.length > 0 ? 1.99 : 0;
+  const descuento = calcularDescuento(suma);
+  const total = suma + envio - descuento;
+  
   // Actualizar el footer con resumen
   const footer = document.querySelector('.carrito-modal-footer');
   if (carrito.length > 0) {
@@ -1183,12 +1268,33 @@ function actualizarModalCarrito() {
           <span>${suma.toFixed(2)}€</span>
         </div>
         <div class="summary-row">
-          <span>Entrega</span>
-          <span>Gratis</span>
+          <span>Envío</span>
+          <span>${envio.toFixed(2)}€</span>
+        </div>
+        ${descuento > 0 ? `
+        <div class="summary-row" style="color: #28a745;">
+          <span>Descuento aplicado</span>
+          <span>-${descuento.toFixed(2)}€</span>
+        </div>
+        ` : ''}
+        <div class="codigo-descuento" style="margin: 16px 0;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" 
+                   id="codigo-input" 
+                   placeholder="Código de descuento" 
+                   style="flex: 1; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 14px; outline: none;"
+                   onkeypress="if(event.key==='Enter') aplicarCodigo()">
+            <button onclick="aplicarCodigo()" 
+                    style="background: #d62828; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;"
+                    onmouseover="this.style.background='#b71c1c'" 
+                    onmouseout="this.style.background='#d62828'">
+              Aplicar
+            </button>
+          </div>
         </div>
         <div class="summary-row total">
           <span>Total</span>
-          <span id="total-modal">${suma.toFixed(2)}€</span>
+          <span id="total-modal">${total.toFixed(2)}€</span>
         </div>
       </div>
       <button class="carrito-btn-pagar" onclick="procederAlPago()" id="btn-pagar">
