@@ -45,7 +45,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 48px;
       font-weight: 700;
-      color: #d62828;
+      color: #D5786C;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
       animation: logoGlow 2s ease-in-out infinite alternate;
       margin-bottom: 15px;
@@ -60,14 +60,14 @@
       100% { 
         transform: scale(1.05);
         filter: brightness(1.2);
-        text-shadow: 0 0 30px rgba(214, 40, 40, 0.8), 2px 2px 4px rgba(0,0,0,0.3);
+        text-shadow: 0 0 30px rgba(213, 120, 108, 0.8), 2px 2px 4px rgba(0,0,0,0.3);
       }
     }
     
     .logo-underline {
       width: 0;
       height: 4px;
-      background: linear-gradient(90deg, #d62828, #ff6b6b);
+      background: linear-gradient(90deg, #D5786C, #e0958a);
       margin: 15px auto;
       border-radius: 2px;
       animation: underlineGrow 3s ease-in-out infinite;
@@ -111,7 +111,7 @@
     .pizza-sauce {
       width: 75%;
       height: 75%;
-      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #c16b5f 100%);
       border-radius: 50%;
       position: absolute;
       top: 12.5%;
@@ -161,7 +161,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent 0%, #d62828 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, #D5786C 50%, transparent 100%);
       z-index: 8888;
       transition: left 0.6s ease;
       pointer-events: none;
@@ -173,7 +173,7 @@
     
     body { 
       font-family: 'Open Sans', sans-serif; 
-      background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
       color: #333; 
       line-height: 1.6; 
       overflow-x: hidden;
@@ -182,41 +182,70 @@
     }
     
     header { 
-      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
       padding: 30px 20px; 
       text-align: center; 
       border-bottom: 1px solid #eee; 
       position: sticky; 
       top: 0; 
       z-index: 100; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      backdrop-filter: blur(15px);
     }
     
     header h1 { 
       font-family: 'Playfair Display', serif; 
       font-size: 42px; 
-      color: #d62828; 
+      color: #D5786C; 
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
       margin-bottom: 15px;
+      position: relative;
+    }
+    
+    header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #D5786C, #e0958a);
+      border-radius: 2px;
     }
     
     nav { 
-      margin-top: 10px; 
+      margin-top: 20px; 
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      position: relative;
+    }
+    
+    nav::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(213, 120, 108, 0.2), transparent);
     }
     
     nav a { 
-      color: #d62828; 
-      padding: 10px 20px;
+      color: #D5786C; 
+      padding: 12px 24px;
       text-decoration: none; 
       font-weight: 600; 
-      border-radius: 8px;
-      transition: all 0.3s ease;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      border: 1px solid transparent;
+      letter-spacing: 0.3px;
+      font-size: 15px;
     }
     
     nav a::before {
@@ -226,23 +255,36 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       transition: left 0.3s ease;
       z-index: -1;
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: #D5786C;
+      transition: width 0.3s ease;
     }
     
     nav a:hover::before {
       left: 0;
     }
     
+    nav a:hover::after {
+      width: 80%;
+    }
+    
     nav a:hover {
       color: white;
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
-    }
-    
-    .slider-container {
-      /* Eliminado - ya no se usa */
+      box-shadow: 0 8px 20px rgba(213, 120, 108, 0.3);
+      border-color: rgba(213, 120, 108, 0.2);
     }
     
     /* Reset completo para el slider */
@@ -253,7 +295,7 @@
       overflow: hidden;
       margin: 0;
       padding: 0;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     }
     
     .fullwidth-slider .slider-wrapper { 
@@ -291,7 +333,7 @@
     .fullwidth-slider:hover .slider-controls { opacity: 1; }
     
     .fullwidth-slider .slider-controls button { 
-      background: rgba(214, 40, 40, 0.8); 
+      background: rgba(213, 120, 108, 0.9); 
       border: none; 
       color: #fff; 
       font-size: 1.8em; 
@@ -300,11 +342,13 @@
       cursor: pointer; 
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.3);
     }
     
     .fullwidth-slider .slider-controls button:hover {
-      background: rgba(214, 40, 40, 1);
+      background: rgba(213, 120, 108, 1);
       transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(213, 120, 108, 0.4);
     }
     
     .fullwidth-slider .slider-dots { 
@@ -332,7 +376,7 @@
     }
     
     .fullwidth-slider .slider-dots span.active { 
-      background: #d62828; 
+      background: #D5786C; 
       border-color: white;
       transform: scale(1.3);
     }
@@ -345,11 +389,37 @@
     
     h2 { 
       font-family: 'Playfair Display', serif; 
-      color: #d62828; 
+      color: #D5786C; 
       font-size: 36px; 
       margin-bottom: 20px;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
       text-align: center;
+      position: relative;
+      padding-bottom: 25px;
+      letter-spacing: 0.5px;
+    }
+    
+    h2::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #D5786C, transparent);
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #D5786C, #e0958a);
+      border-radius: 2px;
     }
     
     .section-intro {
@@ -360,6 +430,26 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.7;
+      position: relative;
+      padding: 0 20px;
+    }
+    
+    .section-intro::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      background: #D5786C;
+      border-radius: 50%;
+      box-shadow: 
+        -20px 0 0 #D5786C,
+        20px 0 0 #D5786C,
+        -10px 0 0 rgba(213, 120, 108, 0.5),
+        10px 0 0 rgba(213, 120, 108, 0.5);
     }
     
     .galeria { 
@@ -371,12 +461,12 @@
     
     .pizza-card { 
       position: relative; 
-      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-      border-radius: 18px; 
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
+      border-radius: 24px; 
       overflow: hidden; 
-      box-shadow: 0 8px 25px rgba(0,0,0,0.12); 
-      transition: all 0.5s ease;
-      border: 1px solid #e9ecef;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(213, 120, 108, 0.1);
       transform-style: preserve-3d;
     }
     
@@ -392,13 +482,31 @@
       z-index: 1;
     }
     
+    .pizza-card::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(213, 120, 108, 0.3));
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
     .pizza-card:hover::before {
       left: 100%;
     }
     
+    .pizza-card:hover::after {
+      opacity: 1;
+    }
+    
     .pizza-card:hover { 
-      transform: translateY(-12px) rotateX(5deg);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      border-color: rgba(213, 120, 108, 0.3);
     }
     
     .pizza-card img { 
@@ -406,7 +514,7 @@
       height: 220px;
       object-fit: cover;
       transition: transform 0.3s ease;
-      border-radius: 18px 18px 0 0;
+      border-radius: 24px 24px 0 0;
     }
     
     .pizza-card:hover img {
@@ -432,23 +540,31 @@
       margin-bottom: 8px;
       font-weight: 700;
       line-height: 1.2;
-      transition: opacity 0.3s ease;
+      transition: all 0.4s ease;
+      letter-spacing: 0.3px;
     }
     
     .pizza-card:hover .pizza-name {
       opacity: 0;
+      transform: translateY(-10px);
     }
     
     .pizza-price { 
-      color: #d62828; 
+      color: #D5786C; 
       font-weight: 600; 
       font-size: 22px;
       margin-bottom: 0;
-      transition: opacity 0.3s ease;
+      background: rgba(213, 120, 108, 0.1);
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      letter-spacing: 0.5px;
     }
     
     .pizza-card:hover .pizza-price {
       opacity: 0;
+      transform: translateY(10px);
     }
     
     .pizza-description { 
@@ -456,14 +572,14 @@
       bottom: -100%; 
       left: 0; 
       width: 100%; 
-      background: linear-gradient(135deg, rgba(214, 40, 40, 0.95) 0%, rgba(193, 30, 30, 0.95) 100%);
+      background: linear-gradient(135deg, rgba(213, 120, 108, 0.95) 0%, rgba(224, 149, 138, 0.95) 100%);
       color: white;
       padding: 25px 20px; 
       font-size: 15px; 
       line-height: 1.6; 
       transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       backdrop-filter: blur(10px);
-      border-radius: 0 0 18px 18px;
+      border-radius: 0 0 24px 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -476,26 +592,43 @@
     
     .button { 
       display: inline-block; 
-      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: #fff; 
-      padding: 15px 30px; 
-      border-radius: 10px; 
+      padding: 16px 32px; 
+      border-radius: 12px; 
       text-decoration: none; 
       font-weight: 600; 
       font-size: 16px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.3);
       border: none;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .button:hover::before {
+      left: 100%;
     }
     
     .button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(214, 40, 40, 0.4);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 35px rgba(213, 120, 108, 0.4);
     }
     
     .button:active {
-      transform: translateY(-1px);
+      transform: translateY(-2px) scale(0.98);
     }
     
     .button-large {
@@ -505,14 +638,14 @@
     }
     
     #servicio-pedidos {
-      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: white;
       text-align: center;
       margin: 80px auto;
       max-width: 1000px;
       border-radius: 20px;
       padding: 60px 40px;
-      box-shadow: 0 15px 35px rgba(214, 40, 40, 0.3);
+      box-shadow: 0 15px 35px rgba(213, 120, 108, 0.3);
       position: relative;
       overflow: hidden;
     }
@@ -541,39 +674,48 @@
       z-index: 2;
     }
     
+    #servicio-pedidos h2::after {
+      background: linear-gradient(90deg, white, rgba(255,255,255,0.5));
+    }
+    
     #servicio-pedidos p {
       font-size: 20px;
       margin-bottom: 30px;
       position: relative;
       z-index: 2;
+      opacity: 0.95;
     }
     
     #servicio-pedidos .button {
       background: white;
-      color: #d62828;
+      color: #D5786C;
       font-size: 18px;
       padding: 18px 35px;
       position: relative;
       z-index: 2;
+      border: 2px solid transparent;
     }
     
     #servicio-pedidos .button:hover {
       background: #f8f9fa;
       transform: translateY(-3px) scale(1.05);
+      border-color: rgba(255,255,255,0.3);
     }
     
     #contacto {
-      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
       border-radius: 20px;
       padding: 50px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       text-align: center;
       margin: 40px auto;
       max-width: 1000px;
+      border: 1px solid rgba(213, 120, 108, 0.1);
     }
     
     #contacto h2 {
       margin-bottom: 30px;
+      color: #D5786C;
     }
     
     #contacto p {
@@ -583,41 +725,66 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      color: #555;
     }
     
     #contacto a {
-      color: #d62828;
+      color: #D5786C;
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s ease;
+      padding: 2px 6px;
+      border-radius: 6px;
     }
     
     #contacto a:hover {
-      color: #c11e1e;
+      color: #c16b5f;
+      background: rgba(213, 120, 108, 0.1);
       transform: scale(1.05);
     }
     
     .newsletter { 
-      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      background: linear-gradient(135deg, #253732 0%, #3a4f48 100%);
       color: white;
       padding: 60px 40px; 
       text-align: center; 
       margin: 80px auto;
       max-width: 1000px;
       border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 35px rgba(37, 55, 50, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .newsletter::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 50%);
+      animation: rotate 25s linear infinite reverse;
     }
     
     .newsletter h2 {
       color: white;
       margin-bottom: 15px;
       font-size: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .newsletter h2::after {
+      background: linear-gradient(90deg, white, rgba(255,255,255,0.3));
     }
     
     .newsletter p {
       font-size: 18px;
       margin-bottom: 30px;
       opacity: 0.9;
+      position: relative;
+      z-index: 2;
     }
     
     .newsletter-form {
@@ -627,6 +794,8 @@
       flex-wrap: wrap;
       max-width: 500px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
     
     .newsletter input[type=email] { 
@@ -634,40 +803,80 @@
       flex: 1;
       min-width: 250px;
       border: none; 
-      border-radius: 10px; 
+      border-radius: 12px; 
       font-family: 'Open Sans', sans-serif;
       font-size: 16px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
+    .newsletter input[type=email]:focus {
+      box-shadow: 0 6px 20px rgba(213, 120, 108, 0.2);
+      transform: translateY(-2px);
     }
     
     .newsletter button { 
       padding: 15px 30px; 
-      background: linear-gradient(135deg, #d62828 0%, #c11e1e 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: #fff; 
       border: none; 
-      border-radius: 10px; 
+      border-radius: 12px; 
       cursor: pointer; 
       font-weight: 600;
       font-size: 16px;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.3);
+      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .newsletter button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.4s ease;
+    }
+    
+    .newsletter button:hover::before {
+      left: 100%;
     }
     
     .newsletter button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(214, 40, 40, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
     }
     
     footer { 
       text-align: center; 
       background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
       color: #fff; 
-      padding: 40px 20px; 
+      padding: 50px 20px; 
       font-size: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(213, 120, 108, 0.3), transparent);
     }
     
     footer p {
       opacity: 0.8;
+      line-height: 1.5;
+      position: relative;
+      z-index: 2;
     }
     
     /* Animaciones adicionales */
@@ -695,21 +904,26 @@
       nav {
         flex-direction: column;
         align-items: center;
+        margin-top: 15px;
+      }
+      
+      nav::before {
+        width: 150px;
       }
       
       nav a {
-        padding: 8px 16px;
+        padding: 12px 20px;
         font-size: 14px;
+        min-width: 120px;
       }
       
-      .slider {
-        height: 350px;
+      .fullwidth-slider {
+        height: calc(100vw * 325 / 1920);
         margin: 0;
-        transform: translateX(calc(-50vw + 50%));
       }
       
-      .slider img {
-        height: 350px;
+      .fullwidth-slider img {
+        height: calc(100vw * 325 / 1920);
       }
       
       section {
@@ -718,6 +932,23 @@
       
       h2 {
         font-size: 28px;
+        padding-bottom: 20px;
+      }
+      
+      h2::before {
+        width: 80px;
+      }
+      
+      h2::after {
+        width: 40px;
+      }
+      
+      .section-intro::before {
+        box-shadow: 
+          -15px 0 0 #D5786C,
+          15px 0 0 #D5786C,
+          -7px 0 0 rgba(213, 120, 108, 0.5),
+          7px 0 0 rgba(213, 120, 108, 0.5);
       }
       
       .galeria { 
@@ -726,13 +957,18 @@
       }
       
       .pizza-card {
-        border-radius: 15px;
+        border-radius: 20px;
+      }
+      
+      .pizza-card::after {
+        width: 30px;
+        top: 15px;
+        right: 15px;
       }
       
       .pizza-card img {
         height: 200px;
-        object-fit: cover;
-        border-radius: 15px 15px 0 0;
+        border-radius: 20px 20px 0 0;
       }
       
       .pizza-info {
@@ -747,12 +983,14 @@
       
       .pizza-price {
         font-size: 20px;
+        padding: 6px 14px;
       }
       
       .pizza-description {
         padding: 20px 15px;
         font-size: 14px;
         line-height: 1.5;
+        border-radius: 0 0 20px 20px;
       }
       
       #servicio-pedidos {
@@ -810,6 +1048,14 @@
         font-size: 1.4em;
         padding: 12px 15px;
       }
+      
+      footer {
+        padding: 40px 20px;
+      }
+      
+      footer::before {
+        width: 60px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -818,12 +1064,47 @@
         gap: 20px;
       }
       
+      header {
+        padding: 20px 15px;
+      }
+      
       header h1 {
         font-size: 28px;
       }
       
+      nav::before {
+        width: 100px;
+      }
+      
+      nav a {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+      
       h2 {
         font-size: 24px;
+        padding-bottom: 15px;
+      }
+      
+      h2::before {
+        width: 60px;
+      }
+      
+      h2::after {
+        width: 30px;
+        height: 2px;
+      }
+      
+      .section-intro {
+        padding: 0 15px;
+      }
+      
+      .section-intro::before {
+        box-shadow: 
+          -10px 0 0 #D5786C,
+          10px 0 0 #D5786C,
+          -5px 0 0 rgba(213, 120, 108, 0.5),
+          5px 0 0 rgba(213, 120, 108, 0.5);
       }
       
       .fullwidth-slider {
@@ -832,7 +1113,51 @@
       
       .fullwidth-slider img {
         height: calc(100vw * 325 / 1920);
-        object-fit: fill;
+      }
+      
+      .pizza-card {
+        border-radius: 16px;
+      }
+      
+      .pizza-card::after {
+        width: 25px;
+        top: 12px;
+        right: 12px;
+      }
+      
+      .pizza-card img {
+        border-radius: 16px 16px 0 0;
+      }
+      
+      .pizza-description {
+        border-radius: 0 0 16px 16px;
+      }
+      
+      section {
+        padding: 40px 10px;
+      }
+      
+      .section-intro {
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+      
+      .button {
+        padding: 14px 24px;
+        font-size: 14px;
+      }
+      
+      .button-large {
+        padding: 16px 28px;
+        font-size: 16px;
+      }
+      
+      footer {
+        padding: 35px 15px;
+      }
+      
+      footer::before {
+        width: 40px;
       }
     }
   </style>
@@ -858,14 +1183,15 @@
 
   <!-- OVERLAY DE TRANSICIÓN -->
   <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
+  
   <header>
     <h1>Fratelli Pazzi</h1>
     <nav>
-      <a href="#ofertas">🔥 Ofertas</a>
-      <a href="#nuestras-pizzas">🍕 Pizzas</a>
-      <a href="#calzones">🌯 Calzones</a>
-      <a href="pedido.html">📋 Pedido</a>
-      <a href="#contacto">📞 Contacto</a>
+      <a href="#ofertas">Ofertas</a>
+      <a href="#nuestras-pizzas">Pizzas</a>
+      <a href="#calzones">Calzones</a>
+      <a href="pedido.html">Pedido</a>
+      <a href="#contacto">Contacto</a>
     </nav>
   </header>
 
@@ -889,7 +1215,7 @@
   </div>
 
   <section id="nuestras-pizzas" class="section-transition">
-    <h2>🍕 Nuestras Pizzas</h2>
+    <h2>Nuestras Pizzas</h2>
     <p class="section-intro">Elaboradas con ingredientes frescos importados directamente de Italia. Masa fermentada 48 horas y cocidas en horno de leña.</p>
     <div class="galeria">
       <div class="pizza-card">
@@ -988,7 +1314,7 @@
   </section>
 
   <section id="calzones" class="section-transition">
-    <h2>🌯 Calzones</h2>
+    <h2>Calzones</h2>
     <p class="section-intro">Nuestros calzones están rellenos de los mejores ingredientes y horneados hasta conseguir una textura perfecta.</p>
     <div class="galeria">
       <div class="pizza-card">
@@ -1021,21 +1347,21 @@
   </section>
 
   <section id="servicio-pedidos" class="section-transition">
-    <h2>🍽️ ¿Tienes hambre?</h2>
+    <h2>¿Tienes hambre?</h2>
     <p>Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.</p>
     <a class="button button-large" href="pedido.html">Haz tu pedido ahora</a>
   </section>
 
   <section id="contacto" class="section-transition">
-    <h2>📞 Contacto</h2>
-    <p>📍 Avenida de Atenas 3, Local 109, Las Rozas, Madrid</p>
-    <p>📞 Teléfono: <a href="tel:660668812">660 668 812</a></p>
-    <p>📩 Email: <a href="mailto:pizzasfratellipazzi@gmail.com">pizzasfratellipazzi@gmail.com</a></p>
-    <p>🕒 Horarios: Lunes a Domingo 20:00 - 23:00</p>
+    <h2>Contacto</h2>
+    <p>Avenida de Atenas 3, Local 109, Las Rozas, Madrid</p>
+    <p>Teléfono: <a href="tel:660668812">660 668 812</a></p>
+    <p>Email: <a href="mailto:pizzasfratellipazzi@gmail.com">pizzasfratellipazzi@gmail.com</a></p>
+    <p>Horarios: Lunes a Domingo 20:00 - 23:00</p>
   </section>
 
   <section class="newsletter section-transition">
-    <h2>📬 Suscríbete a nuestro boletín</h2>
+    <h2>Suscríbete a nuestro boletín</h2>
     <p>Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
     <div class="newsletter-form">
       <input type="email" placeholder="Tu email" id="newsletter-email" required>
@@ -1243,11 +1569,11 @@
     // Efecto hover mejorado para las pizza cards
     document.querySelectorAll('.pizza-card').forEach(card => {
       card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-12px) rotateX(5deg) scale(1.02)';
+        this.style.transform = 'translateY(-15px) scale(1.03)';
       });
       
       card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) rotateX(0) scale(1)';
+        this.style.transform = 'translateY(0) scale(1)';
       });
     });
 
