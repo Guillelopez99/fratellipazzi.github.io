@@ -1863,214 +1863,451 @@
     
     @media (max-width: 480px) {
       header {
-        padding: 20px 15px;
+        padding: 15px 10px;
       }
       
       .btn-volver {
         position: static;
         transform: none;
         margin-bottom: 15px;
+        padding: 10px 16px;
+        font-size: 13px;
+        min-height: 44px; /* Tamaño táctil mínimo */
       }
       
       header h1 {
-        font-size: 28px;
+        font-size: 24px;
+        line-height: 1.2;
       }
       
       .main-container {
-        padding: 20px 15px;
+        padding: 15px 10px;
+      }
+      
+      /* Optimizaciones para pantallas muy pequeñas */
+      .search-wrapper {
+        width: 100%;
+      }
+      
+      #search-input {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px; /* Evita zoom en iOS */
+        min-height: 44px;
+        padding: 12px 45px 12px 15px;
+      }
+      
+      #search-input:focus {
+        width: 100%;
+        max-width: 100%;
       }
       
       .carrito-float-btn {
-        width: 100px;
-        height: 50px;
+        width: 120px;
+        height: 56px; /* Tamaño táctil óptimo */
         bottom: 20px;
-        right: 20px;
+        right: 15px;
         font-size: 13px;
         gap: 6px;
+        border-radius: 28px;
+        box-shadow: 0 6px 20px rgba(213, 120, 108, 0.4);
       }
       
       .carrito-badge {
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
         font-size: 11px;
         top: -6px;
         right: -6px;
+        font-weight: 700;
+      }
+      
+      .carrito-modal {
+        padding: 10px;
       }
       
       .carrito-modal-content {
-        margin: 10px;
-        border-radius: 12px;
+        margin: 0;
+        border-radius: 16px;
+        max-height: 95vh;
+        width: 100%;
       }
       
       .carrito-modal-header {
-        padding: 18px;
+        padding: 20px 15px 15px 15px;
       }
       
       .carrito-modal-header h2 {
         font-size: 18px;
+        gap: 8px;
       }
       
       .carrito-close {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         font-size: 18px;
         top: 15px;
         right: 15px;
+        min-height: 44px; /* Área táctil más grande */
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .carrito-modal-body {
+        padding: 10px 0;
+        max-height: 50vh; /* Mejor para pantallas pequeñas */
       }
       
       .carrito-item-modal {
-        padding: 12px 15px;
+        padding: 15px;
+        min-height: 60px; /* Altura mínima para facilitar toque */
       }
       
       .item-image {
-        width: 40px;
-        height: 40px;
-        font-size: 12px;
-        margin-right: 10px;
+        width: 44px;
+        height: 44px;
+        font-size: 14px;
+        margin-right: 12px;
+        flex-shrink: 0;
       }
       
       .carrito-item-info h4 {
-        font-size: 13px;
+        font-size: 14px;
+        line-height: 1.3;
+        margin-bottom: 2px;
       }
       
       .carrito-item-price {
-        font-size: 12px;
+        font-size: 13px;
+        font-weight: 600;
       }
       
       .carrito-controls {
-        gap: 8px;
-        margin-left: 8px;
+        gap: 10px;
+        margin-left: 10px;
+      }
+      
+      .quantity-controls {
+        background: rgba(213, 120, 108, 0.08);
+        border-radius: 12px;
+        padding: 4px;
+        gap: 4px;
       }
       
       .quantity-btn {
-        width: 24px;
-        height: 24px;
-        font-size: 12px;
+        width: 36px; /* Tamaño táctil mejorado */
+        height: 36px;
+        font-size: 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        min-width: 36px;
+        min-height: 36px;
       }
       
       .quantity-display {
-        min-width: 24px;
-        padding: 4px 5px;
-        font-size: 12px;
+        min-width: 32px;
+        padding: 8px 6px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 8px;
       }
       
       .remove-btn {
-        width: 26px;
-        height: 26px;
-        font-size: 13px;
-        margin-left: 4px;
+        width: 40px; /* Área táctil más grande */
+        height: 40px;
+        font-size: 16px;
+        margin-left: 6px;
+        min-width: 44px;
+        min-height: 44px;
       }
       
       .carrito-modal-footer {
-        padding: 18px;
+        padding: 20px 15px;
       }
       
       .summary-row {
-        font-size: 12px;
-        padding: 5px 0;
+        font-size: 13px;
+        padding: 8px 0;
+        line-height: 1.4;
       }
       
       .summary-row.total {
-        font-size: 15px;
-        padding-top: 10px;
-        margin-top: 8px;
+        font-size: 16px;
+        padding-top: 15px;
+        margin-top: 12px;
+        font-weight: 700;
       }
       
       .carrito-btn-pagar {
-        padding: 12px 18px;
-        font-size: 13px;
+        padding: 16px 20px; /* Altura táctil mejorada */
+        font-size: 15px;
         gap: 8px;
+        min-height: 52px; /* Tamaño táctil óptimo */
+        border-radius: 14px;
+        font-weight: 600;
       }
       
       .discount-section {
-        padding: 12px;
-        margin: 12px 0;
+        padding: 16px;
+        margin: 16px 0;
+        border-radius: 12px;
       }
       
       .discount-header {
         gap: 8px;
-        margin-bottom: 12px;
+        margin-bottom: 15px;
       }
       
       .discount-header h4 {
-        font-size: 14px;
+        font-size: 15px;
+        line-height: 1.3;
       }
       
       .discount-input-group {
         gap: 8px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+        flex-direction: column; /* Stack vertical en móvil */
       }
       
       .discount-input {
-        padding: 8px 10px;
-        font-size: 12px;
+        padding: 14px 12px; /* Más padding para facilitar toque */
+        font-size: 16px; /* Evita zoom en iOS */
+        min-height: 44px;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
       
       .discount-btn {
-        padding: 8px 12px;
-        font-size: 12px;
-        min-width: 60px;
+        padding: 14px 20px;
+        font-size: 15px;
+        min-width: 100%;
+        min-height: 48px; /* Tamaño táctil */
+        border-radius: 10px;
+        font-weight: 600;
       }
       
       .discount-status {
-        font-size: 11px;
-        padding: 8px 10px;
-        margin-top: 8px;
+        font-size: 13px;
+        padding: 12px;
+        margin-top: 12px;
+        line-height: 1.4;
+        border-radius: 8px;
+      }
+      
+      .quick-offers {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 10px;
+        margin-top: 15px;
       }
       
       .quick-offer {
-        padding: 6px 8px;
-        font-size: 10px;
+        padding: 14px 12px; /* Más padding para facilitar toque */
+        font-size: 13px;
+        min-height: 48px; /* Altura táctil apropiada */
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.3;
+        font-weight: 600;
       }
       
       .quick-offer.special::after {
-        width: 14px;
-        height: 14px;
-        font-size: 9px;
-        top: -3px;
-        right: -3px;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        top: -4px;
+        right: -4px;
       }
       
       .carrito-vacio-modal {
-        padding: 40px 20px;
+        padding: 50px 20px;
       }
       
       .carrito-vacio-modal .empty-icon {
-        font-size: 50px;
-        margin-bottom: 15px;
+        font-size: 64px;
+        margin-bottom: 20px;
       }
       
       .carrito-vacio-modal h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
+        font-size: 20px;
+        margin-bottom: 12px;
+        line-height: 1.3;
       }
       
       .carrito-vacio-modal p {
-        font-size: 13px;
-        max-width: 240px;
+        font-size: 14px;
+        max-width: 260px;
+        line-height: 1.5;
       }
       
+      /* Optimizaciones para productos */
       .pizza-card {
-        padding: 20px;
+        padding: 20px 15px;
+        border-radius: 16px;
       }
       
       .pizza-card img {
         width: 120px;
         height: 120px;
+        margin-bottom: 20px;
       }
       
       .pizza-name {
-        font-size: 20px;
+        font-size: 18px;
+        line-height: 1.3;
+        margin: 15px 0 8px 0;
+      }
+      
+      .pizza-ingredients {
+        font-size: 13px;
+        line-height: 1.4;
+        margin: 0 0 15px 0;
+        padding: 0 10px;
+      }
+      
+      .pizza-price {
+        font-size: 18px;
+        padding: 8px 16px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+      }
+      
+      .button {
+        padding: 14px 24px; /* Tamaño táctil mejorado */
+        font-size: 14px;
+        min-height: 48px;
+        border-radius: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       }
       
       .galeria {
-        padding: 25px 15px;
-        margin-top: 25px;
+        padding: 20px 10px;
+        margin-top: 20px;
+        gap: 20px;
+        grid-template-columns: 1fr; /* Una columna en móvil */
       }
       
       h2 {
-        font-size: 28px;
-        margin: 50px 0 20px 0;
+        font-size: 24px;
+        margin: 40px 0 20px 0;
+        line-height: 1.2;
+      }
+      
+      h2::after {
+        height: 2px;
+      }
+      
+      /* Navegación móvil optimizada */
+      nav.indice {
+        padding: 20px 15px;
+        border-radius: 12px;
+        margin-top: 20px;
+      }
+      
+      nav.indice h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      
+      nav.indice a {
+        padding: 14px 16px; /* Área táctil mejorada */
+        font-size: 15px;
+        border-radius: 10px;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      nav.indice li {
+        margin-bottom: 6px;
+      }
+      
+      /* Notificaciones móviles */
+      .notification {
+        right: 10px;
+        left: 10px;
+        transform: translateY(-120%);
+        padding: 16px 20px;
+        font-size: 14px;
+        border-radius: 12px;
+        max-width: none;
+        margin: 0 auto;
+      }
+      
+      .notification.show {
+        transform: translateY(0);
+      }
+      
+      /* Búsqueda optimizada para móvil */
+      .search-suggestions {
+        border-radius: 8px;
+        max-height: 200px; /* Menor altura en móvil */
+        margin-top: 4px;
+      }
+      
+      .suggestion-item {
+        padding: 14px 12px; /* Área táctil mejorada */
+        min-height: 48px;
+        font-size: 14px;
+      }
+      
+      .suggestion-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+      }
+      
+      /* Mensaje de búsqueda móvil */
+      .mensaje-busqueda {
+        padding: 40px 20px;
+        margin: 30px 0;
+        border-radius: 16px;
+      }
+      
+      .mensaje-busqueda h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+      
+      .mensaje-busqueda p {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      /* Evitar zoom en inputs para iOS */
+      input, select, textarea {
+        font-size: 16px !important;
+        transform: scale(1);
+      }
+      
+      /* Mejoras de accesibilidad táctil */
+      button, .button, a {
+        -webkit-tap-highlight-color: rgba(213, 120, 108, 0.2);
+        touch-action: manipulation;
+      }
+      
+      /* Scroll suave en móvil */
+      body {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+      
+      /* Evitar scroll horizontal accidental */
+      .main-container,
+      .carrito-modal-content,
+      .galeria {
+        overflow-x: hidden;
       }
     }
   </style>
