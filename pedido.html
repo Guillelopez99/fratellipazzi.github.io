@@ -109,7 +109,7 @@
     
     .loader-progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #d62828, #ff6b6b);
+      background: linear-gradient(90deg, #D5786C, #e0958a);
       width: 0%;
       border-radius: 2px;
       animation: progressBar 2s ease-in-out infinite;
@@ -460,81 +460,82 @@
     
     section { flex: 2.5; max-width: 1200px; }
     
-    /* CARRITO FLOTANTE MEJORADO */
+    /* CARRITO FLOTANTE ELEGANTE */
     .carrito-float-btn {
       position: fixed;
       bottom: 30px;
       right: 30px;
-      width: 130px;
-      height: 65px;
+      width: 140px;
+      height: 60px;
       background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       border: none;
-      border-radius: 32px;
+      border-radius: 30px;
       color: white;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 500;
       cursor: pointer;
-      box-shadow: 0 12px 35px rgba(213, 120, 108, 0.4);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 30px rgba(213, 120, 108, 0.25);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       font-family: 'Open Sans', sans-serif;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      letter-spacing: 0.3px;
     }
     
     .carrito-float-btn:hover {
-      transform: scale(1.08) translateY(-5px);
-      box-shadow: 0 20px 50px rgba(213, 120, 108, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(213, 120, 108, 0.35);
+      border-color: rgba(255, 255, 255, 0.25);
     }
     
     .carrito-float-btn:active {
-      transform: scale(1.02) translateY(-2px);
+      transform: translateY(-1px);
     }
     
     .carrito-badge {
       position: absolute;
-      top: -10px;
-      right: -10px;
-      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      top: -8px;
+      right: -8px;
+      background: linear-gradient(135deg, #253732 0%, #3a4f48 100%);
       color: white;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
-      font-weight: bold;
-      box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
-      animation: pulseEnhanced 2s ease-in-out infinite;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(37, 55, 50, 0.3);
+      animation: gentlePulse 3s ease-in-out infinite;
       border: 2px solid white;
     }
     
-    @keyframes pulseEnhanced {
-      0% { transform: scale(1); box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4); }
-      50% { transform: scale(1.15); box-shadow: 0 8px 20px rgba(40, 167, 69, 0.6); }
-      100% { transform: scale(1); box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4); }
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
     }
     
-    /* MODAL DEL CARRITO MEJORADO */
+    /* MODAL DEL CARRITO ELEGANTE */
     .carrito-modal {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(15px);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
       z-index: 2000;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      animation: modalFadeIn 0.4s ease;
+      animation: modalFadeIn 0.3s ease;
     }
     
     .carrito-modal.show {
@@ -548,87 +549,88 @@
       }
       to { 
         opacity: 1; 
-        backdrop-filter: blur(15px);
+        backdrop-filter: blur(8px);
       }
     }
     
     .carrito-modal-content {
       background: white;
-      border-radius: 24px;
+      border-radius: 20px;
       width: 100%;
-      max-width: 550px;
-      max-height: 90vh;
+      max-width: 500px;
+      max-height: 85vh;
       overflow: hidden;
-      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.2);
-      animation: modalSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      animation: modalSlideUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
       position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(213, 120, 108, 0.1);
     }
     
     @keyframes modalSlideUp {
       from { 
-        transform: translateY(80px) scale(0.8) rotateX(10deg);
+        transform: translateY(40px) scale(0.95);
         opacity: 0;
       }
       to { 
-        transform: translateY(0) scale(1) rotateX(0deg);
+        transform: translateY(0) scale(1);
         opacity: 1;
       }
     }
     
     .carrito-modal-header {
       background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
-      padding: 30px 30px 25px 30px;
+      padding: 25px 30px 20px 30px;
       text-align: center;
       position: relative;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid rgba(213, 120, 108, 0.08);
     }
     
     .carrito-modal-header h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 26px;
+      font-size: 22px;
       margin: 0;
       color: #2c3e50;
-      font-weight: 700;
+      font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
+      gap: 12px;
+      letter-spacing: 0.5px;
     }
     
     .carrito-close {
       position: absolute;
-      top: 25px;
-      right: 25px;
-      background: #f8f9fa;
+      top: 20px;
+      right: 20px;
+      background: rgba(108, 117, 125, 0.08);
       border: none;
       color: #6c757d;
-      font-size: 24px;
+      font-size: 20px;
       cursor: pointer;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       font-weight: 300;
     }
     
     .carrito-close:hover {
-      background: #e9ecef;
-      color: #495057;
-      transform: scale(1.1) rotate(90deg);
+      background: rgba(213, 120, 108, 0.1);
+      color: #D5786C;
+      transform: scale(1.05);
     }
     
     .carrito-modal-body {
-      padding: 20px 0;
-      max-height: 400px;
+      padding: 15px 0;
+      max-height: 350px;
       overflow-y: auto;
     }
     
     .carrito-modal-body::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
     
     .carrito-modal-body::-webkit-scrollbar-track {
@@ -636,27 +638,26 @@
     }
     
     .carrito-modal-body::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #dee2e6, #adb5bd);
-      border-radius: 10px;
+      background: linear-gradient(135deg, #D5786C, #e0958a);
+      border-radius: 6px;
     }
     
     .carrito-modal-body::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #adb5bd, #6c757d);
+      background: linear-gradient(135deg, #c16b5f, #D5786C);
     }
     
-    /* ITEMS DEL CARRITO MEJORADOS */
+    /* ITEMS DEL CARRITO MINIMALISTAS */
     .carrito-item-modal {
       display: flex;
       align-items: center;
-      padding: 20px 30px;
-      transition: all 0.3s ease;
-      border-bottom: 1px solid #f8f9fa;
+      padding: 18px 25px;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid rgba(213, 120, 108, 0.06);
       position: relative;
     }
     
     .carrito-item-modal:hover {
-      background: linear-gradient(135deg, #fafbfc 0%, #f8f9fa 100%);
-      transform: translateX(5px);
+      background: rgba(213, 120, 108, 0.02);
     }
     
     .carrito-item-modal:last-child {
@@ -664,27 +665,26 @@
     }
     
     .item-image {
-      width: 65px;
-      height: 65px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      font-weight: 700;
-      color: #6c757d;
-      margin-right: 18px;
-      border: 2px solid #f1f3f4;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      margin-right: 15px;
       flex-shrink: 0;
       font-family: 'Playfair Display', serif;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(213, 120, 108, 0.2);
+      transition: all 0.2s ease;
     }
     
     .carrito-item-modal:hover .item-image {
-      transform: scale(1.05) rotate(5deg);
-      box-shadow: 0 6px 18px rgba(214, 40, 40, 0.2);
+      transform: scale(1.02);
+      box-shadow: 0 4px 14px rgba(213, 120, 108, 0.25);
     }
     
     .carrito-item-info {
@@ -694,62 +694,62 @@
     
     .carrito-item-info h4 {
       color: #2c3e50;
-      font-size: 17px;
-      font-weight: 600;
-      margin: 0 0 6px 0;
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0 0 4px 0;
       line-height: 1.3;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      letter-spacing: 0.2px;
     }
     
     .carrito-item-price {
-      color: #d62828;
-      font-weight: 700;
-      font-size: 17px;
+      color: #D5786C;
+      font-weight: 600;
+      font-size: 14px;
       margin: 0;
     }
     
     .carrito-controls {
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin-left: 18px;
+      gap: 12px;
+      margin-left: 15px;
       flex-shrink: 0;
     }
     
     .quantity-controls {
       display: flex;
       align-items: center;
-      background: #f8f9fa;
-      border-radius: 15px;
-      padding: 6px;
-      gap: 6px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: rgba(213, 120, 108, 0.06);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
     }
     
     .quantity-btn {
       background: white;
-      color: #495057;
+      color: #D5786C;
       border: none;
-      width: 35px;
-      height: 35px;
-      border-radius: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-weight: 600;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      font-size: 14px;
+      box-shadow: 0 1px 4px rgba(213, 120, 108, 0.1);
     }
     
     .quantity-btn:hover {
       background: #D5786C;
       color: white;
-      transform: scale(1.15);
-      box-shadow: 0 6px 15px rgba(213, 120, 108, 0.4);
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(213, 120, 108, 0.2);
     }
     
     .quantity-btn:active {
@@ -757,15 +757,15 @@
     }
     
     .quantity-display {
-      min-width: 35px;
+      min-width: 28px;
       text-align: center;
-      font-weight: 700;
+      font-weight: 600;
       color: #2c3e50;
-      font-size: 17px;
+      font-size: 14px;
       background: white;
-      border-radius: 10px;
-      padding: 8px 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      padding: 6px 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     }
     
     .remove-btn {
@@ -773,51 +773,51 @@
       border: none;
       color: #dc3545;
       cursor: pointer;
-      font-size: 22px;
-      width: 40px;
-      height: 40px;
+      font-size: 16px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      margin-left: 10px;
+      transition: all 0.2s ease;
+      margin-left: 8px;
     }
     
     .remove-btn:hover {
-      background: #dc3545;
-      color: white;
-      transform: scale(1.2) rotate(15deg);
-      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      transform: scale(1.1);
     }
     
-    /* FOOTER DEL CARRITO MEJORADO */
+    /* FOOTER DEL CARRITO ELEGANTE */
     .carrito-modal-footer {
       background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
-      padding: 30px;
-      border-top: 1px solid #f0f0f0;
+      padding: 25px;
+      border-top: 1px solid rgba(213, 120, 108, 0.08);
     }
     
     .carrito-summary {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
     
     .summary-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
+      padding: 8px 0;
       color: #6c757d;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
+      letter-spacing: 0.2px;
     }
     
     .summary-row.total {
-      border-top: 2px solid #f1f3f4;
-      padding-top: 20px;
-      margin-top: 15px;
-      font-size: 22px;
-      font-weight: 700;
+      border-top: 1px solid rgba(213, 120, 108, 0.15);
+      padding-top: 15px;
+      margin-top: 12px;
+      font-size: 18px;
+      font-weight: 600;
       color: #2c3e50;
     }
     
@@ -825,20 +825,19 @@
       background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: white;
       border: none;
-      padding: 18px 35px;
-      border-radius: 15px;
-      font-size: 17px;
-      font-weight: 600;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 30px rgba(213, 120, 108, 0.3);
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 20px rgba(213, 120, 108, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       width: 100%;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.3px;
       position: relative;
       overflow: hidden;
     }
@@ -850,8 +849,8 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      transition: left 0.5s ease;
     }
     
     .carrito-btn-pagar:hover::before {
@@ -859,64 +858,65 @@
     }
     
     .carrito-btn-pagar:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(213, 120, 108, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.3);
     }
     
     .carrito-btn-pagar:active {
-      transform: translateY(-1px);
+      transform: translateY(0px);
     }
     
     .carrito-btn-pagar:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
       transform: none;
-      box-shadow: 0 4px 10px rgba(214, 40, 40, 0.2);
+      box-shadow: 0 3px 10px rgba(213, 120, 108, 0.15);
     }
     
     .carrito-vacio-modal {
       text-align: center;
-      padding: 100px 40px;
+      padding: 60px 30px;
       color: #adb5bd;
     }
     
     .carrito-vacio-modal .empty-icon {
-      font-size: 100px;
-      margin-bottom: 30px;
+      font-size: 60px;
+      margin-bottom: 20px;
       display: block;
-      opacity: 0.7;
+      opacity: 0.6;
       animation: emptyFloat 3s ease-in-out infinite;
     }
     
     @keyframes emptyFloat {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
     
     .carrito-vacio-modal h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 28px;
+      font-size: 22px;
       color: #6c757d;
-      margin-bottom: 15px;
-      font-weight: 600;
+      margin-bottom: 12px;
+      font-weight: 500;
     }
     
     .carrito-vacio-modal p {
       color: #adb5bd;
-      font-size: 17px;
-      line-height: 1.6;
-      max-width: 320px;
+      font-size: 15px;
+      line-height: 1.5;
+      max-width: 280px;
       margin: 0 auto;
+      letter-spacing: 0.2px;
     }
     
-    /* SECCIÓN DE DESCUENTOS MEJORADA */
+    /* SECCIÓN DE DESCUENTOS ELEGANTE */
     .discount-section {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      border-radius: 15px;
-      padding: 25px;
-      margin: 20px 0;
-      border: 2px solid #e9ecef;
-      transition: all 0.4s ease;
+      background: rgba(213, 120, 108, 0.03);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 18px 0;
+      border: 1px solid rgba(213, 120, 108, 0.1);
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
@@ -928,8 +928,8 @@
       left: 0;
       width: 0;
       height: 100%;
-      background: linear-gradient(135deg, rgba(213, 120, 108, 0.05) 0%, rgba(224, 149, 138, 0.05) 100%);
-      transition: width 0.4s ease;
+      background: linear-gradient(135deg, rgba(213, 120, 108, 0.03) 0%, rgba(224, 149, 138, 0.03) 100%);
+      transition: width 0.3s ease;
       z-index: 1;
     }
     
@@ -938,9 +938,8 @@
     }
     
     .discount-section.active {
-      border-color: #D5786C;
-      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.15);
-      transform: translateY(-2px);
+      border-color: rgba(213, 120, 108, 0.2);
+      background: rgba(213, 120, 108, 0.05);
     }
     
     .discount-section > * {
@@ -951,65 +950,65 @@
     .discount-header {
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 15px;
     }
     
     .discount-header h4 {
       font-family: 'Playfair Display', serif;
       color: #D5786C;
-      font-size: 20px;
+      font-size: 16px;
       margin: 0;
-      font-weight: 700;
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
     
     .discount-input-group {
       display: flex;
-      gap: 15px;
-      margin-bottom: 15px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
     
     .discount-input {
       flex: 1;
-      padding: 15px 20px;
-      border: 2px solid #dee2e6;
-      border-radius: 10px;
-      font-size: 15px;
+      padding: 12px 15px;
+      border: 1px solid rgba(213, 120, 108, 0.2);
+      border-radius: 8px;
+      font-size: 14px;
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 1.2px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
       background: white;
     }
     
     .discount-input:focus {
       border-color: #D5786C;
-      box-shadow: 0 0 0 4px rgba(213, 120, 108, 0.1);
-      transform: translateY(-1px);
+      box-shadow: 0 0 0 3px rgba(213, 120, 108, 0.08);
     }
     
     .discount-input.valid {
-      border-color: #28a745;
-      background: rgba(40, 167, 69, 0.05);
+      border-color: #253732;
+      background: rgba(37, 55, 50, 0.03);
     }
     
     .discount-input.invalid {
       border-color: #dc3545;
-      background: rgba(220, 53, 69, 0.05);
+      background: rgba(220, 53, 69, 0.03);
     }
     
     .discount-btn {
       background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: white;
       border: none;
-      padding: 15px 25px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      min-width: 110px;
+      transition: all 0.2s ease;
+      min-width: 80px;
       position: relative;
       overflow: hidden;
     }
@@ -1021,8 +1020,8 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.5s ease;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.4s ease;
     }
     
     .discount-btn:hover::before {
@@ -1030,8 +1029,8 @@
     }
     
     .discount-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 6px 18px rgba(213, 120, 108, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(213, 120, 108, 0.3);
     }
     
     .discount-btn:disabled {
@@ -1041,60 +1040,61 @@
     }
     
     .discount-status {
-      font-size: 14px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-top: 12px;
-      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-weight: 500;
       display: none;
-      animation: statusSlide 0.3s ease;
+      animation: statusSlide 0.2s ease;
     }
     
     @keyframes statusSlide {
-      from { opacity: 0; transform: translateY(-10px); }
+      from { opacity: 0; transform: translateY(-8px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
     .discount-status.success {
-      background: rgba(40, 167, 69, 0.1);
-      color: #155724;
-      border: 1px solid rgba(40, 167, 69, 0.3);
+      background: rgba(37, 55, 50, 0.08);
+      color: #253732;
+      border: 1px solid rgba(37, 55, 50, 0.15);
       display: block;
     }
     
     .discount-status.error {
-      background: rgba(220, 53, 69, 0.1);
+      background: rgba(220, 53, 69, 0.08);
       color: #721c24;
-      border: 1px solid rgba(220, 53, 69, 0.3);
+      border: 1px solid rgba(220, 53, 69, 0.15);
       display: block;
     }
     
     .discount-status.info {
-      background: rgba(23, 162, 184, 0.1);
-      color: #0c5460;
-      border: 1px solid rgba(23, 162, 184, 0.3);
+      background: rgba(213, 120, 108, 0.08);
+      color: #D5786C;
+      border: 1px solid rgba(213, 120, 108, 0.15);
       display: block;
     }
     
     .quick-offers {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 15px;
+      gap: 8px;
+      margin-top: 12px;
     }
     
     .quick-offer {
       background: white;
-      border: 2px solid #e9ecef;
-      border-radius: 10px;
-      padding: 12px 15px;
+      border: 1px solid rgba(213, 120, 108, 0.15);
+      border-radius: 8px;
+      padding: 10px 12px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.2s ease;
       text-align: center;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
       position: relative;
       overflow: hidden;
+      letter-spacing: 0.2px;
     }
     
     .quick-offer::before {
@@ -1105,7 +1105,7 @@
       width: 0;
       height: 100%;
       background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
-      transition: width 0.3s ease;
+      transition: width 0.2s ease;
       z-index: 1;
     }
     
@@ -1121,15 +1121,14 @@
     .quick-offer:hover {
       border-color: #D5786C;
       color: white;
-      transform: scale(1.05) translateY(-2px);
-      box-shadow: 0 6px 18px rgba(213, 120, 108, 0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(213, 120, 108, 0.2);
     }
     
     .quick-offer.active {
       background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: white;
       border-color: #D5786C;
-      transform: scale(1.02);
     }
     
     .quick-offer.active::before {
@@ -1142,43 +1141,41 @@
     }
     
     .quick-offer.special {
-      border: 2px solid #cdb87c;
-      background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-      animation: specialGlowEnhanced 3s ease-in-out infinite;
+      border: 1px solid #cdb87c;
+      background: linear-gradient(135deg, rgba(205, 184, 124, 0.08) 0%, rgba(255, 238, 167, 0.05) 100%);
+      animation: specialGlow 2s ease-in-out infinite;
       position: relative;
     }
     
     .quick-offer.special::after {
       content: '⚡';
       position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #D5786C;
+      top: -4px;
+      right: -4px;
+      background: #cdb87c;
       color: white;
       border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: sparkle 2s ease-in-out infinite;
+      animation: sparkle 1.5s ease-in-out infinite;
     }
     
-    @keyframes specialGlowEnhanced {
+    @keyframes specialGlow {
       0%, 100% { 
-        box-shadow: 0 0 10px rgba(205, 184, 124, 0.4);
-        transform: scale(1);
+        box-shadow: 0 0 8px rgba(205, 184, 124, 0.3);
       }
       50% { 
-        box-shadow: 0 0 25px rgba(205, 184, 124, 0.7);
-        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(205, 184, 124, 0.5);
       }
     }
     
     @keyframes sparkle {
       0%, 100% { transform: scale(1) rotate(0deg); }
-      50% { transform: scale(1.2) rotate(180deg); }
+      50% { transform: scale(1.1) rotate(180deg); }
     }
     
     .button { 
@@ -1410,30 +1407,7 @@
       background: rgba(30, 33, 32, 0.15);
     }
     
-    .fav-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.95);
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(10px);
-    }
-    
-    .fav-btn:hover {
-      transform: scale(1.3);
-      background: white;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+
     
     /* TÍTULOS MEJORADOS CON COLORES POR SECCIÓN */
     h2 { 
@@ -1645,17 +1619,17 @@
     }
     
     .contador-resultados {
-      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-      border: 2px solid #2196f3;
+      background: linear-gradient(135deg, rgba(37, 55, 50, 0.1) 0%, rgba(58, 79, 72, 0.1) 100%);
+      border: 2px solid #253732;
       border-radius: 15px;
       padding: 20px 30px;
       display: inline-flex;
       align-items: center;
       gap: 18px;
       font-size: 17px;
-      color: #1565c0;
+      color: #253732;
       font-weight: 600;
-      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.2);
+      box-shadow: 0 6px 20px rgba(37, 55, 50, 0.2);
       margin: 40px 0;
     }
     
@@ -1664,7 +1638,7 @@
     }
     
     .limpiar-busqueda-btn {
-      background: #2196f3;
+      background: #253732;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -1677,9 +1651,9 @@
     }
     
     .limpiar-busqueda-btn:hover {
-      background: #1976d2;
+      background: #3a4f48;
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(33, 150, 243, 0.4);
+      box-shadow: 0 6px 18px rgba(37, 55, 50, 0.4);
     }
     
     /* RESPONSIVE MEJORADO */
@@ -1745,31 +1719,119 @@
       }
       
       .carrito-float-btn {
-        width: 110px;
+        width: 120px;
         height: 55px;
         bottom: 25px;
         right: 25px;
-        font-size: 15px;
+        font-size: 14px;
       }
       
       .carrito-modal-content {
         margin: 15px;
         max-width: none;
-        max-height: 95vh;
-        border-radius: 20px;
+        max-height: 90vh;
+        border-radius: 16px;
       }
       
       .carrito-modal-header {
-        padding: 25px;
+        padding: 20px;
       }
       
       .carrito-modal-header h2 {
-        font-size: 22px;
+        font-size: 20px;
+      }
+      
+      .carrito-item-modal {
+        padding: 15px 20px;
+      }
+      
+      .item-image {
+        width: 45px;
+        height: 45px;
+        font-size: 14px;
+        margin-right: 12px;
+      }
+      
+      .carrito-item-info h4 {
+        font-size: 14px;
+      }
+      
+      .carrito-item-price {
+        font-size: 13px;
+      }
+      
+      .quantity-controls {
+        padding: 3px;
+        gap: 3px;
+      }
+      
+      .quantity-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 13px;
+      }
+      
+      .quantity-display {
+        min-width: 26px;
+        padding: 5px 6px;
+        font-size: 13px;
+      }
+      
+      .remove-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        margin-left: 6px;
+      }
+      
+      .carrito-modal-footer {
+        padding: 20px;
+      }
+      
+      .summary-row {
+        font-size: 13px;
+        padding: 6px 0;
+      }
+      
+      .summary-row.total {
+        font-size: 16px;
+        padding-top: 12px;
+        margin-top: 10px;
+      }
+      
+      .carrito-btn-pagar {
+        padding: 14px 20px;
+        font-size: 14px;
+      }
+      
+      .discount-section {
+        padding: 15px;
+        margin: 15px 0;
+      }
+      
+      .discount-header h4 {
+        font-size: 15px;
+      }
+      
+      .discount-input {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+      
+      .discount-btn {
+        padding: 10px 15px;
+        font-size: 13px;
+        min-width: 70px;
       }
       
       .quick-offers {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 6px;
+      }
+      
+      .quick-offer {
+        padding: 8px 10px;
+        font-size: 11px;
       }
       
       .galeria {
@@ -1818,9 +1880,174 @@
         padding: 20px 15px;
       }
       
+      .carrito-float-btn {
+        width: 100px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 13px;
+        gap: 6px;
+      }
+      
+      .carrito-badge {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+        top: -6px;
+        right: -6px;
+      }
+      
       .carrito-modal-content {
         margin: 10px;
-        border-radius: 16px;
+        border-radius: 12px;
+      }
+      
+      .carrito-modal-header {
+        padding: 18px;
+      }
+      
+      .carrito-modal-header h2 {
+        font-size: 18px;
+      }
+      
+      .carrito-close {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+        top: 15px;
+        right: 15px;
+      }
+      
+      .carrito-item-modal {
+        padding: 12px 15px;
+      }
+      
+      .item-image {
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+        margin-right: 10px;
+      }
+      
+      .carrito-item-info h4 {
+        font-size: 13px;
+      }
+      
+      .carrito-item-price {
+        font-size: 12px;
+      }
+      
+      .carrito-controls {
+        gap: 8px;
+        margin-left: 8px;
+      }
+      
+      .quantity-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+      }
+      
+      .quantity-display {
+        min-width: 24px;
+        padding: 4px 5px;
+        font-size: 12px;
+      }
+      
+      .remove-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 13px;
+        margin-left: 4px;
+      }
+      
+      .carrito-modal-footer {
+        padding: 18px;
+      }
+      
+      .summary-row {
+        font-size: 12px;
+        padding: 5px 0;
+      }
+      
+      .summary-row.total {
+        font-size: 15px;
+        padding-top: 10px;
+        margin-top: 8px;
+      }
+      
+      .carrito-btn-pagar {
+        padding: 12px 18px;
+        font-size: 13px;
+        gap: 8px;
+      }
+      
+      .discount-section {
+        padding: 12px;
+        margin: 12px 0;
+      }
+      
+      .discount-header {
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      
+      .discount-header h4 {
+        font-size: 14px;
+      }
+      
+      .discount-input-group {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      
+      .discount-input {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+      
+      .discount-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: 60px;
+      }
+      
+      .discount-status {
+        font-size: 11px;
+        padding: 8px 10px;
+        margin-top: 8px;
+      }
+      
+      .quick-offer {
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+      
+      .quick-offer.special::after {
+        width: 14px;
+        height: 14px;
+        font-size: 9px;
+        top: -3px;
+        right: -3px;
+      }
+      
+      .carrito-vacio-modal {
+        padding: 40px 20px;
+      }
+      
+      .carrito-vacio-modal .empty-icon {
+        font-size: 50px;
+        margin-bottom: 15px;
+      }
+      
+      .carrito-vacio-modal h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      
+      .carrito-vacio-modal p {
+        font-size: 13px;
+        max-width: 240px;
       }
       
       .pizza-card {
@@ -1979,7 +2206,6 @@ const productos = [
 // Estado de la aplicación
 const estado = {
   carrito: [],
-  favoritos: [],
   codigoAplicado: '',
   busquedaTimeout: null,
   sugerenciasVisible: false
@@ -2591,36 +2817,6 @@ class GestorBusqueda {
   }
 }
 
-class GestorFavoritos {
-  static toggle(nombre) {
-    const index = estado.favoritos.indexOf(nombre);
-    if (index > -1) {
-      estado.favoritos.splice(index, 1);
-      Notificaciones.mostrar('❤️ Eliminado de favoritos', 'warning');
-    } else {
-      estado.favoritos.push(nombre);
-      Notificaciones.mostrar('💖 Añadido a favoritos', 'success');
-    }
-    this.actualizar();
-  }
-  
-  static actualizar() {
-    document.querySelectorAll('.pizza-card').forEach(card => {
-      const nombre = card.querySelector('.pizza-name').textContent;
-      let favBtn = card.querySelector('.fav-btn');
-      
-      if (!favBtn) {
-        favBtn = document.createElement('button');
-        favBtn.className = 'fav-btn';
-        favBtn.onclick = () => this.toggle(nombre);
-        card.appendChild(favBtn);
-      }
-      
-      favBtn.textContent = estado.favoritos.includes(nombre) ? '❤️' : '🤍';
-    });
-  }
-}
-
 class RendererProductos {
   static crear() {
     console.log('🍕 Iniciando renderizado de productos...');
@@ -2807,10 +3003,6 @@ function ocultarSugerencias() {
   GestorBusqueda.ocultarSugerencias();
 }
 
-function toggleFavorito(nombre) {
-  GestorFavoritos.toggle(nombre);
-}
-
 // ===============================
 // INICIALIZACIÓN DE LA APLICACIÓN
 // ===============================
@@ -2844,7 +3036,6 @@ class Aplicacion {
   
   static resetearEstado() {
     estado.carrito = [];
-    estado.favoritos = [];
     estado.codigoAplicado = '';
     estado.busquedaTimeout = null;
     estado.sugerenciasVisible = false;
@@ -2865,11 +3056,6 @@ class Aplicacion {
   }
   
   static configurarInterfaz() {
-    // Configurar favoritos
-    setTimeout(() => {
-      GestorFavoritos.actualizar();
-    }, 200);
-    
     // Mostrar ofertas especiales si las hay
     GestorInterfaz.mostrarOfertasEspeciales();
   }
@@ -2899,7 +3085,6 @@ window.FratelliPazzi = {
   ModalCarrito,
   GestorDescuentos,
   GestorBusqueda,
-  GestorFavoritos,
   Pago,
   estado,
   productos
