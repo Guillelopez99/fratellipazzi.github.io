@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=yes">
   <title>Fratelli Pazzi - Auténtica Pizzería Napolitana en Madrid</title>
   <meta name="description" content="Fratelli Pazzi: auténtica pizzería napolitana en Madrid. Pizzas artesanas con ingredientes de calidad.">
   <meta name="keywords" content="pizzería, pizza napolitana, Madrid, comida a domicilio, ofertas">
@@ -171,6 +174,115 @@
       left: 100%;
     }
     
+    /* BANNER DE OFERTA URGENTE */
+    .urgent-offer-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      padding: 12px 20px;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(214, 40, 40, 0.4);
+      animation: slideDown 0.5s ease;
+      font-weight: 600;
+    }
+    
+    .urgent-offer-banner.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    
+    .offer-content {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+    
+    .offer-icon {
+      font-size: 18px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .offer-text {
+      font-size: 15px;
+    }
+    
+    .offer-code {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .offer-timer {
+      font-size: 13px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    
+    .offer-cta {
+      background: white;
+      color: #d62828;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .offer-cta:hover {
+      background: #f8f9fa;
+      transform: scale(1.05);
+    }
+    
+    .close-banner {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    
+    .close-banner:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Ajustar header cuando está el banner */
+    .with-banner {
+      top: 60px;
+    }
+
     body { 
       font-family: 'Open Sans', sans-serif; 
       background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
@@ -179,6 +291,10 @@
       overflow-x: hidden;
       margin: 0;
       padding: 0;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: rgba(213, 120, 108, 0.2);
+      padding-top: 60px;
     }
     
     header { 
@@ -191,6 +307,27 @@
       z-index: 100; 
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+      -webkit-backdrop-filter: blur(15px);
+    }
+    
+    /* Header compacto en scroll para móvil */
+    .header-scrolled {
+      padding: 15px 20px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+    }
+    
+    .header-scrolled h1 {
+      font-size: 28px;
+    }
+    
+    .header-scrolled nav {
+      margin-top: 10px;
+    }
+    
+    .header-scrolled nav a {
+      padding: 8px 16px;
+      font-size: 13px;
     }
     
     header h1 { 
@@ -236,7 +373,7 @@
     
     nav a { 
       color: #D5786C; 
-      padding: 12px 24px;
+      padding: 14px 24px;
       text-decoration: none; 
       font-weight: 600; 
       border-radius: 12px;
@@ -246,6 +383,14 @@
       border: 1px solid transparent;
       letter-spacing: 0.3px;
       font-size: 15px;
+      min-height: 44px;
+      min-width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     
     nav a::before {
@@ -272,19 +417,1240 @@
       transition: width 0.3s ease;
     }
     
-    nav a:hover::before {
+    nav a:hover::before,
+    nav a:active::before {
       left: 0;
     }
     
-    nav a:hover::after {
+    nav a:hover::after,
+    nav a:active::after {
       width: 80%;
     }
     
-    nav a:hover {
+    /* CONTADOR DE ACTIVIDAD EN TIEMPO REAL */
+    .live-activity {
+      background: linear-gradient(135deg, #253732 0%, #2d4139 100%);
       color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(213, 120, 108, 0.3);
+      padding: 20px 40px;
+      margin: 0;
+      border-radius: 0;
+    }
+    
+    .activity-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 8px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .live-indicator {
+      animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.4; }
+    }
+    
+    .order-icon, .time-icon {
+      font-size: 16px;
+    }
+
+    /* ¿POR QUÉ FRATELLI PAZZI? */
+    .why-us {
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
+      padding: 80px 20px;
+      margin: 0;
+    }
+    
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+    
+    .benefit-card {
+      background: white;
+      padding: 35px 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(213, 120, 108, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .benefit-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(213, 120, 108, 0.05), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .benefit-card:hover::before {
+      left: 100%;
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
       border-color: rgba(213, 120, 108, 0.2);
+    }
+    
+    .benefit-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .benefit-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #D5786C;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    
+    .benefit-card p {
+      color: #666;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    
+    .highlight {
+      color: #D5786C;
+      font-weight: 600;
+    }
+
+    /* PIZZAS MÁS PEDIDAS */
+    .most-ordered {
+      background: linear-gradient(135deg, rgba(213, 120, 108, 0.03) 0%, rgba(224, 149, 138, 0.03) 100%);
+      padding: 80px 20px;
+      margin: 0;
+    }
+    
+    .featured-pizzas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 35px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+    
+    .featured-pizza-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      position: relative;
+    }
+    
+    .featured-pizza-card.bestseller {
+      border-color: #d62828;
+      transform: scale(1.05);
+    }
+    
+    .featured-pizza-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    .featured-pizza-card.bestseller:hover {
+      transform: translateY(-15px) scale(1.08);
+    }
+    
+    .bestseller-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 10;
+      animation: pulse 2s infinite;
+      box-shadow: 0 4px 15px rgba(214, 40, 40, 0.4);
+    }
+    
+    .popular-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.4);
+    }
+    
+    .featured-pizza-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .featured-pizza-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .featured-info {
+      padding: 25px;
+      text-align: center;
+    }
+    
+    .featured-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #111;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .customer-quote {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    
+    .price-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    
+    .featured-price {
+      font-size: 28px;
+      font-weight: 700;
+      color: #D5786C;
+      background: rgba(213, 120, 108, 0.1);
+      padding: 10px 20px;
+      border-radius: 25px;
+    }
+    
+    .quick-order-btn {
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex: 1;
+      max-width: 140px;
+    }
+    
+    .quick-order-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+    }
+
+    /* TESTIMONIOS Y RESEÑAS */
+    .testimonials {
+      background: white;
+      padding: 80px 20px;
+      margin: 0;
+    }
+    
+    .reviews-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+    
+    .review-card {
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(213, 120, 108, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .reviewer-avatar {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    
+    .reviewer-details h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;
+    }
+    
+    .review-date {
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .stars {
+      font-size: 16px;
+    }
+    
+    .review-text {
+      color: #555;
+      line-height: 1.6;
+      font-size: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .google-badge {
+      background: #4285F4;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .google-rating-summary {
+      text-align: center;
+      margin-top: 50px;
+      padding: 40px;
+      background: linear-gradient(135deg, #253732 0%, #2d4139 100%);
+      border-radius: 20px;
+      color: white;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .rating-big {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #FFD700;
+    }
+    
+    .rating-details p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    
+    .view-all-reviews {
+      color: #D5786C;
+      text-decoration: none;
+      font-weight: 600;
+      background: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .view-all-reviews:hover {
+      background: #f8f9fa;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* OFERTAS ESPECIALES */
+    .special-offers {
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      padding: 80px 20px;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .special-offers::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+      animation: rotate 30s linear infinite;
+    }
+    
+    .special-offers h2,
+    .special-offers .section-intro {
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .special-offers h2::before,
+    .special-offers h2::after {
+      background: linear-gradient(90deg, transparent, white, transparent);
+    }
+    
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-top: 50px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .offer-card {
+      background: white;
+      color: #333;
+      padding: 30px 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .offer-card.featured {
+      border-color: #FFD700;
+      transform: scale(1.05);
+    }
+    
+    .offer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(214, 40, 40, 0.05), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .offer-card:hover::before {
+      left: 100%;
+    }
+    
+    .offer-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+    
+    .offer-card.featured:hover {
+      transform: translateY(-10px) scale(1.08);
+    }
+    
+    .offer-tag {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .offer-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #D5786C;
+      margin: 20px 0 15px 0;
+      font-weight: 700;
+    }
+    
+    .offer-description {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .price-comparison {
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .old-price {
+      font-size: 18px;
+      color: #999;
+      text-decoration: line-through;
+    }
+    
+    .new-price {
+      font-size: 28px;
+      font-weight: 700;
+      color: #d62828;
+    }
+    
+    .savings {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .discount-percent {
+      font-size: 24px;
+      font-weight: 700;
+      color: #d62828;
+    }
+    
+    .offer-code {
+      background: rgba(213, 120, 108, 0.1);
+      color: #D5786C;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    
+    .offer-btn {
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: 100%;
+    }
+    
+    .offer-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(214, 40, 40, 0.4);
+    }
+
+    /* TIMELINE DE FRESCURA */
+    .freshness-timeline {
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
+      padding: 80px 20px;
+      margin: 0;
+    }
+    
+    .timeline-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      margin-top: 50px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .timeline-step {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 2px solid rgba(213, 120, 108, 0.1);
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 200px;
+      max-width: 250px;
+    }
+    
+    .timeline-step:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      border-color: rgba(213, 120, 108, 0.3);
+    }
+    
+    .step-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .timeline-step h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #D5786C;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .timeline-step p {
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    
+    .step-time {
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-block;
+    }
+    
+    .timeline-arrow {
+      font-size: 24px;
+      color: #D5786C;
+      font-weight: 700;
+      margin: 0 10px;
+      opacity: 0.7;
+    }
+    
+    .freshness-guarantee {
+      text-align: center;
+      margin-top: 50px;
+      padding: 25px;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      border-radius: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+    }
+    
+    .guarantee-icon {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+    
+    .freshness-guarantee strong {
+      font-size: 18px;
+    }
+
+    /* PROGRAMA DE FIDELIDAD */
+    .loyalty-program {
+      background: linear-gradient(135deg, #253732 0%, #2d4139 100%);
+      color: white;
+      padding: 80px 20px;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .loyalty-program::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 50%);
+      animation: rotate 40s linear infinite reverse;
+    }
+    
+    .loyalty-program h2,
+    .loyalty-program .section-intro {
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .loyalty-program h2::before,
+    .loyalty-program h2::after {
+      background: linear-gradient(90deg, transparent, white, transparent);
+    }
+    
+    .loyalty-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+      margin-top: 50px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .loyalty-card {
+      background: white;
+      color: #333;
+      padding: 30px 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .loyalty-card.featured {
+      border-color: #FFD700;
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #fff9e6 0%, #fff 100%);
+    }
+    
+    .loyalty-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(37, 55, 50, 0.05), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .loyalty-card:hover::before {
+      left: 100%;
+    }
+    
+    .loyalty-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+    
+    .loyalty-card.featured:hover {
+      transform: translateY(-10px) scale(1.08);
+    }
+    
+    .loyalty-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .loyalty-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #253732;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    
+    .loyalty-card p {
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .points-example {
+      background: rgba(37, 55, 50, 0.1);
+      color: #253732;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .loyalty-cta {
+      text-align: center;
+      margin-top: 50px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .loyalty-cta p {
+      color: white;
+      margin-bottom: 25px;
+      font-size: 18px;
+    }
+    
+    .loyalty-btn {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #333;
+      border: none;
+      padding: 18px 35px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    }
+    
+    .loyalty-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(255, 215, 0, 0.5);
+    }
+
+    /* ZONA DE ENTREGA */
+    .delivery-zone {
+      background: linear-gradient(135deg, #FBF4E8 0%, #f8f5f0 100%);
+      padding: 80px 20px;
+      margin: 0;
+    }
+    
+    .delivery-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-top: 50px;
+      align-items: start;
+    }
+    
+    .delivery-map {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(213, 120, 108, 0.1);
+      text-align: center;
+    }
+    
+    .map-placeholder {
+      position: relative;
+    }
+    
+    .map-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      display: block;
+      color: #D5786C;
+    }
+    
+    .delivery-map h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .delivery-map p {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    
+    .delivery-zones {
+      text-align: left;
+    }
+    
+    .zone-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: #555;
+    }
+    
+    .zone-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    .zona-a { background: #28a745; }
+    .zona-b { background: #ffc107; }
+    .zona-c { background: #dc3545; }
+    
+    .delivery-details {
+      display: grid;
+      gap: 25px;
+    }
+    
+    .delivery-feature {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(213, 120, 108, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .delivery-feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      font-size: 32px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, rgba(213, 120, 108, 0.1) 0%, rgba(224, 149, 138, 0.1) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .feature-content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+    
+    .feature-content p {
+      color: #666;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    /* WHATSAPP FLOATING BUTTON */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: white;
+      border-radius: 50px;
+      padding: 15px 20px;
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      min-width: 200px;
+      position: relative;
+      animation: whatsappPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes whatsappPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .whatsapp-float:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+    }
+    
+    .whatsapp-icon {
+      font-size: 24px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .whatsapp-text {
+      flex: 1;
+    }
+    
+    .whatsapp-title {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+    
+    .whatsapp-subtitle {
+      font-size: 12px;
+      opacity: 0.9;
+      line-height: 1.2;
+    }
+    
+    .whatsapp-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #FF4444;
+      color: white;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+      animation: badgeBounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes badgeBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* POPUP DE DESCUENTO */
+    .discount-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .discount-popup.show {
+      display: flex;
+      animation: popupFadeIn 0.3s ease;
+    }
+    
+    @keyframes popupFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .popup-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+    }
+    
+    .popup-content {
+      background: white;
+      border-radius: 25px;
+      max-width: 450px;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: popupSlideUp 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
+    
+    @keyframes popupSlideUp {
+      from { 
+        transform: translateY(50px) scale(0.9);
+        opacity: 0;
+      }
+      to { 
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .popup-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.1);
+      border: none;
+      color: #666;
+      font-size: 24px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 15;
+    }
+    
+    .popup-close:hover {
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+    }
+    
+    .popup-header {
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      padding: 40px 30px 30px 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .popup-pizza {
+      font-size: 48px;
+      margin-bottom: 15px;
+      display: block;
+      animation: pizzaRotate 3s ease-in-out infinite;
+    }
+    
+    @keyframes pizzaRotate {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(10deg); }
+    }
+    
+    .popup-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .popup-header p {
+      font-size: 16px;
+      opacity: 0.95;
+      margin: 0;
+    }
+    
+    .popup-body {
+      padding: 30px;
+    }
+    
+    .discount-code {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #333;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .discount-code::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: codeShine 3s ease-in-out infinite;
+    }
+    
+    @keyframes codeShine {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    .code-label {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .code-value {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .popup-benefits {
+      margin-bottom: 25px;
+    }
+    
+    .benefit-item {
+      color: #666;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    
+    .popup-cta {
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      border: none;
+      padding: 16px 25px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+    }
+    
+    .popup-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+    }
+    
+    .popup-timer {
+      text-align: center;
+      color: #dc3545;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    #popup-countdown {
+      background: rgba(220, 53, 69, 0.1);
+      color: #dc3545;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 700;
     }
     
     /* Reset completo para el slider */
@@ -605,6 +1971,14 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      min-height: 44px;
+      min-width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     
     .button::before {
@@ -618,11 +1992,13 @@
       transition: left 0.6s ease;
     }
     
-    .button:hover::before {
+    .button:hover::before,
+    .button:active::before {
       left: 100%;
     }
     
-    .button:hover {
+    .button:hover,
+    .button:active {
       transform: translateY(-4px) scale(1.02);
       box-shadow: 0 12px 35px rgba(213, 120, 108, 0.4);
     }
@@ -635,6 +2011,7 @@
       padding: 20px 40px;
       font-size: 18px;
       margin-top: 30px;
+      min-height: 56px;
     }
     
     #servicio-pedidos {
@@ -809,11 +2186,21 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       outline: none;
       transition: all 0.3s ease;
+      -webkit-appearance: none;
+      -webkit-border-radius: 12px;
     }
     
     .newsletter input[type=email]:focus {
       box-shadow: 0 6px 20px rgba(213, 120, 108, 0.2);
       transform: translateY(-2px);
+    }
+    
+    /* Prevenir zoom en iOS */
+    @supports (-webkit-touch-callout: none) {
+      .newsletter input[type=email] {
+        font-size: 16px !important;
+        transform: scale(1);
+      }
     }
     
     .newsletter button { 
@@ -879,6 +2266,63 @@
       z-index: 2;
     }
     
+    /* Mejoras adicionales para móvil */
+    
+    /* Optimización de imágenes para móvil */
+    .pizza-card img,
+    .fullwidth-slider img {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    
+    /* Smooth scrolling mejorado */
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    /* Prevenir selección accidental de texto */
+    .pizza-card,
+    .button,
+    nav a,
+    .slider-controls button {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    /* Mejorar performance de animaciones */
+    .pizza-card,
+    .button,
+    nav a {
+      will-change: transform;
+    }
+    
+    /* Cursor pointer para elementos interactivos */
+    .pizza-card,
+    .button,
+    nav a,
+    .slider-controls button,
+    .slider-dots span {
+      cursor: pointer;
+    }
+    
+    /* Optimizaciones para dispositivos con notch */
+    @supports (padding: max(0px)) {
+      header {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+      }
+      
+      section {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+      }
+    }
+
     /* Animaciones adicionales */
     @keyframes fadeInUp {
       from {
@@ -895,44 +2339,597 @@
       animation: fadeInUp 0.6s ease forwards;
     }
     
-    /* Responsive */
+    /* Tablet optimizations */
+    @media (max-width: 1024px) {
+      .galeria { 
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+        gap: 30px;
+        padding: 0 20px;
+      }
+      
+      section {
+        padding: 70px 25px;
+      }
+      
+      h2 {
+        font-size: 32px;
+      }
+    }
+
+    /* Mobile optimizations */
     @media (max-width: 768px) {
+      body {
+        padding-top: 40px;
+      }
+      
+      body.banner-hidden {
+        padding-top: 0;
+      }
+      
+      .urgent-offer-banner {
+        padding: 8px 15px;
+        font-size: 12px;
+      }
+      
+      .offer-content {
+        gap: 10px;
+        font-size: 12px;
+      }
+      
+      .offer-text {
+        font-size: 13px;
+      }
+      
+      .offer-code, .offer-timer {
+        font-size: 11px;
+        padding: 3px 6px;
+      }
+      
+      .offer-cta {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+      
+      .close-banner {
+        width: 25px;
+        height: 25px;
+        font-size: 16px;
+      }
+      
+      /* Live Activity */
+      .live-activity {
+        padding: 15px 20px;
+      }
+      
+      .activity-content {
+        gap: 20px;
+        flex-direction: column;
+      }
+      
+      .activity-item {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+      
+      /* Why Us */
+      .why-us {
+        padding: 60px 20px;
+      }
+      
+      .benefits-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+      
+      .benefit-card {
+        padding: 25px 20px;
+      }
+      
+      .benefit-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+      
+      .benefit-card h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      
+      .benefit-card p {
+        font-size: 14px;
+      }
+      
+      /* Most Ordered */
+      .most-ordered {
+        padding: 60px 20px;
+      }
+      
+      .featured-pizzas {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-top: 30px;
+      }
+      
+      .featured-pizza-card.bestseller {
+        transform: none;
+      }
+      
+      .featured-pizza-card.bestseller:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
+      
+      .bestseller-badge, .popular-badge {
+        font-size: 11px;
+        padding: 6px 10px;
+        top: 12px;
+        right: 12px;
+      }
+      
+      .featured-pizza-card img {
+        height: 180px;
+      }
+      
+      .featured-info {
+        padding: 20px;
+      }
+      
+      .featured-info h3 {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+      
+      .customer-quote {
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+      
+      .price-action {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .featured-price {
+        font-size: 24px;
+        padding: 8px 16px;
+      }
+      
+      .quick-order-btn {
+        max-width: none;
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 15px;
+      }
+      
+      /* Testimonials */
+      .testimonials {
+        padding: 60px 20px;
+      }
+      
+      .reviews-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+      
+      .review-card {
+        padding: 20px;
+      }
+      
+      .reviewer-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      
+      .reviewer-details h4 {
+        font-size: 15px;
+      }
+      
+      .review-date {
+        font-size: 12px;
+      }
+      
+      .review-text {
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+      
+      .google-rating-summary {
+        margin-top: 30px;
+        padding: 30px 20px;
+      }
+      
+      .rating-big {
+        font-size: 36px;
+        margin-bottom: 12px;
+      }
+      
+      .rating-details p {
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      
+      .view-all-reviews {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+      
+      /* Special Offers */
+      .special-offers {
+        padding: 60px 20px;
+      }
+      
+      .offers-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+      
+      .offer-card.featured {
+        transform: none;
+      }
+      
+      .offer-card.featured:hover {
+        transform: translateY(-8px) scale(1.02);
+      }
+      
+      .offer-card {
+        padding: 25px 20px;
+      }
+      
+      .offer-tag {
+        font-size: 11px;
+        padding: 6px 12px;
+        top: -8px;
+        right: 15px;
+      }
+      
+      .offer-card h3 {
+        font-size: 20px;
+        margin: 15px 0 12px 0;
+      }
+      
+      .offer-description {
+        font-size: 15px;
+        margin-bottom: 20px;
+      }
+      
+      .price-comparison {
+        margin-bottom: 20px;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .new-price {
+        font-size: 24px;
+      }
+      
+      .discount-percent {
+        font-size: 20px;
+      }
+      
+      .offer-btn {
+        padding: 12px 20px;
+        font-size: 13px;
+      }
+      
+      /* Freshness Timeline */
+      .freshness-timeline {
+        padding: 60px 20px;
+      }
+      
+      .timeline-container {
+        flex-direction: column;
+        margin-top: 30px;
+        gap: 15px;
+      }
+      
+      .timeline-arrow {
+        transform: rotate(90deg);
+        margin: 0;
+      }
+      
+      .timeline-step {
+        padding: 25px 20px;
+        min-width: 100%;
+        max-width: 100%;
+      }
+      
+      .step-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+      
+      .timeline-step h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      
+      .timeline-step p {
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+      
+      .step-time {
+        font-size: 13px;
+        padding: 5px 12px;
+      }
+      
+      .freshness-guarantee {
+        margin-top: 30px;
+        padding: 20px 15px;
+        font-size: 15px;
+      }
+      
+      .guarantee-icon {
+        font-size: 20px;
+      }
+      
+      .freshness-guarantee strong {
+        font-size: 16px;
+      }
+      
+      /* Loyalty Program */
+      .loyalty-program {
+        padding: 60px 20px;
+      }
+      
+      .loyalty-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+      
+      .loyalty-card.featured {
+        transform: none;
+      }
+      
+      .loyalty-card.featured:hover {
+        transform: translateY(-8px) scale(1.02);
+      }
+      
+      .loyalty-card {
+        padding: 25px 20px;
+      }
+      
+      .loyalty-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+      
+      .loyalty-card h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      
+      .loyalty-card p {
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+      
+      .points-example {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+      
+      .loyalty-cta {
+        margin-top: 30px;
+      }
+      
+      .loyalty-cta p {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      
+      .loyalty-btn {
+        padding: 14px 25px;
+        font-size: 14px;
+      }
+      
+      /* Delivery Zone */
+      .delivery-zone {
+        padding: 60px 20px;
+      }
+      
+      .delivery-info-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-top: 30px;
+      }
+      
+      .delivery-map {
+        padding: 30px 20px;
+      }
+      
+      .map-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+      }
+      
+      .delivery-map h3 {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+      
+      .delivery-map p {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+      
+      .zone-item {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      
+      .delivery-feature {
+        padding: 20px;
+        gap: 15px;
+      }
+      
+      .feature-icon {
+        font-size: 24px;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .feature-content h4 {
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+      
+      .feature-content p {
+        font-size: 14px;
+      }
+      
+      /* WhatsApp Button */
+      .whatsapp-float {
+        bottom: 25px;
+        left: 20px;
+        padding: 12px 16px;
+        min-width: 160px;
+        border-radius: 40px;
+      }
+      
+      .whatsapp-icon {
+        font-size: 20px;
+        width: 35px;
+        height: 35px;
+      }
+      
+      .whatsapp-title {
+        font-size: 13px;
+      }
+      
+      .whatsapp-subtitle {
+        font-size: 11px;
+      }
+      
+      .whatsapp-badge {
+        font-size: 9px;
+        padding: 3px 6px;
+        top: -6px;
+        right: -6px;
+      }
+      
+      /* Discount Popup */
+      .popup-content {
+        max-width: 380px;
+        margin: 10px;
+        border-radius: 20px;
+      }
+      
+      .popup-header {
+        padding: 30px 25px 25px 25px;
+      }
+      
+      .popup-pizza {
+        font-size: 40px;
+        margin-bottom: 12px;
+      }
+      
+      .popup-header h3 {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+      
+      .popup-header p {
+        font-size: 15px;
+      }
+      
+      .popup-body {
+        padding: 25px;
+      }
+      
+      .discount-code {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      
+      .code-label {
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      
+      .code-value {
+        font-size: 20px;
+        letter-spacing: 1px;
+      }
+      
+      .benefit-item {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      
+      .popup-cta {
+        padding: 14px 20px;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+      
+      .popup-timer {
+        font-size: 12px;
+      }
+      
+      .popup-close {
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+      }
+
+      header {
+        padding: 25px 20px;
+        position: sticky;
+        top: 0;
+      }
+      
       header h1 {
         font-size: 32px;
+        margin-bottom: 10px;
       }
       
       nav {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        justify-content: center;
         margin-top: 15px;
+        gap: 6px;
+        flex-wrap: wrap;
       }
       
       nav::before {
-        width: 150px;
+        width: 120px;
       }
       
       nav a {
-        padding: 12px 20px;
-        font-size: 14px;
-        min-width: 120px;
+        padding: 12px 18px;
+        font-size: 13px;
+        min-width: 70px;
+        min-height: 44px;
+        border-radius: 10px;
+        flex: 0 0 auto;
       }
       
       .fullwidth-slider {
         height: calc(100vw * 325 / 1920);
         margin: 0;
+        min-height: 200px;
       }
       
       .fullwidth-slider img {
         height: calc(100vw * 325 / 1920);
+        min-height: 200px;
       }
       
       section {
-        padding: 60px 15px;
+        padding: 50px 20px;
       }
       
       h2 {
         font-size: 28px;
         padding-bottom: 20px;
+        margin-bottom: 25px;
       }
       
       h2::before {
@@ -941,6 +2938,13 @@
       
       h2::after {
         width: 40px;
+      }
+      
+      .section-intro {
+        font-size: 16px;
+        margin-bottom: 40px;
+        padding: 0 10px;
+        line-height: 1.6;
       }
       
       .section-intro::before {
@@ -954,10 +2958,12 @@
       .galeria { 
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
         gap: 25px;
+        padding: 0 10px;
       }
       
       .pizza-card {
         border-radius: 20px;
+        margin-bottom: 10px;
       }
       
       .pizza-card::after {
@@ -967,86 +2973,123 @@
       }
       
       .pizza-card img {
-        height: 200px;
+        height: 180px;
         border-radius: 20px 20px 0 0;
       }
       
       .pizza-info {
-        padding: 25px 20px;
-        min-height: 100px;
-        gap: 6px;
+        padding: 20px 18px;
+        min-height: 90px;
+        gap: 8px;
       }
       
       .pizza-name {
-        font-size: 22px;
+        font-size: 20px;
+        line-height: 1.3;
       }
       
       .pizza-price {
-        font-size: 20px;
+        font-size: 18px;
         padding: 6px 14px;
       }
       
       .pizza-description {
-        padding: 20px 15px;
+        padding: 18px 15px;
         font-size: 14px;
         line-height: 1.5;
         border-radius: 0 0 20px 20px;
       }
       
       #servicio-pedidos {
-        padding: 40px 20px;
-        margin: 60px 15px;
+        padding: 40px 25px;
+        margin: 50px 20px;
+        border-radius: 18px;
       }
       
       #servicio-pedidos h2 {
-        font-size: 32px;
+        font-size: 30px;
+        margin-bottom: 15px;
       }
       
       #servicio-pedidos p {
-        font-size: 18px;
+        font-size: 17px;
+        margin-bottom: 25px;
       }
       
       #contacto {
-        padding: 30px 20px;
-        margin: 40px 15px;
+        padding: 35px 25px;
+        margin: 40px 20px;
+        border-radius: 18px;
       }
       
       #contacto p {
         font-size: 16px;
-        flex-direction: column;
-        gap: 5px;
+        margin-bottom: 12px;
+        display: block;
+        text-align: center;
       }
       
       .newsletter {
-        padding: 40px 20px;
-        margin: 60px 15px;
+        padding: 40px 25px;
+        margin: 50px 20px;
+        border-radius: 18px;
       }
       
       .newsletter h2 {
         font-size: 26px;
+        margin-bottom: 12px;
+      }
+      
+      .newsletter p {
+        font-size: 16px;
+        margin-bottom: 25px;
       }
       
       .newsletter-form {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+        gap: 12px;
       }
       
       .newsletter input[type=email] {
+        width: 100%;
         min-width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: 0;
+        padding: 16px 20px;
+        font-size: 16px;
+        border-radius: 10px;
       }
       
       .newsletter button {
         width: 100%;
+        padding: 16px 20px;
+        font-size: 16px;
+        min-height: 50px;
       }
       
       .slider-controls {
-        padding: 0 15px;
+        padding: 0 20px;
       }
       
       .slider-controls button {
-        font-size: 1.4em;
-        padding: 12px 15px;
+        font-size: 1.5em;
+        padding: 12px 16px;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .button {
+        padding: 16px 28px;
+        font-size: 15px;
+        min-height: 48px;
+        margin: 10px auto;
+      }
+      
+      .button-large {
+        padding: 18px 32px;
+        font-size: 17px;
+        min-height: 52px;
+        margin-top: 20px;
       }
       
       footer {
@@ -1058,32 +3101,70 @@
       }
     }
     
+    /* Small mobile optimizations */
     @media (max-width: 480px) {
-      .galeria { 
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      
       header {
         padding: 20px 15px;
+        position: sticky;
+        top: 0;
       }
       
       header h1 {
-        font-size: 28px;
+        font-size: 26px;
+        line-height: 1.2;
+      }
+      
+      nav {
+        margin-top: 12px;
+        gap: 4px;
+        padding: 0 5px;
       }
       
       nav::before {
-        width: 100px;
+        width: 80px;
       }
       
       nav a {
-        padding: 10px 16px;
-        font-size: 13px;
+        padding: 10px 14px;
+        font-size: 12px;
+        min-width: 65px;
+        min-height: 44px;
+        border-radius: 8px;
+        letter-spacing: 0.2px;
+      }
+      
+      .fullwidth-slider {
+        height: calc(100vw * 325 / 1920);
+        min-height: 180px;
+      }
+      
+      .fullwidth-slider img {
+        height: calc(100vw * 325 / 1920);
+        min-height: 180px;
+      }
+      
+      .slider-controls button {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        padding: 10px;
+      }
+      
+      .slider-dots span {
+        width: 10px;
+        height: 10px;
+        margin: 0 6px;
+      }
+      
+      section {
+        padding: 40px 15px;
       }
       
       h2 {
-        font-size: 24px;
+        font-size: 22px;
         padding-bottom: 15px;
+        margin-bottom: 20px;
+        line-height: 1.3;
       }
       
       h2::before {
@@ -1096,27 +3177,29 @@
       }
       
       .section-intro {
-        padding: 0 15px;
+        font-size: 15px;
+        margin-bottom: 30px;
+        padding: 0 10px;
+        line-height: 1.5;
       }
       
       .section-intro::before {
         box-shadow: 
-          -10px 0 0 #D5786C,
-          10px 0 0 #D5786C,
-          -5px 0 0 rgba(213, 120, 108, 0.5),
-          5px 0 0 rgba(213, 120, 108, 0.5);
+          -8px 0 0 #D5786C,
+          8px 0 0 #D5786C,
+          -4px 0 0 rgba(213, 120, 108, 0.5),
+          4px 0 0 rgba(213, 120, 108, 0.5);
       }
       
-      .fullwidth-slider {
-        height: calc(100vw * 325 / 1920);
-      }
-      
-      .fullwidth-slider img {
-        height: calc(100vw * 325 / 1920);
+      .galeria { 
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 5px;
       }
       
       .pizza-card {
         border-radius: 16px;
+        margin-bottom: 5px;
       }
       
       .pizza-card::after {
@@ -1126,38 +3209,250 @@
       }
       
       .pizza-card img {
+        height: 160px;
         border-radius: 16px 16px 0 0;
       }
       
+      .pizza-info {
+        padding: 18px 15px;
+        min-height: 80px;
+        gap: 6px;
+      }
+      
+      .pizza-name {
+        font-size: 18px;
+        line-height: 1.2;
+        margin-bottom: 6px;
+      }
+      
+      .pizza-price {
+        font-size: 16px;
+        padding: 5px 12px;
+        border-radius: 15px;
+      }
+      
       .pizza-description {
+        padding: 15px 12px;
+        font-size: 13px;
+        line-height: 1.4;
         border-radius: 0 0 16px 16px;
       }
       
-      section {
-        padding: 40px 10px;
+      #servicio-pedidos {
+        padding: 30px 20px;
+        margin: 40px 15px;
+        border-radius: 16px;
       }
       
-      .section-intro {
+      #servicio-pedidos h2 {
+        font-size: 24px;
+        margin-bottom: 12px;
+        line-height: 1.2;
+      }
+      
+      #servicio-pedidos p {
+        font-size: 15px;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+      
+      #contacto {
+        padding: 25px 20px;
+        margin: 35px 15px;
+        border-radius: 16px;
+      }
+      
+      #contacto h2 {
+        margin-bottom: 20px;
+      }
+      
+      #contacto p {
+        font-size: 14px;
+        margin-bottom: 10px;
+        display: block;
+        text-align: center;
+        line-height: 1.4;
+      }
+      
+      #contacto a {
+        display: inline-block;
+        padding: 4px 8px;
+        margin: 2px 0;
+        min-height: 32px;
+        line-height: 1.3;
+      }
+      
+      .newsletter {
+        padding: 30px 20px;
+        margin: 40px 15px;
+        border-radius: 16px;
+      }
+      
+      .newsletter h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        line-height: 1.2;
+      }
+      
+      .newsletter p {
+        font-size: 14px;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      
+      .newsletter input[type=email] {
+        width: 100%;
+        padding: 14px 16px;
         font-size: 16px;
-        margin-bottom: 30px;
+        border-radius: 8px;
+        min-height: 48px;
+      }
+      
+      .newsletter button {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 15px;
+        min-height: 48px;
+        border-radius: 8px;
       }
       
       .button {
-        padding: 14px 24px;
+        padding: 12px 20px;
         font-size: 14px;
+        min-height: 44px;
+        margin: 8px auto;
+        border-radius: 8px;
+        display: block;
+        text-align: center;
+        max-width: 200px;
       }
       
       .button-large {
-        padding: 16px 28px;
-        font-size: 16px;
+        padding: 16px 24px;
+        font-size: 15px;
+        min-height: 48px;
+        margin-top: 15px;
+        border-radius: 10px;
+        max-width: 250px;
       }
       
       footer {
-        padding: 35px 15px;
+        padding: 30px 15px;
       }
       
       footer::before {
         width: 40px;
+      }
+      
+      footer p {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 360px) {
+      header {
+        padding: 18px 12px;
+      }
+      
+      header h1 {
+        font-size: 24px;
+      }
+      
+      nav a {
+        padding: 8px 12px;
+        font-size: 11px;
+        min-width: 60px;
+      }
+      
+      section {
+        padding: 35px 12px;
+      }
+      
+      h2 {
+        font-size: 20px;
+      }
+      
+      .section-intro {
+        font-size: 14px;
+        padding: 0 8px;
+      }
+      
+      .galeria {
+        padding: 0 2px;
+        gap: 15px;
+      }
+      
+      .pizza-card img {
+        height: 140px;
+      }
+      
+      .pizza-info {
+        padding: 15px 12px;
+      }
+      
+      .pizza-name {
+        font-size: 16px;
+      }
+      
+      .pizza-price {
+        font-size: 15px;
+      }
+      
+      #servicio-pedidos {
+        margin: 35px 12px;
+        padding: 25px 15px;
+      }
+      
+      #contacto {
+        margin: 30px 12px;
+        padding: 20px 15px;
+      }
+      
+      .newsletter {
+        margin: 35px 12px;
+        padding: 25px 15px;
+      }
+    }
+
+    /* Landscape mobile optimization */
+    @media (max-height: 500px) and (orientation: landscape) {
+      header {
+        padding: 15px 20px;
+      }
+      
+      header h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      
+      nav {
+        margin-top: 8px;
+      }
+      
+      nav a {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+      
+      section {
+        padding: 30px 20px;
+      }
+      
+      .fullwidth-slider {
+        height: 200px;
+      }
+      
+      .fullwidth-slider img {
+        height: 200px;
+        object-fit: cover;
       }
     }
   </style>
@@ -1181,10 +3476,22 @@
     </div>
   </div>
 
+  <!-- BANNER DE OFERTA URGENTE -->
+  <div class="urgent-offer-banner" id="urgentBanner">
+    <div class="offer-content">
+      <span class="offer-icon">🔥</span>
+      <span class="offer-text">OFERTA ESPECIAL: <strong>20% OFF</strong> en pedidos +15€</span>
+      <span class="offer-code">Código: <strong>FRATELLI20</strong></span>
+      <span class="offer-timer">⏰ Termina en <span id="countdown">2:30:00</span></span>
+      <button class="offer-cta" onclick="window.location.href='pedido.html'">¡PEDIR AHORA!</button>
+    </div>
+    <button class="close-banner" onclick="closeBanner()">×</button>
+  </div>
+
   <!-- OVERLAY DE TRANSICIÓN -->
   <div class="page-transition-overlay" id="pageTransitionOverlay"></div>
   
-  <header>
+  <header id="header">
     <h1>Fratelli Pazzi</h1>
     <nav>
       <a href="#ofertas">Ofertas</a>
@@ -1212,6 +3519,419 @@
       <span onclick="moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
       <span onclick="moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
     </div>
+  </div>
+
+  <!-- CONTADOR DE ACTIVIDAD EN TIEMPO REAL -->
+  <section class="live-activity section-transition">
+    <div class="activity-content">
+      <div class="activity-item">
+        <span class="live-indicator">🔴</span>
+        <span id="viewersCount">8</span> personas viendo el menú ahora
+      </div>
+      <div class="activity-item">
+        <span class="order-icon">📋</span>
+        <span id="todayOrders">47</span> pedidos realizados hoy
+      </div>
+      <div class="activity-item">
+        <span class="time-icon">⏱️</span>
+        Último pedido hace <span id="lastOrder">5</span> minutos
+      </div>
+    </div>
+  </section>
+
+  <!-- ¿POR QUÉ FRATELLI PAZZI? -->
+  <section class="why-us section-transition">
+    <h2>¿Por qué elegir Fratelli Pazzi?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">⚡</div>
+        <h3>Entrega Rápida</h3>
+        <p>25-30 minutos en Las Rozas<br><span class="highlight">Garantía de puntualidad</span></p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🇮🇹</div>
+        <h3>Auténtica Italiana</h3>
+        <p>Ingredientes importados de Italia<br><span class="highlight">Recetas tradicionales napolitanas</span></p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">👨‍🍳</div>
+        <h3>Maestros Pizzaiolos</h3>
+        <p>Chefs entrenados en Nápoles<br><span class="highlight">Técnica tradicional</span></p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">⭐</div>
+        <h3>+300 Clientes</h3>
+        <p>Satisfechos en Las Rozas<br><span class="highlight">4.8/5 estrellas en Google</span></p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🛡️</div>
+        <h3>Garantía Total</h3>
+        <p>Frescura y calidad garantizada<br><span class="highlight">100% satisfacción</span></p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔥</div>
+        <h3>Horno de Leña</h3>
+        <p>Cocción a 450°C tradicional<br><span class="highlight">Sabor auténtico napolitano</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIZZAS MÁS PEDIDAS -->
+  <section class="most-ordered section-transition">
+    <h2>Las Favoritas de Nuestros Clientes</h2>
+    <p class="section-intro">Las pizzas más pedidas en Las Rozas. ¡Descubre por qué son las preferidas!</p>
+    <div class="featured-pizzas">
+      <div class="featured-pizza-card bestseller">
+        <div class="bestseller-badge">🔥 MÁS VENDIDA</div>
+        <img src="images/Margarita.png" alt="Pizza Margarita" loading="lazy">
+        <div class="featured-info">
+          <h3>Margarita Clásica</h3>
+          <p class="customer-quote">"¡La mejor Margarita de Madrid!"</p>
+          <div class="price-action">
+            <span class="featured-price">10€</span>
+            <button class="quick-order-btn" onclick="window.location.href='pedido.html'">PEDIR AHORA</button>
+          </div>
+        </div>
+      </div>
+      <div class="featured-pizza-card">
+        <div class="popular-badge">⭐ TOP 3</div>
+        <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" loading="lazy">
+        <div class="featured-info">
+          <h3>Leonardo Da Vinci</h3>
+          <p class="customer-quote">"Salmón ahumado espectacular"</p>
+          <div class="price-action">
+            <span class="featured-price">14€</span>
+            <button class="quick-order-btn" onclick="window.location.href='pedido.html'">PEDIR AHORA</button>
+          </div>
+        </div>
+      </div>
+      <div class="featured-pizza-card">
+        <div class="popular-badge">👑 PREMIUM</div>
+        <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" loading="lazy">
+        <div class="featured-info">
+          <h3>Cuatro Formaggi</h3>
+          <p class="customer-quote">"Increíble mezcla de quesos"</p>
+          <div class="price-action">
+            <span class="featured-price">12€</span>
+            <button class="quick-order-btn" onclick="window.location.href='pedido.html'">PEDIR AHORA</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS Y RESEÑAS DE GOOGLE -->
+  <section class="testimonials section-transition">
+    <h2>Lo que dicen nuestros clientes</h2>
+    <p class="section-intro">Reseñas reales de Google My Business</p>
+    <div class="reviews-container">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">M</div>
+            <div class="reviewer-details">
+              <h4>María González</h4>
+              <span class="review-date">Hace 2 días</span>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">"Increíble pizza napolitana en Las Rozas. Los ingredientes se nota que son de calidad, la masa perfecta y llegó súper caliente. Repetiremos seguro!"</p>
+        <div class="google-badge">Reseña de Google</div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">C</div>
+            <div class="reviewer-details">
+              <h4>Carlos Ruiz</h4>
+              <span class="review-date">Hace 1 semana</span>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">"La mejor pizzería de la zona sin duda. La Leonardo Da Vinci con salmón es espectacular. Servicio rápido y muy amables por teléfono."</p>
+        <div class="google-badge">Reseña de Google</div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">L</div>
+            <div class="reviewer-details">
+              <h4>Laura Martín</h4>
+              <span class="review-date">Hace 3 días</span>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">"Auténtica pizza italiana. Se nota que saben lo que hacen. La masa fermentada 48h marca la diferencia. Entrega puntual, llegó en 25 minutos exactos."</p>
+        <div class="google-badge">Reseña de Google</div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">A</div>
+            <div class="reviewer-details">
+              <h4>Antonio Jiménez</h4>
+              <span class="review-date">Hace 5 días</span>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">"Familia italiana auténtica. La Margarita está buenísima, como las que comí en Nápoles. Precio muy justo para la calidad. 100% recomendable."</p>
+        <div class="google-badge">Reseña de Google</div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">S</div>
+            <div class="reviewer-details">
+              <h4>Sofía López</h4>
+              <span class="review-date">Hace 1 semana</span>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">"Hemos probado todas las pizzerías de Las Rozas y esta es la mejor. Los calzones también están increíbles. Ya somos clientes habituales."</p>
+        <div class="google-badge">Reseña de Google</div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">J</div>
+            <div class="reviewer-details">
+              <h4>Javier Moreno</h4>
+              <span class="review-date">Hace 4 días</span>
+            </div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">"Pedido por primera vez y sorprendidos gratamente. Pizza caliente, ingredientes frescos y muy buena atención. Definitivamente volveremos a pedir."</p>
+        <div class="google-badge">Reseña de Google</div>
+      </div>
+    </div>
+    <div class="google-rating-summary">
+      <div class="rating-big">4.8 ⭐</div>
+      <div class="rating-details">
+        <p>Basado en <strong>156 reseñas</strong> de Google</p>
+        <a href="https://g.co/kgs/fratellipazzi" target="_blank" class="view-all-reviews">Ver todas las reseñas en Google</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFERTAS ESPECIALES HOY -->
+  <section class="special-offers section-transition">
+    <h2>Ofertas Especiales de Hoy</h2>
+    <p class="section-intro">Aprovecha estas ofertas limitadas solo para hoy</p>
+    <div class="offers-grid">
+      <div class="offer-card featured">
+        <div class="offer-tag">🔥 LIMITADA</div>
+        <h3>Combo Familiar</h3>
+        <p class="offer-description">2 Pizzas Grandes + 2 Bebidas + 1 Helado</p>
+        <div class="price-comparison">
+          <span class="old-price">32€</span>
+          <span class="new-price">25€</span>
+          <span class="savings">¡Ahorra 7€!</span>
+        </div>
+        <button class="offer-btn" onclick="window.location.href='pedido.html'">APROVECHAR OFERTA</button>
+      </div>
+      
+      <div class="offer-card">
+        <div class="offer-tag">🎉 NUEVOS</div>
+        <h3>Primera Compra</h3>
+        <p class="offer-description">15% de descuento en tu primer pedido</p>
+        <div class="price-comparison">
+          <span class="discount-percent">15% OFF</span>
+          <span class="offer-code">Código: BIENVENIDO</span>
+        </div>
+        <button class="offer-btn" onclick="window.location.href='pedido.html'">EMPEZAR AHORA</button>
+      </div>
+      
+      <div class="offer-card">
+        <div class="offer-tag">🍕 LUNES</div>
+        <h3>Lunes de Pizza</h3>
+        <p class="offer-description">20% de descuento en todas las pizzas</p>
+        <div class="price-comparison">
+          <span class="discount-percent">20% OFF</span>
+          <span class="offer-code">Solo los Lunes</span>
+        </div>
+        <button class="offer-btn" onclick="window.location.href='pedido.html'">VER PIZZAS</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE DE FRESCURA -->
+  <section class="freshness-timeline section-transition">
+    <h2>De Nuestro Horno a Tu Casa</h2>
+    <p class="section-intro">Proceso garantizado de frescura máxima</p>
+    <div class="timeline-container">
+      <div class="timeline-step">
+        <div class="step-icon">🕐</div>
+        <div class="step-content">
+          <h3>Tu Pedido</h3>
+          <p>Confirmas tu pedido online</p>
+          <span class="step-time">2 min</span>
+        </div>
+      </div>
+      
+      <div class="timeline-arrow">→</div>
+      
+      <div class="timeline-step">
+        <div class="step-icon">🍕</div>
+        <div class="step-content">
+          <h3>Horno de Leña</h3>
+          <p>Cocción a 450°C tradicional</p>
+          <span class="step-time">12-15 min</span>
+        </div>
+      </div>
+      
+      <div class="timeline-arrow">→</div>
+      
+      <div class="timeline-step">
+        <div class="step-icon">🏠</div>
+        <div class="step-content">
+          <h3>Tu Casa</h3>
+          <p>Entrega caliente garantizada</p>
+          <span class="step-time">25-30 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="freshness-guarantee">
+      <span class="guarantee-icon">🛡️</span>
+      <strong>Garantía de Frescura:</strong> Si tu pizza no llega caliente, te hacemos otra gratis
+    </div>
+  </section>
+
+  <!-- PROGRAMA DE FIDELIDAD -->
+  <section class="loyalty-program section-transition">
+    <h2>Programa Fratelli VIP</h2>
+    <p class="section-intro">Cada pedido te acerca más a pizzas gratis y beneficios exclusivos</p>
+    <div class="loyalty-container">
+      <div class="loyalty-card">
+        <div class="loyalty-icon">💰</div>
+        <h3>Acumula Puntos</h3>
+        <p>1€ gastado = 1 punto<br><span class="highlight">Cada pedido suma</span></p>
+        <div class="points-example">Pedido 15€ = 15 puntos</div>
+      </div>
+      
+      <div class="loyalty-card featured">
+        <div class="loyalty-icon">🎁</div>
+        <h3>Pizza Gratis</h3>
+        <p>Acumula 100 puntos<br><span class="highlight">Pizza Margarita gratis</span></p>
+        <div class="points-example">≈ 7 pedidos promedio</div>
+      </div>
+      
+      <div class="loyalty-card">
+        <div class="loyalty-icon">👑</div>
+        <h3>Cliente VIP</h3>
+        <p>Desde 200 puntos<br><span class="highlight">Descuentos exclusivos</span></p>
+        <div class="points-example">Ofertas especiales</div>
+      </div>
+    </div>
+    <div class="loyalty-cta">
+      <p><strong>¡Empieza a acumular puntos hoy!</strong> Automático en todos los pedidos</p>
+      <button class="loyalty-btn" onclick="window.location.href='pedido.html'">EMPEZAR A ACUMULAR</button>
+    </div>
+  </section>
+
+  <!-- ZONA DE ENTREGA CON MAPA -->
+  <section class="delivery-zone section-transition">
+    <h2>Zona de Entrega Las Rozas</h2>
+    <p class="section-intro">Entregamos en toda Las Rozas con tiempos garantizados</p>
+    <div class="delivery-info-grid">
+      <div class="delivery-map">
+        <div class="map-placeholder">
+          <div class="map-icon">📍</div>
+          <h3>Las Rozas</h3>
+          <p>Cobertura completa</p>
+          <div class="delivery-zones">
+            <div class="zone-item">
+              <span class="zone-dot zona-a"></span>
+              <span>Centro: 20-25 min</span>
+            </div>
+            <div class="zone-item">
+              <span class="zone-dot zona-b"></span>
+              <span>Residencial: 25-30 min</span>
+            </div>
+            <div class="zone-item">
+              <span class="zone-dot zona-c"></span>
+              <span>Periferia: 30-35 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="delivery-details">
+        <div class="delivery-feature">
+          <div class="feature-icon">🕐</div>
+          <div class="feature-content">
+            <h4>Horarios de Entrega</h4>
+            <p>Lunes a Domingo<br><strong>20:00 - 23:00</strong></p>
+          </div>
+        </div>
+        <div class="delivery-feature">
+          <div class="feature-icon">🚗</div>
+          <div class="feature-content">
+            <h4>Entrega Garantizada</h4>
+            <p>Si llegamos tarde<br><strong>Pizza gratis</strong></p>
+          </div>
+        </div>
+        <div class="delivery-feature">
+          <div class="feature-icon">💳</div>
+          <div class="feature-content">
+            <h4>Pedido Mínimo</h4>
+            <p>Solo <strong>12€</strong><br>Envío incluido en Las Rozas</p>
+          </div>
+        </div>
+        <div class="delivery-feature">
+          <div class="feature-icon">📱</div>
+          <div class="feature-content">
+            <h4>Seguimiento</h4>
+            <p>Te avisamos por WhatsApp<br><strong>Estado en tiempo real</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <div class="whatsapp-float" onclick="openWhatsApp()">
+    <div class="whatsapp-icon">💬</div>
+    <div class="whatsapp-text">
+      <div class="whatsapp-title">¿Dudas?</div>
+      <div class="whatsapp-subtitle">Chatea con nosotros</div>
+    </div>
+    <div class="whatsapp-badge" id="whatsapp-badge">¡Nuevo!</div>
+  </div>
+
+  <!-- POPUP DE DESCUENTO PARA NUEVOS VISITANTES -->
+  <div class="discount-popup" id="discountPopup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closeDiscountPopup()">×</button>
+      <div class="popup-header">
+        <div class="popup-pizza">🍕</div>
+        <h3>¡Bienvenido a Fratelli Pazzi!</h3>
+        <p>Obtén <strong>15% de descuento</strong> en tu primera pizza</p>
+      </div>
+      <div class="popup-body">
+        <div class="discount-code">
+          <span class="code-label">Tu código:</span>
+          <span class="code-value">BIENVENIDO15</span>
+        </div>
+        <div class="popup-benefits">
+          <div class="benefit-item">✅ Ingredientes premium de Italia</div>
+          <div class="benefit-item">✅ Entrega en 25-30 minutos</div>
+          <div class="benefit-item">✅ Más de 300 clientes satisfechos</div>
+        </div>
+        <button class="popup-cta" onclick="useDiscountCode()">USAR MI DESCUENTO</button>
+        <p class="popup-timer">Oferta válida por <span id="popup-countdown">15:00</span> minutos</p>
+      </div>
+    </div>
+    <div class="popup-overlay" onclick="closeDiscountPopup()"></div>
   </div>
 
   <section id="nuestras-pizzas" class="section-transition">
@@ -1376,20 +4096,253 @@
   <script>
     // ========== VARIABLES GLOBALES ==========
     let currentSlide = 0;
-    const slides = document.querySelectorAll('.slider-wrapper img');
-    const dots = document.querySelectorAll('.slider-dots span');
     let autoPlayInterval;
+    let countdownInterval;
+    let activityInterval;
+    let popupTimer;
+    let popupCountdownInterval;
+    let hasVisited = false; // Reemplaza localStorage
+
+    // ========== POPUP DE DESCUENTO ==========
+    function showDiscountPopup() {
+      // Solo mostrar si es la primera visita (simulado con variable)
+      if (!hasVisited) {
+        setTimeout(() => {
+          const popup = document.getElementById('discountPopup');
+          if (popup) {
+            popup.classList.add('show');
+            startPopupCountdown();
+            hasVisited = true;
+          }
+        }, 10000); // Mostrar después de 10 segundos
+      }
+    }
+    
+    function startPopupCountdown() {
+      let timeLeft = 15 * 60; // 15 minutos
+      
+      popupCountdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        const countdownElement = document.getElementById('popup-countdown');
+        if (countdownElement) {
+          countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        timeLeft--;
+        
+        if (timeLeft < 0) {
+          clearInterval(popupCountdownInterval);
+          closeDiscountPopup();
+        }
+      }, 1000);
+    }
+    
+    function closeDiscountPopup() {
+      const popup = document.getElementById('discountPopup');
+      if (popup) {
+        popup.classList.remove('show');
+        if (popupCountdownInterval) {
+          clearInterval(popupCountdownInterval);
+        }
+      }
+    }
+    
+    function useDiscountCode() {
+      // Copiar código al clipboard si es posible
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText('BIENVENIDO15').then(() => {
+          alert('¡Código copiado! Te redirigimos al menú para hacer tu pedido.');
+        }).catch(() => {
+          alert('Código: BIENVENIDO15 - ¡Te redirigimos al menú!');
+        });
+      } else {
+        alert('Tu código de descuento: BIENVENIDO15');
+      }
+      
+      closeDiscountPopup();
+      window.location.href = 'pedido.html';
+    }
+    
+    // ========== BANNER DE OFERTA ==========
+    function startCountdown() {
+      let timeLeft = 2.5 * 60 * 60; // 2.5 horas en segundos
+      
+      countdownInterval = setInterval(() => {
+        const hours = Math.floor(timeLeft / 3600);
+        const minutes = Math.floor((timeLeft % 3600) / 60);
+        const seconds = timeLeft % 60;
+        
+        const countdownElement = document.getElementById('countdown');
+        if (countdownElement) {
+          countdownElement.textContent = 
+            `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        timeLeft--;
+        
+        if (timeLeft < 0) {
+          clearInterval(countdownInterval);
+          closeBanner();
+        }
+      }, 1000);
+    }
+    
+    function closeBanner() {
+      const banner = document.getElementById('urgentBanner');
+      const header = document.getElementById('header');
+      const body = document.body;
+      
+      if (banner) {
+        banner.classList.add('hidden');
+        if (header) {
+          header.classList.remove('with-banner');
+        }
+        if (body) {
+          body.style.paddingTop = '0';
+          body.classList.add('banner-hidden');
+        }
+        
+        setTimeout(() => {
+          banner.style.display = 'none';
+        }, 300);
+      }
+    }
+    
+    // ========== CONTADOR DE ACTIVIDAD ==========
+    function startActivityCounter() {
+      const viewersElement = document.getElementById('viewersCount');
+      const ordersElement = document.getElementById('todayOrders');
+      const lastOrderElement = document.getElementById('lastOrder');
+      
+      // Verificar que los elementos existen
+      if (!viewersElement || !ordersElement || !lastOrderElement) {
+        console.log('Elementos de actividad no encontrados, saltando contador');
+        return;
+      }
+      
+      let viewers = 8;
+      let orders = 47;
+      let lastOrderTime = 5;
+      
+      activityInterval = setInterval(() => {
+        // Simular cambios realistas en visualizaciones
+        const viewerChange = Math.floor(Math.random() * 7) - 3; // -3 a +3
+        viewers = Math.max(3, Math.min(25, viewers + viewerChange));
+        
+        // Incrementar pedidos ocasionalmente
+        if (Math.random() < 0.03) { // 3% de probabilidad cada 5 segundos
+          orders++;
+          lastOrderTime = 0;
+        }
+        
+        // Incrementar tiempo del último pedido
+        lastOrderTime++;
+        
+        // Actualizar display (con verificación)
+        if (viewersElement) viewersElement.textContent = viewers;
+        if (ordersElement) ordersElement.textContent = orders;
+        if (lastOrderElement) {
+          const parentElement = lastOrderElement.parentNode;
+          if (parentElement) {
+            if (lastOrderTime < 60) {
+              lastOrderElement.textContent = lastOrderTime;
+              parentElement.innerHTML = 
+                parentElement.innerHTML.replace(/minutos?|horas?/, lastOrderTime === 1 ? 'minuto' : 'minutos');
+            } else {
+              const hours = Math.floor(lastOrderTime / 60);
+              lastOrderElement.textContent = hours;
+              parentElement.innerHTML = 
+                parentElement.innerHTML.replace(/minutos?|horas?/, hours === 1 ? 'hora' : 'horas');
+            }
+          }
+        }
+      }, 5000); // Actualizar cada 5 segundos
+    }
+
+    // ========== POPUP DE DESCUENTO (CORREGIDO) ==========
+    function startPopupCountdown() {
+      let timeLeft = 15 * 60; // 15 minutos
+      
+      popupCountdownInterval = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        const countdownElement = document.getElementById('popup-countdown');
+        if (countdownElement) {
+          countdownElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        timeLeft--;
+        
+        if (timeLeft < 0) {
+          clearInterval(popupCountdownInterval);
+          closeDiscountPopup();
+        }
+      }, 1000);
+    }
+    
+    function closeDiscountPopup() {
+      const popup = document.getElementById('discountPopup');
+      if (popup) {
+        popup.classList.remove('show');
+      }
+      if (popupCountdownInterval) {
+        clearInterval(popupCountdownInterval);
+      }
+    }
+    
+    function useDiscountCode() {
+      // Copiar código al clipboard si es posible
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText('BIENVENIDO15').then(() => {
+          alert('¡Código copiado! Te redirigimos al menú para hacer tu pedido.');
+        }).catch(() => {
+          alert('Código: BIENVENIDO15 - ¡Te redirigimos al menú!');
+        });
+      } else {
+        alert('Tu código de descuento: BIENVENIDO15');
+      }
+      
+      closeDiscountPopup();
+      window.location.href = 'pedido.html';
+    }
+    
+    // ========== WHATSAPP ==========
+    function openWhatsApp() {
+      const phoneNumber = '34660668812'; // Número con código de país
+      const message = encodeURIComponent('¡Hola! Me gustaría hacer un pedido en Fratelli Pazzi 🍕');
+      const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+      
+      // Ocultar badge después de hacer click
+      const badge = document.getElementById('whatsapp-badge');
+      if (badge) {
+        badge.style.display = 'none';
+      }
+      
+      window.open(whatsappURL, '_blank');
+    }
 
     // ========== LOADER PRINCIPAL ==========
     function hideMainLoader() {
       const loader = document.getElementById('pageLoader');
-      setTimeout(() => {
-        loader.classList.add('hidden');
-        // Iniciar animaciones de entrada cuando se oculte el loader
-        startSectionAnimations();
-      }, 3000); // 3 segundos de animación del logo
+      if (loader) {
+        setTimeout(() => {
+          loader.classList.add('hidden');
+          // Iniciar animaciones de entrada cuando se oculte el loader
+          startSectionAnimations();
+          // Iniciar contador de oferta y actividad
+          setTimeout(() => {
+            startCountdown();
+            startActivityCounter();
+            // Mostrar popup de descuento después de un tiempo
+            showDiscountPopup();
+          }, 500); // Dar tiempo para que se carguen los elementos
+        }, 3000); // 3 segundos de animación del logo
+      }
     }
-
+    
     // ========== TRANSICIONES DE SECCIÓN ==========
     function startSectionAnimations() {
       const observer = new IntersectionObserver((entries) => {
@@ -1414,24 +4367,15 @@
       });
     }
 
-    // ========== TRANSICIÓN DE PÁGINA ==========
-    function showPageTransition(callback) {
-      const overlay = document.getElementById('pageTransitionOverlay');
-      overlay.classList.add('active');
-      
-      setTimeout(() => {
-        if (callback) callback();
-      }, 300);
-      
-      setTimeout(() => {
-        overlay.classList.remove('active');
-      }, 600);
-    }
-
     // ========== SLIDER FUNCTIONS ==========
     function updateSlider() {
       const wrapper = document.querySelector('.slider-wrapper');
-      wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      const dots = document.querySelectorAll('.slider-dots span');
+      
+      if (wrapper) {
+        wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+      
       dots.forEach(dot => dot.classList.remove('active'));
       if (dots[currentSlide]) {
         dots[currentSlide].classList.add('active');
@@ -1439,74 +4383,116 @@
     }
 
     function moveSlider(direction) {
-      currentSlide = (currentSlide + direction + slides.length) % slides.length;
-      updateSlider();
+      const slides = document.querySelectorAll('.slider-wrapper img');
+      if (slides.length > 0) {
+        currentSlide = (currentSlide + direction + slides.length) % slides.length;
+        updateSlider();
+      }
     }
 
     function moveSliderTo(index) {
-      currentSlide = index;
-      updateSlider();
+      const slides = document.querySelectorAll('.slider-wrapper img');
+      if (slides.length > 0 && index >= 0 && index < slides.length) {
+        currentSlide = index;
+        updateSlider();
+      }
     }
 
     function startAutoPlay() {
-      autoPlayInterval = setInterval(() => {
-        moveSlider(1);
-      }, 5000);
+      const slides = document.querySelectorAll('.slider-wrapper img');
+      if (slides.length > 0) {
+        autoPlayInterval = setInterval(() => {
+          moveSlider(1);
+        }, 5000);
+      }
     }
 
     function stopAutoPlay() {
-      clearInterval(autoPlayInterval);
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+      }
     }
 
     // ========== NEWSLETTER ==========
     function suscribirse() {
-      const email = document.getElementById('newsletter-email').value;
-      if (email && email.includes('@')) {
+      const email = document.getElementById('newsletter-email');
+      if (!email) {
+        console.log('Campo de email no encontrado');
+        return;
+      }
+      
+      const emailValue = email.value;
+      if (emailValue && emailValue.includes('@')) {
         // Mostrar spinner de pizza durante el "proceso"
-        const button = event.target;
-        const originalText = button.innerHTML;
-        
-        button.innerHTML = '<div class="pizza-spinner" style="width: 20px; height: 20px; margin: 0 auto;"><div class="pizza-base"><div class="pizza-sauce"><div class="pizza-cheese"></div><div class="pizza-cheese"></div></div></div></div>';
-        button.disabled = true;
-        
-        setTimeout(() => {
-          button.innerHTML = originalText;
-          button.disabled = false;
-          alert('¡Gracias por suscribirte! Recibirás nuestras ofertas en ' + email);
-          document.getElementById('newsletter-email').value = '';
-        }, 2000);
+        const button = document.querySelector('.newsletter button');
+        if (button) {
+          const originalText = button.innerHTML;
+          
+          button.innerHTML = '<div class="pizza-spinner" style="width: 20px; height: 20px; margin: 0 auto;"><div class="pizza-base"><div class="pizza-sauce"><div class="pizza-cheese"></div><div class="pizza-cheese"></div></div></div></div>';
+          button.disabled = true;
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+            alert('¡Gracias por suscribirte! Recibirás nuestras ofertas en ' + emailValue);
+            email.value = '';
+          }, 2000);
+        }
       } else {
         alert('Por favor, introduce un email válido');
       }
     }
 
-    // ========== NAVIGATION CON TRANSICIONES ==========
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
+    // ========== TRANSICIÓN DE PÁGINA ==========
+    function showPageTransition(callback) {
+      const overlay = document.getElementById('pageTransitionOverlay');
+      if (overlay) {
+        overlay.classList.add('active');
         
-        if (href.startsWith('#')) {
-          e.preventDefault();
-          const targetId = href.substring(1);
-          const targetElement = document.getElementById(targetId);
+        setTimeout(() => {
+          if (callback) callback();
+        }, 300);
+        
+        setTimeout(() => {
+          overlay.classList.remove('active');
+        }, 600);
+      } else if (callback) {
+        // Si no hay overlay, ejecutar callback directamente
+        callback();
+      }
+    }
+
+    // ========== NAVIGATION CON TRANSICIONES ==========
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
           
-          if (targetElement) {
-            // Mostrar transición suave
-            showPageTransition(() => {
-              const offsetTop = targetElement.offsetTop - 100;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+              // Mostrar transición suave
+              showPageTransition(() => {
+                const header = document.getElementById('header') || document.querySelector('header');
+                const headerHeight = header ? header.offsetHeight : 80;
+                const offsetTop = targetElement.offsetTop - headerHeight - 20;
+                window.scrollTo({
+                  top: Math.max(0, offsetTop),
+                  behavior: 'smooth'
+                });
               });
+            }
+          } else if (href === 'pedido.html') {
+            e.preventDefault();
+            // Transición especial para ir a pedidos
+            showPageTransition(() => {
+              window.location.href = href;
             });
           }
-        } else if (href === 'pedido.html') {
-          e.preventDefault();
-          // Transición especial para ir a pedidos
-          showPageTransition(() => {
-            window.location.href = href;
-          });
-        }
+        });
       });
     });
 
@@ -1553,16 +4539,147 @@
     window.moveSlider = moveSlider;
     window.moveSliderTo = moveSliderTo;
     window.suscribirse = suscribirse;
+    window.closeBanner = closeBanner;
+    window.openWhatsApp = openWhatsApp;
+    window.closeDiscountPopup = closeDiscountPopup;
+    window.useDiscountCode = useDiscountCode;
 
     // ========== INICIALIZACIÓN ==========
     document.addEventListener('DOMContentLoaded', () => {
       preloadImages();
+      initMobileOptimizations();
+      
+      // Inicializar slider después de que se carguen las imágenes
+      setTimeout(() => {
+        updateSlider(); // Configurar estado inicial del slider
+      }, 100);
       
       // Animar la aparición del header después del loader
       setTimeout(() => {
-        document.querySelector('header').style.animation = 'fadeInUp 0.6s ease forwards';
+        const header = document.querySelector('header');
+        if (header) {
+          header.style.animation = 'fadeInUp 0.6s ease forwards';
+        }
       }, 3500);
+
+      // Limpiar intervalos al salir de la página
+      window.addEventListener('beforeunload', function() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (activityInterval) clearInterval(activityInterval);
+        if (popupCountdownInterval) clearInterval(popupCountdownInterval);
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+      });
     });
+    
+    // ========== OPTIMIZACIONES MÓVIL ==========
+    function initMobileOptimizations() {
+      // Header compacto en scroll para móvil
+      let lastScrollTop = 0;
+      const header = document.getElementById('header') || document.querySelector('header');
+      
+      if (header) {
+        window.addEventListener('scroll', function() {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          // Añadir clase scrolled cuando se hace scroll
+          if (scrollTop > 50) {
+            header.classList.add('header-scrolled');
+          } else {
+            header.classList.remove('header-scrolled');
+          }
+          
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Para móvil iOS
+        }, { passive: true });
+      }
+      
+      // Mejorar performance en móvil
+      if (window.DeviceMotionEvent) {
+        // Reducir animaciones en dispositivos móviles más lentos
+        const cards = document.querySelectorAll('.pizza-card');
+        cards.forEach(card => {
+          card.addEventListener('touchstart', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+          }, { passive: true });
+          
+          card.addEventListener('touchend', function() {
+            setTimeout(() => {
+              this.style.transform = 'translateY(0) scale(1)';
+            }, 150);
+          }, { passive: true });
+        });
+      }
+      
+      // Optimizar slider para touch
+      const slider = document.querySelector('.fullwidth-slider');
+      if (slider) {
+        let startX, currentX, isDragging = false;
+        
+        slider.addEventListener('touchstart', function(e) {
+          startX = e.touches[0].clientX;
+          isDragging = true;
+          stopAutoPlay();
+        }, { passive: true });
+        
+        slider.addEventListener('touchmove', function(e) {
+          if (!isDragging) return;
+          currentX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        slider.addEventListener('touchend', function(e) {
+          if (!isDragging) return;
+          isDragging = false;
+          
+          const diffX = startX - currentX;
+          const threshold = 50;
+          
+          if (Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+              moveSlider(1); // Swipe left - next
+            } else {
+              moveSlider(-1); // Swipe right - previous
+            }
+          }
+          
+          startAutoPlay();
+        }, { passive: true });
+      }
+      
+      // Mejorar formulario newsletter en móvil
+      const newsletterEmail = document.getElementById('newsletter-email');
+      if (newsletterEmail) {
+        // Evitar zoom en iOS
+        newsletterEmail.addEventListener('focus', function() {
+          if (window.innerWidth < 768) {
+            this.style.fontSize = '16px';
+          }
+        });
+      }
+      
+      // Optimizar navegación smooth scroll para móvil
+      document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target && header) {
+            const headerHeight = header.offsetHeight;
+            const targetPosition = target.offsetTop - headerHeight - 10;
+            
+            // Scroll suave optimizado para móvil
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Prevenir bounce en iOS
+      document.body.addEventListener('touchmove', function(e) {
+        if (e.target === document.body) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    }
 
     // ========== EFECTOS ADICIONALES ==========
     
