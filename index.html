@@ -482,10 +482,6 @@
       0%, 50% { opacity: 1; }
       51%, 100% { opacity: 0.4; }
     }
-    
-    .order-icon, .time-icon {
-      font-size: 16px;
-    }
 
     /* ¿POR QUÉ FRATELLI PAZZI? */
     .why-us {
@@ -1298,6 +1294,140 @@
     @keyframes badgeBounce {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.1); }
+    }
+
+    /* POPUP DE REGISTRO */
+    .register-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .register-popup.show {
+      display: flex;
+      animation: popupFadeIn 0.3s ease;
+    }
+    
+    .register-form {
+      width: 100%;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"] {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #eee;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: 'Open Sans', sans-serif;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    .form-group input[type="text"]:focus,
+    .form-group input[type="email"]:focus,
+    .form-group input[type="tel"]:focus {
+      outline: none;
+      border-color: #D5786C;
+      box-shadow: 0 0 0 3px rgba(213, 120, 108, 0.1);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .checkbox-group label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #666;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      display: none;
+    }
+    
+    .checkmark {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      position: relative;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      margin-top: 2px;
+    }
+    
+    .checkbox-group input[type="checkbox"]:checked + .checkmark {
+      background: #D5786C;
+      border-color: #D5786C;
+    }
+    
+    .checkbox-group input[type="checkbox"]:checked + .checkmark::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .register-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      border: none;
+      padding: 16px 25px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+    }
+    
+    .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+    }
+    
+    .login-link {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+    
+    .login-link a {
+      color: #D5786C;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
     }
 
     /* POPUP DE DESCUENTO */
@@ -2270,12 +2400,12 @@
       
       .activity-content {
         gap: 20px;
-        flex-direction: column;
+        justify-content: center;
       }
       
       .activity-item {
         font-size: 14px;
-        padding: 6px 12px;
+        padding: 8px 16px;
       }
       
       /* Why Us */
@@ -2620,6 +2750,32 @@
         padding: 3px 6px;
         top: -6px;
         right: -6px;
+      }
+      
+      /* Register Popup */
+      .register-popup .popup-content {
+        max-width: 400px;
+        margin: 10px;
+      }
+      
+      .form-group input[type="text"],
+      .form-group input[type="email"],
+      .form-group input[type="tel"] {
+        padding: 14px 16px;
+        font-size: 16px;
+      }
+      
+      .checkbox-group label {
+        font-size: 13px;
+      }
+      
+      .register-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+      }
+      
+      .login-link {
+        font-size: 13px;
       }
       
       /* Discount Popup */
@@ -3308,6 +3464,7 @@
       <a href="#nuestras-pizzas">Pizzas</a>
       <a href="#calzones">Calzones</a>
       <a href="pedido.html">Pedido</a>
+      <a href="javascript:void(0)" onclick="showRegisterForm()">Registrarse</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
@@ -3339,15 +3496,7 @@
     <div class="activity-content">
       <div class="activity-item">
         <span class="live-indicator">🔴</span>
-        <span id="viewersCount">8</span> personas viendo el menú ahora
-      </div>
-      <div class="activity-item">
-        <span class="order-icon">📋</span>
-        <span id="todayOrders">47</span> pedidos realizados hoy
-      </div>
-      <div class="activity-item">
-        <span class="time-icon">⏱️</span>
-        Último pedido hace <span id="lastOrder">5</span> minutos
+        <span id="viewersCount">3</span> personas viendo el menú ahora
       </div>
     </div>
   </section>
@@ -3673,7 +3822,49 @@
     <div class="whatsapp-badge" id="whatsapp-badge">¡Nuevo!</div>
   </div>
 
-  <!-- POPUP DE DESCUENTO PARA NUEVOS VISITANTES -->
+  <!-- POPUP DE REGISTRO -->
+  <div class="register-popup" id="registerPopup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closeRegisterForm()">×</button>
+      <div class="popup-header">
+        <div class="popup-pizza">👨‍🍳</div>
+        <h3>¡Únete a la Famiglia Fratelli!</h3>
+        <p>Regístrate y obtén <strong>15% de descuento</strong> en tu primera pizza</p>
+      </div>
+      <div class="popup-body">
+        <form class="register-form" onsubmit="handleRegistration(event)">
+          <div class="form-group">
+            <input type="text" id="register-name" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <input type="email" id="register-email" placeholder="Tu email" required>
+          </div>
+          <div class="form-group">
+            <input type="tel" id="register-phone" placeholder="Tu teléfono (opcional)">
+          </div>
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" id="register-offers" checked>
+              <span class="checkmark"></span>
+              Quiero recibir ofertas especiales por email
+            </label>
+          </div>
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" id="register-terms" required>
+              <span class="checkmark"></span>
+              Acepto los <a href="javascript:void(0)" onclick="showTerms()">términos y condiciones</a>
+            </label>
+          </div>
+          <button type="submit" class="register-btn">CREAR MI CUENTA</button>
+        </form>
+        <p class="login-link">¿Ya tienes cuenta? <a href="javascript:void(0)" onclick="showLoginForm()">Inicia sesión</a></p>
+      </div>
+    </div>
+    <div class="popup-overlay" onclick="closeRegisterForm()"></div>
+  </div>
+
+  <!-- POPUP DE DESCUENTO PARA NUEVOS USUARIOS REGISTRADOS -->
   <div class="discount-popup" id="discountPopup">
     <div class="popup-content">
       <button class="popup-close" onclick="closeDiscountPopup()">×</button>
@@ -3871,18 +4062,86 @@
     let popupCountdownInterval;
     let hasVisited = false; // Reemplaza localStorage
 
-    // ========== POPUP DE DESCUENTO ==========
-    function showDiscountPopup() {
-      // Solo mostrar si es la primera visita (simulado con variable)
-      if (!hasVisited) {
+    // ========== POPUP DE REGISTRO ==========
+    function showRegisterForm() {
+      const popup = document.getElementById('registerPopup');
+      if (popup) {
+        popup.classList.add('show');
+      }
+    }
+    
+    function closeRegisterForm() {
+      const popup = document.getElementById('registerPopup');
+      if (popup) {
+        popup.classList.remove('show');
+      }
+    }
+    
+    function handleRegistration(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      const phone = document.getElementById('register-phone').value;
+      const acceptsOffers = document.getElementById('register-offers').checked;
+      const acceptsTerms = document.getElementById('register-terms').checked;
+      
+      if (!acceptsTerms) {
+        alert('Debes aceptar los términos y condiciones');
+        return;
+      }
+      
+      // Simular proceso de registro
+      const registerBtn = document.querySelector('.register-btn');
+      const originalText = registerBtn.innerHTML;
+      
+      registerBtn.innerHTML = '<div class="pizza-spinner" style="width: 20px; height: 20px; margin: 0 auto;"><div class="pizza-base"><div class="pizza-sauce"><div class="pizza-cheese"></div><div class="pizza-cheese"></div></div></div></div>';
+      registerBtn.disabled = true;
+      
+      setTimeout(() => {
+        // Cerrar popup de registro
+        closeRegisterForm();
+        
+        // Mostrar popup de bienvenida con descuento
         setTimeout(() => {
-          const popup = document.getElementById('discountPopup');
-          if (popup) {
-            popup.classList.add('show');
-            startPopupCountdown();
-            hasVisited = true;
-          }
-        }, 10000); // Mostrar después de 10 segundos
+          showWelcomeDiscount(name);
+        }, 500);
+        
+        // Restaurar botón
+        registerBtn.innerHTML = originalText;
+        registerBtn.disabled = false;
+        
+        // Limpiar formulario
+        document.getElementById('register-name').value = '';
+        document.getElementById('register-email').value = '';
+        document.getElementById('register-phone').value = '';
+        
+        console.log('Usuario registrado:', {name, email, phone, acceptsOffers});
+      }, 2000);
+    }
+    
+    function showLoginForm() {
+      // Por ahora solo mostramos un mensaje
+      alert('Función de login próximamente. Por ahora puedes registrarte para obtener tu descuento.');
+    }
+    
+    function showTerms() {
+      alert('Términos y Condiciones:\n\n- Uso responsable de la plataforma\n- Protección de datos personales\n- Ofertas sujetas a disponibilidad\n- Descuentos no acumulables\n\nPara más información contacta con nosotros.');
+    }
+    
+    // ========== POPUP DE DESCUENTO (MODIFICADO) ==========
+    function showWelcomeDiscount(userName) {
+      const popup = document.getElementById('discountPopup');
+      if (popup) {
+        // Personalizar el mensaje con el nombre del usuario
+        const welcomeText = popup.querySelector('.popup-header p');
+        if (welcomeText && userName) {
+          welcomeText.innerHTML = `¡Hola ${userName}! Obtén <strong>15% de descuento</strong> en tu primera pizza`;
+        }
+        
+        popup.classList.add('show');
+        startPopupCountdown();
+        hasVisited = true;
       }
     }
     
@@ -3981,52 +4240,23 @@
     // ========== CONTADOR DE ACTIVIDAD ==========
     function startActivityCounter() {
       const viewersElement = document.getElementById('viewersCount');
-      const ordersElement = document.getElementById('todayOrders');
-      const lastOrderElement = document.getElementById('lastOrder');
       
-      // Verificar que los elementos existen
-      if (!viewersElement || !ordersElement || !lastOrderElement) {
-        console.log('Elementos de actividad no encontrados, saltando contador');
+      // Verificar que el elemento existe
+      if (!viewersElement) {
+        console.log('Elemento de viewers no encontrado, saltando contador');
         return;
       }
       
-      let viewers = 8;
-      let orders = 47;
-      let lastOrderTime = 5;
+      let viewers = 3; // Empezar con un número menor
       
       activityInterval = setInterval(() => {
-        // Simular cambios realistas en visualizaciones
-        const viewerChange = Math.floor(Math.random() * 7) - 3; // -3 a +3
-        viewers = Math.max(3, Math.min(25, viewers + viewerChange));
+        // Simular cambios realistas en visualizaciones (rango más pequeño)
+        const viewerChange = Math.floor(Math.random() * 5) - 2; // -2 a +2
+        viewers = Math.max(1, Math.min(8, viewers + viewerChange)); // Rango de 1 a 8
         
-        // Incrementar pedidos ocasionalmente
-        if (Math.random() < 0.03) { // 3% de probabilidad cada 5 segundos
-          orders++;
-          lastOrderTime = 0;
-        }
-        
-        // Incrementar tiempo del último pedido
-        lastOrderTime++;
-        
-        // Actualizar display (con verificación)
+        // Actualizar display
         if (viewersElement) viewersElement.textContent = viewers;
-        if (ordersElement) ordersElement.textContent = orders;
-        if (lastOrderElement) {
-          const parentElement = lastOrderElement.parentNode;
-          if (parentElement) {
-            if (lastOrderTime < 60) {
-              lastOrderElement.textContent = lastOrderTime;
-              parentElement.innerHTML = 
-                parentElement.innerHTML.replace(/minutos?|horas?/, lastOrderTime === 1 ? 'minuto' : 'minutos');
-            } else {
-              const hours = Math.floor(lastOrderTime / 60);
-              lastOrderElement.textContent = hours;
-              parentElement.innerHTML = 
-                parentElement.innerHTML.replace(/minutos?|horas?/, hours === 1 ? 'hora' : 'horas');
-            }
-          }
-        }
-      }, 5000); // Actualizar cada 5 segundos
+      }, 8000); // Actualizar cada 8 segundos (menos frecuente)
     }
 
     // ========== WHATSAPP ==========
@@ -4056,8 +4286,7 @@
           setTimeout(() => {
             startCountdown();
             startActivityCounter();
-            // Mostrar popup de descuento después de un tiempo
-            showDiscountPopup();
+            // El popup de descuento ahora solo se muestra después del registro
           }, 500); // Dar tiempo para que se carguen los elementos
         }, 3000); // 3 segundos de animación del logo
       }
@@ -4188,7 +4417,8 @@
         link.addEventListener('click', function(e) {
           const href = this.getAttribute('href');
           
-          if (href && href.startsWith('#')) {
+          // Solo manejar enlaces que empiecen con # y tengan más de 1 carácter
+          if (href && href.startsWith('#') && href.length > 1) {
             e.preventDefault();
             const targetId = href.substring(1);
             const targetElement = document.getElementById(targetId);
@@ -4212,6 +4442,7 @@
               window.location.href = href;
             });
           }
+          // Para enlaces con javascript:void(0) o onclick, no hacer nada especial
         });
       });
     });
@@ -4263,6 +4494,11 @@
     window.openWhatsApp = openWhatsApp;
     window.closeDiscountPopup = closeDiscountPopup;
     window.useDiscountCode = useDiscountCode;
+    window.showRegisterForm = showRegisterForm;
+    window.closeRegisterForm = closeRegisterForm;
+    window.handleRegistration = handleRegistration;
+    window.showLoginForm = showLoginForm;
+    window.showTerms = showTerms;
 
     // ========== INICIALIZACIÓN ==========
     document.addEventListener('DOMContentLoaded', () => {
@@ -4378,17 +4614,22 @@
       // Optimizar navegación smooth scroll para móvil
       document.querySelectorAll('nav a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target && header) {
-            const headerHeight = header.offsetHeight;
-            const targetPosition = target.offsetTop - headerHeight - 10;
-            
-            // Scroll suave optimizado para móvil
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
+          const href = this.getAttribute('href');
+          
+          // Solo procesar si el href tiene más de 1 carácter (no solo '#')
+          if (href && href.length > 1) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target && header) {
+              const headerHeight = header.offsetHeight;
+              const targetPosition = target.offsetTop - headerHeight - 10;
+              
+              // Scroll suave optimizado para móvil
+              window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+              });
+            }
           }
         });
       });
