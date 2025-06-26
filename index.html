@@ -1482,6 +1482,30 @@
       margin: 0;
       font-size: 14px;
     }
+    
+    .register-error {
+      background: #ffe6e6;
+      border: 1px solid #ffcccc;
+      color: #cc0000;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      display: none;
+    }
+    
+    .register-error p {
+      margin: 0;
+      font-size: 14px;
+    }
+    
+    .password-hint {
+      display: block;
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
 
     /* POPUP DE REGISTRO */
     .register-popup {
@@ -4468,39 +4492,50 @@
     function handleRegistration(event) {
       event.preventDefault();
       
-      const name = document.getElementById('register-name').value;
-      const email = document.getElementById('register-email').value;
-      const phone = document.getElementById('register-phone').value;
+      const name = document.getElementById('register-name').value.trim();
+      const email = document.getElementById('register-email').value.trim().toLowerCase();
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('register-confirm-password').value;
+      const phone = document.getElementById('register-phone').value.trim();
       const acceptsOffers = document.getElementById('register-offers').checked;
       const acceptsTerms = document.getElementById('register-terms').checked;
+      const errorDiv = document.getElementById('register-error');
       
+      // Limpiar errores previos
+      errorDiv.style.display = 'none';
+      
+      // Validaciones
       if (!acceptsTerms) {
-        alert('Debes aceptar los términos y condiciones');
+        showRegistrationError('❌ Debes aceptar los términos y condiciones para continuar');
+        return;
+      }
+      
+      if (password.length < 6) {
+        showRegistrationError('❌ La contraseña debe tener al menos 6 caracteres');
+        return;
+      }
+      
+      if (password !== confirmPassword) {
+        showRegistrationError('❌ Las contraseñas no coinciden. Por favor, verifica que sean iguales');
         return;
       }
       
       // Verificar si el email ya existe
       const existingUsers = JSON.parse(localStorage.getItem('fratelli_users') || '[]');
-      if (existingUsers.find(u => u.email === email)) {
-        alert('Ya existe una cuenta con este email. ¿Quieres iniciar sesión?');
-        closeRegisterForm();
-        setTimeout(() => {
-          showLoginForm();
-          document.getElementById('login-email').value = email;
-        }, 500);
+      const emailExists = existingUsers.find(u => u.email.toLowerCase() === email);
+      
+      if (emailExists) {
+        showRegistrationError(`❌ Ya existe una cuenta registrada con el email: ${email}<br><br>¿Quieres <a href="javascript:void(0)" onclick="switchToLoginFromError('${email}')" style="color: #D5786C; font-weight: bold;">iniciar sesión</a> en su lugar?`);
         return;
       }
-      
-      // Generar contraseña temporal
-      const tempPassword = generateTempPassword();
       
       // Crear nuevo usuario
       const newUser = {
         id: Date.now(),
         name: name,
         email: email,
-        phone: phone,
-        password: tempPassword,
+        password: password,
+        phone: phone || null,
         acceptsOffers: acceptsOffers,
         registeredAt: new Date().toISOString(),
         points: 0,
@@ -4530,9 +4565,9 @@
         // Actualizar interfaz
         updateUserInterface();
         
-        // Mostrar popup de bienvenida con descuento + contraseña
+        // Mostrar mensaje de bienvenida con descuento
         setTimeout(() => {
-          showWelcomeDiscountWithPassword(name, tempPassword);
+          showWelcomeMessage(`¡Bienvenido ${name.split(' ')[0]}! 🍕 Tu cuenta ha sido creada exitosamente. ¡Ya tienes tu 15% de descuento de bienvenida activado!`);
         }, 500);
         
         // Restaurar botón
@@ -4540,30 +4575,42 @@
         registerBtn.disabled = false;
         
         // Limpiar formulario
-        document.getElementById('register-name').value = '';
-        document.getElementById('register-email').value = '';
-        document.getElementById('register-phone').value = '';
+        clearRegistrationForm();
         
+        console.log('Usuario registrado exitosamente:', {name, email, hasAccount: true});
       }, 2000);
     }
     
-    function generateTempPassword() {
-      const adjectives = ['Pizza', 'Fratelli', 'Napoli', 'Roma', 'Italia'];
-      const numbers = Math.floor(Math.random() * 9999) + 1000;
-      return adjectives[Math.floor(Math.random() * adjectives.length)] + numbers;
+    function showRegistrationError(message) {
+      const errorDiv = document.getElementById('register-error');
+      if (errorDiv) {
+        errorDiv.querySelector('p').innerHTML = message;
+        errorDiv.style.display = 'block';
+        
+        // Auto-ocultar después de 8 segundos
+        setTimeout(() => {
+          errorDiv.style.display = 'none';
+        }, 8000);
+      }
     }
     
-    function showWelcomeDiscountWithPassword(userName, password) {
-      alert(`¡Bienvenido ${userName}! 🍕
-      
-Tu cuenta ha sido creada exitosamente.
-
-🔐 Tu contraseña temporal es: ${password}
-(Guárdala en un lugar seguro)
-
-🎉 ¡Ya tienes tu 15% de descuento de bienvenida activado!
-
-Usa el código: BIENVENIDO15`);
+    function switchToLoginFromError(email) {
+      closeRegisterForm();
+      setTimeout(() => {
+        showLoginForm();
+        document.getElementById('login-email').value = email;
+        document.getElementById('login-password').focus();
+      }, 300);
+    }
+    
+    function clearRegistrationForm() {
+      document.getElementById('register-name').value = '';
+      document.getElementById('register-email').value = '';
+      document.getElementById('register-password').value = '';
+      document.getElementById('register-confirm-password').value = '';
+      document.getElementById('register-phone').value = '';
+      document.getElementById('register-offers').checked = false;
+      document.getElementById('register-terms').checked = false;
     }
     
     function showLoginFormFromRegister() {
