@@ -1300,39 +1300,44 @@
     .user-menu {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
     }
     
     .user-menu a {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 15px;
+      gap: 6px;
+      padding: 8px 16px;
       border-radius: 20px;
       transition: all 0.3s ease;
       font-weight: 600;
       text-decoration: none;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
     }
     
     .user-menu .register-btn {
       background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
       color: white;
+      border: none;
     }
     
     .user-menu .register-btn:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       box-shadow: 0 4px 15px rgba(213, 120, 108, 0.4);
     }
     
     .user-menu .login-btn {
       background: transparent;
       color: #D5786C;
-      border: 2px solid #D5786C;
+      border: 1px solid #D5786C;
     }
     
     .user-menu .login-btn:hover {
       background: #D5786C;
       color: white;
+      transform: translateY(-1px);
     }
     
     .user-welcome {
@@ -4071,7 +4076,7 @@
           </div>
           <button type="submit" class="register-btn">CREAR MI CUENTA</button>
         </form>
-        <p class="login-link">¿Ya tienes cuenta? <a href="javascript:void(0)" onclick="showLoginForm()">Inicia sesión</a></p>
+        <p class="login-link">¿Ya tienes cuenta? <a href="javascript:void(0)" onclick="showLoginFormFromRegister()">Inicia sesión</a></p>
       </div>
     </div>
     <div class="popup-overlay" onclick="closeRegisterForm()"></div>
@@ -4276,8 +4281,177 @@
     let popupCountdownInterval;
     let hasVisited = false; // Reemplaza localStorage
 
-    // ========== POPUP DE REGISTRO ==========
+    // ========== SISTEMA DE AUTENTICACIÓN ==========
+    let currentUser = null;
+    
+    // Verificar si hay usuario logueado al cargar la página
+    function checkUserSession() {
+      console.log('Verificando sesión de usuario...');
+      const userMenu = document.getElementById('userMenu');
+      
+      if (!userMenu) {
+        console.log('Elemento userMenu no encontrado, reintentando...');
+        setTimeout(checkUserSession, 200);
+        return;
+      }
+      
+      const savedUser = localStorage.getItem('fratelli_current_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        console.log('Usuario encontrado:', currentUser.name);
+        updateUserInterface();
+      } else {
+        console.log('No hay usuario logueado, mostrando interfaz de invitado');
+        showGuestInterface();
+      }
+    }
+    
+    // Actualizar interfaz según el estado del usuario
+    function updateUserInterface() {
+      const userMenu = document.getElementById('userMenu');
+      if (!userMenu) return;
+      
+      if (currentUser) {
+        userMenu.innerHTML = `
+          <div class="user-dropdown">
+            <div class="user-welcome" onclick="toggleDropdown()">
+              <div class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+              <span>Hola, ${currentUser.name.split(' ')[0]}</span>
+              <span style="font-size: 12px;">▼</span>
+            </div>
+            <div class="dropdown-content" id="userDropdown">
+              <a href="javascript:void(0)" onclick="showProfile()">
+                Mi Perfil
+              </a>
+              <a href="javascript:void(0)" onclick="showOrderHistory()">
+                Mis Pedidos
+              </a>
+              <a href="javascript:void(0)" onclick="showUserPoints()">
+                Mis Puntos (${currentUser.points || 0})
+              </a>
+              <a href="javascript:void(0)" onclick="logout()">
+                Cerrar Sesión
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        showGuestInterface();
+      }
+    }
+    
+    // Mostrar interfaz para usuarios no registrados
+    function showGuestInterface() {
+      const userMenu = document.getElementById('userMenu');
+      if (!userMenu) {
+        console.log('Error: elemento userMenu no encontrado');
+        return;
+      }
+      
+      console.log('Mostrando interfaz de invitado');
+      userMenu.innerHTML = `
+        <a href="javascript:void(0)" onclick="showLoginForm()" class="login-btn">
+          Iniciar Sesión
+        </a>
+        <a href="javascript:void(0)" onclick="showRegisterForm()" class="register-btn">
+          Registrarse
+        </a>
+      `;
+      
+      console.log('Botones de login y registro añadidos');
+    }
+    
+    // Toggle del dropdown del usuario
+    function toggleDropdown() {
+      const dropdown = document.getElementById('userDropdown');
+      if (dropdown) {
+        dropdown.classList.toggle('show');
+      }
+    }
+    
+    // Cerrar dropdown si se hace clic fuera
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('userDropdown');
+      const userWelcome = document.querySelector('.user-welcome');
+      
+      if (dropdown && !userWelcome?.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+
+    // ========== POPUP DE LOGIN ==========
+    function showLoginForm() {
+      closeRegisterForm(); // Cerrar registro si está abierto
+      const popup = document.getElementById('loginPopup');
+      if (popup) {
+        popup.classList.add('show');
+        // Limpiar errores previos
+        const errorDiv = document.getElementById('loginError');
+        if (errorDiv) errorDiv.style.display = 'none';
+      }
+    }
+    
+    function closeLoginForm() {
+      const popup = document.getElementById('loginPopup');
+      if (popup) {
+        popup.classList.remove('show');
+        // Limpiar formulario
+        document.getElementById('login-email').value = '';
+        document.getElementById('login-password').value = '';
+        const errorDiv = document.getElementById('loginError');
+        if (errorDiv) errorDiv.style.display = 'none';
+      }
+    }
+    
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const errorDiv = document.getElementById('loginError');
+      
+      // Obtener usuarios registrados
+      const users = JSON.parse(localStorage.getItem('fratelli_users') || '[]');
+      
+      // Buscar usuario
+      const user = users.find(u => u.email === email && u.password === password);
+      
+      if (user) {
+        // Login exitoso
+        currentUser = user;
+        localStorage.setItem('fratelli_current_user', JSON.stringify(user));
+        
+        closeLoginForm();
+        updateUserInterface();
+        
+        // Mostrar mensaje de bienvenida
+        showWelcomeMessage(`¡Bienvenido de vuelta, ${user.name.split(' ')[0]}!`);
+        
+      } else {
+        // Login fallido
+        if (errorDiv) {
+          errorDiv.style.display = 'block';
+          setTimeout(() => {
+            errorDiv.style.display = 'none';
+          }, 3000);
+        }
+      }
+    }
+    
+    function switchToRegister() {
+      closeLoginForm();
+      setTimeout(() => {
+        showRegisterForm();
+      }, 300);
+    }
+    
+    function forgotPassword() {
+      alert('Para recuperar tu contraseña, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812');
+    }
+
+    // ========== POPUP DE REGISTRO (ACTUALIZADO) ==========
     function showRegisterForm() {
+      closeLoginForm(); // Cerrar login si está abierto
       const popup = document.getElementById('registerPopup');
       if (popup) {
         popup.classList.add('show');
@@ -4305,6 +4479,35 @@
         return;
       }
       
+      // Verificar si el email ya existe
+      const existingUsers = JSON.parse(localStorage.getItem('fratelli_users') || '[]');
+      if (existingUsers.find(u => u.email === email)) {
+        alert('Ya existe una cuenta con este email. ¿Quieres iniciar sesión?');
+        closeRegisterForm();
+        setTimeout(() => {
+          showLoginForm();
+          document.getElementById('login-email').value = email;
+        }, 500);
+        return;
+      }
+      
+      // Generar contraseña temporal
+      const tempPassword = generateTempPassword();
+      
+      // Crear nuevo usuario
+      const newUser = {
+        id: Date.now(),
+        name: name,
+        email: email,
+        phone: phone,
+        password: tempPassword,
+        acceptsOffers: acceptsOffers,
+        registeredAt: new Date().toISOString(),
+        points: 0,
+        orders: [],
+        hasUsedWelcomeDiscount: false
+      };
+      
       // Simular proceso de registro
       const registerBtn = document.querySelector('.register-btn');
       const originalText = registerBtn.innerHTML;
@@ -4313,12 +4516,23 @@
       registerBtn.disabled = true;
       
       setTimeout(() => {
+        // Guardar usuario
+        existingUsers.push(newUser);
+        localStorage.setItem('fratelli_users', JSON.stringify(existingUsers));
+        
+        // Logear automáticamente
+        currentUser = newUser;
+        localStorage.setItem('fratelli_current_user', JSON.stringify(newUser));
+        
         // Cerrar popup de registro
         closeRegisterForm();
         
-        // Mostrar popup de bienvenida con descuento
+        // Actualizar interfaz
+        updateUserInterface();
+        
+        // Mostrar popup de bienvenida con descuento + contraseña
         setTimeout(() => {
-          showWelcomeDiscount(name);
+          showWelcomeDiscountWithPassword(name, tempPassword);
         }, 500);
         
         // Restaurar botón
@@ -4330,18 +4544,137 @@
         document.getElementById('register-email').value = '';
         document.getElementById('register-phone').value = '';
         
-        console.log('Usuario registrado:', {name, email, phone, acceptsOffers});
       }, 2000);
     }
     
-    function showLoginForm() {
-      // Por ahora solo mostramos un mensaje
-      alert('Función de login próximamente. Por ahora puedes registrarte para obtener tu descuento.');
+    function generateTempPassword() {
+      const adjectives = ['Pizza', 'Fratelli', 'Napoli', 'Roma', 'Italia'];
+      const numbers = Math.floor(Math.random() * 9999) + 1000;
+      return adjectives[Math.floor(Math.random() * adjectives.length)] + numbers;
     }
     
+    function showWelcomeDiscountWithPassword(userName, password) {
+      alert(`¡Bienvenido ${userName}! 🍕
+      
+Tu cuenta ha sido creada exitosamente.
+
+🔐 Tu contraseña temporal es: ${password}
+(Guárdala en un lugar seguro)
+
+🎉 ¡Ya tienes tu 15% de descuento de bienvenida activado!
+
+Usa el código: BIENVENIDO15`);
+    }
+    
+    function showLoginFormFromRegister() {
+      closeRegisterForm();
+      setTimeout(() => {
+        showLoginForm();
+      }, 300);
+    }
+
     function showTerms() {
       // Abrir la página de términos y condiciones en una nueva ventana
       window.open('terminos-condiciones.html', '_blank', 'width=900,height=700,scrollbars=yes,resizable=yes');
+    }
+
+    // ========== FUNCIONES DE USUARIO ==========
+    function logout() {
+      if (confirm('¿Estás seguro que quieres cerrar sesión?')) {
+        currentUser = null;
+        localStorage.removeItem('fratelli_current_user');
+        updateUserInterface();
+        showWelcomeMessage('¡Hasta pronto! Te esperamos para tu próxima pizza 🍕');
+      }
+    }
+    
+    function showProfile() {
+      if (!currentUser) return;
+      
+      alert(`👤 MI PERFIL
+      
+Nombre: ${currentUser.name}
+Email: ${currentUser.email}
+Teléfono: ${currentUser.phone || 'No especificado'}
+Miembro desde: ${new Date(currentUser.registeredAt).toLocaleDateString()}
+Puntos acumulados: ${currentUser.points || 0}
+Pedidos realizados: ${currentUser.orders?.length || 0}
+
+Para modificar tus datos, contacta con nosotros:
+📧 PIZZASFRATELLIPAZZI@GMAIL.COM`);
+    }
+    
+    function showOrderHistory() {
+      if (!currentUser) return;
+      
+      const orders = currentUser.orders || [];
+      if (orders.length === 0) {
+        alert('📋 HISTORIAL DE PEDIDOS\n\n¡Aún no has realizado ningún pedido!\n\n¿Qué te parece si empezamos con una deliciosa Margarita? 🍕');
+      } else {
+        const orderList = orders.map((order, index) => 
+          `${index + 1}. ${order.date} - ${order.total}€`
+        ).join('\n');
+        
+        alert(`📋 HISTORIAL DE PEDIDOS\n\n${orderList}\n\nPara más detalles, contacta con nosotros.`);
+      }
+    }
+    
+    function showUserPoints() {
+      if (!currentUser) return;
+      
+      const points = currentUser.points || 0;
+      const nextReward = 100 - (points % 100);
+      
+      alert(`⭐ MIS PUNTOS FRATELLI
+      
+Puntos actuales: ${points}
+      
+🎁 PRÓXIMA RECOMPENSA:
+Te faltan ${nextReward} puntos para una pizza Margarita GRATIS
+
+💡 CÓMO GANAR PUNTOS:
+• 1 punto por cada 1€ gastado
+• Bonificaciones en fechas especiales
+• Reseñas y recomendaciones
+
+¡Sigue pidiendo y acumula puntos! 🍕`);
+    }
+    
+    function showWelcomeMessage(message) {
+      // Crear un toast message temporal
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+        z-index: 10000;
+        font-weight: 600;
+        max-width: 300px;
+        animation: slideInRight 0.5s ease;
+      `;
+      toast.textContent = message;
+      
+      // Agregar animación CSS
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+        style.remove();
+      }, 4000);
     }
     
     // ========== POPUP DE DESCUENTO (MODIFICADO) ==========
@@ -4501,6 +4834,12 @@
           setTimeout(() => {
             startCountdown();
             startActivityCounter();
+            
+            // Asegurar que la interfaz de usuario se inicialice correctamente
+            setTimeout(() => {
+              checkUserSession(); // Verificar si hay usuario logueado
+            }, 100);
+            
             // El popup de descuento ahora solo se muestra después del registro
           }, 500); // Dar tiempo para que se carguen los elementos
         }, 3000); // 3 segundos de animación del logo
@@ -4713,7 +5052,25 @@
     window.closeRegisterForm = closeRegisterForm;
     window.handleRegistration = handleRegistration;
     window.showLoginForm = showLoginForm;
+    window.closeLoginForm = closeLoginForm;
+    window.handleLogin = handleLogin;
+    window.switchToRegister = switchToRegister;
+    window.showLoginFormFromRegister = showLoginFormFromRegister;
+    window.forgotPassword = forgotPassword;
     window.showTerms = showTerms;
+    window.toggleDropdown = toggleDropdown;
+    window.logout = logout;
+    window.showProfile = showProfile;
+    window.showOrderHistory = showOrderHistory;
+    window.showUserPoints = showUserPoints;
+    
+    // Inicialización de emergencia - ejecutar inmediatamente
+    setTimeout(() => {
+      if (!currentUser && document.getElementById('userMenu')) {
+        console.log('Inicialización de emergencia ejecutada');
+        checkUserSession();
+      }
+    }, 1000);
 
     // ========== INICIALIZACIÓN ==========
     document.addEventListener('DOMContentLoaded', () => {
