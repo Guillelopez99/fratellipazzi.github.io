@@ -29,7 +29,7 @@
       justify-content: center;
       z-index: 9999;
       opacity: 1;
-      transition: opacity 0.8s ease, visibility 0.8s ease;	
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
     
     .fullscreen-loader.hidden {
@@ -1294,6 +1294,188 @@
     @keyframes badgeBounce {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.1); }
+    }
+
+    /* MENU DE USUARIO */
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .user-menu a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    
+    .user-menu .register-btn {
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+    }
+    
+    .user-menu .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.4);
+    }
+    
+    .user-menu .login-btn {
+      background: transparent;
+      color: #D5786C;
+      border: 2px solid #D5786C;
+    }
+    
+    .user-menu .login-btn:hover {
+      background: #D5786C;
+      color: white;
+    }
+    
+    .user-welcome {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #D5786C;
+      font-weight: 600;
+    }
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .user-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: white;
+      min-width: 180px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      z-index: 1000;
+      border: 1px solid #eee;
+      margin-top: 5px;
+    }
+    
+    .dropdown-content.show {
+      display: block;
+      animation: dropdownFadeIn 0.2s ease;
+    }
+    
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+      border-radius: 8px;
+      margin: 4px;
+    }
+    
+    .dropdown-content a:hover {
+      background: #f8f8f8;
+      color: #D5786C;
+    }
+    
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* POPUP DE LOGIN */
+    .login-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .login-popup.show {
+      display: flex;
+      animation: popupFadeIn 0.3s ease;
+    }
+    
+    .login-form {
+      width: 100%;
+    }
+    
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      color: white;
+      border: none;
+      padding: 16px 25px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+    }
+    
+    .register-link, .forgot-password {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin: 10px 0;
+    }
+    
+    .register-link a, .forgot-password a {
+      color: #D5786C;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .register-link a:hover, .forgot-password a:hover {
+      text-decoration: underline;
+    }
+    
+    .login-error {
+      background: #ffe6e6;
+      border: 1px solid #ffcccc;
+      color: #cc0000;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+    }
+    
+    .login-error p {
+      margin: 0;
+      font-size: 14px;
     }
 
     /* POPUP DE REGISTRO */
@@ -3464,7 +3646,9 @@
       <a href="#nuestras-pizzas">Pizzas</a>
       <a href="#calzones">Calzones</a>
       <a href="pedido.html">Pedido</a>
-      <a href="javascript:void(0)" onclick="showRegisterForm()">Registrarse</a>
+      <div class="user-menu" id="userMenu">
+        <!-- Se llenará dinámicamente según el estado del usuario -->
+      </div>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
@@ -3508,7 +3692,7 @@
       <div class="benefit-card">
         <div class="benefit-icon">⚡</div>
         <h3>Entrega Rápida</h3>
-        <p>25-30 minutos en Las Rozas<br><span class="highlight">Garantía de puntualidad</span></p>
+        <p>25-30 minutos en Las Rozas y Torrelodones<br><span class="highlight">Servicio puntual garantizado</span></p>
       </div>
       <div class="benefit-card">
         <div class="benefit-icon">🇮🇹</div>
@@ -3755,13 +3939,13 @@
 
   <!-- ZONA DE ENTREGA CON MAPA -->
   <section class="delivery-zone section-transition">
-    <h2>Zona de Entrega Las Rozas</h2>
-    <p class="section-intro">Entregamos en toda Las Rozas con tiempos garantizados</p>
+    <h2>Zona de Entrega</h2>
+    <p class="section-intro">Entregamos en Las Rozas y Torrelodones con tiempos garantizados</p>
     <div class="delivery-info-grid">
       <div class="delivery-map">
         <div class="map-placeholder">
           <div class="map-icon">📍</div>
-          <h3>Las Rozas</h3>
+          <h3>Las Rozas y Torrelodones</h3>
           <p>Cobertura completa</p>
           <div class="delivery-zones">
             <div class="zone-item">
@@ -3798,7 +3982,7 @@
           <div class="feature-icon">💳</div>
           <div class="feature-content">
             <h4>Pedido Mínimo</h4>
-            <p>Solo <strong>12€</strong><br>Envío incluido en Las Rozas</p>
+            <p>Solo <strong>12€</strong><br>Envío incluido en Las Rozas y Torrelodones</p>
           </div>
         </div>
         <div class="delivery-feature">
@@ -3820,6 +4004,35 @@
       <div class="whatsapp-subtitle">Chatea con nosotros</div>
     </div>
     <div class="whatsapp-badge" id="whatsapp-badge">¡Nuevo!</div>
+  </div>
+
+  <!-- POPUP DE LOGIN -->
+  <div class="login-popup" id="loginPopup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closeLoginForm()">×</button>
+      <div class="popup-header">
+        <div class="popup-pizza">🔐</div>
+        <h3>Inicia Sesión</h3>
+        <p>Accede a tu cuenta de <strong>Fratelli Pazzi</strong></p>
+      </div>
+      <div class="popup-body">
+        <form class="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <input type="email" id="login-email" placeholder="Tu email" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="login-password" placeholder="Tu contraseña" required>
+          </div>
+          <button type="submit" class="login-btn">INICIAR SESIÓN</button>
+          <div class="login-error" id="loginError" style="display: none;">
+            <p>❌ Email o contraseña incorrectos</p>
+          </div>
+        </form>
+        <p class="register-link">¿No tienes cuenta? <a href="javascript:void(0)" onclick="switchToRegister()">Regístrate aquí</a></p>
+        <p class="forgot-password"><a href="javascript:void(0)" onclick="forgotPassword()">¿Olvidaste tu contraseña?</a></p>
+      </div>
+    </div>
+    <div class="popup-overlay" onclick="closeLoginForm()"></div>
   </div>
 
   <!-- POPUP DE REGISTRO -->
@@ -4030,10 +4243,11 @@
 
   <section id="contacto" class="section-transition">
     <h2>Contacto</h2>
-    <p>Avenida de Atenas 3, Local 109, Las Rozas, Madrid</p>
+    <p>Avenida de Atenas 3, 28290 Las Rozas (Madrid), España</p>
     <p>Teléfono: <a href="tel:660668812">660 668 812</a></p>
-    <p>Email: <a href="mailto:pizzasfratellipazzi@gmail.com">pizzasfratellipazzi@gmail.com</a></p>
+    <p>Email: <a href="mailto:PIZZASFRATELLIPAZZI@GMAIL.COM">PIZZASFRATELLIPAZZI@GMAIL.COM</a></p>
     <p>Horarios: Lunes a Domingo 20:00 - 23:00</p>
+    <p>CIF: B16359283</p>
   </section>
 
   <section class="newsletter section-transition">
@@ -4126,6 +4340,7 @@
     }
     
     function showTerms() {
+      // Abrir la página de términos y condiciones en una nueva ventana
       window.open('terminos-condiciones.html', '_blank', 'width=900,height=700,scrollbars=yes,resizable=yes');
     }
     
