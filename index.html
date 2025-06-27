@@ -261,22 +261,72 @@
     }
     
     .offer-cta {
-      background: white;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
       color: #d62828;
       border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 10px 20px;
+      border-radius: 25px;
       font-weight: 700;
       font-size: 13px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .offer-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      transition: left 0.4s ease;
+      z-index: 0;
+    }
+    
+    .offer-cta::after {
+      content: '🔥';
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 2;
+      font-size: 14px;
+    }
+    
+    .offer-cta span {
+      position: relative;
+      z-index: 2;
     }
     
     .offer-cta:hover {
-      background: #f8f9fa;
-      transform: scale(1.05);
+      color: white;
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(214, 40, 40, 0.4);
+    }
+    
+    .offer-cta:hover::before {
+      left: 0;
+    }
+    
+    .offer-cta:hover::after {
+      opacity: 1;
+      right: 8px;
+      animation: flame 0.6s ease infinite;
+    }
+    
+    @keyframes flame {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.1); }
     }
     
     .close-banner:hover {
@@ -339,8 +389,8 @@
     }
     
     .header-scrolled nav a {
-      padding: 8px 16px;
-      font-size: 13px;
+      padding: 6px 12px;
+      font-size: 11px;
     }
     
     header h1 { 
@@ -385,40 +435,31 @@
     }
     
     nav a { 
-      color: #D5786C; 
-      padding: 14px 24px;
+      color: #333; 
+      padding: 8px 12px;
       text-decoration: none; 
-      font-weight: 600; 
-      border-radius: 12px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 500; 
+      border-radius: 0;
+      transition: all 0.2s ease;
       position: relative;
       overflow: hidden;
-      border: 1px solid transparent;
+      border: none;
       letter-spacing: 0.3px;
-      font-size: 15px;
-      min-height: 44px;
-      min-width: 80px;
+      font-size: 14px;
+      min-height: auto;
+      min-width: auto;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      background: transparent;
+      backdrop-filter: none;
+      box-shadow: none;
     }
     
     nav a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
-      transition: left 0.3s ease;
-      z-index: -1;
-    }
-    
-    nav a::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -428,16 +469,27 @@
       height: 2px;
       background: #D5786C;
       transition: width 0.3s ease;
+      z-index: 1;
     }
     
-    nav a:hover::before,
-    nav a:active::before {
-      left: 0;
+    nav a::after {
+      display: none;
     }
     
-    nav a:hover::after,
-    nav a:active::after {
-      width: 80%;
+    nav a:hover {
+      color: #D5786C;
+      background: transparent;
+      border-color: transparent;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    nav a:hover::before {
+      width: 100%;
+    }
+    
+    nav a:active {
+      transform: none;
     }
     
     /* CONTADOR DE ACTIVIDAD EN TIEMPO REAL */
@@ -681,24 +733,76 @@
     }
     
     .quick-order-btn {
-      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 50%, #f4a99c 100%);
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 14px 24px;
       border-radius: 25px;
       font-weight: 700;
       font-size: 14px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       flex: 1;
-      max-width: 140px;
+      max-width: 160px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(213, 120, 108, 0.3);
+      backdrop-filter: blur(10px);
+    }
+    
+    .quick-order-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #c16b5f 0%, #d07066 100%);
+      transition: left 0.4s ease;
+      z-index: 0;
+    }
+    
+    .quick-order-btn::after {
+      content: '⚡';
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 2;
+      font-size: 16px;
+    }
+    
+    .quick-order-btn span {
+      position: relative;
+      z-index: 2;
     }
     
     .quick-order-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(213, 120, 108, 0.4);
+    }
+    
+    .quick-order-btn:hover::before {
+      left: 0;
+    }
+    
+    .quick-order-btn:hover::after {
+      opacity: 1;
+      right: 8px;
+      animation: sparkle 0.6s ease;
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { transform: translateY(-50%) rotate(0deg); }
+      50% { transform: translateY(-50%) rotate(180deg); }
+    }
+    
+    .quick-order-btn:active {
+      transform: translateY(-1px) scale(1.02);
     }
 
     /* TESTIMONIOS Y RESEÑAS */
@@ -1073,23 +1177,70 @@
     }
     
     .loyalty-btn {
-      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
       color: #333;
       border: none;
-      padding: 18px 35px;
-      border-radius: 25px;
+      padding: 20px 40px;
+      border-radius: 50px;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+      letter-spacing: 1px;
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    .loyalty-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #e6c200 0%, #e6930 50%, #e67e00 100%);
+      transition: left 0.5s ease;
+      z-index: 0;
+    }
+    
+    .loyalty-btn::after {
+      content: '👑';
+      position: absolute;
+      top: 50%;
+      right: 30px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2;
+      font-size: 20px;
+    }
+    
+    .loyalty-btn span {
+      position: relative;
+      z-index: 2;
     }
     
     .loyalty-btn:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 35px rgba(255, 215, 0, 0.5);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+    }
+    
+    .loyalty-btn:hover::before {
+      left: 0;
+    }
+    
+    .loyalty-btn:hover::after {
+      opacity: 1;
+      right: 25px;
+      animation: crownShine 0.8s ease infinite;
+    }
+    
+    @keyframes crownShine {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.1); }
     }
 
     /* ZONA DE ENTREGA */
@@ -1295,11 +1446,12 @@
       50% { transform: scale(1.1); }
     }
 
-    /* MENU DE USUARIO */
+    /* MENU DE USUARIO - Diseño minimalista
+       Para acceder al debug mode: Ctrl+Alt+D */
     .user-menu {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     
     .user-menu a {
@@ -1307,36 +1459,126 @@
       align-items: center;
       gap: 6px;
       padding: 8px 16px;
-      border-radius: 20px;
+      border-radius: 18px;
       transition: all 0.3s ease;
-      font-weight: 600;
+      font-weight: 500;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      min-height: 36px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     
     .user-menu .register-btn {
-      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 50%, #f4a99c 100%);
       color: white;
       border: none;
+      position: relative;
+    }
+    
+    .user-menu .register-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #c16b5f 0%, #d07066 50%, #e08074 100%);
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+    
+    .user-menu .register-btn::after {
+      content: '✨';
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      font-size: 12px;
     }
     
     .user-menu .register-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.4);
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 6px 16px rgba(213, 120, 108, 0.3);
+    }
+    
+    .user-menu .register-btn:hover::before {
+      left: 0;
+    }
+    
+    .user-menu .register-btn:hover::after {
+      opacity: 1;
+      right: 8px;
     }
     
     .user-menu .login-btn {
-      background: transparent;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
       color: #D5786C;
-      border: 1px solid #D5786C;
+      border: 2px solid #D5786C;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+    
+    .user-menu .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+    
+    .user-menu .login-btn::after {
+      content: '🔐';
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      font-size: 12px;
     }
     
     .user-menu .login-btn:hover {
-      background: #D5786C;
       color: white;
-      transform: translateY(-1px);
+      border-color: transparent;
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 6px 16px rgba(213, 120, 108, 0.25);
+    }
+    
+    .user-menu .login-btn:hover::before {
+      left: 0;
+    }
+    
+    .user-menu .login-btn:hover::after {
+      opacity: 1;
+      right: 12px;
+    }
+    
+    /* Asegurar que todos los spans estén por encima de los efectos */
+    .button span,
+    .quick-order-btn span,
+    .login-btn-submit span,
+    .register-btn span,
+    .offer-cta span,
+    .loyalty-btn span,
+    .newsletter button span,
+    .popup-cta span,
+    .user-menu .register-btn span,
+    .user-menu .login-btn span {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
     }
     
     .user-welcome {
@@ -1346,6 +1588,7 @@
       color: #D5786C;
       font-weight: 600;
       cursor: pointer;
+      flex-wrap: wrap;
     }
     
     .user-avatar {
@@ -1395,6 +1638,7 @@
       transition: background 0.2s ease;
       border-radius: 8px;
       margin: 4px;
+      white-space: nowrap;
     }
     
     .dropdown-content a:hover {
@@ -1510,21 +1754,87 @@
     
     .login-btn-submit, .register-btn {
       width: 100%;
-      background: linear-gradient(135deg, #D5786C 0%, #c06959 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 50%, #f4a99c 100%);
       color: white;
       border: none;
-      padding: 15px;
-      border-radius: 10px;
+      padding: 18px 25px;
+      border-radius: 25px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.3);
+      backdrop-filter: blur(10px);
+    }
+    
+    .login-btn-submit::before, .register-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #c16b5f 0%, #d07066 50%, #e08074 100%);
+      transition: left 0.5s ease;
+      z-index: 0;
+    }
+    
+    .login-btn-submit::after {
+      content: '🔐';
+      position: absolute;
+      top: 50%;
+      right: 25px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2;
+      font-size: 18px;
+    }
+    
+    .register-btn::after {
+      content: '✨';
+      position: absolute;
+      top: 50%;
+      right: 25px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2;
+      font-size: 18px;
+    }
+    
+    .login-btn-submit span, .register-btn span {
+      position: relative;
+      z-index: 2;
     }
     
     .login-btn-submit:hover, .register-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(213, 120, 108, 0.4);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(213, 120, 108, 0.4);
+    }
+    
+    .login-btn-submit:hover::before, .register-btn:hover::before {
+      left: 0;
+    }
+    
+    .login-btn-submit:hover::after, .register-btn:hover::after {
+      opacity: 1;
+      right: 20px;
+      animation: iconBounce 0.6s ease;
+    }
+    
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.2); }
+    }
+    
+    .login-btn-submit:active, .register-btn:active {
+      transform: translateY(-1px) scale(1.01);
     }
     
     .login-options {
@@ -1799,24 +2109,73 @@
     }
     
     .popup-cta {
-      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 50%, #f4a99c 100%);
       color: white;
       border: none;
-      padding: 16px 25px;
-      border-radius: 25px;
+      padding: 18px 30px;
+      border-radius: 50px;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       width: 100%;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 15px;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(213, 120, 108, 0.4);
+      backdrop-filter: blur(10px);
+    }
+    
+    .popup-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #c16b5f 0%, #d07066 50%, #e08074 100%);
+      transition: left 0.5s ease;
+      z-index: 0;
+    }
+    
+    .popup-cta::after {
+      content: '🎉';
+      position: absolute;
+      top: 50%;
+      right: 25px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2;
+      font-size: 20px;
+    }
+    
+    .popup-cta span {
+      position: relative;
+      z-index: 2;
     }
     
     .popup-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 15px 40px rgba(213, 120, 108, 0.5);
+    }
+    
+    .popup-cta:hover::before {
+      left: 0;
+    }
+    
+    .popup-cta:hover::after {
+      opacity: 1;
+      right: 20px;
+      animation: celebration 0.8s ease infinite;
+    }
+    
+    @keyframes celebration {
+      0%, 100% { transform: translateY(-50%) rotate(0deg) scale(1); }
+      25% { transform: translateY(-50%) rotate(-10deg) scale(1.1); }
+      75% { transform: translateY(-50%) rotate(10deg) scale(1.1); }
     }
     
     .popup-timer {
@@ -2142,28 +2501,31 @@
     }
     
     .button { 
-      display: inline-block; 
-      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      display: inline-flex; 
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 50%, #f4a99c 100%);
       color: #fff; 
-      padding: 16px 32px; 
-      border-radius: 12px; 
+      padding: 18px 35px; 
+      border-radius: 50px; 
       text-decoration: none; 
-      font-weight: 600; 
+      font-weight: 700; 
       font-size: 16px;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       box-shadow: 0 8px 25px rgba(213, 120, 108, 0.3);
       border: none;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      min-height: 44px;
-      min-width: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      min-height: 56px;
+      min-width: 160px;
       text-align: center;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      backdrop-filter: blur(10px);
     }
     
     .button::before {
@@ -2173,30 +2535,63 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
+      background: linear-gradient(135deg, #c16b5f 0%, #d07066 50%, #e08074 100%);
+      transition: left 0.5s ease;
+      z-index: 0;
     }
     
-    .button:hover::before,
-    .button:active::before {
-      left: 100%;
+    .button::after {
+      content: '🍕';
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2;
+      font-size: 18px;
     }
     
-    .button:hover,
+    .button span {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .button:hover::before {
+      left: 0;
+    }
+    
+    .button:hover::after {
+      opacity: 1;
+      right: 15px;
+      animation: pizzaBounce 0.6s ease;
+    }
+    
+    @keyframes pizzaBounce {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.2); }
+    }
+    
+    .button:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 15px 40px rgba(213, 120, 108, 0.4);
+    }
+    
     .button:active {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 12px 35px rgba(213, 120, 108, 0.4);
-    }
-    
-    .button:active {
-      transform: translateY(-2px) scale(0.98);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 8px 20px rgba(213, 120, 108, 0.5);
     }
     
     .button-large {
-      padding: 20px 40px;
+      padding: 22px 45px;
       font-size: 18px;
       margin-top: 30px;
-      min-height: 56px;
+      min-height: 64px;
+      min-width: 200px;
+    }
+    
+    .button-large::after {
+      font-size: 20px;
     }
 
     #servicio-pedidos {
@@ -2395,18 +2790,21 @@
     }
     
     .newsletter button { 
-      padding: 15px 30px; 
-      background: linear-gradient(135deg, #D5786C 0%, #e0958a 100%);
+      padding: 18px 35px; 
+      background: linear-gradient(135deg, #D5786C 0%, #e0958a 50%, #f4a99c 100%);
       color: #fff; 
       border: none; 
-      border-radius: 12px; 
+      border-radius: 25px; 
       cursor: pointer; 
-      font-weight: 600;
+      font-weight: 700;
       font-size: 16px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.3);
       position: relative;
       overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      backdrop-filter: blur(10px);
     }
     
     .newsletter button::before {
@@ -2416,17 +2814,46 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.4s ease;
+      background: linear-gradient(135deg, #c16b5f 0%, #d07066 50%, #e08074 100%);
+      transition: left 0.5s ease;
+      z-index: 0;
     }
     
-    .newsletter button:hover::before {
-      left: 100%;
+    .newsletter button::after {
+      content: '📧';
+      position: absolute;
+      top: 50%;
+      right: 25px;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2;
+      font-size: 18px;
+    }
+    
+    .newsletter button span {
+      position: relative;
+      z-index: 2;
     }
     
     .newsletter button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(213, 120, 108, 0.4);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(213, 120, 108, 0.4);
+    }
+    
+    .newsletter button:hover::before {
+      left: 0;
+    }
+    
+    .newsletter button:hover::after {
+      opacity: 1;
+      right: 20px;
+      animation: emailFloat 0.6s ease infinite;
+    }
+    
+    @keyframes emailFloat {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-50%) translateX(-3px); }
     }
     
     footer { 
@@ -2461,7 +2888,108 @@
       z-index: 2;
     }
 
-    /* Responsive Design */
+    /* EFECTOS ADICIONALES PARA BOTONES */
+    
+    /* Efecto de resplandor para botones principales */
+    .button:hover,
+    .login-btn-submit:hover,
+    .register-btn:hover,
+    .popup-cta:hover {
+      box-shadow: 
+        0 15px 40px rgba(213, 120, 108, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Efecto de presión para todos los botones */
+    .button:active,
+    .quick-order-btn:active,
+    .login-btn-submit:active,
+    .register-btn:active,
+    .offer-cta:active,
+    .loyalty-btn:active,
+    .newsletter button:active,
+    .popup-cta:active,
+    nav a:active {
+      transform: translateY(0) scale(0.98);
+      transition: all 0.1s ease;
+    }
+    
+    /* Animación de ondas para botones especiales */
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    .button-large::before,
+    .popup-cta::before {
+      animation: ripple 0.6s ease-out;
+    }
+    
+    /* Mejoras de accesibilidad */
+    .button:focus,
+    .quick-order-btn:focus,
+    .login-btn-submit:focus,
+    .register-btn:focus,
+    .offer-cta:focus,
+    .loyalty-btn:focus,
+    .newsletter button:focus,
+    .popup-cta:focus,
+    nav a:focus {
+      outline: 3px solid rgba(213, 120, 108, 0.3);
+      outline-offset: 2px;
+    }
+    
+    /* Estados de carga para botones */
+    .button.loading,
+    .login-btn-submit.loading,
+    .register-btn.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    
+    .button.loading::after,
+    .login-btn-submit.loading::after,
+    .register-btn.loading::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: translateY(-50%) rotate(0deg); }
+      100% { transform: translateY(-50%) rotate(360deg); }
+    }
+    
+    /* Efecto de brillo para botones dorados */
+    .loyalty-btn {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+      position: relative;
+    }
+    
+    .loyalty-btn::before {
+      background: linear-gradient(135deg, #e6c200 0%, #e69500 50%, #e67e00 100%);
+    }
+    
+    /* Efecto adicional de brillo dorado */
+    .loyalty-btn:hover {
+      box-shadow: 
+        0 15px 40px rgba(255, 215, 0, 0.5),
+        0 0 20px rgba(255, 215, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Responsive Design Principal */
     @media (max-width: 768px) {
       body {
         padding-top: 40px;
@@ -2496,9 +3024,137 @@
         font-size: 28px;
       }
       
+      nav {
+        gap: 6px;
+      }
+      
       nav a {
-        padding: 10px 16px;
-        font-size: 13px;
+        padding: 6px 12px;
+        font-size: 11px;
+        border-radius: 16px;
+        min-height: 32px;
+        min-width: 60px;
+      }
+      
+      .user-menu .register-btn,
+      .user-menu .login-btn {
+        padding: 6px 12px;
+        font-size: 10px;
+        border-radius: 16px;
+        min-height: 32px;
+      }
+      
+      .user-menu .register-btn::after,
+      .user-menu .login-btn::after {
+        font-size: 10px;
+        right: 10px;
+      }
+      
+      .button {
+        padding: 14px 25px;
+        font-size: 14px;
+        border-radius: 35px;
+      }
+      
+      .button::after {
+        font-size: 16px;
+        right: 15px;
+      }
+      
+      .button-large {
+        padding: 18px 30px;
+        font-size: 16px;
+      }
+      
+      .quick-order-btn {
+        padding: 12px 18px;
+        font-size: 12px;
+        border-radius: 20px;
+      }
+      
+      .quick-order-btn::after {
+        font-size: 14px;
+        right: 6px;
+      }
+      
+      .login-btn-submit, .register-btn {
+        padding: 16px 20px;
+        font-size: 14px;
+        border-radius: 20px;
+      }
+      
+      .login-btn-submit::after, .register-btn::after {
+        font-size: 16px;
+        right: 18px;
+      }
+      
+      .offer-cta {
+        padding: 8px 15px;
+        font-size: 11px;
+        border-radius: 20px;
+      }
+      
+      .offer-cta::after {
+        font-size: 12px;
+        right: 6px;
+      }
+      
+      .loyalty-btn {
+        padding: 16px 30px;
+        font-size: 14px;
+        border-radius: 35px;
+      }
+      
+      .loyalty-btn::after {
+        font-size: 18px;
+        right: 20px;
+      }
+      
+      .newsletter button {
+        padding: 16px 25px;
+        font-size: 14px;
+        border-radius: 20px;
+      }
+      
+      .newsletter button::after {
+        font-size: 16px;
+        right: 15px;
+      }
+      
+      .popup-cta {
+        padding: 16px 25px;
+        font-size: 14px;
+        border-radius: 35px;
+      }
+      
+      .popup-cta::after {
+        font-size: 18px;
+        right: 15px;
+      }
+      
+      /* Optimizaciones de rendimiento para botones en móvil */
+      .button::before,
+      .quick-order-btn::before,
+      .login-btn-submit::before,
+      .register-btn::before,
+      .offer-cta::before,
+      .loyalty-btn::before,
+      .newsletter button::before,
+      .popup-cta::before,
+      nav a::before {
+        transition: left 0.3s ease;
+      }
+      
+      .button::after,
+      .quick-order-btn::after,
+      .login-btn-submit::after,
+      .register-btn::after,
+      .offer-cta::after,
+      .loyalty-btn::after,
+      .newsletter button::after,
+      .popup-cta::after,
+      nav a::after {
+        transition: all 0.2s ease;
       }
       
       .fullwidth-slider {
@@ -2585,9 +3241,41 @@
         font-size: 24px;
       }
       
+      nav {
+        gap: 4px;
+      }
+      
       nav a {
-        padding: 8px 12px;
-        font-size: 12px;
+        padding: 6px 10px;
+        font-size: 10px;
+        min-width: 50px;
+        min-height: 30px;
+      }
+      
+      .user-menu {
+        gap: 4px;
+      }
+      
+      .user-menu .register-btn,
+      .user-menu .login-btn {
+        padding: 6px 10px;
+        font-size: 9px;
+        min-height: 30px;
+      }
+      
+      .user-welcome {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-end;
+      }
+      
+      .user-welcome span:not(:first-child) {
+        font-size: 10px;
+      }
+      
+      .dropdown-content {
+        min-width: 150px;
+        right: -10px;
       }
       
       section {
@@ -2630,7 +3318,7 @@
       <span class="offer-text">OFERTA ESPECIAL: <strong>20% OFF</strong> en pedidos +15€</span>
       <span class="offer-code">Código: <strong>FRATELLI20</strong></span>
       <span class="offer-timer">⏰ Termina en <span id="countdown">2:30:00</span></span>
-      <button class="offer-cta" onclick="window.location.href='pedido.html'">¡PEDIR AHORA!</button>
+      <button class="offer-cta" onclick="window.location.href='pedido.html'"><span>¡PEDIR AHORA!</span></button>
     </div>
     <button class="close-banner" onclick="FratelliPazzi.closeBanner()">×</button>
   </div>
@@ -2724,7 +3412,7 @@
             <p class="customer-quote">"¡La mejor Margarita de Madrid!"</p>
             <div class="price-action">
               <span class="featured-price">10€</span>
-              <button class="quick-order-btn" onclick="window.location.href='pedido.html'">PEDIR AHORA</button>
+              <button class="quick-order-btn" onclick="window.location.href='pedido.html'"><span>PEDIR AHORA</span></button>
             </div>
           </div>
         </div>
@@ -2920,7 +3608,7 @@
       </div>
       <div class="loyalty-cta">
         <p><strong>¡Empieza a acumular puntos hoy!</strong> Automático en todos los pedidos</p>
-        <button class="loyalty-btn" onclick="window.location.href='pedido.html'">EMPEZAR A ACUMULAR</button>
+        <button class="loyalty-btn" onclick="window.location.href='pedido.html'"><span>EMPEZAR A ACUMULAR</span></button>
       </div>
     </section>
 
@@ -3118,7 +3806,7 @@
     <section id="servicio-pedidos" class="section-transition">
       <h2>¿Tienes hambre?</h2>
       <p>Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.</p>
-      <a class="button button-large" href="pedido.html">Haz tu pedido ahora</a>
+      <a class="button button-large" href="pedido.html"><span>Haz tu pedido ahora</span></a>
     </section>
 
     <!-- CONTACT SECTION -->
@@ -3137,7 +3825,7 @@
       <p>Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
       <div class="newsletter-form">
         <input type="email" placeholder="Tu email" id="newsletter-email" required>
-        <button onclick="FratelliPazzi.suscribirse()">Suscribirse</button>
+        <button onclick="FratelliPazzi.suscribirse()"><span>Suscribirse</span></button>
       </div>
     </section>
 
@@ -3170,7 +3858,7 @@
           <div class="form-group">
             <input type="password" id="login-password" placeholder="Tu contraseña" required>
           </div>
-          <button type="submit" class="login-btn-submit">INICIAR SESIÓN</button>
+          <button type="submit" class="login-btn-submit"><span>INICIAR SESIÓN</span></button>
           <div class="login-error" id="loginError">
             <p>❌ Email o contraseña incorrectos</p>
           </div>
@@ -3219,7 +3907,7 @@
               Acepto los <a href="javascript:void(0)" onclick="FratelliPazzi.showTerms()">términos y condiciones</a>
             </label>
           </div>
-          <button type="submit" class="register-btn">CREAR MI CUENTA</button>
+          <button type="submit" class="register-btn"><span>CREAR MI CUENTA</span></button>
           <div class="register-error" id="register-error">
             <p></p>
           </div>
@@ -3248,7 +3936,7 @@
           <div class="benefit-item">✅ Entrega en 25-30 minutos</div>
           <div class="benefit-item">✅ Más de 300 clientes satisfechos</div>
         </div>
-        <button class="popup-cta" onclick="FratelliPazzi.useDiscountCode()">USAR MI DESCUENTO</button>
+        <button class="popup-cta" onclick="FratelliPazzi.useDiscountCode()"><span>USAR MI DESCUENTO</span></button>
         <p class="popup-timer">Oferta válida por <span id="popup-countdown">15:00</span> minutos</p>
       </div>
     </div>
@@ -3264,17 +3952,17 @@
     // Import Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-    // Firebase configuration
+    // Firebase configuration - TUS CREDENCIALES REALES
     const firebaseConfig = {
-  apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
-  authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
-  projectId: "fratelli-pazzi-pizzeria",
-  storageBucket: "fratelli-pazzi-pizzeria.firebasestorage.app",
-  messagingSenderId: "391760015146",
-  appId: "1:391760015146:web:24a265cabeefbff2187853"
-};
+      apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
+      authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
+      projectId: "fratelli-pazzi-pizzeria",
+      storageBucket: "fratelli-pazzi-pizzeria.firebasestorage.app",
+      messagingSenderId: "391760015146",
+      appId: "1:391760015146:web:24a265cabeefbff2187853"
+    };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -3282,7 +3970,22 @@
     const auth = getAuth(app);
 
     // Make Firebase available globally
-    window.firebase = { db, auth, collection, addDoc, getDocs, doc, setDoc, getDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged };
+    window.firebase = { 
+      db, 
+      auth, 
+      collection, 
+      addDoc, 
+      getDocs, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged,
+      sendEmailVerification,
+      sendPasswordResetEmail
+    };
   </script>
 
   <!-- MAIN APPLICATION SCRIPT -->
@@ -3352,13 +4055,21 @@
         try {
           window.firebase.onAuthStateChanged(window.firebase.auth, (user) => {
             if (user) {
+              console.log('👤 Usuario autenticado:', {
+                uid: user.uid,
+                email: user.email,
+                emailVerified: user.emailVerified
+              });
+              
               this.state.currentUser = {
                 uid: user.uid,
                 email: user.email,
-                name: user.displayName || 'Usuario'
+                name: user.displayName || 'Usuario',
+                emailVerified: user.emailVerified
               };
               this.updateUserInterface();
             } else {
+              console.log('👤 Usuario no autenticado');
               this.state.currentUser = null;
               this.showGuestInterface();
             }
@@ -3407,6 +4118,11 @@
             this.moveSlider(-1);
           } else if (e.key === 'ArrowRight') {
             this.moveSlider(1);
+          }
+          
+          // Debug mode con Ctrl+Alt+D
+          if (e.ctrlKey && e.altKey && e.key === 'D') {
+            this.showDebugInfo();
           }
         });
 
@@ -3621,14 +4337,20 @@
         const userMenu = document.getElementById('userMenu');
         if (!userMenu || !this.state.currentUser) return;
         
+        const emailVerificationBadge = !this.state.currentUser.emailVerified ? 
+          '<span style="background: #ff6b6b; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: 5px;">📧 No verificado</span>' : '';
+        
         userMenu.innerHTML = `
           <div class="user-dropdown">
             <div class="user-welcome" onclick="FratelliPazzi.toggleDropdown()">
               <div class="user-avatar">${this.state.currentUser.name.charAt(0).toUpperCase()}</div>
               <span>Hola, ${this.state.currentUser.name.split(' ')[0]}</span>
+              ${emailVerificationBadge}
               <span style="font-size: 12px;">▼</span>
             </div>
             <div class="dropdown-content" id="userDropdown">
+              ${!this.state.currentUser.emailVerified ? 
+                '<a href="javascript:void(0)" onclick="FratelliPazzi.resendVerificationEmail()" style="color: #ff6b6b; font-weight: bold;">📧 Verificar Email</a>' : ''}
               <a href="javascript:void(0)" onclick="FratelliPazzi.showProfile()">Mi Perfil</a>
               <a href="javascript:void(0)" onclick="FratelliPazzi.showOrderHistory()">Mis Pedidos</a>
               <a href="javascript:void(0)" onclick="FratelliPazzi.showUserPoints()">Mis Puntos (${this.state.currentUser.points || 0})</a>
@@ -3644,13 +4366,10 @@
         
         userMenu.innerHTML = `
           <a href="javascript:void(0)" onclick="FratelliPazzi.showLoginForm()" class="login-btn">
-            Iniciar Sesión
+            <span>Iniciar Sesión</span>
           </a>
           <a href="javascript:void(0)" onclick="FratelliPazzi.showRegisterForm()" class="register-btn">
-            Registrarse
-          </a>
-          <a href="javascript:void(0)" onclick="FratelliPazzi.showDebugInfo()" style="font-size: 11px; opacity: 0.7; margin-left: 10px;">
-            🔍 Debug
+            <span>Registrarse</span>
           </a>
         `;
       },
@@ -3700,10 +4419,33 @@
         if (this.state.isFirebaseEnabled) {
           console.log('🔥 Intentando login con Firebase...');
           try {
-            await window.firebase.signInWithEmailAndPassword(window.firebase.auth, email, password);
+            const userCredential = await window.firebase.signInWithEmailAndPassword(window.firebase.auth, email, password);
             console.log('✅ Login exitoso con Firebase');
-            this.closeLoginForm();
-            this.showWelcomeMessage(`¡Bienvenido de vuelta!`);
+            
+            // Verificar si el email está verificado
+            if (!userCredential.user.emailVerified) {
+              console.log('⚠️ Email no verificado');
+              this.closeLoginForm();
+              
+              const shouldResend = confirm(`⚠️ Tu email no está verificado aún\n\n📧 Email: ${email}\n\n¿Quieres que te reenviemos el email de verificación?`);
+              
+              if (shouldResend) {
+                try {
+                  await window.firebase.sendEmailVerification(userCredential.user);
+                  alert('📧 Email de verificación reenviado\n\n✅ Revisa tu bandeja de entrada y la carpeta de spam.');
+                } catch (error) {
+                  console.error('Error reenviando verificación:', error);
+                  alert('❌ Error al reenviar el email. Puedes intentarlo desde tu perfil.');
+                }
+              }
+              
+              this.updateUserInterface();
+              this.showWelcomeMessage(`¡Hola ${email}! Recuerda verificar tu email 📧`);
+            } else {
+              console.log('✅ Email verificado correctamente');
+              this.closeLoginForm();
+              this.showWelcomeMessage(`¡Bienvenido de vuelta! ✅`);
+            }
           } catch (error) {
             console.error('❌ Error en login Firebase:', {
               code: error.code,
@@ -3753,7 +4495,79 @@
       },
 
       forgotPassword() {
-        alert('Para recuperar tu contraseña, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812');
+        const email = prompt('Introduce tu email para restablecer la contraseña:');
+        
+        if (!email) {
+          return;
+        }
+        
+        if (!email.includes('@')) {
+          alert('❌ Por favor, introduce un email válido');
+          return;
+        }
+        
+        if (this.state.isFirebaseEnabled) {
+          console.log('📧 Enviando email de restablecimiento para:', email);
+          
+          window.firebase.sendPasswordResetEmail(window.firebase.auth, email)
+            .then(() => {
+              console.log('✅ Email de restablecimiento enviado');
+              alert(`📧 Email de restablecimiento enviado a ${email}\n\n✅ Revisa tu bandeja de entrada y sigue las instrucciones.\n\n💡 Si no ves el email, revisa la carpeta de spam.`);
+            })
+            .catch((error) => {
+              console.error('❌ Error enviando email de restablecimiento:', error);
+              
+              let errorMessage = 'Error al enviar el email de restablecimiento.';
+              
+              if (error.code === 'auth/user-not-found') {
+                errorMessage = 'No existe una cuenta registrada con este email.';
+              } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'El formato del email no es válido.';
+              } else if (error.code === 'auth/too-many-requests') {
+                errorMessage = 'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.';
+              }
+              
+              alert(`❌ ${errorMessage}\n\n💬 Si el problema persiste, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812`);
+            });
+        } else {
+          // Fallback para localStorage
+          alert('Para recuperar tu contraseña en modo offline, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812');
+        }
+      },
+
+      showEmailVerificationMessage(userName, email) {
+        const message = `¡Hola ${userName}! 🍕
+
+Tu cuenta ha sido creada exitosamente, pero necesitas verificar tu email para activarla completamente.
+
+📧 Hemos enviado un email de verificación a:
+${email}
+
+✅ Pasos siguientes:
+1. Revisa tu bandeja de entrada
+2. Haz clic en el enlace de verificación
+3. Vuelve aquí e inicia sesión
+
+💡 Si no ves el email, revisa la carpeta de spam.`;
+
+        alert(message);
+      },
+
+      resendVerificationEmail() {
+        if (!this.state.currentUser || this.state.currentUser.emailVerified) {
+          return;
+        }
+        
+        if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
+          window.firebase.sendEmailVerification(window.firebase.auth.currentUser)
+            .then(() => {
+              alert('📧 Email de verificación reenviado\n\n✅ Revisa tu bandeja de entrada y la carpeta de spam.');
+            })
+            .catch((error) => {
+              console.error('Error reenviando verificación:', error);
+              alert('❌ Error al reenviar el email. Inténtalo más tarde.');
+            });
+        }
       },
 
       // ========== REGISTER FUNCTIONALITY ==========
@@ -3830,6 +4644,16 @@
             const userCredential = await window.firebase.createUserWithEmailAndPassword(window.firebase.auth, email, password);
             console.log('✅ Usuario creado en Firebase Auth:', userCredential.user.uid);
             
+            // Enviar email de verificación
+            console.log('📨 Enviando email de verificación...');
+            try {
+              await window.firebase.sendEmailVerification(userCredential.user);
+              console.log('✅ Email de verificación enviado');
+            } catch (emailError) {
+              console.error('⚠️ Error enviando email de verificación:', emailError);
+              // No cancelamos el registro por esto
+            }
+            
             // Guardar datos adicionales en Firestore
             console.log('💾 Guardando datos adicionales en Firestore...');
             await window.firebase.setDoc(window.firebase.doc(window.firebase.db, 'users', userCredential.user.uid), {
@@ -3840,7 +4664,8 @@
               registeredAt: new Date().toISOString(),
               points: 0,
               orders: [],
-              hasUsedWelcomeDiscount: false
+              hasUsedWelcomeDiscount: false,
+              emailVerified: false
             });
             console.log('✅ Datos guardados en Firestore');
 
@@ -3848,10 +4673,25 @@
               uid: userCredential.user.uid,
               name: name,
               email: email,
-              points: 0
+              points: 0,
+              emailVerified: false
             };
             
             console.log('✅ Usuario registrado exitosamente con Firebase');
+            
+            // Mostrar mensaje especial sobre verificación
+            setTimeout(() => {
+              this.closeRegisterForm();
+              this.updateUserInterface();
+              this.showEmailVerificationMessage(name.split(' ')[0], email);
+              
+              registerBtn.innerHTML = originalText;
+              registerBtn.disabled = false;
+              
+              console.log('🎉 Proceso de registro completado exitosamente');
+            }, 2000);
+            
+            return; // Salir aquí para Firebase
           } else {
             console.log('💾 Usando localStorage como fallback...');
             
@@ -4034,19 +4874,6 @@
         }
       },
 
-      showProfile() {
-        if (!this.state.currentUser) return;
-        
-        alert(`👤 MI PERFIL
-        
-Nombre: ${this.state.currentUser.name}
-Email: ${this.state.currentUser.email}
-Puntos acumulados: ${this.state.currentUser.points || 0}
-
-Para modificar tus datos, contacta con nosotros:
-📧 PIZZASFRATELLIPAZZI@GMAIL.COM`);
-      },
-
       showOrderHistory() {
         if (!this.state.currentUser) return;
         
@@ -4178,6 +5005,7 @@ Te faltan ${nextReward} puntos para una pizza Margarita GRATIS
           'Firebase Auth': window.firebase?.auth ? '✅ Disponible' : '❌ No disponible',
           'Firebase Firestore': window.firebase?.db ? '✅ Disponible' : '❌ No disponible',
           'Usuario actual': this.state.currentUser ? `✅ ${this.state.currentUser.name}` : '❌ No logueado',
+          'Email verificado': this.state.currentUser?.emailVerified ? '✅ Verificado' : '❌ No verificado',
           'Usuarios localStorage': JSON.parse(localStorage.getItem('fratelli_users') || '[]').length + ' usuarios',
           'Modo actual': this.state.isFirebaseEnabled ? '🔥 Firebase' : '💾 localStorage'
         };
@@ -4191,6 +5019,7 @@ Te faltan ${nextReward} puntos para una pizza Margarita GRATIS
         console.log('🔍 Debug Info Completo:', {
           state: this.state,
           windowFirebase: window.firebase,
+          currentUser: window.firebase?.auth?.currentUser,
           localStorage: {
             users: localStorage.getItem('fratelli_users'),
             currentUser: localStorage.getItem('fratelli_current_user')
@@ -4354,14 +5183,4 @@ Te faltan ${nextReward} puntos para una pizza Margarita GRATIS
     window.FratelliPazzi = FratelliPazzi;
   </script>
 </body>
-</html>benefit-icon">⚡</div>
-          <h3>Entrega Rápida</h3>
-          <p>25-30 minutos en Las Rozas y Torrelodones<br><span class="highlight">Servicio puntual garantizado</span></p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-icon">🇮🇹</div>
-          <h3>Auténtica Italiana</h3>
-          <p>Ingredientes importados de Italia<br><span class="highlight">Recetas tradicionales napolitanas</span></p>
-        </div>
-        <div class="benefit-card">
-          <div class="
+</html>
