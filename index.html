@@ -5067,9 +5067,39 @@
   <footer>
     <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Auténtica cocina italiana en Madrid</p>
   </footer>
-
+	
   <!-- MAIN APPLICATION SCRIPT -->
-  <script>
+  <script type="module">
+	    // Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+         createUserWithEmailAndPassword, sendEmailVerification,
+         sendPasswordResetEmail, signOut, updateProfile } 
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } 
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
+  authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
+  projectId: "fratelli-pazzi-pizzeria",
+  storageBucket: "fratelli-pazzi-pizzeria.firebasestorage.app",
+  messagingSenderId: "391760015146",
+  appId: "1:391760015146:web:24a265cabeefbff2187853"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// Hacemos accesible auth y db globalmente para tu código existente
+window.firebase = { auth, db,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  sendEmailVerification, sendPasswordResetEmail, signOut,
+  updateProfile, onAuthStateChanged, doc, setDoc, getDoc
+};
     // ========== FRATELLI PAZZI APPLICATION ==========
     const FratelliPazzi = {
       // ========== STATE MANAGEMENT ==========
