@@ -5328,7 +5328,100 @@
         // Verificar sesión del usuario
         this.checkUserSession();
         
+        // Verificar si el usuario viene de verificar email
+        this.checkEmailVerificationReturn();
+        
         console.log('✅ Fratelli Pazzi inicializado correctamente');
+      },
+
+      /**
+       * Verifica si el usuario regresa después de verificar su email
+       */
+      checkEmailVerificationReturn() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const emailVerified = urlParams.get('emailVerified');
+        const resent = urlParams.get('resent');
+        
+        if (emailVerified === 'true') {
+          // El usuario regresa después de verificar el email
+          setTimeout(() => {
+            if (this.state.currentUser && this.state.isFirebaseEnabled) {
+              // Recargar la información del usuario desde Firebase
+              this.refreshUserEmailStatus();
+            }
+            
+            let message = '¡Excelente! Tu email ha sido verificado correctamente.';
+            if (resent === 'true') {
+              message += '\n\nGracias por verificar tu email después del reenvío.';
+            }
+            message += '\n\n🎉 Ahora puedes disfrutar de todos los beneficios:\n• Acumular puntos en cada pedido\n• Pizzas gratis cada 100 puntos\n• Ofertas exclusivas por email\n\n¡Bienvenido oficialmente a la Famiglia Fratelli!';
+            
+            this.showNotification(
+              message,
+              'success',
+              '✅ Email verificado',
+              { 
+                duration: 10000,
+                actions: [
+                  {
+                    text: '¡Hacer mi primer pedido!',
+                    style: 'primary',
+                    callback: 'window.location.href="pedido.html"'
+                  }
+                ]
+              }
+            );
+            
+            // Limpiar los parámetros de la URL
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+            
+          }, 2000);
+        }
+      },
+
+      /**
+       * Refresca el estado de verificación del email desde Firebase
+       */
+      async refreshUserEmailStatus() {
+        if (!this.state.isFirebaseEnabled || !window.firebase.auth.currentUser) {
+          return;
+        }
+        
+        try {
+          // Recargar la información del usuario
+          await window.firebase.auth.currentUser.reload();
+          
+          const isNowVerified = window.firebase.auth.currentUser.emailVerified;
+          
+          if (isNowVerified && this.state.currentUser && !this.state.currentUser.emailVerified) {
+            console.log('✅ Email verificado detectado, actualizando estado...');
+            
+            // Actualizar estado local
+            this.state.currentUser.emailVerified = true;
+            
+            // Actualizar Firestore
+            try {
+              await window.firebase.setDoc(
+                window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid),
+                {
+                  emailVerified: true,
+                  emailVerifiedAt: new Date().toISOString()
+                },
+                { merge: true }
+              );
+            } catch (firestoreError) {
+              console.error('⚠️ Error actualizando Firestore:', firestoreError);
+            }
+            
+            // Actualizar la interfaz
+            this.updateUserInterface();
+            
+            console.log('🎉 Estado de verificación actualizado correctamente');
+          }
+        } catch (error) {
+          console.error('❌ Error refrescando estado del email:', error);
+        }
       },
 
       checkFirebaseAvailability() {
@@ -5353,30 +5446,95 @@
         if (!this.state.isFirebaseEnabled) return;
         
         try {
-          window.firebase.onAuthStateChanged(window.firebase.auth, (user) => {
+          window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
             if (user) {
               console.log('👤 Usuario autenticado:', {
                 uid: user.uid,
                 email: user.email,
-                emailVerified: user.emailVerified
+                emailVerified: user.emailVerified,
+                displayName: user.displayName,
+                metadata: {
+                  creationTime: user.metadata.creationTime,
+                  lastSignInTime: user.metadata.lastSignInTime
+                }
               });
               
-              this.state.currentUser = {
+              // Obtener datos adicionales del usuario desde Firestore
+              let userData = {
                 uid: user.uid,
                 email: user.email,
                 name: user.displayName || 'Usuario',
-                emailVerified: user.emailVerified
+                emailVerified: user.emailVerified,
+                points: 0
               };
+              
+              try {
+                const userDoc = await window.firebase.getDoc(
+                  window.firebase.doc(window.firebase.db, 'users', user.uid)
+                );
+                
+                if (userDoc.exists()) {
+                  const firestoreData = userDoc.data();
+                  userData = {
+                    ...userData,
+                    name: firestoreData.name || user.displayName || 'Usuario',
+                    points: firestoreData.points || 0,
+                    phone: firestoreData.phone,
+                    acceptsOffers: firestoreData.acceptsOffers,
+                    registeredAt: firestoreData.registeredAt
+                  };
+                  console.log('✅ Datos de Firestore cargados:', firestoreData);
+                }
+              } catch (firestoreError) {
+                console.error('⚠️ Error cargando datos de Firestore:', firestoreError);
+              }
+              
+              this.state.currentUser = userData;
               this.updateUserInterface();
+              
+              // Si el email se verificó desde la última vez que checamos, mostrar celebración
+              const wasUnverified = localStorage.getItem('fratelli_was_unverified') === 'true';
+              if (user.emailVerified && wasUnverified) {
+                localStorage.removeItem('fratelli_was_unverified');
+                setTimeout(() => {
+                  this.showNotification(
+                    '¡Felicidades! Tu email ha sido verificado exitosamente.\n\n🎉 Ahora puedes disfrutar de todos los beneficios de Fratelli Pazzi:\n• Acumular puntos en cada pedido\n• Pizzas gratis cada 100 puntos\n• Ofertas exclusivas por email\n\n¡Bienvenido oficialmente a la Famiglia!',
+                    'success',
+                    '✅ Email verificado',
+                    { 
+                      duration: 10000,
+                      actions: [
+                        {
+                          text: '¡Hacer mi primer pedido!',
+                          style: 'primary',
+                          callback: 'window.location.href="pedido.html"'
+                        }
+                      ]
+                    }
+                  );
+                }, 1000);
+              }
+              
+              // Guardar estado para detectar cambios futuros
+              if (!user.emailVerified) {
+                localStorage.setItem('fratelli_was_unverified', 'true');
+              }
+              
             } else {
               console.log('👤 Usuario no autenticado');
               this.state.currentUser = null;
+              localStorage.removeItem('fratelli_was_unverified');
               this.showGuestInterface();
             }
           });
         } catch (error) {
           console.error('Error configurando Firebase Auth:', error);
           this.state.isFirebaseEnabled = false;
+          this.showNotification(
+            'Error de conexión con el sistema de autenticación. Usando modo offline.',
+            'warning',
+            'Modo Offline'
+          );
         }
       },
 
@@ -5891,50 +6049,206 @@
 
       async resendVerificationEmail() {
         if (!this.state.currentUser || this.state.currentUser.emailVerified) {
+          this.showNotification(
+            'Tu email ya está verificado o no tienes una sesión activa.',
+            'info',
+            'No es necesario'
+          );
           return;
         }
         
         if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
           console.log('📧 Reenviando email de verificación...');
           
+          // Mostrar progreso
+          this.showNotification(
+            'Preparando reenvío del email de verificación...',
+            'info',
+            '📧 Procesando',
+            { autoClose: false }
+          );
+          
+          // Verificar que el usuario actual de Firebase existe
+          const currentUser = window.firebase.auth.currentUser;
+          if (!currentUser) {
+            this.closeAllNotifications();
+            this.showNotification(
+              'No hay una sesión activa. Por favor, inicia sesión de nuevo.',
+              'error',
+              'Sesión requerida'
+            );
+            return;
+          }
+          
+          console.log('👤 Usuario actual en Firebase:', {
+            uid: currentUser.uid,
+            email: currentUser.email,
+            emailVerified: currentUser.emailVerified
+          });
+          
+          // Verificar si ya está verificado
+          if (currentUser.emailVerified) {
+            this.closeAllNotifications();
+            this.showNotification(
+              '¡Tu email ya está verificado! Puedes empezar a acumular puntos.',
+              'success',
+              '✅ Email verificado'
+            );
+            
+            // Actualizar el estado local
+            this.state.currentUser.emailVerified = true;
+            this.updateUserInterface();
+            return;
+          }
+          
+          // Configuración mejorada para el reenvío
           const actionCodeSettings = {
-            url: window.location.origin,
-            handleCodeInApp: false
+            url: `${window.location.origin}?emailVerified=true&resent=true`,
+            handleCodeInApp: false,
+            // Información adicional para debugging
+            iOS: {
+              bundleId: 'com.fratellipazzi.app'
+            },
+            android: {
+              packageName: 'com.fratellipazzi.app',
+              installApp: false,
+              minimumVersion: '1'
+            }
           };
           
           try {
-            await window.firebase.sendEmailVerification(window.firebase.auth.currentUser, actionCodeSettings);
-            console.log('✅ Email de verificación reenviado');
-            
+            // Actualizar progreso
+            this.closeAllNotifications();
             this.showNotification(
-              `Email de verificación reenviado exitosamente\n\n📬 Enviado a: ${this.state.currentUser.email}\n\nRevisa tu bandeja de entrada y la carpeta de spam.\n\nEl email viene de: noreply@fratelli-pazzi-pizzeria.firebaseapp.com`,
-              'success',
-              '📧 Email enviado',
-              { duration: 8000 }
+              'Enviando email de verificación...',
+              'info',
+              '📨 Enviando',
+              { autoClose: false }
             );
-          } catch (error) {
-            console.error('❌ Error reenviando verificación:', error);
             
-            let errorMessage = 'Error al reenviar el email de verificación.';
+            await window.firebase.sendEmailVerification(currentUser, actionCodeSettings);
             
-            if (error.code === 'auth/too-many-requests') {
-              errorMessage = 'Demasiados intentos. Espera unos minutos antes de intentar de nuevo.';
-            } else if (error.code === 'auth/network-request-failed') {
-              errorMessage = 'Error de conexión. Verifica tu internet e inténtalo de nuevo.';
+            // Cerrar notificación de progreso
+            this.closeAllNotifications();
+            
+            console.log('✅ Email de verificación reenviado exitosamente');
+            
+            const timestamp = new Date().toISOString();
+            
+            // Guardar información del reenvío
+            localStorage.setItem('fratelli_last_verification_resend', JSON.stringify({
+              email: this.state.currentUser.email,
+              resentAt: timestamp,
+              uid: currentUser.uid
+            }));
+            
+            // Actualizar Firestore si es posible
+            try {
+              await window.firebase.setDoc(
+                window.firebase.doc(window.firebase.db, 'users', currentUser.uid),
+                {
+                  lastVerificationEmailSent: timestamp,
+                  verificationEmailResendCount: (this.state.currentUser.verificationEmailResendCount || 0) + 1
+                },
+                { merge: true }
+              );
+            } catch (firestoreError) {
+              console.error('⚠️ Error actualizando Firestore (no crítico):', firestoreError);
             }
             
             this.showNotification(
-              `${errorMessage}\n\nDetalles técnicos: ${error.message}\n\nSi el problema persiste, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM`,
+              `Email de verificación reenviado exitosamente\n\n📬 Enviado a: ${this.state.currentUser.email}\n\n✅ Revisa tu bandeja de entrada y la carpeta de spam.\n\n💡 El email viene de Firebase Auth y puede tardar hasta 5 minutos en llegar.\n\n🔍 Si el problema persiste, verifica:\n• Que el email esté escrito correctamente\n• Tu conexión a internet\n• Los filtros de tu email\n\n📧 Enviado el: ${new Date().toLocaleString('es-ES')}`,
+              'success',
+              '📧 Email reenviado',
+              { 
+                duration: 15000,
+                actions: [
+                  {
+                    text: 'Entendido',
+                    style: 'primary',
+                    callback: `FratelliPazzi.closeNotification(this.dataset.notificationId)`
+                  }
+                ]
+              }
+            );
+            
+          } catch (error) {
+            // Cerrar notificación de progreso
+            this.closeAllNotifications();
+            
+            console.error('❌ Error detallado reenviando verificación:', {
+              code: error.code,
+              message: error.message,
+              stack: error.stack,
+              userEmail: this.state.currentUser.email,
+              userUID: currentUser?.uid,
+              timestamp: new Date().toISOString()
+            });
+            
+            let errorMessage = 'Error al reenviar el email de verificación.';
+            let errorTitle = '❌ Error en reenvío';
+            
+            if (error.code === 'auth/too-many-requests') {
+              errorMessage = 'Demasiados intentos de reenvío. Espera al menos 1 minuto antes de intentar de nuevo.\n\nPor tu seguridad, Firebase limita el número de emails que se pueden enviar.';
+              errorTitle = '🚫 Límite de reenvíos';
+            } else if (error.code === 'auth/user-disabled') {
+              errorMessage = 'Esta cuenta ha sido deshabilitada. Contacta con soporte para más información.';
+              errorTitle = '🚫 Cuenta deshabilitada';
+            } else if (error.code === 'auth/user-not-found') {
+              errorMessage = 'Usuario no encontrado. Intenta cerrar sesión y registrarte de nuevo.';
+              errorTitle = '👤 Usuario no encontrado';
+            } else if (error.code === 'auth/network-request-failed') {
+              errorMessage = 'Error de conexión a internet. Verifica tu conexión e inténtalo de nuevo.';
+              errorTitle = '🌐 Sin conexión';
+            } else if (error.code === 'auth/invalid-action-code') {
+              errorMessage = 'Código de acción inválido. Intenta cerrar sesión y volver a iniciar sesión.';
+              errorTitle = '🔑 Código inválido';
+            } else if (error.message.includes('domain') || error.message.includes('unauthorized')) {
+              errorMessage = 'Problema de configuración del servidor. Contacta con soporte técnico.';
+              errorTitle = '⚙️ Error de configuración';
+            }
+            
+            // Guardar error para debugging
+            localStorage.setItem('fratelli_verification_resend_error', JSON.stringify({
+              error: {
+                code: error.code,
+                message: error.message
+              },
+              email: this.state.currentUser.email,
+              uid: currentUser?.uid,
+              timestamp: new Date().toISOString()
+            }));
+            
+            this.showNotification(
+              `${errorMessage}\n\n🔍 Detalles técnicos: ${error.message}\n\n💬 Si el problema persiste, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812`,
               'error',
-              'Error en verificación',
-              { duration: 10000 }
+              errorTitle,
+              { 
+                duration: 12000,
+                actions: [
+                  {
+                    text: 'Contactar Soporte',
+                    style: 'secondary',
+                    callback: 'window.open("mailto:PIZZASFRATELLIPAZZI@GMAIL.COM?subject=Problema%20verificación%20email")'
+                  }
+                ]
+              }
             );
           }
         } else {
           this.showNotification(
-            'Para reenviar la verificación por email, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812',
+            'Para reenviar la verificación por email, contacta con nosotros:\n📧 PIZZASFRATELLIPAZZI@GMAIL.COM\n📱 660 668 812\n\nProporciona tu email registrado para que podamos ayudarte.',
             'info',
-            'Contacto requerido'
+            'Contacto requerido',
+            {
+              actions: [
+                {
+                  text: 'Enviar Email',
+                  style: 'primary',
+                  callback: 'window.open("mailto:PIZZASFRATELLIPAZZI@GMAIL.COM?subject=Reenvío%20verificación%20email")'
+                }
+              ]
+            }
           );
         }
       },
@@ -6020,10 +6334,25 @@
               throw new Error('Firebase no está completamente cargado');
             }
             
+            // Mostrar notificación de progreso
+            this.showNotification(
+              'Creando tu cuenta... Por favor espera.',
+              'info',
+              '🔄 Procesando',
+              { autoClose: false }
+            );
+            
             // Registrar con Firebase
             console.log('📧 Creando usuario con email y contraseña...');
             const userCredential = await window.firebase.createUserWithEmailAndPassword(window.firebase.auth, email, password);
-            console.log('✅ Usuario creado en Firebase Auth:', userCredential.user.uid);
+            console.log('✅ Usuario creado en Firebase Auth:', {
+              uid: userCredential.user.uid,
+              email: userCredential.user.email,
+              emailVerified: userCredential.user.emailVerified
+            });
+            
+            // Cerrar notificación de progreso
+            this.closeAllNotifications();
             
             // IMPORTANTE: Actualizar displayName antes de enviar email de verificación
             try {
@@ -6036,25 +6365,158 @@
               console.error('⚠️ Error actualizando perfil (no crítico):', profileError);
             }
             
+            // Configuración mejorada para el email de verificación
+            const actionCodeSettings = {
+              // URL a la que se redirige después de verificar el email
+              url: `${window.location.origin}?emailVerified=true`,
+              handleCodeInApp: false
+            };
+            
+            console.log('📨 Configuración del email:', {
+              url: actionCodeSettings.url,
+              userEmail: email,
+              userUID: userCredential.user.uid,
+              userCreated: userCredential.user.metadata.creationTime
+            });
+            
             // Enviar email de verificación con configuración personalizada
             console.log('📨 Enviando email de verificación...');
             try {
-              const actionCodeSettings = {
-                url: window.location.origin, // URL de retorno después de verificar
-                handleCodeInApp: false
-              };
+              // Verificar que el usuario esté autenticado
+              if (!userCredential.user) {
+                throw new Error('Usuario no encontrado después del registro');
+              }
               
-              await window.firebase.sendEmailVerification(userCredential.user, actionCodeSettings);
-              console.log('✅ Email de verificación enviado exitosamente');
+              // Verificar que el email no esté ya verificado
+              if (userCredential.user.emailVerified) {
+                console.log('✅ El email ya está verificado, saltando envío');
+                this.closeAllNotifications();
+              } else {
+                // Mostrar progreso del envío
+                this.showNotification(
+                  'Enviando email de verificación...',
+                  'info',
+                  '📧 Preparando email',
+                  { autoClose: false }
+                );
+                
+                console.log('📤 Llamando a sendEmailVerification...');
+                await window.firebase.sendEmailVerification(userCredential.user, actionCodeSettings);
+                
+                // Cerrar notificación de progreso
+                this.closeAllNotifications();
+                
+                console.log('✅ Email de verificación enviado exitosamente');
+                console.log('📧 Detalles del envío:', {
+                  timestamp: new Date().toISOString(),
+                  destinatario: email,
+                  configUrl: actionCodeSettings.url
+                });
+                
+                // Verificar que el email se haya enviado correctamente
+                const emailSentTime = new Date().toISOString();
+                
+                // Guardar información del envío en localStorage para debugging
+                localStorage.setItem('fratelli_last_verification_email', JSON.stringify({
+                  email: email,
+                  sentAt: emailSentTime,
+                  uid: userCredential.user.uid,
+                  actionUrl: actionCodeSettings.url
+                }));
+                
+                // Mostrar mensaje de confirmación del envío
+                this.showNotification(
+                  '¡Email de verificación enviado exitosamente!\n\n📬 Enviado a: ' + email + '\n📅 Hora: ' + new Date().toLocaleString('es-ES'),
+                  'success',
+                  '📧 Email enviado',
+                  { duration: 3000 }
+                );
+              }
+              
             } catch (emailError) {
-              console.error('❌ Error enviando email de verificación:', emailError);
-              // Mostrar mensaje específico sobre el error del email
+              console.error('❌ Error detallado enviando email de verificación:', {
+                code: emailError.code,
+                message: emailError.message,
+                stack: emailError.stack,
+                userEmail: email,
+                userUID: userCredential.user?.uid,
+                timestamp: new Date().toISOString(),
+                actionCodeSettings: actionCodeSettings
+              });
+              
+              // Cerrar cualquier notificación de progreso
+              this.closeAllNotifications();
+              
+              // Análisis detallado del error
+              let errorMessage = '';
+              let errorTitle = '⚠️ Problema con verificación';
+              let shouldShowResendOption = true;
+              
+              if (emailError.code === 'auth/too-many-requests') {
+                errorMessage = 'Demasiados intentos de envío. Por favor espera al menos 1 minuto antes de intentar de nuevo.\n\nEsto es una medida de seguridad de Firebase.';
+                errorTitle = '🚫 Límite de envíos alcanzado';
+                shouldShowResendOption = false;
+              } else if (emailError.code === 'auth/user-disabled') {
+                errorMessage = 'Esta cuenta ha sido deshabilitada temporalmente. Contacta con nuestro soporte técnico.';
+                errorTitle = '🚫 Cuenta deshabilitada';
+                shouldShowResendOption = false;
+              } else if (emailError.code === 'auth/user-not-found') {
+                errorMessage = 'Error interno del sistema: usuario no encontrado después del registro.\n\nIntenta cerrar la web y registrarte de nuevo.';
+                errorTitle = '❌ Error del sistema';
+                shouldShowResendOption = false;
+              } else if (emailError.code === 'auth/network-request-failed') {
+                errorMessage = 'Error de conexión a internet. Verifica tu conexión e inténtalo de nuevo.';
+                errorTitle = '🌐 Sin conexión';
+              } else if (emailError.code === 'auth/invalid-email') {
+                errorMessage = 'El formato del email no es válido. Verifica que esté escrito correctamente.';
+                errorTitle = '📧 Email inválido';
+                shouldShowResendOption = false;
+              } else if (emailError.message.includes('domain') || emailError.message.includes('unauthorized')) {
+                errorMessage = 'Problema de configuración del servidor de emails. Nuestro equipo técnico está trabajando en ello.';
+                errorTitle = '⚙️ Error de configuración';
+                shouldShowResendOption = false;
+              } else {
+                errorMessage = `Error técnico inesperado: ${emailError.message}\n\nCódigo de error: ${emailError.code || 'UNKNOWN'}`;
+                errorTitle = '🔧 Error técnico';
+              }
+              
+              // Preparar acciones según el tipo de error
+              const actions = [];
+              if (shouldShowResendOption) {
+                actions.push({
+                  text: 'Reintentar Envío',
+                  style: 'primary',
+                  callback: 'FratelliPazzi.resendVerificationEmail()'
+                });
+              }
+              actions.push({
+                text: 'Contactar Soporte',
+                style: 'secondary',
+                callback: 'window.open("mailto:PIZZASFRATELLIPAZZI@GMAIL.COM?subject=Error%20verificación%20email&body=Error:%20' + encodeURIComponent(emailError.code + ' - ' + emailError.message) + '")'
+              });
+              
+              // Mostrar mensaje específico del error
               this.showNotification(
-                `Cuenta creada exitosamente, pero hubo un problema enviando el email de verificación.\n\n📧 Email: ${email}\n🔍 Error: ${emailError.message}\n\nPuedes intentar reenviar el email desde tu perfil de usuario.`,
+                `Tu cuenta fue creada exitosamente, pero hubo un problema enviando el email de verificación.\n\n📧 Email: ${email}\n🔍 Problema: ${errorMessage}\n\n💡 OPCIONES:\n• Tu cuenta ya está creada y funcional\n• Puedes intentar reenviar el email\n• Contacta con soporte si el problema persiste`,
                 'warning',
-                '⚠️ Verificación pendiente',
-                { duration: 10000 }
+                errorTitle,
+                { 
+                  duration: 20000,
+                  actions: actions
+                }
               );
+              
+              // Guardar información del error para debugging
+              localStorage.setItem('fratelli_verification_error', JSON.stringify({
+                error: {
+                  code: emailError.code,
+                  message: emailError.message
+                },
+                email: email,
+                uid: userCredential.user?.uid,
+                timestamp: new Date().toISOString(),
+                actionCodeSettings: actionCodeSettings
+              }));
             }
             
             // Guardar datos adicionales en Firestore
@@ -6069,7 +6531,9 @@
                 points: 0,
                 orders: [],
                 hasUsedWelcomeDiscount: false,
-                emailVerified: false
+                emailVerified: false,
+                verificationEmailSent: true,
+                lastVerificationEmailSent: new Date().toISOString()
               });
               console.log('✅ Datos guardados en Firestore');
             } catch (firestoreError) {
@@ -6093,16 +6557,21 @@
               
               // Mensaje de verificación más detallado usando notificaciones
               this.showNotification(
-                `¡Hola ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.\n\n📧 VERIFICACIÓN DE EMAIL:\nHemos enviado un email de verificación a: ${email}\n\n📋 PASOS SIGUIENTES:\n1. Revisa tu bandeja de entrada\n2. Busca el email de "noreply@fratelli-pazzi-pizzeria.firebaseapp.com"\n3. Haz clic en el enlace de verificación\n4. ¡Listo! Ya puedes empezar a acumular puntos\n\n💡 Si no ves el email:\n- Revisa la carpeta de spam/promociones\n- Espera unos minutos (puede tardar)\n- Puedes reenviar desde tu perfil de usuario`,
+                `¡Hola ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.\n\n📧 VERIFICACIÓN DE EMAIL:\nHemos enviado un email de verificación a:\n${email}\n\n📋 PASOS SIGUIENTES:\n1. Revisa tu bandeja de entrada\n2. Busca el email de Firebase Auth\n3. Haz clic en el enlace de verificación\n4. ¡Listo! Ya puedes empezar a acumular puntos\n\n💡 Si no ves el email:\n- Revisa la carpeta de spam/promociones\n- Espera unos minutos (puede tardar hasta 5 min)\n- Puedes reenviar desde tu perfil de usuario\n\n🎉 ¡Bienvenido a la Famiglia Fratelli!`,
                 'fratelli',
-                '🍕 ¡Bienvenido a la Famiglia!',
+                '🍕 ¡Cuenta creada exitosamente!',
                 { 
-                  duration: 15000,
+                  duration: 20000,
                   actions: [
                     {
                       text: 'Entendido',
                       style: 'primary',
                       callback: `FratelliPazzi.closeNotification(this.dataset.notificationId)`
+                    },
+                    {
+                      text: 'Reenviar Email',
+                      style: 'secondary',
+                      callback: 'FratelliPazzi.resendVerificationEmail()'
                     }
                   ]
                 }
@@ -6468,15 +6937,71 @@
           'Modo actual': this.state.isFirebaseEnabled ? '🔥 Firebase' : '💾 localStorage'
         };
         
-        const debugText = Object.entries(debugInfo)
+        // Información adicional de debugging para emails
+        const emailDebugInfo = {};
+        
+        // Verificar último email enviado
+        const lastVerificationEmail = localStorage.getItem('fratelli_last_verification_email');
+        if (lastVerificationEmail) {
+          const emailData = JSON.parse(lastVerificationEmail);
+          emailDebugInfo['Último email enviado'] = new Date(emailData.sentAt).toLocaleString('es-ES');
+          emailDebugInfo['Email destinatario'] = emailData.email;
+        }
+        
+        // Verificar último reenvío
+        const lastResend = localStorage.getItem('fratelli_last_verification_resend');
+        if (lastResend) {
+          const resendData = JSON.parse(lastResend);
+          emailDebugInfo['Último reenvío'] = new Date(resendData.resentAt).toLocaleString('es-ES');
+        }
+        
+        // Verificar errores de email
+        const emailError = localStorage.getItem('fratelli_verification_error');
+        if (emailError) {
+          const errorData = JSON.parse(emailError);
+          emailDebugInfo['Último error email'] = `${errorData.error.code}: ${errorData.error.message}`;
+        }
+        
+        // Información del usuario actual de Firebase
+        if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
+          const firebaseUser = window.firebase.auth.currentUser;
+          emailDebugInfo['Firebase User UID'] = firebaseUser.uid;
+          emailDebugInfo['Firebase Email'] = firebaseUser.email;
+          emailDebugInfo['Firebase Verificado'] = firebaseUser.emailVerified ? '✅ Sí' : '❌ No';
+          emailDebugInfo['Firebase Creation Time'] = new Date(firebaseUser.metadata.creationTime).toLocaleString('es-ES');
+          emailDebugInfo['Firebase Last Sign In'] = new Date(firebaseUser.metadata.lastSignInTime).toLocaleString('es-ES');
+        }
+        
+        const allDebugInfo = { ...debugInfo, ...emailDebugInfo };
+        
+        const debugText = Object.entries(allDebugInfo)
           .map(([key, value]) => `${key}: ${value}`)
           .join('\n');
         
         this.showNotification(
-          debugText + '\n\n📋 Esta info ayuda a diagnosticar problemas',
+          debugText + '\n\n📋 Esta información ayuda a diagnosticar problemas con emails y Firebase',
           'info',
           '🔍 Información de Debug',
-          { duration: 15000 }
+          { 
+            duration: 20000,
+            actions: [
+              {
+                text: 'Copiar Info',
+                style: 'secondary',
+                callback: 'navigator.clipboard.writeText(this.parentElement.previousElementSibling.textContent)'
+              },
+              {
+                text: 'Test Sistema',
+                style: 'primary',
+                callback: 'FratelliPazzi.testEmailVerificationSystem()'
+              },
+              {
+                text: 'Refrescar Estado',
+                style: 'primary',
+                callback: 'FratelliPazzi.refreshUserEmailStatus()'
+              }
+            ]
+          }
         );
         
         console.log('🔍 Debug Info Completo:', {
@@ -6485,9 +7010,94 @@
           currentUser: window.firebase?.auth?.currentUser,
           localStorage: {
             users: localStorage.getItem('fratelli_users'),
-            currentUser: localStorage.getItem('fratelli_current_user')
-          }
+            currentUser: localStorage.getItem('fratelli_current_user'),
+            lastVerificationEmail: localStorage.getItem('fratelli_last_verification_email'),
+            lastVerificationResend: localStorage.getItem('fratelli_last_verification_resend'),
+            verificationError: localStorage.getItem('fratelli_verification_error')
+          },
+          emailDebugInfo: emailDebugInfo
         });
+      },
+
+      /**
+       * Función para probar manualmente el envío de email (solo para testing)
+       */
+      async manualTestEmailSend() {
+        if (!this.state.isFirebaseEnabled) {
+          this.showNotification(
+            'Firebase no está habilitado. No se puede probar el envío de emails.',
+            'error',
+            'Firebase no disponible'
+          );
+          return;
+        }
+
+        if (!window.firebase.auth.currentUser) {
+          this.showNotification(
+            'No hay usuario logueado. Inicia sesión para probar el envío de emails.',
+            'warning',
+            'Usuario requerido'
+          );
+          return;
+        }
+
+        const user = window.firebase.auth.currentUser;
+        
+        if (user.emailVerified) {
+          this.showNotification(
+            'El email ya está verificado. No es necesario enviar otro email.',
+            'info',
+            'Ya verificado'
+          );
+          return;
+        }
+
+        const confirmed = await this.showConfirmation(
+          '¿Estás seguro de que quieres enviar un email de verificación de prueba?\n\nEsto enviará un email real a: ' + user.email,
+          'Test de Email',
+          '📧'
+        );
+
+        if (confirmed) {
+          try {
+            this.showNotification(
+              'Enviando email de verificación de prueba...',
+              'info',
+              '🧪 Probando',
+              { autoClose: false }
+            );
+
+            const actionCodeSettings = {
+              url: `${window.location.origin}?emailVerified=true&test=true`,
+              handleCodeInApp: false
+            };
+
+            await window.firebase.sendEmailVerification(user, actionCodeSettings);
+            
+            this.closeAllNotifications();
+            
+            this.showNotification(
+              '✅ Email de verificación de prueba enviado exitosamente!\n\n📬 Enviado a: ' + user.email + '\n⏰ Hora: ' + new Date().toLocaleString('es-ES') + '\n\n🔍 Revisa tu bandeja de entrada.',
+              'success',
+              '🧪 Test Exitoso'
+            );
+            
+            // Guardar info del test
+            localStorage.setItem('fratelli_test_email_sent', JSON.stringify({
+              email: user.email,
+              sentAt: new Date().toISOString(),
+              isTest: true
+            }));
+
+          } catch (error) {
+            this.closeAllNotifications();
+            this.showNotification(
+              'Error en el test: ' + error.message + '\n\nCódigo: ' + error.code,
+              'error',
+              '❌ Test Fallido'
+            );
+          }
+        }
       },
 
       // ========== UTILITY FUNCTIONS ==========
@@ -6652,6 +7262,137 @@
 
     // Hacer FratelliPazzi disponible globalmente
     window.FratelliPazzi = FratelliPazzi;
+
+    // ========== FUNCIONES DE DEBUG GLOBAL ==========
+    // Estas funciones están disponibles en la consola del navegador para debugging
+    
+    /**
+     * Función global para probar el sistema de emails
+     * Uso en consola: testEmails()
+     */
+    window.testEmails = function() {
+      return FratelliPazzi.testEmailVerificationSystem();
+    };
+    
+    /**
+     * Función global para enviar un email de prueba
+     * Uso en consola: sendTestEmail()
+     */
+    window.sendTestEmail = function() {
+      return FratelliPazzi.manualTestEmailSend();
+    };
+    
+    /**
+     * Función global para mostrar información de debug
+     * Uso en consola: debugInfo()
+     */
+    window.debugInfo = function() {
+      return FratelliPazzi.showDebugInfo();
+    };
+    
+    /**
+     * Función global para limpiar todos los datos de debug
+     * Uso en consola: clearDebugData()
+     */
+    window.clearDebugData = function() {
+      const keysToRemove = [
+        'fratelli_last_verification_email',
+        'fratelli_last_verification_resend', 
+        'fratelli_verification_error',
+        'fratelli_verification_resend_error',
+        'fratelli_test_email_sent',
+        'fratelli_was_unverified'
+      ];
+      
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      
+      console.log('🧹 Datos de debug limpiados:', keysToRemove);
+      FratelliPazzi.showNotification(
+        'Todos los datos de debug han sido limpiados del navegador.',
+        'success',
+        '🧹 Limpieza completada'
+      );
+    };
+    
+    /**
+     * Función global para verificar el estado de Firebase
+     * Uso en consola: checkFirebase()
+     */
+    window.checkFirebase = function() {
+      const status = {
+        firebaseLoaded: typeof window.firebase !== 'undefined',
+        authLoaded: !!window.firebase?.auth,
+        currentUser: !!window.firebase?.auth?.currentUser,
+        userEmail: window.firebase?.auth?.currentUser?.email || null,
+        userVerified: window.firebase?.auth?.currentUser?.emailVerified || false,
+        functionsAvailable: {
+          sendEmailVerification: !!window.firebase?.sendEmailVerification,
+          createUser: !!window.firebase?.createUserWithEmailAndPassword,
+          signIn: !!window.firebase?.signInWithEmailAndPassword
+        }
+      };
+      
+      console.log('🔥 Estado de Firebase:', status);
+      return status;
+    };
+    
+    /**
+     * Función global para simular un registro completo (solo para testing)
+     * Uso en consola: simulateRegistration('test@example.com', 'Test User')
+     */
+    window.simulateRegistration = function(email, name) {
+      if (!email || !name) {
+        console.error('❌ Uso: simulateRegistration("email@ejemplo.com", "Nombre Usuario")');
+        return;
+      }
+      
+      console.log('🧪 Simulando registro para:', { email, name });
+      
+      // Llenar el formulario automáticamente
+      const fillForm = () => {
+        document.getElementById('register-name').value = name;
+        document.getElementById('register-email').value = email;
+        document.getElementById('register-password').value = 'test123456';
+        document.getElementById('register-confirm-password').value = 'test123456';
+        document.getElementById('register-terms').checked = true;
+        
+        console.log('📝 Formulario llenado automáticamente');
+        FratelliPazzi.showNotification(
+          'Formulario de registro llenado automáticamente.\n\nRevisa los datos y haz clic en "CREAR MI CUENTA" para probar.',
+          'info',
+          '🧪 Test de Registro'
+        );
+      };
+      
+      // Abrir el formulario de registro si no está abierto
+      if (!document.getElementById('registerPopup').classList.contains('show')) {
+        FratelliPazzi.showRegisterForm();
+        setTimeout(fillForm, 500);
+      } else {
+        fillForm();
+      }
+    };
+    
+    console.log(`
+🍕 FRATELLI PAZZI - DEBUG CONSOLE
+================================
+
+Funciones disponibles en la consola:
+
+📧 testEmails()           - Probar sistema de emails
+📨 sendTestEmail()        - Enviar email de prueba
+🔍 debugInfo()           - Mostrar información de debug
+🔥 checkFirebase()       - Verificar estado de Firebase
+🧹 clearDebugData()      - Limpiar datos de debug
+🧪 simulateRegistration(email, name) - Simular registro
+
+Ejemplo de uso:
+> testEmails()
+> sendTestEmail()
+> simulateRegistration('test@ejemplo.com', 'Usuario Test')
+
+Para debug avanzado usa: Ctrl+Alt+D
+    `);
   </script>
 </body>
 </html>
