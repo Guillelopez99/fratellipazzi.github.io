@@ -29,7 +29,7 @@
       --gradient-gold: linear-gradient(135deg, var(--gold) 0%, #ddc589 100%);
       --gradient-sage: linear-gradient(135deg, var(--sage) 0%, #8fb584 100%);
       
-      /* Nuevas sombras suaves */
+      /* Sombras suaves */
       --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
       --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
       --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -124,7 +124,7 @@
       50% { transform: translateY(-15px); opacity: 1; }
     }
 
-    /* SISTEMA BASE */
+    /* SISTEMA BASE - TODO CENTRADO */
     body { 
       font-family: 'Inter', sans-serif; 
       background: var(--rich-black);
@@ -134,6 +134,15 @@
       scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+    }
+
+    /* CONTENEDOR PRINCIPAL CENTRADO */
+    .main-container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
     }
 
     /* HEADER FLOTANTE MODERNO */
@@ -159,15 +168,16 @@
       padding: var(--space-md) var(--space-lg);
       box-shadow: var(--shadow-card);
       transition: all 0.3s ease;
+      margin: 0 auto;
+      max-width: 1400px;
     }
     
     .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: var(--space-lg);
+      text-align: center;
     }
     
     .logo {
@@ -185,6 +195,7 @@
     .nav-main { 
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-lg);
     }
     
@@ -197,6 +208,7 @@
       transition: all 0.3s ease;
       padding: var(--space-xs) var(--space-sm);
       border-radius: var(--radius-sm);
+      text-align: center;
     }
     
     .nav-main a:hover {
@@ -221,6 +233,7 @@
       animation: slideDown 0.5s ease;
       font-weight: 600;
       font-size: clamp(0.8rem, 2vw, 0.9rem);
+      text-align: center;
     }
     
     .offer-banner.hidden {
@@ -236,10 +249,11 @@
     .offer-content {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-md);
       flex-wrap: wrap;
-      justify-content: center;
       flex: 1;
+      text-align: center;
     }
     
     .offer-cta-btn {
@@ -278,7 +292,7 @@
       top: 0;
     }
 
-    /* HERO SECTION RENOVADO */
+    /* HERO SECTION RENOVADO Y CENTRADO */
     .hero-section {
       min-height: 100vh;
       background: 
@@ -291,6 +305,7 @@
       position: relative;
       overflow: hidden;
       text-align: center;
+      width: 100%;
     }
 
     .hero-content {
@@ -298,11 +313,14 @@
       padding: var(--space-xl);
       position: relative;
       z-index: 2;
+      text-align: center;
+      margin: 0 auto;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-xs);
       background: rgba(205, 184, 124, 0.15);
       border: 1px solid rgba(205, 184, 124, 0.3);
@@ -313,6 +331,7 @@
       font-weight: 600;
       margin-bottom: var(--space-lg);
       animation: badgeFloat 4s ease-in-out infinite;
+      text-align: center;
     }
 
     @keyframes badgeFloat {
@@ -331,6 +350,7 @@
       margin-bottom: var(--space-lg);
       line-height: 1.1;
       letter-spacing: -0.02em;
+      text-align: center;
     }
 
     .hero-subtitle {
@@ -342,12 +362,14 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      text-align: center;
     }
 
     .hero-cta {
       display: flex;
       gap: var(--space-lg);
       justify-content: center;
+      align-items: center;
       flex-wrap: wrap;
       margin-top: var(--space-xl);
     }
@@ -370,6 +392,7 @@
       position: relative;
       overflow: hidden;
       letter-spacing: 0.3px;
+      text-align: center;
     }
 
     .btn-primary {
@@ -395,10 +418,14 @@
       border-color: var(--cream);
     }
 
-    /* SLIDER DE OFERTAS RENOVADO */
+    /* SLIDER DE OFERTAS CENTRADO */
     .offers-section {
       margin: var(--space-xxl) 0;
       position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .offers-container {
@@ -503,17 +530,33 @@
       transform: scale(1.3);
     }
 
-    /* SECCIONES PRINCIPALES */
+    /* SECCIONES PRINCIPALES - COMPLETAMENTE CENTRADAS */
     .section {
-      padding: var(--space-xxl) var(--space-lg);
+      width: 100%;
+      padding: var(--space-xxl) 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .section-inner {
+      width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      position: relative;
+      padding: 0 var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .section-header {
       text-align: center;
       margin-bottom: var(--space-xxl);
+      width: 100%;
+      max-width: 800px;
     }
 
     .section-title {
@@ -526,6 +569,7 @@
       background-clip: text;
       margin-bottom: var(--space-md);
       line-height: 1.2;
+      text-align: center;
     }
 
     .section-subtitle {
@@ -534,20 +578,32 @@
       max-width: 600px;
       margin: 0 auto;
       line-height: 1.6;
+      text-align: center;
     }
 
-    /* GRID MODERNO */
+    /* GRID COMPLETAMENTE CENTRADO */
     .grid {
       display: grid;
       gap: var(--space-xl);
-      margin-top: var(--space-xxl);
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      justify-content: center;
+      justify-items: center;
+      align-items: start;
     }
 
-    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .grid-2 { 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    }
+    .grid-3 { 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    }
+    .grid-4 { 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    }
 
-    /* CARDS ELEGANTES */
+    /* CARDS ELEGANTES CENTRADAS */
     .card {
       background: rgba(30, 33, 34, 0.6);
       backdrop-filter: blur(20px);
@@ -558,6 +614,9 @@
       position: relative;
       box-shadow: var(--shadow-card);
       text-align: center;
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto;
     }
 
     .card:hover {
@@ -611,14 +670,17 @@
       text-align: center;
     }
 
-    /* SECCIÓN DE AUTENTICACIÓN RENOVADA */
+    /* SECCIÓN DE AUTENTICACIÓN CENTRADA */
     .auth-section {
       background: 
         radial-gradient(circle at 30% 70%, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
         linear-gradient(135deg, var(--rich-black) 0%, var(--dark-green) 100%);
-      margin: var(--space-xxl) 0;
-      padding: var(--space-xxl);
-      border-radius: 0;
+      width: 100%;
+      padding: var(--space-xxl) 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
     }
 
@@ -626,7 +688,12 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: var(--space-xl);
-      margin: var(--space-xxl) 0;
+      width: 100%;
+      max-width: 1000px;
+      margin: var(--space-xxl) auto 0;
+      justify-content: center;
+      justify-items: center;
+      padding: 0 var(--space-lg);
     }
 
     .auth-card {
@@ -639,6 +706,9 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
     }
 
     .auth-card::before {
@@ -669,6 +739,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: var(--space-md);
       position: relative;
       z-index: 2;
@@ -685,30 +756,37 @@
       font-size: 1.125rem;
       color: var(--cream);
       margin-bottom: 4px;
+      text-align: center;
     }
 
     .auth-text p {
       font-size: 0.875rem;
       color: rgba(251, 244, 232, 0.7);
+      text-align: center;
     }
 
     .auth-benefits {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: var(--space-xl);
       flex-wrap: wrap;
       margin: var(--space-xl) 0;
+      width: 100%;
+      max-width: 800px;
     }
 
     .benefit-item {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-xs);
       font-size: 0.9rem;
       color: rgba(251, 244, 232, 0.8);
+      text-align: center;
     }
 
-    /* TESTIMONIOS MODERNOS */
+    /* TESTIMONIOS CENTRADOS */
     .testimonial-card {
       background: rgba(30, 33, 34, 0.6);
       backdrop-filter: blur(20px);
@@ -717,6 +795,10 @@
       padding: var(--space-xl);
       transition: all 0.3s ease;
       position: relative;
+      text-align: center;
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto;
     }
 
     .testimonial-card:hover {
@@ -728,6 +810,7 @@
     .testimonial-header {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-md);
       margin-bottom: var(--space-md);
     }
@@ -749,23 +832,27 @@
       font-weight: 600;
       color: var(--cream);
       font-size: 1rem;
+      text-align: center;
     }
 
     .testimonial-date {
       font-size: 0.75rem;
       color: rgba(251, 244, 232, 0.5);
+      text-align: center;
     }
 
     .stars {
       color: var(--gold);
       font-size: 1rem;
-      margin-left: auto;
+      text-align: center;
+      margin-top: var(--space-xs);
     }
 
     .testimonial-text {
       color: rgba(251, 244, 232, 0.8);
       line-height: 1.6;
       font-style: italic;
+      text-align: center;
     }
 
     /* WHATSAPP BUTTON */
@@ -799,13 +886,14 @@
       box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
     }
 
-    /* FOOTER MODERNO */
+    /* FOOTER CENTRADO */
     footer {
       background: var(--rich-black);
       border-top: 1px solid rgba(205, 184, 124, 0.1);
       padding: var(--space-xxl) var(--space-lg);
       text-align: center;
       color: rgba(251, 244, 232, 0.7);
+      width: 100%;
     }
 
     /* NOTIFICACIONES */
@@ -1159,10 +1247,11 @@
       text-decoration: underline;
     }
 
-    /* USER MENU */
+    /* USER MENU CENTRADO */
     .user-menu {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-md);
       position: relative;
     }
@@ -1170,6 +1259,7 @@
     .user-welcome {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: var(--space-sm);
       cursor: pointer;
       padding: var(--space-sm) var(--space-md);
@@ -1243,11 +1333,12 @@
       transform: translateY(0);
     }
 
-    /* RESPONSIVE DESIGN */
+    /* RESPONSIVE DESIGN CENTRADO */
     @media (max-width: 768px) {
       .header-content {
         flex-direction: column;
         gap: var(--space-md);
+        text-align: center;
       }
 
       .nav-main {
@@ -1265,15 +1356,18 @@
       .grid-3,
       .grid-4 {
         grid-template-columns: 1fr;
+        justify-items: center;
       }
 
       .auth-grid {
         grid-template-columns: 1fr;
+        justify-items: center;
       }
 
       .auth-benefits {
         flex-direction: column;
         gap: var(--space-md);
+        align-items: center;
       }
 
       .whatsapp-float {
@@ -1301,6 +1395,19 @@
         gap: var(--space-sm);
         text-align: center;
       }
+
+      .section-inner {
+        padding: 0 var(--space-md);
+      }
+
+      .card {
+        max-width: 300px;
+      }
+
+      .testimonial-header {
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
     }
 
     @media (max-width: 480px) {
@@ -1314,6 +1421,10 @@
 
       .section-title {
         font-size: clamp(1.5rem, 8vw, 2rem);
+      }
+
+      .card {
+        max-width: 280px;
       }
     }
   </style>
@@ -1429,95 +1540,99 @@
 
   <!-- SECCIÓN DE AUTENTICACIÓN -->
   <section class="auth-section fade-in" id="authSection" style="display: none;">
-    <div class="section-header">
-      <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🍕</div>
-      <h2 class="section-title">¡Únete a la Famiglia!</h2>
-      <p class="section-subtitle">
-        Crea tu cuenta para acumular puntos, conseguir pizzas gratis y disfrutar de ofertas exclusivas
-      </p>
-    </div>
-    
-    <div class="auth-grid">
-      <div class="auth-card" onclick="FratelliPazzi.showRegisterForm()">
-        <div class="auth-card-content">
-          <span class="auth-icon">✨</span>
-          <div class="auth-text">
-            <h3>Crear Cuenta Gratis</h3>
-            <p>¡Empieza a acumular puntos!</p>
+    <div class="section-inner">
+      <div class="section-header">
+        <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🍕</div>
+        <h2 class="section-title">¡Únete a la Famiglia!</h2>
+        <p class="section-subtitle">
+          Crea tu cuenta para acumular puntos, conseguir pizzas gratis y disfrutar de ofertas exclusivas
+        </p>
+      </div>
+      
+      <div class="auth-grid">
+        <div class="auth-card" onclick="FratelliPazzi.showRegisterForm()">
+          <div class="auth-card-content">
+            <span class="auth-icon">✨</span>
+            <div class="auth-text">
+              <h3>Crear Cuenta Gratis</h3>
+              <p>¡Empieza a acumular puntos!</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="auth-card" onclick="FratelliPazzi.showLoginForm()">
+          <div class="auth-card-content">
+            <span class="auth-icon">🔐</span>
+            <div class="auth-text">
+              <h3>Ya tengo cuenta</h3>
+              <p>Iniciar sesión</p>
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="auth-card" onclick="FratelliPazzi.showLoginForm()">
-        <div class="auth-card-content">
-          <span class="auth-icon">🔐</span>
-          <div class="auth-text">
-            <h3>Ya tengo cuenta</h3>
-            <p>Iniciar sesión</p>
-          </div>
+      <div class="auth-benefits">
+        <div class="benefit-item">
+          <span style="color: var(--gold);">🎁</span>
+          <span>Pizza gratis cada 100 puntos</span>
+        </div>
+        <div class="benefit-item">
+          <span style="color: var(--gold);">⚡</span>
+          <span>Checkout rápido</span>
+        </div>
+        <div class="benefit-item">
+          <span style="color: var(--gold);">🔔</span>
+          <span>Ofertas exclusivas</span>
         </div>
       </div>
-    </div>
-    
-    <div class="auth-benefits">
-      <div class="benefit-item">
-        <span style="color: var(--gold);">🎁</span>
-        <span>Pizza gratis cada 100 puntos</span>
+      
+      <div style="font-size: 0.85rem; color: rgba(251, 244, 232, 0.5); font-style: italic; margin-top: var(--space-lg);">
+        +300 clientes ya disfrutan de nuestros beneficios
       </div>
-      <div class="benefit-item">
-        <span style="color: var(--gold);">⚡</span>
-        <span>Checkout rápido</span>
-      </div>
-      <div class="benefit-item">
-        <span style="color: var(--gold);">🔔</span>
-        <span>Ofertas exclusivas</span>
-      </div>
-    </div>
-    
-    <div style="font-size: 0.85rem; color: rgba(251, 244, 232, 0.5); font-style: italic;">
-      +300 clientes ya disfrutan de nuestros beneficios
     </div>
   </section>
 
   <!-- PERFIL DE USUARIO -->
-  <section class="section auth-section fade-in" id="profileSection" style="display: none;">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-xxl); flex-wrap: wrap; gap: var(--space-lg);">
-      <div style="display: flex; align-items: center; gap: var(--space-lg);">
-        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--rich-black);" id="profileAvatar">
-          <!-- Se llenará dinámicamente -->
-        </div>
-        <div>
-          <h2 style="font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--cream); margin-bottom: 4px;" id="profileGreeting">¡Hola Usuario!</h2>
-          <p style="color: rgba(251, 244, 232, 0.7);" id="profileStatus">Miembro de la Famiglia Fratelli</p>
-        </div>
-      </div>
-      <button class="btn btn-outline" onclick="FratelliPazzi.logout()">
-        👋 Cerrar Sesión
-      </button>
-    </div>
-    
-    <div class="grid grid-3" style="margin-bottom: var(--space-xxl);">
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 2rem; margin-bottom: var(--space-md);">⭐</div>
-          <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userPoints">0</div>
-          <div style="color: rgba(251, 244, 232, 0.7);">Puntos</div>
+  <section class="auth-section fade-in" id="profileSection" style="display: none;">
+    <div class="section-inner">
+      <div style="display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-xxl); flex-wrap: wrap; gap: var(--space-lg); text-align: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-lg);">
+          <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--rich-black);" id="profileAvatar">
+            <!-- Se llenará dinámicamente -->
+          </div>
+          <div style="text-align: center;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--cream); margin-bottom: 4px;" id="profileGreeting">¡Hola Usuario!</h2>
+            <p style="color: rgba(251, 244, 232, 0.7);" id="profileStatus">Miembro de la Famiglia Fratelli</p>
+          </div>
+          <button class="btn btn-outline" onclick="FratelliPazzi.logout()">
+            👋 Cerrar Sesión
+          </button>
         </div>
       </div>
       
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 2rem; margin-bottom: var(--space-md);">🍕</div>
-          <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userOrders">0</div>
-          <div style="color: rgba(251, 244, 232, 0.7);">Pedidos</div>
+      <div class="grid grid-3" style="margin-bottom: var(--space-xxl);">
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: var(--space-md);">⭐</div>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userPoints">0</div>
+            <div style="color: rgba(251, 244, 232, 0.7);">Puntos</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 2rem; margin-bottom: var(--space-md);">🎁</div>
-          <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="freeRewards">0</div>
-          <div style="color: rgba(251, 244, 232, 0.7);">Pizzas Gratis</div>
+        
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: var(--space-md);">🍕</div>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userOrders">0</div>
+            <div style="color: rgba(251, 244, 232, 0.7);">Pedidos</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: var(--space-md);">🎁</div>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="freeRewards">0</div>
+            <div style="color: rgba(251, 244, 232, 0.7);">Pizzas Gratis</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1525,106 +1640,110 @@
 
   <!-- ¿POR QUÉ FRATELLI PAZZI? -->
   <section class="section fade-in">
-    <div class="section-header">
-      <h2 class="section-title">¿Por qué elegir Fratelli Pazzi?</h2>
-      <p class="section-subtitle">La experiencia italiana más auténtica en Madrid</p>
-    </div>
-    <div class="grid grid-4">
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: var(--space-lg);">👨‍🍳</div>
-          <h3 class="card-title">Maestros Pizzaiolos</h3>
-          <p class="card-description">
-            Chefs entrenados en Nápoles<br>
-            <span style="color: var(--gold); font-weight: 600;">Técnica tradicional</span>
-          </p>
-        </div>
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">¿Por qué elegir Fratelli Pazzi?</h2>
+        <p class="section-subtitle">La experiencia italiana más auténtica en Madrid</p>
       </div>
-      
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: var(--space-lg);">⭐</div>
-          <h3 class="card-title">+300 Clientes</h3>
-          <p class="card-description">
-            Satisfechos en Las Rozas<br>
-            <span style="color: var(--gold); font-weight: 600;">4.8/5 estrellas en Google</span>
-          </p>
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: var(--space-lg);">👨‍🍳</div>
+            <h3 class="card-title">Maestros Pizzaiolos</h3>
+            <p class="card-description">
+              Chefs entrenados en Nápoles<br>
+              <span style="color: var(--gold); font-weight: 600;">Técnica tradicional</span>
+            </p>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🛡️</div>
-          <h3 class="card-title">Garantía Total</h3>
-          <p class="card-description">
-            Frescura y calidad garantizada<br>
-            <span style="color: var(--gold); font-weight: 600;">100% satisfacción</span>
-          </p>
+        
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: var(--space-lg);">⭐</div>
+            <h3 class="card-title">+300 Clientes</h3>
+            <p class="card-description">
+              Satisfechos en Las Rozas<br>
+              <span style="color: var(--gold); font-weight: 600;">4.8/5 estrellas en Google</span>
+            </p>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <div class="card-content" style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🔥</div>
-          <h3 class="card-title">Horno de Leña</h3>
-          <p class="card-description">
-            Cocción a 450°C tradicional<br>
-            <span style="color: var(--gold); font-weight: 600;">Sabor auténtico napolitano</span>
-          </p>
+        
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🛡️</div>
+            <h3 class="card-title">Garantía Total</h3>
+            <p class="card-description">
+              Frescura y calidad garantizada<br>
+              <span style="color: var(--gold); font-weight: 600;">100% satisfacción</span>
+            </p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-content" style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🔥</div>
+            <h3 class="card-title">Horno de Leña</h3>
+            <p class="card-description">
+              Cocción a 450°C tradicional<br>
+              <span style="color: var(--gold); font-weight: 600;">Sabor auténtico napolitano</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- PIZZAS MÁS PEDIDAS -->
-  <section class="section auth-section fade-in">
-    <div class="section-header">
-      <h2 class="section-title">Las Favoritas de Nuestros Clientes</h2>
-      <p class="section-subtitle">Las pizzas más pedidas en Las Rozas. ¡Descubre por qué son las preferidas!</p>
-    </div>
-    <div class="grid grid-3">
-      <div class="card" style="position: relative;">
-        <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
-          🔥 MÁS VENDIDA
-        </div>
-        <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Margarita Clásica</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
-          <div class="card-price">10€</div>
-          <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
-            PEDIR AHORA
-          </button>
-        </div>
+  <section class="auth-section fade-in">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Las Favoritas de Nuestros Clientes</h2>
+        <p class="section-subtitle">Las pizzas más pedidas en Las Rozas. ¡Descubre por qué son las preferidas!</p>
       </div>
-      
-      <div class="card">
-        <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-gold); color: var(--rich-black); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
-          ⭐ TOP 3
+      <div class="grid grid-3">
+        <div class="card" style="position: relative;">
+          <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
+            🔥 MÁS VENDIDA
+          </div>
+          <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Margarita Clásica</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
+            <div class="card-price">10€</div>
+            <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
+              PEDIR AHORA
+            </button>
+          </div>
         </div>
-        <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Leonardo Da Vinci</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
-          <div class="card-price">14€</div>
-          <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
-            PEDIR AHORA
-          </button>
+        
+        <div class="card" style="position: relative;">
+          <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-gold); color: var(--rich-black); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
+            ⭐ TOP 3
+          </div>
+          <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Leonardo Da Vinci</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
+            <div class="card-price">14€</div>
+            <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
+              PEDIR AHORA
+            </button>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-sage); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
-          👑 PREMIUM
-        </div>
-        <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Cuatro Formaggi</h3>
-          <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
-          <div class="card-price">12€</div>
-          <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
-            PEDIR AHORA
-          </button>
+        
+        <div class="card" style="position: relative;">
+          <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-sage); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
+            👑 PREMIUM
+          </div>
+          <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Cuatro Formaggi</h3>
+            <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
+            <div class="card-price">12€</div>
+            <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
+              PEDIR AHORA
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1632,161 +1751,171 @@
 
   <!-- TESTIMONIOS -->
   <section class="section fade-in">
-    <div class="section-header">
-      <h2 class="section-title">Lo que dicen nuestros clientes</h2>
-      <p class="section-subtitle">Reseñas reales de Google My Business</p>
-    </div>
-    <div class="grid grid-3">
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar">M</div>
-          <div class="testimonial-info">
-            <h4>Miguel Rafael</h4>
-            <div class="testimonial-date">Hace 2 meses</div>
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <p class="section-subtitle">Reseñas reales de Google My Business</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">M</div>
+            <div>
+              <div class="testimonial-info">
+                <h4>Miguel Rafael</h4>
+                <div class="testimonial-date">Hace 2 meses</div>
+              </div>
+              <div class="stars">⭐⭐⭐⭐⭐</div>
+            </div>
           </div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">
+            Fui con unos amigos para probar y nos encantó las 6 pizzas distintas que pedimos. Riquísimas y la atención un lujo. Repetiremos ❤️
+          </p>
         </div>
-        <p class="testimonial-text">
-          Fui con unos amigos para probar y nos encantó las 6 pizzas distintas que pedimos. Riquísimas y la atención un lujo. Repetiremos ❤️
-        </p>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">E</div>
+            <div>
+              <div class="testimonial-info">
+                <h4>Elena Salgueiro</h4>
+                <div class="testimonial-date">Hace 3 meses</div>
+              </div>
+              <div class="stars">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <p class="testimonial-text">
+            No somos sus colegas, somos vecinos de la zona. Es la segunda vez que pedimos y no será la última. RIQUÍSIMA. Todo lo que uno espera de una pizza. 😋😋😋
+          </p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <div class="testimonial-info">
+                <h4>Antonio Sánchez</h4>
+                <div class="testimonial-date">Hace 3 meses</div>
+              </div>
+              <div class="stars">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          <p class="testimonial-text">
+            Pizzas super buenas y muy buen precio, encima los chicos que la llevan son muy majos y rápidos. Volveré, increíble experiencia…
+          </p>
+        </div>
       </div>
 
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar">E</div>
-          <div class="testimonial-info">
-            <h4>Elena Salgueiro</h4>
-            <div class="testimonial-date">Hace 3 meses</div>
-          </div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
+      <div class="card" style="text-align: center; margin-top: var(--space-xxl); max-width: 600px;">
+        <div class="card-content">
+          <div style="font-size: 3rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-md);">4.7 ⭐</div>
+          <p style="font-size: 1.125rem; margin-bottom: var(--space-lg);">Basado en <strong>43 reseñas</strong> de Google</p>
+          <a href="https://g.co/kgs/DzYRGju" target="_blank" class="btn btn-outline">
+            Ver todas las reseñas
+          </a>
         </div>
-        <p class="testimonial-text">
-          No somos sus colegas, somos vecinos de la zona. Es la segunda vez que pedimos y no será la última. RIQUÍSIMA. Todo lo que uno espera de una pizza. 😋😋😋
-        </p>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar">A</div>
-          <div class="testimonial-info">
-            <h4>Antonio Sánchez</h4>
-            <div class="testimonial-date">Hace 3 meses</div>
-          </div>
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-        </div>
-        <p class="testimonial-text">
-          Pizzas super buenas y muy buen precio, encima los chicos que la llevan son muy majos y rápidos. Volveré, increíble experiencia…
-        </p>
-      </div>
-    </div>
-
-    <div class="card" style="text-align: center; margin-top: var(--space-xxl); max-width: 600px; margin-left: auto; margin-right: auto;">
-      <div class="card-content">
-        <div style="font-size: 3rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-md);">4.7 ⭐</div>
-        <p style="font-size: 1.125rem; margin-bottom: var(--space-lg);">Basado en <strong>43 reseñas</strong> de Google</p>
-        <a href="https://g.co/kgs/DzYRGju" target="_blank" class="btn btn-outline">
-          Ver todas las reseñas
-        </a>
       </div>
     </div>
   </section>
 
   <!-- NUESTRAS PIZZAS -->
-  <section class="section auth-section fade-in" id="nuestras-pizzas">
-    <div class="section-header">
-      <h2 class="section-title">Nuestras Pizzas</h2>
-      <p class="section-subtitle">
-        Elaboradas con ingredientes frescos importados directamente de Italia. Masa fermentada 48 horas y cocidas en horno de leña.
-      </p>
-    </div>
-    <div class="grid grid-3">
-      <div class="card">
-        <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Margarita</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
-          <div class="card-price">10€</div>
-        </div>
+  <section class="auth-section fade-in" id="nuestras-pizzas">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Nuestras Pizzas</h2>
+        <p class="section-subtitle">
+          Elaboradas con ingredientes frescos importados directamente de Italia. Masa fermentada 48 horas y cocidas en horno de leña.
+        </p>
       </div>
-      
-      <div class="card">
-        <img src="images/Prosciutto.png" alt="Pizza Prosciutto" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Prosciutto</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
-          <div class="card-price">12€</div>
+      <div class="grid grid-3">
+        <div class="card">
+          <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Margarita</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
+            <div class="card-price">10€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Cuatro Formaggi</h3>
-          <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
-          <div class="card-price">12€</div>
+        
+        <div class="card">
+          <img src="images/Prosciutto.png" alt="Pizza Prosciutto" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Prosciutto</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Capriciossa.png" alt="Pizza Capricciosa" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Capricciosa</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
-          <div class="card-price">12€</div>
+        
+        <div class="card">
+          <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Cuatro Formaggi</h3>
+            <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Leonardo Da Vinci</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
-          <div class="card-price">14€</div>
+        
+        <div class="card">
+          <img src="images/Capriciossa.png" alt="Pizza Capricciosa" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Capricciosa</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Salchicha y Friarielli</h3>
-          <p class="card-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
-          <div class="card-price">12€</div>
+        
+        <div class="card">
+          <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Leonardo Da Vinci</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
+            <div class="card-price">14€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Bufala.png" alt="Pizza Bufala" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Bufala</h3>
-          <p class="card-description">Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca fresca.</p>
-          <div class="card-price">14€</div>
+        
+        <div class="card">
+          <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Salchicha y Friarielli</h3>
+            <p class="card-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Peperonni.png" alt="Pizza Diavola" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Diavola</h3>
-          <p class="card-description">Fior di latte, salsa de tomate San Marzano y pepperoni picante. Sabor americano con estilo italiano.</p>
-          <div class="card-price">12€</div>
+        
+        <div class="card">
+          <img src="images/Bufala.png" alt="Pizza Bufala" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Bufala</h3>
+            <p class="card-description">Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca fresca.</p>
+            <div class="card-price">14€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Vegetariana.png" alt="Pizza Vegetariana" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Vegetariana</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural y aceitunas negras.</p>
-          <div class="card-price">12€</div>
+        
+        <div class="card">
+          <img src="images/Peperonni.png" alt="Pizza Diavola" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Diavola</h3>
+            <p class="card-description">Fior di latte, salsa de tomate San Marzano y pepperoni picante. Sabor americano con estilo italiano.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Focaccia.png" alt="Focaccia" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Focaccia</h3>
-          <p class="card-description">Base de pizza crujiente con mantequilla de ajo, romero fresco y sal marina.</p>
-          <div class="card-price">5€</div>
+        
+        <div class="card">
+          <img src="images/Vegetariana.png" alt="Pizza Vegetariana" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Vegetariana</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural y aceitunas negras.</p>
+            <div class="card-price">12€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/Focaccia.png" alt="Focaccia" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Focaccia</h3>
+            <p class="card-description">Base de pizza crujiente con mantequilla de ajo, romero fresco y sal marina.</p>
+            <div class="card-price">5€</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1794,105 +1923,113 @@
 
   <!-- CALZONES -->
   <section class="section fade-in" id="calzones">
-    <div class="section-header">
-      <h2 class="section-title">Calzones</h2>
-      <p class="section-subtitle">
-        Nuestros calzones están rellenos de los mejores ingredientes y horneados hasta conseguir una textura perfecta.
-      </p>
-    </div>
-    <div class="grid grid-3">
-      <div class="card">
-        <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Calzone Tradizionale</h3>
-          <p class="card-description">San Marzano, fior di latte y jamón cocido. El calzone más tradicional.</p>
-          <div class="card-price">12€</div>
-        </div>
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Calzones</h2>
+        <p class="section-subtitle">
+          Nuestros calzones están rellenos de los mejores ingredientes y horneados hasta conseguir una textura perfecta.
+        </p>
       </div>
-      
-      <div class="card">
-        <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Calzone Pepperoni</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte, prosciutto y peperonni.</p>
-          <div class="card-price">12€</div>
+      <div class="grid grid-3">
+        <div class="card">
+          <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Calzone Tradizionale</h3>
+            <p class="card-description">San Marzano, fior di latte y jamón cocido. El calzone más tradicional.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
-      </div>
-      
-      <div class="card">
-        <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano" class="card-image" loading="lazy">
-        <div class="card-content">
-          <h3 class="card-title">Calzone Vegetariano</h3>
-          <p class="card-description">Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.</p>
-          <div class="card-price">12€</div>
+        
+        <div class="card">
+          <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Calzone Pepperoni</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, prosciutto y peperonni.</p>
+            <div class="card-price">12€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Calzone Vegetariano</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.</p>
+            <div class="card-price">12€</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA PRINCIPAL -->
-  <section class="section auth-section fade-in">
-    <div style="text-align: center;">
-      <h2 class="section-title">¿Tienes hambre?</h2>
-      <p class="section-subtitle">
-        Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.
-      </p>
-      <a href="pedido.html" class="btn btn-primary" style="font-size: 1.125rem; padding: var(--space-lg) var(--space-xxl);">
-        Haz tu pedido ahora
-      </a>
+  <section class="auth-section fade-in">
+    <div class="section-inner">
+      <div style="text-align: center;">
+        <h2 class="section-title">¿Tienes hambre?</h2>
+        <p class="section-subtitle">
+          Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.
+        </p>
+        <a href="pedido.html" class="btn btn-primary" style="font-size: 1.125rem; padding: var(--space-lg) var(--space-xxl);">
+          Haz tu pedido ahora
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- CONTACTO -->
   <section class="section fade-in" id="contacto">
-    <div class="card" style="max-width: 800px; margin: 0 auto;">
-      <div class="card-content" style="text-align: center;">
-        <h2 class="section-title">Contacto</h2>
-        <div style="display: grid; gap: var(--space-md); font-size: 1.125rem; line-height: 1.6; margin-top: var(--space-xl);">
-          <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-            <span style="color: var(--gold);">📍</span>
-            Avenida de Atenas 3, 28290 Las Rozas (Madrid), España
-          </p>
-          <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-            <span style="color: var(--gold);">📱</span>
-            <a href="tel:660668812" style="color: var(--gold); text-decoration: none;">660 668 812</a>
-          </p>
-          <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-            <span style="color: var(--gold);">📧</span>
-            <a href="mailto:PIZZASFRATELLIPAZZI@GMAIL.COM" style="color: var(--gold); text-decoration: none;">PIZZASFRATELLIPAZZI@GMAIL.COM</a>
-          </p>
-          <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-            <span style="color: var(--gold);">🕐</span>
-            Lunes a Domingo 20:00 - 23:00
-          </p>
-          <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); font-size: 1rem; opacity: 0.7;">
-            <span style="color: var(--gold);">🏢</span>
-            CIF: B16359283
-          </p>
+    <div class="section-inner">
+      <div class="card" style="max-width: 800px;">
+        <div class="card-content" style="text-align: center;">
+          <h2 class="section-title">Contacto</h2>
+          <div style="display: grid; gap: var(--space-md); font-size: 1.125rem; line-height: 1.6; margin-top: var(--space-xl);">
+            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold);">📍</span>
+              Avenida de Atenas 3, 28290 Las Rozas (Madrid), España
+            </p>
+            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold);">📱</span>
+              <a href="tel:660668812" style="color: var(--gold); text-decoration: none;">660 668 812</a>
+            </p>
+            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold);">📧</span>
+              <a href="mailto:PIZZASFRATELLIPAZZI@GMAIL.COM" style="color: var(--gold); text-decoration: none;">PIZZASFRATELLIPAZZI@GMAIL.COM</a>
+            </p>
+            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold);">🕐</span>
+              Lunes a Domingo 20:00 - 23:00
+            </p>
+            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); font-size: 1rem; opacity: 0.7;">
+              <span style="color: var(--gold);">🏢</span>
+              CIF: B16359283
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- NEWSLETTER -->
-  <section class="section auth-section fade-in">
-    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-      <h2 class="section-title">Suscríbete a nuestro boletín</h2>
-      <p class="section-subtitle">
-        Recibe nuestras últimas ofertas y novedades directamente en tu correo.
-      </p>
-      <div style="display: flex; gap: var(--space-md); margin-top: var(--space-xl); flex-wrap: wrap;">
-        <input 
-          type="email" 
-          placeholder="Tu email" 
-          id="newsletter-email"
-          class="form-input"
-          style="flex: 1; min-width: 250px;"
-          required
-        >
-        <button class="btn btn-primary" onclick="FratelliPazzi.suscribirse()">
-          Suscribirse
-        </button>
+  <section class="auth-section fade-in">
+    <div class="section-inner">
+      <div style="text-align: center; max-width: 600px;">
+        <h2 class="section-title">Suscríbete a nuestro boletín</h2>
+        <p class="section-subtitle">
+          Recibe nuestras últimas ofertas y novedades directamente en tu correo.
+        </p>
+        <div style="display: flex; gap: var(--space-md); margin-top: var(--space-xl); flex-wrap: wrap; justify-content: center;">
+          <input 
+            type="email" 
+            placeholder="Tu email" 
+            id="newsletter-email"
+            class="form-input"
+            style="flex: 1; min-width: 250px;"
+            required
+          >
+          <button class="btn btn-primary" onclick="FratelliPazzi.suscribirse()">
+            Suscribirse
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -1995,7 +2132,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT (mantengo toda la funcionalidad original) -->
+  <!-- JAVASCRIPT (misma funcionalidad) -->
   <script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -2171,7 +2308,6 @@
           console.log('✅ Fratelli Pazzi inicializado correctamente');
         } catch (error) {
           console.error('❌ Error en inicialización:', error);
-          // Forzar ocultar loader en caso de error
           this.forceHideLoader();
         }
       },
@@ -2343,7 +2479,6 @@
             }
           });
 
-          // Checkbox styling
           this.setupCheckboxStyling();
         });
 
@@ -2403,7 +2538,6 @@
               }
             });
 
-            // Initialize state
             if (checkbox.checked) {
               checkmark.style.background = 'var(--gold)';
             }
@@ -2620,7 +2754,6 @@
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
-        // Update profile section
         const profileAvatar = document.getElementById('profileAvatar');
         const profileGreeting = document.getElementById('profileGreeting');
         const profileStatus = document.getElementById('profileStatus');
@@ -3350,21 +3483,23 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - NUEVO DISEÑO RENOVADO
-=========================================
+🍕 FRATELLI PAZZI - DISEÑO COMPLETAMENTE CENTRADO
+=================================================
 
-✨ Diseño moderno y elegante implementado
-🎨 Paleta de colores respetada
-🔧 Todas las funcionalidades mantenidas
-📱 Totalmente responsive
+✨ Diseño renovado con centrado perfecto
+🎯 Todo el contenido alineado al centro
+🎨 Paleta de colores original mantenida
+🖼️ Imágenes originales del GitHub restauradas
+📱 Responsive optimizado
 
-Funciones disponibles:
-- Sistema de autenticación completo
-- Notificaciones elegantes
-- Slider de ofertas interactivo
-- Animaciones suaves
+Características principales:
+- Sistema de secciones con section-inner
+- Grids completamente centrados
+- Cards con max-width y margin auto
+- Testimonials reorganizados
+- Flexbox centrado en toda la interfaz
 
-Si necesitas ayuda, usa en consola:
+Si necesitas ayuda:
 > hideLoader()
 > FratelliPazzi.showDebugInfo()
     `);
