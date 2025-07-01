@@ -23,24 +23,30 @@
       --gold: #cdb87c;
       --rich-black: #1e2122;
       
-      /* Gradientes elegantes */
+      /* Gradientes modernos */
       --gradient-primary: linear-gradient(135deg, var(--rich-black) 0%, var(--dark-green) 100%);
       --gradient-accent: linear-gradient(135deg, var(--terracota) 0%, #e0958a 100%);
       --gradient-gold: linear-gradient(135deg, var(--gold) 0%, #ddc589 100%);
       --gradient-sage: linear-gradient(135deg, var(--sage) 0%, #8fb584 100%);
       
-      /* Sombras modernas */
-      --shadow-soft: 0 8px 32px rgba(30, 33, 34, 0.1);
-      --shadow-medium: 0 16px 48px rgba(30, 33, 34, 0.15);
-      --shadow-strong: 0 24px 64px rgba(30, 33, 34, 0.25);
+      /* Nuevas sombras suaves */
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
+      --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.15);
       
-      /* Espaciado moderno */
-      --space-xs: 0.5rem;
-      --space-sm: 1rem;
-      --space-md: 1.5rem;
-      --space-lg: 2rem;
-      --space-xl: 3rem;
-      --space-xxl: 4rem;
+      /* Espaciado fluido */
+      --space-xs: clamp(0.5rem, 2vw, 0.75rem);
+      --space-sm: clamp(0.75rem, 3vw, 1rem);
+      --space-md: clamp(1rem, 4vw, 1.5rem);
+      --space-lg: clamp(1.5rem, 5vw, 2rem);
+      --space-xl: clamp(2rem, 6vw, 3rem);
+      --space-xxl: clamp(3rem, 8vw, 4rem);
+      
+      /* Radios modernos */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
     }
 
     * { 
@@ -49,14 +55,14 @@
       padding: 0; 
     }
     
-    /* LOADING ANIMATIONS */
+    /* LOADER MODERNO */
     .fullscreen-loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--gradient-primary);
+      background: linear-gradient(135deg, var(--rich-black) 0%, var(--dark-green) 50%, var(--rich-black) 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -72,121 +78,735 @@
       pointer-events: none;
     }
     
-    .logo-loader {
-      position: relative;
-      display: inline-block;
+    .loader-content {
       text-align: center;
+      position: relative;
     }
     
-    .logo-text {
+    .logo-loader {
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+      font-size: clamp(2.5rem, 8vw, 4rem);
       font-weight: 900;
       background: var(--gradient-gold);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: 0 0 30px rgba(205, 184, 124, 0.5);
-      animation: logoGlow 2s ease-in-out infinite alternate;
-      margin-bottom: var(--space-md);
+      margin-bottom: var(--space-lg);
+      letter-spacing: -0.02em;
+      animation: logoFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .loading-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: var(--space-lg);
+    }
+    
+    .loading-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: dotBounce 1.5s ease-in-out infinite;
+    }
+    
+    .loading-dot:nth-child(2) { animation-delay: 0.3s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.6s; }
+    
+    @keyframes dotBounce {
+      0%, 100% { transform: translateY(0); opacity: 0.7; }
+      50% { transform: translateY(-15px); opacity: 1; }
+    }
+
+    /* SISTEMA BASE */
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--rich-black);
+      color: var(--cream); 
+      line-height: 1.6; 
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* HEADER FLOTANTE MODERNO */
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: var(--space-md);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .header-container.scrolled {
+      padding: var(--space-sm) var(--space-md);
+    }
+    
+    header {
+      background: rgba(30, 33, 34, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(205, 184, 124, 0.1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s ease;
+    }
+    
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-lg);
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif; 
+      font-size: clamp(1.5rem, 4vw, 2rem); 
+      font-weight: 900;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    
+    .nav-main { 
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+    
+    .nav-main a { 
+      color: var(--cream); 
+      text-decoration: none; 
+      font-weight: 500; 
+      font-size: 0.9rem;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+    }
+    
+    .nav-main a:hover {
+      color: var(--gold);
+      background: rgba(205, 184, 124, 0.1);
+    }
+
+    /* BANNER DE OFERTA ELEGANTE */
+    .offer-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      padding: var(--space-sm) var(--space-md);
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-card);
+      animation: slideDown 0.5s ease;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+    }
+    
+    .offer-banner.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    
+    .offer-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+    
+    .offer-cta-btn {
+      background: white;
+      color: #d62828;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-lg);
+      font-weight: 700;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .offer-cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    /* AJUSTES POR BANNER */
+    body {
+      padding-top: calc(60px + var(--space-xl));
+    }
+    
+    .header-container {
+      top: 60px;
+    }
+    
+    .banner-hidden {
+      padding-top: var(--space-xl);
+    }
+    
+    .banner-hidden .header-container {
+      top: 0;
+    }
+
+    /* HERO SECTION RENOVADO */
+    .hero-section {
+      min-height: 100vh;
+      background: 
+        radial-gradient(ellipse at top, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(128, 175, 122, 0.1) 0%, transparent 50%),
+        var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      padding: var(--space-xl);
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: rgba(205, 184, 124, 0.15);
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      color: var(--gold);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-lg);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: var(--space-lg);
+      animation: badgeFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes badgeFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 900;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-lg);
+      line-height: 1.1;
       letter-spacing: -0.02em;
     }
-    
-    @keyframes logoGlow {
-      0% { 
-        transform: scale(1);
-        filter: brightness(1);
-      }
-      100% { 
-        transform: scale(1.02);
-        filter: brightness(1.1);
-        text-shadow: 0 0 40px rgba(205, 184, 124, 0.8);
-      }
-    }
-    
-    .logo-underline {
-      width: 0;
-      height: 3px;
-      background: var(--gradient-gold);
-      margin: var(--space-md) auto;
-      border-radius: 2px;
-      animation: underlineGrow 3s ease-in-out infinite;
-    }
-    
-    @keyframes underlineGrow {
-      0%, 100% { width: 0; }
-      50% { width: 100%; }
-    }
-    
-    .loading-text {
-      color: var(--cream);
-      font-size: 1.125rem;
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: rgba(251, 244, 232, 0.8);
+      margin-bottom: var(--space-xl);
       font-weight: 300;
-      margin-top: var(--space-lg);
-      animation: fadeInOut 2s ease-in-out infinite;
-      font-family: 'Inter', sans-serif;
-    }
-    
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
+      line-height: 1.6;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .pizza-spinner {
-      width: 40px;
-      height: 40px;
+    .hero-cta {
+      display: flex;
+      gap: var(--space-lg);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: var(--space-xl);
+    }
+
+    /* BOTONES MODERNOS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      padding: var(--space-md) var(--space-xl);
+      border-radius: var(--radius-lg);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      animation: spin 1.5s linear infinite;
-      margin: var(--space-lg) auto;
+      overflow: hidden;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: var(--shadow-card);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cream);
+      border: 2px solid rgba(251, 244, 232, 0.3);
+    }
+
+    .btn-outline:hover {
+      background: var(--cream);
+      color: var(--rich-black);
+      border-color: var(--cream);
+    }
+
+    /* SLIDER DE OFERTAS RENOVADO */
+    .offers-section {
+      margin: var(--space-xxl) 0;
+      position: relative;
+    }
+
+    .offers-container {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      position: relative;
+    }
+
+    .offers-slider {
+      height: clamp(300px, 50vw, 500px);
+      position: relative;
+      overflow: hidden;
+      border-radius: 0;
+      background: var(--dark-green);
     }
     
-    .pizza-base {
+    .slider-wrapper { 
+      display: flex; 
+      transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
+      height: 100%;
+      width: 100%;
+    }
+    
+    .slider-wrapper img { 
+      flex: 0 0 100%; 
+      width: 100%; 
+      height: 100%;
+      object-fit: cover; 
+      filter: brightness(0.9);
+      transition: filter 0.3s ease;
+    }
+    
+    .slider-wrapper:hover img {
+      filter: brightness(1);
+    }
+    
+    .slider-controls { 
+      position: absolute; 
+      top: 50%; 
+      width: 100%; 
+      display: flex; 
+      justify-content: space-between; 
+      transform: translateY(-50%); 
+      padding: 0 var(--space-xl); 
+      opacity: 0; 
+      transition: opacity 0.3s; 
+      pointer-events: none;
+    }
+    
+    .offers-slider:hover .slider-controls { 
+      opacity: 1; 
+      pointer-events: auto;
+    }
+    
+    .slider-controls button { 
+      background: rgba(30, 33, 34, 0.9); 
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      color: var(--gold); 
+      font-size: 1.5rem; 
+      padding: var(--space-md); 
+      border-radius: 50%; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .slider-controls button:hover {
+      background: rgba(205, 184, 124, 0.2);
+      transform: scale(1.1);
+    }
+    
+    .slider-dots { 
+      position: absolute; 
+      bottom: var(--space-lg); 
+      width: 100%; 
+      text-align: center; 
+    }
+    
+    .slider-dots span { 
+      display: inline-block; 
+      width: 12px; 
+      height: 12px; 
+      margin: 0 6px; 
+      background: rgba(251, 244, 232, 0.4); 
+      border-radius: 50%; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+    }
+    
+    .slider-dots span:hover {
+      background: rgba(251, 244, 232, 0.7);
+      transform: scale(1.2);
+    }
+    
+    .slider-dots span.active { 
+      background: var(--gold); 
+      transform: scale(1.3);
+    }
+
+    /* SECCIONES PRINCIPALES */
+    .section {
+      padding: var(--space-xxl) var(--space-lg);
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-xxl);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-md);
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1rem, 3vw, 1.125rem);
+      color: rgba(251, 244, 232, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* GRID MODERNO */
+    .grid {
+      display: grid;
+      gap: var(--space-xl);
+      margin-top: var(--space-xxl);
+    }
+
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+    /* CARDS ELEGANTES */
+    .card {
+      background: rgba(30, 33, 34, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(205, 184, 124, 0.15);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      box-shadow: var(--shadow-card);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(205, 184, 124, 0.3);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-image {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: var(--space-lg);
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: var(--space-sm);
+      line-height: 1.2;
+    }
+
+    .card-description {
+      color: rgba(251, 244, 232, 0.7);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-lg);
+    }
+
+    .card-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-md);
+    }
+
+    /* SECCIÓN DE AUTENTICACIÓN RENOVADA */
+    .auth-section {
+      background: 
+        radial-gradient(circle at 30% 70%, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, var(--rich-black) 0%, var(--dark-green) 100%);
+      margin: var(--space-xxl) 0;
+      padding: var(--space-xxl);
+      border-radius: 0;
+      text-align: center;
+    }
+
+    .auth-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-xl);
+      margin: var(--space-xxl) 0;
+    }
+
+    .auth-card {
+      background: rgba(30, 33, 34, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
       width: 100%;
       height: 100%;
-      background: var(--gradient-gold);
-      border-radius: 50%;
-      position: relative;
-      box-shadow: 0 4px 15px rgba(205, 184, 124, 0.4);
-    }
-    
-    .pizza-sauce {
-      width: 75%;
-      height: 75%;
-      background: var(--gradient-accent);
-      border-radius: 50%;
-      position: absolute;
-      top: 12.5%;
-      left: 12.5%;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
-    }
-    
-    .pizza-cheese {
-      width: 4px;
-      height: 4px;
-      background: var(--cream);
-      border-radius: 50%;
-      position: absolute;
-      animation: cheeseFloat 2s ease-in-out infinite;
-    }
-    
-    .pizza-cheese:nth-child(1) { top: 25%; left: 30%; animation-delay: 0s; }
-    .pizza-cheese:nth-child(2) { top: 40%; left: 60%; animation-delay: 0.5s; }
-    .pizza-cheese:nth-child(3) { top: 60%; left: 35%; animation-delay: 1s; }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    @keyframes cheeseFloat {
-      0%, 100% { transform: scale(1) translateY(0); opacity: 0.8; }
-      50% { transform: scale(1.3) translateY(-1px); opacity: 1; }
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 100%);
+      transition: left 0.6s ease;
     }
 
-    /* SISTEMA DE NOTIFICACIONES */
+    .auth-card:hover::before {
+      left: 100%;
+    }
+
+    .auth-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(205, 184, 124, 0.4);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .auth-card-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+    }
+
+    .auth-text h3 {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--cream);
+      margin-bottom: 4px;
+      text-align: left;
+    }
+
+    .auth-text p {
+      font-size: 0.875rem;
+      color: rgba(251, 244, 232, 0.7);
+      text-align: left;
+    }
+
+    .auth-benefits {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+      margin: var(--space-xl) 0;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: 0.9rem;
+      color: rgba(251, 244, 232, 0.8);
+    }
+
+    /* TESTIMONIOS MODERNOS */
+    .testimonial-card {
+      background: rgba(30, 33, 34, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(205, 184, 124, 0.4);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+
+    .testimonial-info h4 {
+      font-weight: 600;
+      color: var(--cream);
+      font-size: 1rem;
+    }
+
+    .testimonial-date {
+      font-size: 0.75rem;
+      color: rgba(251, 244, 232, 0.5);
+    }
+
+    .stars {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-left: auto;
+    }
+
+    .testimonial-text {
+      color: rgba(251, 244, 232, 0.8);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* WHATSAPP BUTTON */
+    .whatsapp-float {
+      position: fixed;
+      bottom: var(--space-xl);
+      left: var(--space-xl);
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-strong);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 600;
+      min-width: 200px;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .whatsapp-float:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
+    }
+
+    /* FOOTER MODERNO */
+    footer {
+      background: var(--rich-black);
+      border-top: 1px solid rgba(205, 184, 124, 0.1);
+      padding: var(--space-xxl) var(--space-lg);
+      text-align: center;
+      color: rgba(251, 244, 232, 0.7);
+    }
+
+    /* NOTIFICACIONES */
     .notification-container {
       position: fixed;
-      top: 100px;
+      top: 120px;
       right: 20px;
       z-index: 15000;
       display: flex;
@@ -199,7 +819,7 @@
     .notification {
       background: rgba(30, 33, 34, 0.95);
       backdrop-filter: blur(20px);
-      border-radius: 16px;
+      border-radius: var(--radius-md);
       padding: var(--space-lg) var(--space-xl);
       box-shadow: var(--shadow-strong);
       border: 1px solid rgba(205, 184, 124, 0.2);
@@ -296,7 +916,7 @@
       color: #dc3545;
     }
 
-    /* MODAL DE CONFIRMACIÓN */
+    /* MODAL */
     .confirmation-modal {
       position: fixed;
       top: 0;
@@ -323,7 +943,7 @@
     .confirmation-content {
       background: var(--rich-black);
       border: 1px solid rgba(205, 184, 124, 0.3);
-      border-radius: 24px;
+      border-radius: var(--radius-lg);
       padding: var(--space-xxl);
       max-width: 450px;
       width: 100%;
@@ -375,282 +995,171 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* BOTONES MODERNOS CON VIDA */
-    .modern-btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-xs);
-      padding: var(--space-md) var(--space-xl);
-      border-radius: 50px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 0.875rem;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-    }
-
-    .modern-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      transition: left 0.4s ease;
-      z-index: 0;
-    }
-
-    .modern-btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-      transform: translate(-50%, -50%);
-      transition: all 0.4s ease;
-      border-radius: 50%;
-    }
-
-    .modern-btn:hover::after {
-      width: 100px;
-      height: 100px;
-    }
-
-    .modern-btn span {
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Variantes de botones con más vida */
-    .btn-primary {
-      background: linear-gradient(135deg, 
-        var(--terracota) 0%, 
-        #e0958a 50%, 
-        #f4a99c 100%);
-      color: white;
-      box-shadow: 
-        0 8px 32px rgba(213, 120, 108, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-primary::before {
-      background: linear-gradient(135deg, #c16b5f 0%, #d07066 50%, #e08074 100%);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 
-        0 12px 40px rgba(213, 120, 108, 0.5),
-        0 0 20px rgba(213, 120, 108, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, 
-        rgba(205, 184, 124, 0.2) 0%, 
-        rgba(205, 184, 124, 0.1) 100%);
-      color: var(--gold);
-      border: 1px solid rgba(205, 184, 124, 0.4);
-    }
-
-    .btn-secondary::before {
-      background: var(--gradient-gold);
-    }
-
-    .btn-secondary:hover {
-      color: var(--rich-black);
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 
-        0 12px 40px rgba(205, 184, 124, 0.3),
-        0 0 20px rgba(205, 184, 124, 0.2);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--cream);
-      border: 2px solid rgba(251, 244, 232, 0.3);
-    }
-
-    .btn-outline::before {
-      background: var(--cream);
-    }
-
-    .btn-outline:hover {
-      color: var(--rich-black);
-      border-color: var(--cream);
-    }
-
-    .btn-outline:hover::before {
-      left: 0;
-    }
-
-    /* HEADER MODERNO */
-    body { 
-      font-family: 'Inter', sans-serif; 
-      background: 
-        radial-gradient(circle at 20% 80%, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(128, 175, 122, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(205, 184, 124, 0.05) 0%, transparent 50%),
-        var(--rich-black);
-      color: var(--cream); 
-      line-height: 1.6; 
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-      padding-top: 100px;
-      -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      -webkit-tap-highlight-color: rgba(213, 120, 108, 0.2);
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* Elementos decorativos de fondo */
-    body::before {
-      content: '';
+    /* POPUPS DE AUTENTICACIÓN */
+    .auth-popup {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
-        radial-gradient(circle at 10% 20%, rgba(213, 120, 108, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(128, 175, 122, 0.02) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 1;
-      animation: backgroundPulse 20s ease-in-out infinite;
+      background: rgba(30, 33, 34, 0.8);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: var(--space-lg);
     }
 
-    @keyframes backgroundPulse {
-      0%, 100% { 
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.8;
-        transform: scale(1.1);
-      }
-    }
-    
-    /* HEADER MODERNO CON VIDA */
-    header { 
-      background: rgba(30, 33, 34, 0.95);
-      backdrop-filter: blur(20px);
-      padding: var(--space-lg) var(--space-xl); 
-      position: fixed; 
-      top: 0; 
-      left: 0;
-      right: 0;
-      z-index: 1000; 
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(205, 184, 124, 0.1);
-      border-bottom: 1px solid rgba(205, 184, 124, 0.2);
-      transition: all 0.3s ease;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-
-    header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        var(--terracota) 25%, 
-        var(--gold) 50%, 
-        var(--sage) 75%, 
-        transparent 100%);
-      animation: headerGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes headerGlow {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.8; }
-    }
-    
-    .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-lg);
-    }
-    
-    .logo {
-      font-family: 'Playfair Display', serif; 
-      font-size: 2rem; 
-      font-weight: 900;
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-decoration: none;
-      letter-spacing: -0.01em;
-    }
-    
-    nav { 
-      display: flex;
-      align-items: center;
-      gap: var(--space-xl);
-    }
-    
-    nav a { 
-      color: var(--cream); 
-      text-decoration: none; 
-      font-weight: 500; 
-      font-size: 0.875rem;
-      position: relative;
-      transition: all 0.3s ease;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
-    
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 2px;
-      background: var(--gradient-gold);
-      transition: width 0.3s ease;
-      border-radius: 1px;
-    }
-    
-    nav a:hover {
-      color: var(--gold);
-    }
-    
-    nav a:hover::after {
+    .auth-popup-content {
+      background: var(--rich-black);
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      border-radius: var(--radius-lg);
       width: 100%;
+      max-width: 450px;
+      overflow: hidden;
+      box-shadow: var(--shadow-strong);
     }
 
-    /* USER MENU MODERNO */
+    .auth-popup-header {
+      background: var(--gradient-primary);
+      color: var(--cream);
+      padding: var(--space-xl);
+      text-align: center;
+      position: relative;
+    }
+
+    .auth-popup-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .auth-popup-close {
+      position: absolute;
+      right: var(--space-md);
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--cream);
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+
+    .auth-popup-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .auth-popup-body {
+      padding: var(--space-xxl);
+    }
+
+    .form-group {
+      margin-bottom: var(--space-lg);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: var(--space-md);
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      border-radius: var(--radius-sm);
+      background: rgba(30, 33, 34, 0.6);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold);
+    }
+
+    .form-input::placeholder {
+      color: rgba(251, 244, 232, 0.5);
+    }
+
+    .checkbox-group {
+      margin: var(--space-lg) 0;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      font-size: 0.875rem;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkbox-visual {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--gold);
+      border-radius: var(--radius-sm);
+      position: relative;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      margin-top: 2px;
+      background: rgba(30, 33, 34, 0.6);
+    }
+
+    .checkbox-item input[type="checkbox"]:checked + .checkbox-visual {
+      background: var(--gold);
+    }
+
+    .checkbox-item input[type="checkbox"]:checked + .checkbox-visual::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--rich-black);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .auth-error {
+      display: none;
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      color: #dc3545;
+      padding: var(--space-sm);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-md);
+      text-align: center;
+    }
+
+    .auth-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .auth-link:hover {
+      text-decoration: underline;
+    }
+
+    /* USER MENU */
     .user-menu {
       display: flex;
       align-items: center;
       gap: var(--space-md);
+      position: relative;
     }
 
     .user-welcome {
@@ -659,7 +1168,7 @@
       gap: var(--space-sm);
       cursor: pointer;
       padding: var(--space-sm) var(--space-md);
-      border-radius: 50px;
+      border-radius: var(--radius-lg);
       background: rgba(205, 184, 124, 0.1);
       border: 1px solid rgba(205, 184, 124, 0.2);
       transition: all 0.3s ease;
@@ -683,799 +1192,41 @@
       font-size: 0.875rem;
     }
 
-    /* HERO SECTION CON VIDA */
-    .hero-section {
-      min-height: 100vh;
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(213, 120, 108, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(128, 175, 122, 0.1) 0%, transparent 50%),
-        var(--gradient-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      margin-top: -100px;
-      padding-top: 160px;
-    }
-
-    .hero-section::before {
-      content: '';
+    .user-dropdown {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 30% 70%, rgba(205, 184, 124, 0.08) 0%, transparent 60%),
-        radial-gradient(circle at 70% 30%, rgba(213, 120, 108, 0.06) 0%, transparent 60%);
-      animation: heroFloat 20s ease-in-out infinite;
-    }
-
-    @keyframes heroFloat {
-      0%, 100% { 
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      50% { 
-        transform: translateY(-20px) rotate(2deg);
-        opacity: 0.8;
-      }
-    }
-
-    .hero-section::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: 
-        radial-gradient(circle, rgba(213, 120, 108, 0.03) 0%, transparent 70%);
-      animation: heroRotate 30s linear infinite;
-    }
-
-    @keyframes heroRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Ajustar hero cuando banner está oculto */
-    .banner-hidden .hero-section {
-      padding-top: 100px;
-    }
-
-    .hero-content {
-      text-align: center;
-      max-width: 800px;
-      padding: var(--space-xxl);
-      position: relative;
-      z-index: 3;
-    }
-
-    .hero-content::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-      background: 
-        radial-gradient(circle at 50% 50%, rgba(205, 184, 124, 0.1) 0%, transparent 70%);
-      border-radius: 30px;
-      z-index: -1;
-      animation: heroContentGlow 6s ease-in-out infinite;
-    }
-
-    @keyframes heroContentGlow {
-      0%, 100% { 
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.6;
-        transform: scale(1.05);
-      }
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 900;
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: var(--space-lg);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: rgba(251, 244, 232, 0.8);
-      margin-bottom: var(--space-xl);
-      font-weight: 300;
-      line-height: 1.6;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: var(--space-lg);
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: var(--space-xl);
-    }
-
-    /* SLIDER MODERNO FULLWIDTH */
-    .modern-slider {
-      width: 100vw;
-      height: 400px;
-      position: relative;
-      overflow: hidden;
-      background: var(--dark-green);
-      margin: 0 calc(-50vw + 50%);
-      box-shadow: var(--shadow-strong);
-    }
-    
-    .slider-wrapper { 
-      display: flex; 
-      transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
-      height: 100%;
-      width: 100%;
-    }
-    
-    .slider-wrapper img { 
-      flex: 0 0 100%; 
-      width: 100%; 
-      height: 100%;
-      object-fit: cover; 
-      filter: brightness(0.9);
-      transition: filter 0.3s ease;
-    }
-    
-    .slider-wrapper:hover img {
-      filter: brightness(1);
-    }
-    
-    .slider-controls { 
-      position: absolute; 
-      top: 50%; 
-      width: 100%; 
-      display: flex; 
-      justify-content: space-between; 
-      transform: translateY(-50%); 
-      padding: 0 var(--space-xl); 
-      opacity: 0; 
-      transition: opacity 0.3s; 
-    }
-    
-    .modern-slider:hover .slider-controls { 
-      opacity: 1; 
-    }
-    
-    .slider-controls button { 
-      background: rgba(30, 33, 34, 0.8); 
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(205, 184, 124, 0.3);
-      color: var(--gold); 
-      font-size: 1.5rem; 
-      padding: var(--space-md); 
-      border-radius: 50%; 
-      cursor: pointer; 
-      transition: all 0.3s ease;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .slider-controls button:hover {
-      background: rgba(205, 184, 124, 0.2);
-      transform: scale(1.1);
-    }
-    
-    .slider-dots { 
-      position: absolute; 
-      bottom: var(--space-lg); 
-      width: 100%; 
-      text-align: center; 
-    }
-    
-    .slider-dots span { 
-      display: inline-block; 
-      width: 12px; 
-      height: 12px; 
-      margin: 0 var(--space-xs); 
-      background: rgba(251, 244, 232, 0.4); 
-      border-radius: 50%; 
-      cursor: pointer; 
-      transition: all 0.3s ease;
-    }
-    
-    .slider-dots span:hover {
-      background: rgba(251, 244, 232, 0.7);
-      transform: scale(1.2);
-    }
-    
-    .slider-dots span.active { 
-      background: var(--gold); 
-      transform: scale(1.3);
-    }
-
-    /* SECCIONES MODERNAS CON VIDA */
-    .section {
-      padding: var(--space-xxl) var(--space-lg);
-      max-width: 1400px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .section-dark {
-      background: 
-        radial-gradient(circle at 30% 70%, rgba(213, 120, 108, 0.08) 0%, transparent 50%),
-        linear-gradient(135deg, var(--rich-black) 0%, var(--dark-green) 100%);
-      position: relative;
-      margin: var(--space-xxl) 0;
-      padding: var(--space-xxl);
-      border-radius: 0;
-      overflow: hidden;
-    }
-
-    .section-dark::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
       right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(128, 175, 122, 0.1) 0%, transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(205, 184, 124, 0.1) 0%, transparent 30%);
-      pointer-events: none;
-      animation: sectionFloat 15s ease-in-out infinite;
-    }
-
-    @keyframes sectionFloat {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(1deg); }
-    }
-
-    .section-accent {
-      background: 
-        radial-gradient(circle at 70% 30%, rgba(213, 120, 108, 0.12) 0%, transparent 50%),
-        linear-gradient(135deg, var(--dark-green) 0%, rgba(37, 55, 50, 0.9) 100%);
-      position: relative;
-      margin: var(--space-xxl) 0;
-      padding: var(--space-xxl);
-      border-radius: 0;
-      overflow: hidden;
-    }
-
-    .section-accent::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: 
-        radial-gradient(circle, rgba(128, 175, 122, 0.08) 0%, transparent 70%);
-      animation: accentRotate 25s linear infinite;
-    }
-
-    @keyframes accentRotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: var(--space-lg);
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      font-size: 1.125rem;
-      color: rgba(251, 244, 232, 0.7);
-      margin-bottom: var(--space-xxl);
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-
-    /* GRID MODERNO */
-    .modern-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: var(--space-xl);
-      margin-top: var(--space-xxl);
-    }
-
-    /* PIZZA CARDS ELEGANTES CON VIDA */
-    .pizza-card {
-      background: 
-        radial-gradient(circle at 70% 30%, rgba(205, 184, 124, 0.1) 0%, transparent 50%),
-        rgba(30, 33, 34, 0.9);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid rgba(205, 184, 124, 0.2);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(213, 120, 108, 0.1);
-    }
-
-    .pizza-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, 
-        rgba(213, 120, 108, 0.1) 0%, 
-        transparent 30%, 
-        rgba(128, 175, 122, 0.05) 70%, 
-        transparent 100%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: 1;
-    }
-
-    .pizza-card:hover::before {
-      opacity: 1;
-    }
-
-    .pizza-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(205, 184, 124, 0.4),
-        0 0 30px rgba(213, 120, 108, 0.2);
-      border-color: rgba(205, 184, 124, 0.5);
-    }
-
-    .pizza-image {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-      position: relative;
-      z-index: 2;
-    }
-
-    .pizza-card:hover .pizza-image {
-      transform: scale(1.05);
-    }
-
-    .pizza-info {
-      padding: var(--space-xl);
-      position: relative;
-      z-index: 2;
-    }
-
-    .pizza-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--cream);
-      margin-bottom: var(--space-sm);
-      line-height: 1.2;
-    }
-
-    .pizza-description {
-      color: rgba(251, 244, 232, 0.7);
-      font-size: 0.875rem;
-      line-height: 1.5;
-      margin-bottom: var(--space-lg);
-    }
-
-    .pizza-price {
-      font-size: 1.25rem;
-      font-weight: 700;
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: var(--space-md);
-    }
-
-    /* TESTIMONIALS ELEGANTES CON VIDA */
-    .testimonial-card {
-      background: 
-        radial-gradient(circle at 80% 20%, rgba(128, 175, 122, 0.1) 0%, transparent 50%),
-        rgba(30, 33, 34, 0.8);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(205, 184, 124, 0.3);
-      border-radius: 20px;
-      padding: var(--space-xl);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .testimonial-card::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, 
-        var(--terracota), 
-        var(--gold), 
-        var(--sage), 
-        var(--terracota));
-      border-radius: 20px;
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      animation: borderGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes borderGlow {
-      0%, 100% { 
-        background: linear-gradient(45deg, 
-          var(--terracota), 
-          var(--gold), 
-          var(--sage), 
-          var(--terracota));
-      }
-      50% { 
-        background: linear-gradient(45deg, 
-          var(--gold), 
-          var(--sage), 
-          var(--terracota), 
-          var(--gold));
-      }
-    }
-
-    .testimonial-card:hover::before {
-      opacity: 1;
-    }
-
-    .testimonial-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.3),
-        0 0 30px rgba(213, 120, 108, 0.2);
-    }
-
-    .testimonial-header {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      margin-bottom: var(--space-md);
-    }
-
-    .testimonial-avatar {
-      width: 48px;
-      height: 48px;
-      background: var(--gradient-gold);
-      color: var(--rich-black);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.125rem;
-    }
-
-    .testimonial-name {
-      font-weight: 600;
-      color: var(--cream);
-      font-size: 1rem;
-    }
-
-    .testimonial-date {
-      font-size: 0.75rem;
-      color: rgba(251, 244, 232, 0.5);
-    }
-
-    .testimonial-text {
-      color: rgba(251, 244, 232, 0.8);
-      line-height: 1.6;
-      font-style: italic;
-    }
-
-    .stars {
-      color: var(--gold);
-      font-size: 1rem;
-      margin-left: auto;
-    }
-
-    /* BANNER DE OFERTA ELEGANTE */
-    .offer-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
-      color: white;
-      padding: var(--space-md) var(--space-lg);
-      z-index: 1001;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-medium);
-      animation: slideDown 0.5s ease;
-      font-weight: 600;
-      height: 60px; /* Altura fija para el banner */
-    }
-
-    /* Ajustar header cuando hay banner */
-    body:not(.banner-hidden) header {
-      top: 60px;
-    }
-
-    body:not(.banner-hidden) {
-      padding-top: 160px; /* 60px banner + 100px header */
-    }
-    
-    .offer-banner.hidden {
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-    }
-    
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
-    }
-    
-    .offer-content {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      flex-wrap: wrap;
-      justify-content: center;
-      flex: 1;
-    }
-    
-    .offer-cta-btn {
-      background: white;
-      color: #d62828;
-      padding: var(--space-sm) var(--space-lg);
-      border-radius: 25px;
-      font-weight: 700;
-      font-size: 0.875rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .offer-cta-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-    }
-
-    /* WHATSAPP FLOATING BUTTON */
-    .whatsapp-float {
-      position: fixed;
-      bottom: var(--space-xl);
-      left: var(--space-xl);
-      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-      color: white;
-      border-radius: 50px;
-      padding: var(--space-md) var(--space-lg);
-      box-shadow: var(--shadow-strong);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      font-weight: 600;
-      min-width: 200px;
-      animation: whatsappPulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes whatsappPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-    
-    .whatsapp-float:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
-    }
-
-    /* FOOTER MODERNO */
-    footer {
+      top: 100%;
       background: var(--rich-black);
-      border-top: 1px solid rgba(205, 184, 124, 0.1);
-      padding: var(--space-xxl) var(--space-lg);
-      text-align: center;
-      color: rgba(251, 244, 232, 0.7);
+      min-width: 200px;
+      box-shadow: var(--shadow-strong);
+      border-radius: var(--radius-md);
+      z-index: 1000;
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      margin-top: 8px;
+      overflow: hidden;
+      display: none;
     }
 
-    /* RESPONSIVE DESIGN CON VIDA */
-    @media (max-width: 768px) {
-      :root {
-        --space-xs: 0.25rem;
-        --space-sm: 0.5rem;
-        --space-md: 1rem;
-        --space-lg: 1.5rem;
-        --space-xl: 2rem;
-        --space-xxl: 2.5rem;
-      }
-
-      /* Reducir efectos en móvil para mejor rendimiento */
-      body::before {
-        animation: none;
-        opacity: 0.5;
-      }
-
-      .floating-elements {
-        display: none; /* Ocultar elementos flotantes en móvil */
-      }
-
-      .section-dark::before,
-      .section-accent::after {
-        animation-duration: 30s; /* Ralentizar animaciones */
-      }
-
-      .header-content {
-        flex-direction: column;
-        gap: var(--space-md);
-        padding: var(--space-sm) 0;
-      }
-
-      header {
-        height: auto;
-        min-height: 80px;
-        padding: var(--space-md) var(--space-lg);
-      }
-
-      body {
-        padding-top: 80px;
-      }
-
-      body:not(.banner-hidden) {
-        padding-top: 140px; /* 60px banner + 80px header móvil */
-      }
-
-      .hero-section {
-        padding-top: 140px;
-        margin-top: -80px;
-      }
-
-      .banner-hidden .hero-section {
-        padding-top: 80px;
-      }
-
-      nav {
-        gap: var(--space-lg);
-      }
-
-      nav a {
-        font-size: 0.75rem;
-        padding: var(--space-xs) var(--space-sm);
-      }
-
-      .hero-cta {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .modern-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-      }
-
-      .modern-slider {
-        height: 250px;
-        margin: var(--space-lg) calc(-50vw + 50%);
-      }
-
-      /* Ajuste del slider container en móvil */
-      .section .modern-slider,
-      div[style*="margin: 0 calc(-50vw + 50%)"] .modern-slider {
-        margin: var(--space-lg) calc(-50vw + 50%);
-      }
-
-      .whatsapp-float {
-        bottom: var(--space-lg);
-        left: var(--space-lg);
-        min-width: 160px;
-        padding: var(--space-sm) var(--space-md);
-      }
-
-      .notification-container {
-        top: 80px;
-        right: var(--space-md);
-        left: var(--space-md);
-        max-width: none;
-      }
-
-      .notification {
-        min-width: auto;
-        width: 100%;
-        padding: var(--space-md) var(--space-lg);
-      }
-
-      .offer-banner {
-        padding: var(--space-sm) var(--space-md);
-        font-size: 0.875rem;
-        height: 60px;
-      }
-
-      .offer-content {
-        flex-direction: column;
-        gap: var(--space-sm);
-        text-align: center;
-      }
-
-      .offer-cta-btn {
-        margin-top: var(--space-xs);
-        padding: var(--space-xs) var(--space-md);
-        font-size: 0.75rem;
-      }
-
-      /* Reducir intensidad de efectos en móvil */
-      .pizza-card:hover {
-        transform: translateY(-4px) scale(1.01);
-      }
-
-      .testimonial-card:hover {
-        transform: translateY(-4px) scale(1.01);
-      }
-
-      .modern-btn:hover {
-        transform: translateY(-2px) scale(1.01);
-      }
-
-      .hero-title {
-        font-size: clamp(2rem, 10vw, 4rem);
-      }
-
-      .section-title {
-        font-size: clamp(1.5rem, 8vw, 2.5rem);
-      }
+    .user-dropdown a {
+      color: var(--cream);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      border-bottom: 1px solid rgba(205, 184, 124, 0.1);
     }
 
-    /* Optimizaciones para dispositivos con menos potencia */
-    @media (max-width: 480px) {
-      body::before,
-      .hero-section::before,
-      .hero-section::after {
-        display: none; /* Eliminar efectos de fondo en móviles pequeños */
-      }
-
-      .section-dark::before,
-      .section-accent::after {
-        display: none;
-      }
-
-      .testimonial-card::before {
-        display: none;
-      }
-
-      .modern-btn::after {
-        display: none;
-      }
-
-      .glass-effect::before {
-        display: none;
-      }
+    .user-dropdown a:hover {
+      background: rgba(205, 184, 124, 0.1);
     }
 
-    /* ANIMACIONES DE ENTRADA */
+    .user-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    /* ANIMATIONS */
     .fade-in {
       opacity: 0;
       transform: translateY(30px);
@@ -1487,162 +1238,95 @@
       transform: translateY(0);
     }
 
-    /* UTILIDADES CON VIDA */
-    .text-gradient {
-      background: linear-gradient(135deg, 
-        var(--gold) 0%, 
-        var(--terracota) 50%, 
-        var(--sage) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientShift 4s ease-in-out infinite;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { 
-        background: linear-gradient(135deg, var(--gold) 0%, var(--terracota) 50%, var(--sage) 100%);
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: var(--space-md);
       }
-      50% { 
-        background: linear-gradient(135deg, var(--sage) 0%, var(--gold) 50%, var(--terracota) 100%);
+
+      .nav-main {
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-benefits {
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+
+      .whatsapp-float {
+        bottom: var(--space-lg);
+        left: var(--space-lg);
+        min-width: 160px;
+        padding: var(--space-sm) var(--space-md);
+      }
+
+      .notification-container {
+        top: 100px;
+        right: var(--space-md);
+        left: var(--space-md);
+        max-width: none;
+      }
+
+      .notification {
+        min-width: auto;
+        width: 100%;
+        padding: var(--space-md) var(--space-lg);
+      }
+
+      .offer-content {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
       }
     }
 
-    .glass-effect {
-      background: 
-        radial-gradient(circle at 60% 40%, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
-        rgba(30, 33, 34, 0.8);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(205, 184, 124, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .glass-effect::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255, 255, 255, 0.1) 50%, 
-        transparent 100%);
-      transition: left 0.6s ease;
-    }
-
-    .glass-effect:hover::before {
-      left: 100%;
-    }
-
-    /* ELEMENTOS DECORATIVOS FLOTANTES */
-    .floating-elements {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .floating-element {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.1;
-      animation: float 20s ease-in-out infinite;
-    }
-
-    .floating-element:nth-child(1) {
-      top: 20%;
-      left: 10%;
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle, var(--terracota) 0%, transparent 70%);
-      animation-delay: 0s;
-      animation-duration: 15s;
-    }
-
-    .floating-element:nth-child(2) {
-      top: 60%;
-      right: 15%;
-      width: 40px;
-      height: 40px;
-      background: radial-gradient(circle, var(--sage) 0%, transparent 70%);
-      animation-delay: 5s;
-      animation-duration: 20s;
-    }
-
-    .floating-element:nth-child(3) {
-      bottom: 30%;
-      left: 20%;
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
-      animation-delay: 10s;
-      animation-duration: 25s;
-    }
-
-    .floating-element:nth-child(4) {
-      top: 40%;
-      right: 30%;
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle, var(--terracota) 0%, transparent 70%);
-      animation-delay: 3s;
-      animation-duration: 18s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px) translateX(0px) rotate(0deg);
-        opacity: 0.1;
+    @media (max-width: 480px) {
+      .offers-slider {
+        height: 250px;
       }
-      25% {
-        transform: translateY(-20px) translateX(10px) rotate(90deg);
-        opacity: 0.3;
+
+      .hero-title {
+        font-size: clamp(2rem, 10vw, 3rem);
       }
-      50% {
-        transform: translateY(-10px) translateX(-15px) rotate(180deg);
-        opacity: 0.2;
-      }
-      75% {
-        transform: translateY(-30px) translateX(5px) rotate(270deg);
-        opacity: 0.25;
+
+      .section-title {
+        font-size: clamp(1.5rem, 8vw, 2rem);
       }
     }
   </style>
 </head>
 <body>
-  <!-- ELEMENTOS DECORATIVOS FLOTANTES -->
-  <div class="floating-elements">
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-  </div>
-
   <!-- FULLSCREEN LOADER -->
   <div class="fullscreen-loader" id="pageLoader">
-    <div class="logo-loader">
-      <div class="logo-text">Fratelli Pazzi</div>
-      <div class="logo-underline"></div>
-    </div>
-    <div class="loading-text">Cargando experiencia italiana...</div>
-    <div class="pizza-spinner">
-      <div class="pizza-base">
-        <div class="pizza-sauce">
-          <div class="pizza-cheese"></div>
-          <div class="pizza-cheese"></div>
-          <div class="pizza-cheese"></div>
-        </div>
+    <div class="loader-content">
+      <div class="logo-loader">Fratelli Pazzi</div>
+      <div class="loading-dots">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
       </div>
     </div>
   </div>
 
-  <!-- CONTENEDOR DE NOTIFICACIONES -->
+  <!-- NOTIFICACIONES -->
   <div class="notification-container" id="notificationContainer"></div>
 
   <!-- MODAL DE CONFIRMACIÓN -->
@@ -1652,8 +1336,8 @@
       <h3 class="confirmation-title" id="confirmationTitle">¿Estás seguro?</h3>
       <p class="confirmation-message" id="confirmationMessage">Esta acción no se puede deshacer.</p>
       <div style="display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl);">
-        <button class="modern-btn btn-outline" id="confirmationCancel"><span>Cancelar</span></button>
-        <button class="modern-btn btn-primary" id="confirmationConfirm"><span>Confirmar</span></button>
+        <button class="btn btn-outline" id="confirmationCancel">Cancelar</button>
+        <button class="btn btn-primary" id="confirmationConfirm">Confirmar</button>
       </div>
     </div>
   </div>
@@ -1672,53 +1356,57 @@
     <button style="background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer; margin-left: var(--space-md);" onclick="FratelliPazzi.closeBanner()">×</button>
   </div>
 
-  <!-- HEADER MODERNO -->
-  <header>
-    <div class="header-content">
-      <a href="#" class="logo">Fratelli Pazzi</a>
-      <nav>
-        <a href="#ofertas">Ofertas</a>
-        <a href="#nuestras-pizzas">Pizzas</a>
-        <a href="#calzones">Calzones</a>
-        <a href="pedido.html">Pedido</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-      <div class="user-menu" id="userMenu">
-        <!-- Se llenará dinámicamente -->
+  <!-- HEADER FLOTANTE -->
+  <div class="header-container" id="headerContainer">
+    <header>
+      <div class="header-content">
+        <a href="#" class="logo">Fratelli Pazzi</a>
+        <nav class="nav-main">
+          <a href="#ofertas">Ofertas</a>
+          <a href="#nuestras-pizzas">Pizzas</a>
+          <a href="#calzones">Calzones</a>
+          <a href="pedido.html">Pedido</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+        <div class="user-menu" id="userMenu">
+          <!-- Se llenará dinámicamente -->
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 
   <!-- HERO SECTION -->
   <section class="hero-section">
     <div class="hero-content fade-in">
-      <h1 class="hero-title">Auténtica Pizza Napolitana</h1>
+      <div class="hero-badge">
+        <span>🏆</span>
+        <span>Auténtica receta napolitana</span>
+      </div>
+      <h1 class="hero-title">Pizza Italiana<br>Como en Nápoles</h1>
       <p class="hero-subtitle">
-        Ingredientes premium directos de Italia, masa fermentada 48 horas y horno de leña a 450°C. 
+        Ingredientes premium importados de Italia, masa fermentada 48 horas y horno de leña a 450°C. 
         La experiencia napolitana más auténtica en Madrid.
       </p>
       <div class="hero-cta">
-        <a href="pedido.html" class="modern-btn btn-primary" style="font-size: 1rem; padding: var(--space-lg) var(--space-xxl);">
-          <span>Hacer Pedido</span>
+        <a href="pedido.html" class="btn btn-primary">
+          Hacer Pedido
         </a>
-        <a href="#nuestras-pizzas" class="modern-btn btn-outline" style="font-size: 1rem; padding: var(--space-lg) var(--space-xxl);">
-          <span>Ver Menú</span>
+        <a href="#nuestras-pizzas" class="btn btn-outline">
+          Ver Menú
         </a>
       </div>
     </div>
   </section>
 
-  <!-- CONTENEDOR PRINCIPAL -->
-  <main style="background: var(--rich-black);">
-
-    <!-- SLIDER DE OFERTAS FULLWIDTH -->
-    <div style="width: 100vw; margin: 0 calc(-50vw + 50%);">
-      <div class="modern-slider" id="ofertas">
+  <!-- SLIDER DE OFERTAS -->
+  <section class="offers-section" id="ofertas">
+    <div class="offers-container">
+      <div class="offers-slider">
         <div class="slider-wrapper">
-          <img src="images/oferta1.png" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
-          <img src="images/oferta2.png" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
-          <img src="images/oferta3.png" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
-          <img src="images/oferta4.png" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=1200&h=600&fit=crop" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=1200&h=600&fit=crop" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1200&h=600&fit=crop" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=600&fit=crop" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
         </div>
         <div class="slider-controls">
           <button onclick="FratelliPazzi.moveSlider(-1)" aria-label="Oferta anterior">‹</button>
@@ -1732,401 +1420,394 @@
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- SECCIÓN DE AUTENTICACIÓN -->
-    <section class="section section-dark fade-in" id="authSection" style="display: none;">
-      <div style="text-align: center;">
-        <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🍕</div>
-        <h2 class="section-title">¡Únete a la Famiglia Fratelli!</h2>
-        <p class="section-subtitle">
-          Crea tu cuenta para acumular puntos, conseguir pizzas gratis y disfrutar de ofertas exclusivas
-        </p>
-        
-        <div style="display: flex; justify-content: center; gap: var(--space-xl); margin: var(--space-xxl) 0; flex-wrap: wrap;">
-          <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; min-width: 280px;" onclick="FratelliPazzi.showRegisterForm()">
-            <div style="display: flex; align-items: center; gap: var(--space-md);">
-              <span style="font-size: 2rem;">✨</span>
-              <div style="text-align: left;">
-                <div style="font-weight: 700; font-size: 1.125rem; color: var(--cream); margin-bottom: 4px;">Crear Cuenta Gratis</div>
-                <div style="font-size: 0.875rem; color: rgba(251, 244, 232, 0.7);">¡Empieza a acumular puntos!</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; min-width: 280px;" onclick="FratelliPazzi.showLoginForm()">
-            <div style="display: flex; align-items: center; gap: var(--space-md);">
-              <span style="font-size: 2rem;">🔐</span>
-              <div style="text-align: left;">
-                <div style="font-weight: 700; font-size: 1.125rem; color: var(--cream); margin-bottom: 4px;">Ya tengo cuenta</div>
-                <div style="font-size: 0.875rem; color: rgba(251, 244, 232, 0.7);">Iniciar sesión</div>
-              </div>
-            </div>
+  <!-- SECCIÓN DE AUTENTICACIÓN -->
+  <section class="auth-section fade-in" id="authSection" style="display: none;">
+    <div class="section-header">
+      <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🍕</div>
+      <h2 class="section-title">¡Únete a la Famiglia!</h2>
+      <p class="section-subtitle">
+        Crea tu cuenta para acumular puntos, conseguir pizzas gratis y disfrutar de ofertas exclusivas
+      </p>
+    </div>
+    
+    <div class="auth-grid">
+      <div class="auth-card" onclick="FratelliPazzi.showRegisterForm()">
+        <div class="auth-card-content">
+          <span class="auth-icon">✨</span>
+          <div class="auth-text">
+            <h3>Crear Cuenta Gratis</h3>
+            <p>¡Empieza a acumular puntos!</p>
           </div>
         </div>
-        
-        <div style="display: flex; justify-content: center; gap: var(--space-xl); flex-wrap: wrap; margin-bottom: var(--space-lg);">
-          <div style="display: flex; align-items: center; gap: var(--space-sm); font-size: 0.875rem;">
-            <span style="color: var(--gold);">🎁</span>
-            <span>Pizza gratis cada 100 puntos</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: var(--space-sm); font-size: 0.875rem;">
-            <span style="color: var(--gold);">⚡</span>
-            <span>Checkout rápido</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: var(--space-sm); font-size: 0.875rem;">
-            <span style="color: var(--gold);">🔔</span>
-            <span>Ofertas exclusivas</span>
-          </div>
-        </div>
-        
-        <div style="font-size: 0.75rem; color: rgba(251, 244, 232, 0.5); font-style: italic;">
-          +300 clientes ya disfrutan de nuestros beneficios
-        </div>
-      </div>
-    </section>
-
-    <!-- PERFIL DE USUARIO -->
-    <section class="section section-accent fade-in" id="profileSection" style="display: none;">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-xxl); flex-wrap: wrap; gap: var(--space-lg);">
-        <div style="display: flex; align-items: center; gap: var(--space-lg);">
-          <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--rich-black);" id="profileAvatar">
-            <!-- Se llenará dinámicamente -->
-          </div>
-          <div>
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--cream); margin-bottom: 4px;" id="profileGreeting">¡Hola Usuario!</h2>
-            <p style="color: rgba(251, 244, 232, 0.7);" id="profileStatus">Miembro de la Famiglia Fratelli</p>
-          </div>
-        </div>
-        <button class="modern-btn btn-outline" onclick="FratelliPazzi.logout()">
-          <span>👋 Cerrar Sesión</span>
-        </button>
       </div>
       
-      <div class="modern-grid" style="margin-bottom: var(--space-xxl);">
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center;">
+      <div class="auth-card" onclick="FratelliPazzi.showLoginForm()">
+        <div class="auth-card-content">
+          <span class="auth-icon">🔐</span>
+          <div class="auth-text">
+            <h3>Ya tengo cuenta</h3>
+            <p>Iniciar sesión</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="auth-benefits">
+      <div class="benefit-item">
+        <span style="color: var(--gold);">🎁</span>
+        <span>Pizza gratis cada 100 puntos</span>
+      </div>
+      <div class="benefit-item">
+        <span style="color: var(--gold);">⚡</span>
+        <span>Checkout rápido</span>
+      </div>
+      <div class="benefit-item">
+        <span style="color: var(--gold);">🔔</span>
+        <span>Ofertas exclusivas</span>
+      </div>
+    </div>
+    
+    <div style="font-size: 0.85rem; color: rgba(251, 244, 232, 0.5); font-style: italic;">
+      +300 clientes ya disfrutan de nuestros beneficios
+    </div>
+  </section>
+
+  <!-- PERFIL DE USUARIO -->
+  <section class="section auth-section fade-in" id="profileSection" style="display: none;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-xxl); flex-wrap: wrap; gap: var(--space-lg);">
+      <div style="display: flex; align-items: center; gap: var(--space-lg);">
+        <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--rich-black);" id="profileAvatar">
+          <!-- Se llenará dinámicamente -->
+        </div>
+        <div>
+          <h2 style="font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--cream); margin-bottom: 4px;" id="profileGreeting">¡Hola Usuario!</h2>
+          <p style="color: rgba(251, 244, 232, 0.7);" id="profileStatus">Miembro de la Famiglia Fratelli</p>
+        </div>
+      </div>
+      <button class="btn btn-outline" onclick="FratelliPazzi.logout()">
+        👋 Cerrar Sesión
+      </button>
+    </div>
+    
+    <div class="grid grid-3" style="margin-bottom: var(--space-xxl);">
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 2rem; margin-bottom: var(--space-md);">⭐</div>
           <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userPoints">0</div>
           <div style="color: rgba(251, 244, 232, 0.7);">Puntos</div>
         </div>
-        
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center;">
+      </div>
+      
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 2rem; margin-bottom: var(--space-md);">🍕</div>
           <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userOrders">0</div>
           <div style="color: rgba(251, 244, 232, 0.7);">Pedidos</div>
         </div>
-        
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center;">
+      </div>
+      
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 2rem; margin-bottom: var(--space-md);">🎁</div>
           <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="freeRewards">0</div>
           <div style="color: rgba(251, 244, 232, 0.7);">Pizzas Gratis</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ¿POR QUÉ FRATELLI PAZZI? -->
-    <section class="section fade-in">
+  <!-- ¿POR QUÉ FRATELLI PAZZI? -->
+  <section class="section fade-in">
+    <div class="section-header">
       <h2 class="section-title">¿Por qué elegir Fratelli Pazzi?</h2>
-      <div class="modern-grid">
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center; transition: all 0.3s ease;">
+      <p class="section-subtitle">La experiencia italiana más auténtica en Madrid</p>
+    </div>
+    <div class="grid grid-4">
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 3rem; margin-bottom: var(--space-lg);">👨‍🍳</div>
-          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: var(--space-md);">Maestros Pizzaiolos</h3>
-          <p style="color: rgba(251, 244, 232, 0.7); line-height: 1.6;">
+          <h3 class="card-title">Maestros Pizzaiolos</h3>
+          <p class="card-description">
             Chefs entrenados en Nápoles<br>
             <span style="color: var(--gold); font-weight: 600;">Técnica tradicional</span>
           </p>
         </div>
-        
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center; transition: all 0.3s ease;">
+      </div>
+      
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 3rem; margin-bottom: var(--space-lg);">⭐</div>
-          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: var(--space-md);">+300 Clientes</h3>
-          <p style="color: rgba(251, 244, 232, 0.7); line-height: 1.6;">
+          <h3 class="card-title">+300 Clientes</h3>
+          <p class="card-description">
             Satisfechos en Las Rozas<br>
             <span style="color: var(--gold); font-weight: 600;">4.8/5 estrellas en Google</span>
           </p>
         </div>
-        
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center; transition: all 0.3s ease;">
+      </div>
+      
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🛡️</div>
-          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: var(--space-md);">Garantía Total</h3>
-          <p style="color: rgba(251, 244, 232, 0.7); line-height: 1.6;">
+          <h3 class="card-title">Garantía Total</h3>
+          <p class="card-description">
             Frescura y calidad garantizada<br>
             <span style="color: var(--gold); font-weight: 600;">100% satisfacción</span>
           </p>
         </div>
-        
-        <div class="glass-effect" style="padding: var(--space-xl); border-radius: 20px; text-align: center; transition: all 0.3s ease;">
+      </div>
+      
+      <div class="card">
+        <div class="card-content" style="text-align: center;">
           <div style="font-size: 3rem; margin-bottom: var(--space-lg);">🔥</div>
-          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: var(--space-md);">Horno de Leña</h3>
-          <p style="color: rgba(251, 244, 232, 0.7); line-height: 1.6;">
+          <h3 class="card-title">Horno de Leña</h3>
+          <p class="card-description">
             Cocción a 450°C tradicional<br>
             <span style="color: var(--gold); font-weight: 600;">Sabor auténtico napolitano</span>
           </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PIZZAS MÁS PEDIDAS -->
-    <section class="section section-dark fade-in">
+  <!-- PIZZAS MÁS PEDIDAS -->
+  <section class="section auth-section fade-in">
+    <div class="section-header">
       <h2 class="section-title">Las Favoritas de Nuestros Clientes</h2>
       <p class="section-subtitle">Las pizzas más pedidas en Las Rozas. ¡Descubre por qué son las preferidas!</p>
-      <div class="modern-grid">
-        <div class="pizza-card" style="position: relative;">
-          <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%); color: white; padding: var(--space-xs) var(--space-sm); border-radius: 15px; font-size: 0.75rem; font-weight: 700; z-index: 3;">
-            🔥 MÁS VENDIDA
-          </div>
-          <img src="images/Margarita.png" alt="Pizza Margarita" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Margarita Clásica</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
-            <div class="pizza-price">10€</div>
-            <button class="modern-btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
-              <span>PEDIR AHORA</span>
-            </button>
-          </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card" style="position: relative;">
+        <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
+          🔥 MÁS VENDIDA
         </div>
-        
-        <div class="pizza-card">
-          <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-gold); color: var(--rich-black); padding: var(--space-xs) var(--space-sm); border-radius: 15px; font-size: 0.75rem; font-weight: 700; z-index: 3;">
-            ⭐ TOP 3
-          </div>
-          <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Leonardo Da Vinci</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
-            <div class="pizza-price">14€</div>
-            <button class="modern-btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
-              <span>PEDIR AHORA</span>
-            </button>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-sage); color: white; padding: var(--space-xs) var(--space-sm); border-radius: 15px; font-size: 0.75rem; font-weight: 700; z-index: 3;">
-            👑 PREMIUM
-          </div>
-          <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Cuatro Formaggi</h3>
-            <p class="pizza-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
-            <div class="pizza-price">12€</div>
-            <button class="modern-btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
-              <span>PEDIR AHORA</span>
-            </button>
-          </div>
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Pizza Margarita" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Margarita Clásica</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
+          <div class="card-price">10€</div>
+          <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
+            PEDIR AHORA
+          </button>
         </div>
       </div>
-    </section>
+      
+      <div class="card">
+        <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-gold); color: var(--rich-black); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
+          ⭐ TOP 3
+        </div>
+        <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=300&fit=crop" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Leonardo Da Vinci</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
+          <div class="card-price">14€</div>
+          <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
+            PEDIR AHORA
+          </button>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-sage); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
+          👑 PREMIUM
+        </div>
+        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=300&fit=crop" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Cuatro Formaggi</h3>
+          <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
+          <div class="card-price">12€</div>
+          <button class="btn btn-primary" onclick="window.location.href='pedido.html'" style="width: 100%;">
+            PEDIR AHORA
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- TESTIMONIOS -->
-    <section class="section fade-in">
+  <!-- TESTIMONIOS -->
+  <section class="section fade-in">
+    <div class="section-header">
       <h2 class="section-title">Lo que dicen nuestros clientes</h2>
       <p class="section-subtitle">Reseñas reales de Google My Business</p>
-      <div class="modern-grid">
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">M</div>
-            <div>
-              <div class="testimonial-name">Miguel Rafael</div>
-              <div class="testimonial-date">Hace 2 meses</div>
-            </div>
-            <div class="stars">⭐⭐⭐⭐⭐</div>
+    </div>
+    <div class="grid grid-3">
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar">M</div>
+          <div class="testimonial-info">
+            <h4>Miguel Rafael</h4>
+            <div class="testimonial-date">Hace 2 meses</div>
           </div>
-          <p class="testimonial-text">
-            Fui con unos amigos para probar y nos encantó las 6 pizzas distintas que pedimos. Riquísimas y la atención un lujo. Repetiremos ❤️
-          </p>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
         </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">E</div>
-            <div>
-              <div class="testimonial-name">Elena Salgueiro</div>
-              <div class="testimonial-date">Hace 3 meses</div>
-            </div>
-            <div class="stars">⭐⭐⭐⭐⭐</div>
-          </div>
-          <p class="testimonial-text">
-            No somos sus colegas, somos vecinos de la zona. Es la segunda vez que pedimos y no será la última. RIQUÍSIMA. Todo lo que uno espera de una pizza. 😋😋😋
-          </p>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">A</div>
-            <div>
-              <div class="testimonial-name">Antonio Sánchez</div>
-              <div class="testimonial-date">Hace 3 meses</div>
-            </div>
-            <div class="stars">⭐⭐⭐⭐⭐</div>
-          </div>
-          <p class="testimonial-text">
-            Pizzas super buenas y muy buen precio, encima los chicos que la llevan son muy majos y rápidos. Volveré, increíble experiencia…
-          </p>
-        </div>
+        <p class="testimonial-text">
+          Fui con unos amigos para probar y nos encantó las 6 pizzas distintas que pedimos. Riquísimas y la atención un lujo. Repetiremos ❤️
+        </p>
       </div>
 
-      <div class="glass-effect" style="text-align: center; margin-top: var(--space-xxl); padding: var(--space-xxl); border-radius: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar">E</div>
+          <div class="testimonial-info">
+            <h4>Elena Salgueiro</h4>
+            <div class="testimonial-date">Hace 3 meses</div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="testimonial-text">
+          No somos sus colegas, somos vecinos de la zona. Es la segunda vez que pedimos y no será la última. RIQUÍSIMA. Todo lo que uno espera de una pizza. 😋😋😋
+        </p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar">A</div>
+          <div class="testimonial-info">
+            <h4>Antonio Sánchez</h4>
+            <div class="testimonial-date">Hace 3 meses</div>
+          </div>
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="testimonial-text">
+          Pizzas super buenas y muy buen precio, encima los chicos que la llevan son muy majos y rápidos. Volveré, increíble experiencia…
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="text-align: center; margin-top: var(--space-xxl); max-width: 600px; margin-left: auto; margin-right: auto;">
+      <div class="card-content">
         <div style="font-size: 3rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-md);">4.7 ⭐</div>
         <p style="font-size: 1.125rem; margin-bottom: var(--space-lg);">Basado en <strong>43 reseñas</strong> de Google</p>
-        <a href="https://g.co/kgs/DzYRGju" target="_blank" class="modern-btn btn-secondary">
-          <span>Ver todas las reseñas</span>
+        <a href="https://g.co/kgs/DzYRGju" target="_blank" class="btn btn-outline">
+          Ver todas las reseñas
         </a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- NUESTRAS PIZZAS -->
-    <section class="section section-dark fade-in" id="nuestras-pizzas">
+  <!-- NUESTRAS PIZZAS -->
+  <section class="section auth-section fade-in" id="nuestras-pizzas">
+    <div class="section-header">
       <h2 class="section-title">Nuestras Pizzas</h2>
       <p class="section-subtitle">
         Elaboradas con ingredientes frescos importados directamente de Italia. Masa fermentada 48 horas y cocidas en horno de leña.
       </p>
-      <div class="modern-grid">
-        <div class="pizza-card">
-          <img src="images/Margarita.png" alt="Pizza Margarita" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Margarita</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
-            <div class="pizza-price">10€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Prosciutto.png" alt="Pizza Prosciutto" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Prosciutto</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Cuatro Formaggi</h3>
-            <p class="pizza-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Capriciossa.png" alt="Pizza Capricciosa" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Capricciosa</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Leonardo Da Vinci</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
-            <div class="pizza-price">14€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Salchicha y Friarielli</h3>
-            <p class="pizza-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Bufala.png" alt="Pizza Bufala" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Bufala</h3>
-            <p class="pizza-description">Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca fresca.</p>
-            <div class="pizza-price">14€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Peperonni.png" alt="Pizza Diavola" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Diavola</h3>
-            <p class="pizza-description">Fior di latte, salsa de tomate San Marzano y pepperoni picante. Sabor americano con estilo italiano.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Vegetariana.png" alt="Pizza Vegetariana" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Vegetariana</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural y aceitunas negras.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Focaccia.png" alt="Focaccia" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Focaccia</h3>
-            <p class="pizza-description">Base de pizza crujiente con mantequilla de ajo, romero fresco y sal marina.</p>
-            <div class="pizza-price">5€</div>
-          </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Pizza Margarita" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Margarita</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
+          <div class="card-price">10€</div>
         </div>
       </div>
-    </section>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=300&fit=crop" alt="Pizza Prosciutto" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Prosciutto</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=300&fit=crop" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Cuatro Formaggi</h3>
+          <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop" alt="Pizza Capricciosa" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Capricciosa</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=400&h=300&fit=crop" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Leonardo Da Vinci</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
+          <div class="card-price">14€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Salchicha y Friarielli</h3>
+          <p class="card-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- CALZONES -->
-    <section class="section fade-in" id="calzones">
+  <!-- CALZONES -->
+  <section class="section fade-in" id="calzones">
+    <div class="section-header">
       <h2 class="section-title">Calzones</h2>
       <p class="section-subtitle">
         Nuestros calzones están rellenos de los mejores ingredientes y horneados hasta conseguir una textura perfecta.
       </p>
-      <div class="modern-grid">
-        <div class="pizza-card">
-          <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Calzone Tradizionale</h3>
-            <p class="pizza-description">San Marzano, fior di latte y jamón cocido. El calzone más tradicional.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Calzone Pepperoni</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte, prosciutto y peperonni.</p>
-            <div class="pizza-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="pizza-card">
-          <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano" class="pizza-image" loading="lazy">
-          <div class="pizza-info">
-            <h3 class="pizza-name">Calzone Vegetariano</h3>
-            <p class="pizza-description">Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.</p>
-            <div class="pizza-price">12€</div>
-          </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1565299585323-38174c4a6706?w=400&h=300&fit=crop" alt="Calzone Tradizionale" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Calzone Tradizionale</h3>
+          <p class="card-description">San Marzano, fior di latte y jamón cocido. El calzone más tradicional.</p>
+          <div class="card-price">12€</div>
         </div>
       </div>
-    </section>
-
-    <!-- CTA PRINCIPAL -->
-    <section class="section section-accent fade-in">
-      <div style="text-align: center;">
-        <h2 class="section-title">¿Tienes hambre?</h2>
-        <p class="section-subtitle">
-          Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.
-        </p>
-        <a href="pedido.html" class="modern-btn btn-primary" style="font-size: 1.125rem; padding: var(--space-lg) var(--space-xxl);">
-          <span>Haz tu pedido ahora</span>
-        </a>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop" alt="Calzone Pepperoni" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Calzone Pepperoni</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte, prosciutto y peperonni.</p>
+          <div class="card-price">12€</div>
+        </div>
       </div>
-    </section>
+      
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=300&fit=crop" alt="Calzone Vegetariano" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Calzone Vegetariano</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- CONTACTO -->
-    <section class="section fade-in" id="contacto">
-      <div class="glass-effect" style="padding: var(--space-xxl); border-radius: 24px; text-align: center; max-width: 800px; margin: 0 auto;">
+  <!-- CTA PRINCIPAL -->
+  <section class="section auth-section fade-in">
+    <div style="text-align: center;">
+      <h2 class="section-title">¿Tienes hambre?</h2>
+      <p class="section-subtitle">
+        Haz tu pedido online desde nuestra plataforma segura y recíbelo caliente en casa.
+      </p>
+      <a href="pedido.html" class="btn btn-primary" style="font-size: 1.125rem; padding: var(--space-lg) var(--space-xxl);">
+        Haz tu pedido ahora
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="section fade-in" id="contacto">
+    <div class="card" style="max-width: 800px; margin: 0 auto;">
+      <div class="card-content" style="text-align: center;">
         <h2 class="section-title">Contacto</h2>
-        <div style="display: grid; gap: var(--space-md); font-size: 1.125rem; line-height: 1.6;">
+        <div style="display: grid; gap: var(--space-md); font-size: 1.125rem; line-height: 1.6; margin-top: var(--space-xl);">
           <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
             <span style="color: var(--gold);">📍</span>
             Avenida de Atenas 3, 28290 Las Rozas (Madrid), España
@@ -2149,31 +1830,31 @@
           </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- NEWSLETTER -->
-    <section class="section section-dark fade-in">
-      <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-        <h2 class="section-title">Suscríbete a nuestro boletín</h2>
-        <p class="section-subtitle">
-          Recibe nuestras últimas ofertas y novedades directamente en tu correo.
-        </p>
-        <div style="display: flex; gap: var(--space-md); margin-top: var(--space-xl); flex-wrap: wrap;">
-          <input 
-            type="email" 
-            placeholder="Tu email" 
-            id="newsletter-email"
-            style="flex: 1; min-width: 250px; padding: var(--space-md) var(--space-lg); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 50px; background: rgba(30, 33, 34, 0.8); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; backdrop-filter: blur(10px);"
-            required
-          >
-          <button class="modern-btn btn-primary" onclick="FratelliPazzi.suscribirse()">
-            <span>Suscribirse</span>
-          </button>
-        </div>
+  <!-- NEWSLETTER -->
+  <section class="section auth-section fade-in">
+    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+      <h2 class="section-title">Suscríbete a nuestro boletín</h2>
+      <p class="section-subtitle">
+        Recibe nuestras últimas ofertas y novedades directamente en tu correo.
+      </p>
+      <div style="display: flex; gap: var(--space-md); margin-top: var(--space-xl); flex-wrap: wrap;">
+        <input 
+          type="email" 
+          placeholder="Tu email" 
+          id="newsletter-email"
+          class="form-input"
+          style="flex: 1; min-width: 250px;"
+          required
+        >
+        <button class="btn btn-primary" onclick="FratelliPazzi.suscribirse()">
+          Suscribirse
+        </button>
       </div>
-    </section>
-
-  </main>
+    </div>
+  </section>
 
   <!-- WHATSAPP FLOATING BUTTON -->
   <div class="whatsapp-float" onclick="FratelliPazzi.openWhatsApp()">
@@ -2189,92 +1870,91 @@
     <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Auténtica cocina italiana en Madrid</p>
   </footer>
 
-  <!-- POPUPS (mantengo la estructura original pero con estilos modernos) -->
   <!-- LOGIN POPUP -->
-  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 33, 34, 0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 10000; padding: var(--space-lg);" id="loginPopup">
-    <div class="glass-effect" style="border-radius: 24px; width: 100%; max-width: 450px; overflow: hidden;">
-      <div style="background: var(--gradient-primary); color: var(--cream); padding: var(--space-xl); text-align: center; position: relative;">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin: 0;">Iniciar Sesión</h2>
-        <button style="position: absolute; right: var(--space-md); top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease;" onclick="FratelliPazzi.closeLoginForm()">×</button>
+  <div class="auth-popup" id="loginPopup">
+    <div class="auth-popup-content">
+      <div class="auth-popup-header">
+        <h2>Iniciar Sesión</h2>
+        <button class="auth-popup-close" onclick="FratelliPazzi.closeLoginForm()">×</button>
       </div>
-      <div style="padding: var(--space-xxl);">
+      <div class="auth-popup-body">
         <form onsubmit="FratelliPazzi.handleLogin(event)">
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="email" id="login-email" placeholder="Tu email" required style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="email" id="login-email" placeholder="Tu email" required class="form-input">
           </div>
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="password" id="login-password" placeholder="Tu contraseña" required style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="password" id="login-password" placeholder="Tu contraseña" required class="form-input">
           </div>
-          <button type="submit" class="modern-btn btn-primary" style="width: 100%; margin-bottom: var(--space-lg);">
-            <span>INICIAR SESIÓN</span>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: var(--space-lg);">
+            INICIAR SESIÓN
           </button>
-          <div style="display: none; background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.3); color: #dc3545; padding: var(--space-sm); border-radius: 8px; margin-bottom: var(--space-md); text-align: center;" id="loginError">
-            <p style="margin: 0; font-size: 0.875rem;">❌ Email o contraseña incorrectos</p>
+          <div class="auth-error" id="loginError">
+            <p>❌ Email o contraseña incorrectos</p>
           </div>
         </form>
         <div style="text-align: center; margin-bottom: var(--space-lg);">
-          <a href="javascript:void(0)" onclick="FratelliPazzi.forgotPassword()" style="color: var(--gold); text-decoration: none; font-size: 0.875rem;">¿Olvidaste tu contraseña?</a>
+          <a href="javascript:void(0)" onclick="FratelliPazzi.forgotPassword()" class="auth-link">¿Olvidaste tu contraseña?</a>
         </div>
         <p style="text-align: center; font-size: 0.875rem; color: rgba(251, 244, 232, 0.7);">
           ¿No tienes cuenta? 
-          <a href="javascript:void(0)" onclick="FratelliPazzi.switchToRegister()" style="color: var(--gold); text-decoration: none; font-weight: 600;">Regístrate aquí</a>
+          <a href="javascript:void(0)" onclick="FratelliPazzi.switchToRegister()" class="auth-link">Regístrate aquí</a>
         </p>
       </div>
     </div>
   </div>
 
   <!-- REGISTER POPUP -->
-  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 33, 34, 0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 10000; padding: var(--space-lg); overflow-y: auto;" id="registerPopup">
-    <div class="glass-effect" style="border-radius: 24px; width: 100%; max-width: 450px; overflow: hidden; margin: var(--space-lg) 0;">
-      <div style="background: var(--gradient-primary); color: var(--cream); padding: var(--space-xl); text-align: center; position: relative;">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin: 0;">¡Únete a la Famiglia!</h2>
-        <button style="position: absolute; right: var(--space-md); top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease;" onclick="FratelliPazzi.closeRegisterForm()">×</button>
+  <div class="auth-popup" id="registerPopup">
+    <div class="auth-popup-content">
+      <div class="auth-popup-header">
+        <h2>¡Únete a la Famiglia!</h2>
+        <button class="auth-popup-close" onclick="FratelliPazzi.closeRegisterForm()">×</button>
       </div>
-      <div style="padding: var(--space-xxl);">
+      <div class="auth-popup-body">
         <form onsubmit="FratelliPazzi.handleRegistration(event)">
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="text" id="register-name" placeholder="Tu nombre completo" required style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="text" id="register-name" placeholder="Tu nombre completo" required class="form-input">
           </div>
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="email" id="register-email" placeholder="Tu email" required style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="email" id="register-email" placeholder="Tu email" required class="form-input">
           </div>
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="password" id="register-password" placeholder="Tu contraseña (mín. 6 caracteres)" required style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="password" id="register-password" placeholder="Tu contraseña (mín. 6 caracteres)" required class="form-input">
           </div>
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="password" id="register-confirm-password" placeholder="Confirma tu contraseña" required style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="password" id="register-confirm-password" placeholder="Confirma tu contraseña" required class="form-input">
           </div>
-          <div style="margin-bottom: var(--space-lg);">
-            <input type="tel" id="register-phone" placeholder="Tu teléfono (opcional)" style="width: 100%; padding: var(--space-md); border: 1px solid rgba(205, 184, 124, 0.3); border-radius: 12px; background: rgba(30, 33, 34, 0.6); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; box-sizing: border-box;">
+          <div class="form-group">
+            <input type="tel" id="register-phone" placeholder="Tu teléfono (opcional)" class="form-input">
           </div>
-          <div style="margin: var(--space-lg) 0;">
-            <label style="display: flex; align-items: flex-start; gap: var(--space-sm); margin-bottom: var(--space-md); font-size: 0.875rem; line-height: 1.4; cursor: pointer;">
-              <input type="checkbox" id="register-offers" checked style="display: none;">
-              <span style="width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 4px; position: relative; transition: all 0.3s ease; flex-shrink: 0; margin-top: 2px; background: rgba(30, 33, 34, 0.6);"></span>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" id="register-offers" checked>
+              <span class="checkbox-visual"></span>
               <span>Quiero recibir ofertas especiales por email</span>
             </label>
-            <label style="display: flex; align-items: flex-start; gap: var(--space-sm); font-size: 0.875rem; line-height: 1.4; cursor: pointer;">
-              <input type="checkbox" id="register-terms" required style="display: none;">
-              <span style="width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 4px; position: relative; transition: all 0.3s ease; flex-shrink: 0; margin-top: 2px; background: rgba(30, 33, 34, 0.6);"></span>
-              <span>Acepto los <a href="javascript:void(0)" onclick="FratelliPazzi.showTerms()" style="color: var(--gold); text-decoration: none;">términos y condiciones</a></span>
+            <label class="checkbox-item">
+              <input type="checkbox" id="register-terms" required>
+              <span class="checkbox-visual"></span>
+              <span>Acepto los <a href="javascript:void(0)" onclick="FratelliPazzi.showTerms()" class="auth-link">términos y condiciones</a></span>
             </label>
           </div>
-          <button type="submit" class="modern-btn btn-primary register-btn" style="width: 100%; margin-bottom: var(--space-lg);">
-            <span>CREAR MI CUENTA</span>
+          <button type="submit" class="btn btn-primary register-btn" style="width: 100%; margin-bottom: var(--space-lg);">
+            CREAR MI CUENTA
           </button>
-          <div style="display: none; background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.3); color: #dc3545; padding: var(--space-sm); border-radius: 8px; margin-bottom: var(--space-md); text-align: center;" id="register-error">
+          <div class="auth-error" id="register-error">
             <p></p>
           </div>
         </form>
         <p style="text-align: center; font-size: 0.875rem; color: rgba(251, 244, 232, 0.7);">
           ¿Ya tienes cuenta? 
-          <a href="javascript:void(0)" onclick="FratelliPazzi.showLoginFormFromRegister()" style="color: var(--gold); text-decoration: none; font-weight: 600;">Inicia sesión</a>
+          <a href="javascript:void(0)" onclick="FratelliPazzi.showLoginFormFromRegister()" class="auth-link">Inicia sesión</a>
         </p>
       </div>
     </div>
   </div>
 
-  <!-- APLICACIÓN JAVASCRIPT (mantengo la funcionalidad original) -->
+  <!-- JAVASCRIPT (mantengo toda la funcionalidad original) -->
   <script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -2611,13 +2291,14 @@
         document.addEventListener('DOMContentLoaded', () => {
           this.setupSliderTouchEvents();
           this.setupSmoothScroll();
+          this.setupScrollEffects();
           
           document.addEventListener('click', (e) => {
             const dropdown = document.getElementById('userDropdown');
             const userWelcome = document.querySelector('.user-welcome');
             
             if (dropdown && !userWelcome?.contains(e.target)) {
-              dropdown.classList.remove('show');
+              dropdown.style.display = 'none';
             }
           });
 
@@ -2641,11 +2322,30 @@
           }
         });
 
-        const sliderElement = document.querySelector('.modern-slider');
+        const sliderElement = document.querySelector('.offers-slider');
         if (sliderElement) {
           sliderElement.addEventListener('mouseenter', () => this.stopAutoPlay());
           sliderElement.addEventListener('mouseleave', () => this.startAutoPlay());
         }
+      },
+
+      setupScrollEffects() {
+        const headerContainer = document.getElementById('headerContainer');
+        let lastScrollTop = 0;
+
+        window.addEventListener('scroll', () => {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (headerContainer) {
+            if (scrollTop > 100) {
+              headerContainer.classList.add('scrolled');
+            } else {
+              headerContainer.classList.remove('scrolled');
+            }
+          }
+          
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
       },
 
       setupCheckboxStyling() {
@@ -2657,17 +2357,14 @@
             checkbox.addEventListener('change', () => {
               if (checkbox.checked) {
                 checkmark.style.background = 'var(--gold)';
-                checkmark.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--rich-black); font-size: 14px; font-weight: bold;">✓</span>';
               } else {
                 checkmark.style.background = 'rgba(30, 33, 34, 0.6)';
-                checkmark.innerHTML = '';
               }
             });
 
             // Initialize state
             if (checkbox.checked) {
               checkmark.style.background = 'var(--gold)';
-              checkmark.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--rich-black); font-size: 14px; font-weight: bold;">✓</span>';
             }
           });
         } catch (error) {
@@ -2686,11 +2383,10 @@
             setTimeout(() => {
               this.startCountdown();
             }, 200);
-          }, 800); // Reducido a 800ms para mejor UX
+          }, 800);
         }
       },
 
-      // Método de emergencia para ocultar loader si algo falla
       forceHideLoader() {
         const loader = document.getElementById('pageLoader');
         if (loader) {
@@ -2765,7 +2461,7 @@
       },
 
       setupSliderTouchEvents() {
-        const slider = document.querySelector('.modern-slider');
+        const slider = document.querySelector('.offers-slider');
         if (!slider) return;
 
         let startX, currentX, isDragging = false;
@@ -2832,16 +2528,15 @@
         try {
           const banner = document.getElementById('urgentBanner');
           const body = document.body;
-          const header = document.querySelector('header');
+          const headerContainer = document.getElementById('headerContainer');
           
           if (banner) {
             banner.classList.add('hidden');
             if (body) {
-              body.style.paddingTop = '100px'; // Solo header
               body.classList.add('banner-hidden');
             }
-            if (header) {
-              header.style.top = '0';
+            if (headerContainer) {
+              headerContainer.style.top = '0';
             }
             
             setTimeout(() => {
@@ -2917,38 +2612,23 @@
           '<span style="background: #ff6b6b; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: 5px;">📧 No verificado</span>' : '';
         
         userMenu.innerHTML = `
-          <div style="position: relative; display: inline-block;">
+          <div class="user-menu">
             <div class="user-welcome" onclick="FratelliPazzi.toggleDropdown()">
               <div class="user-avatar">${this.state.currentUser.name.charAt(0).toUpperCase()}</div>
               <span>Hola, ${this.state.currentUser.name.split(' ')[0]}</span>
               ${emailVerificationBadge}
               <span style="font-size: 12px;">▼</span>
             </div>
-            <div style="display: none; position: absolute; right: 0; top: 100%; background: var(--rich-black); min-width: 180px; box-shadow: var(--shadow-strong); border-radius: 12px; z-index: 1000; border: 1px solid rgba(205, 184, 124, 0.2); margin-top: 8px; overflow: hidden;" id="userDropdown">
+            <div class="user-dropdown" id="userDropdown">
               ${!this.state.currentUser.emailVerified ? 
-                '<a href="javascript:void(0)" onclick="FratelliPazzi.resendVerificationEmail()" style="color: #ff6b6b; padding: 12px 16px; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold; border-bottom: 1px solid rgba(205, 184, 124, 0.1);">📧 Verificar Email</a>' : ''}
-              <a href="javascript:void(0)" onclick="FratelliPazzi.showProfile()" style="color: var(--cream); padding: 12px 16px; display: flex; align-items: center; gap: 8px; text-decoration: none; transition: background 0.2s ease;">👤 Mi Perfil</a>
-              <a href="javascript:void(0)" onclick="FratelliPazzi.showOrderHistory()" style="color: var(--cream); padding: 12px 16px; display: flex; align-items: center; gap: 8px; text-decoration: none; transition: background 0.2s ease;">📋 Mis Pedidos</a>
-              <a href="javascript:void(0)" onclick="FratelliPazzi.showUserPoints()" style="color: var(--cream); padding: 12px 16px; display: flex; align-items: center; gap: 8px; text-decoration: none; transition: background 0.2s ease;">⭐ Mis Puntos (${this.state.currentUser.points || 0})</a>
-              <a href="javascript:void(0)" onclick="FratelliPazzi.logout()" style="color: var(--cream); padding: 12px 16px; display: flex; align-items: center; gap: 8px; text-decoration: none; border-top: 1px solid rgba(205, 184, 124, 0.1); transition: background 0.2s ease;">👋 Cerrar Sesión</a>
+                '<a href="javascript:void(0)" onclick="FratelliPazzi.resendVerificationEmail()" style="color: #ff6b6b; font-weight: bold;">📧 Verificar Email</a>' : ''}
+              <a href="javascript:void(0)" onclick="FratelliPazzi.showProfile()">👤 Mi Perfil</a>
+              <a href="javascript:void(0)" onclick="FratelliPazzi.showOrderHistory()">📋 Mis Pedidos</a>
+              <a href="javascript:void(0)" onclick="FratelliPazzi.showUserPoints()">⭐ Mis Puntos (${this.state.currentUser.points || 0})</a>
+              <a href="javascript:void(0)" onclick="FratelliPazzi.logout()">👋 Cerrar Sesión</a>
             </div>
           </div>
         `;
-
-        // Add hover effects to dropdown items
-        setTimeout(() => {
-          const dropdown = document.getElementById('userDropdown');
-          if (dropdown) {
-            dropdown.querySelectorAll('a').forEach(link => {
-              link.addEventListener('mouseenter', () => {
-                link.style.background = 'rgba(205, 184, 124, 0.1)';
-              });
-              link.addEventListener('mouseleave', () => {
-                link.style.background = 'transparent';
-              });
-            });
-          }
-        }, 100);
       },
 
       showGuestInterface() {
@@ -2969,16 +2649,6 @@
         if (dropdown) {
           const isVisible = dropdown.style.display === 'block';
           dropdown.style.display = isVisible ? 'none' : 'block';
-          
-          if (!isVisible) {
-            dropdown.style.opacity = '0';
-            dropdown.style.transform = 'translateY(-10px)';
-            setTimeout(() => {
-              dropdown.style.transition = 'all 0.2s ease';
-              dropdown.style.opacity = '1';
-              dropdown.style.transform = 'translateY(0)';
-            }, 10);
-          }
         }
       },
 
@@ -3013,7 +2683,6 @@
         
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
-        const errorDiv = document.getElementById('loginError');
         
         if (this.state.isFirebaseEnabled) {
           try {
@@ -3246,7 +2915,7 @@
 
         const registerBtn = document.querySelector('.register-btn');
         const originalText = registerBtn.innerHTML;
-        registerBtn.innerHTML = '<div class="pizza-spinner" style="width: 20px; height: 20px; margin: 0 auto;"><div class="pizza-base"><div class="pizza-sauce"><div class="pizza-cheese"></div><div class="pizza-cheese"></div></div></div></div>';
+        registerBtn.innerHTML = '<div class="loading-dots" style="justify-content: center; margin: 0;"><div class="loading-dot" style="width: 8px; height: 8px;"></div><div class="loading-dot" style="width: 8px; height: 8px;"></div><div class="loading-dot" style="width: 8px; height: 8px;"></div></div>';
         registerBtn.disabled = true;
 
         try {
@@ -3406,15 +3075,12 @@
           const checkbox = document.getElementById(id);
           if (checkbox) {
             checkbox.checked = id === 'register-offers';
-            // Update visual state
             const checkmark = checkbox.nextElementSibling;
             if (checkmark) {
               if (checkbox.checked) {
                 checkmark.style.background = 'var(--gold)';
-                checkmark.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--rich-black); font-size: 14px; font-weight: bold;">✓</span>';
               } else {
                 checkmark.style.background = 'rgba(30, 33, 34, 0.6)';
-                checkmark.innerHTML = '';
               }
             }
           }
@@ -3517,7 +3183,7 @@
       },
 
       setupSmoothScroll() {
-        document.querySelectorAll('nav a').forEach(link => {
+        document.querySelectorAll('.nav-main a').forEach(link => {
           link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
             
@@ -3527,8 +3193,8 @@
               const targetElement = document.getElementById(targetId);
               
               if (targetElement) {
-                const header = document.querySelector('header');
-                const headerHeight = header ? header.offsetHeight : 80;
+                const headerContainer = document.getElementById('headerContainer');
+                const headerHeight = headerContainer ? headerContainer.offsetHeight : 80;
                 const offsetTop = targetElement.offsetTop - headerHeight - 20;
                 window.scrollTo({
                   top: Math.max(0, offsetTop),
@@ -3541,25 +3207,6 @@
       },
 
       initMobileOptimizations() {
-        let lastScrollTop = 0;
-        const header = document.querySelector('header');
-        
-        if (header) {
-          window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (scrollTop > 50) {
-              header.style.padding = 'var(--space-md) var(--space-xl)';
-              header.style.backdropFilter = 'blur(30px)';
-            } else {
-              header.style.padding = 'var(--space-lg) var(--space-xl)';
-              header.style.backdropFilter = 'blur(20px)';
-            }
-            
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-          }, { passive: true });
-        }
-
         const newsletterEmail = document.getElementById('newsletter-email');
         if (newsletterEmail) {
           newsletterEmail.addEventListener('focus', function() {
@@ -3578,10 +3225,10 @@
 
       preloadImages() {
         const imageUrls = [
-          'images/oferta1.png',
-          'images/oferta2.png', 
-          'images/oferta3.png',
-          'images/oferta4.png'
+          'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=1200&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=1200&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1200&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=600&fit=crop'
         ];
         
         imageUrls.forEach(url => {
@@ -3624,7 +3271,6 @@
           FratelliPazzi.init();
         } catch (error) {
           console.error('Error en inicialización:', error);
-          // Fallback de emergencia
           setTimeout(() => {
             const loader = document.getElementById('pageLoader');
             if (loader) {
@@ -3638,7 +3284,6 @@
         FratelliPazzi.init();
       } catch (error) {
         console.error('Error en inicialización:', error);
-        // Fallback de emergencia
         setTimeout(() => {
           const loader = document.getElementById('pageLoader');
           if (loader) {
@@ -3651,7 +3296,7 @@
     // Make FratelliPazzi globally available
     window.FratelliPazzi = FratelliPazzi;
 
-    // Función de emergencia para ocultar loader (disponible en consola)
+    // Función de emergencia para ocultar loader
     window.hideLoader = function() {
       const loader = document.getElementById('pageLoader');
       if (loader) {
@@ -3661,15 +3306,23 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - ELEGANT DESIGN
-=================================
+🍕 FRATELLI PAZZI - NUEVO DISEÑO RENOVADO
+=========================================
 
-Diseño elegante con paleta negra y dorada activado.
+✨ Diseño moderno y elegante implementado
+🎨 Paleta de colores respetada
+🔧 Todas las funcionalidades mantenidas
+📱 Totalmente responsive
 
-Si el loader no desaparece, usa en consola:
+Funciones disponibles:
+- Sistema de autenticación completo
+- Notificaciones elegantes
+- Slider de ofertas interactivo
+- Animaciones suaves
+
+Si necesitas ayuda, usa en consola:
 > hideLoader()
-
-Funciones de debug disponibles en consola.
+> FratelliPazzi.showDebugInfo()
     `);
   </script>
 </body>
