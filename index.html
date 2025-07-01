@@ -216,6 +216,35 @@
       background: rgba(205, 184, 124, 0.1);
     }
 
+    /* ENLACE DE RECOMPENSAS DESTACADO */
+    .nav-rewards {
+      position: relative;
+      background: rgba(205, 184, 124, 0.1) !important;
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-rewards:hover {
+      background: rgba(205, 184, 124, 0.2) !important;
+      transform: translateY(-1px);
+    }
+
+    .rewards-badge {
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 4px;
+      font-weight: 700;
+      animation: pointsPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pointsPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
     /* BANNER DE OFERTA ELEGANTE */
     .offer-banner {
       position: fixed;
@@ -1460,6 +1489,15 @@
       .card {
         max-width: 280px;
       }
+
+      .nav-rewards {
+        padding: var(--space-xs) var(--space-sm) !important;
+      }
+
+      .rewards-badge {
+        font-size: 0.65rem;
+        padding: 1px 4px;
+      }
     }
   </style>
 </head>
@@ -1511,7 +1549,7 @@
     <header>
       <div class="header-content">
         <a href="#" class="logo">Fratelli Pazzi</a>
-        <nav class="nav-main">
+        <nav class="nav-main" id="mainNavigation">
           <a href="#ofertas">Ofertas</a>
           <a href="#nuestras-pizzas">Pizzas</a>
           <a href="#calzones">Calzones</a>
@@ -1946,15 +1984,6 @@
             <h3 class="card-title">Vegetariana</h3>
             <p class="card-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural y aceitunas negras.</p>
             <div class="card-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="images/Focaccia.png" alt="Focaccia" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Focaccia</h3>
-            <p class="card-description">Base de pizza crujiente con mantequilla de ajo, romero fresco y sal marina.</p>
-            <div class="card-price">5€</div>
           </div>
         </div>
       </div>
@@ -2813,11 +2842,29 @@
         const userMenu = document.getElementById('userMenu');
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
+        const mainNavigation = document.getElementById('mainNavigation');
         
         if (!userMenu || !this.state.currentUser) return;
         
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
+        
+        // Actualizar navegación principal con Recompensas
+        if (mainNavigation) {
+          mainNavigation.innerHTML = `
+            <a href="#ofertas">Ofertas</a>
+            <a href="#nuestras-pizzas">Pizzas</a>
+            <a href="#calzones">Calzones</a>
+            <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards" style="color: var(--gold);">
+              ⭐ Recompensas
+              <span class="rewards-badge">
+                ${this.state.currentUser.points || 0}
+              </span>
+            </a>
+            <a href="pedido.html">Pedido</a>
+            <a href="#contacto">Contacto</a>
+          `;
+        }
         
         const profileAvatar = document.getElementById('profileAvatar');
         const profileGreeting = document.getElementById('profileGreeting');
@@ -2874,10 +2921,22 @@
         const userMenu = document.getElementById('userMenu');
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
+        const mainNavigation = document.getElementById('mainNavigation');
         
         if (!userMenu) return;
         
         userMenu.innerHTML = '';
+        
+        // Restaurar navegación original sin Recompensas
+        if (mainNavigation) {
+          mainNavigation.innerHTML = `
+            <a href="#ofertas">Ofertas</a>
+            <a href="#nuestras-pizzas">Pizzas</a>
+            <a href="#calzones">Calzones</a>
+            <a href="pedido.html">Pedido</a>
+            <a href="#contacto">Contacto</a>
+          `;
+        }
         
         if (authSection) authSection.style.display = 'block';
         if (profileSection) profileSection.style.display = 'none';
@@ -3548,19 +3607,24 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - SISTEMA DE PUNTOS INTEGRADO
-===============================================
+🍕 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS COMPLETO
+===================================================
 
-✨ Navegación a puntos.html implementada
-🎯 Cards de puntos ahora son clickeables
-🚀 Redirección automática con notificación
-📱 Funciona desde dropdown y perfil
+✨ Navegación dinámica implementada
+🎯 Sección "Recompensas" aparece al iniciar sesión
+🏆 Badge de puntos en tiempo real en el header
+📱 Diseño responsive optimizado
 
 Características principales:
-- navigateToPoints() función agregada
-- Cards clickeables con hover effects
-- Redirección con delay y notificación
-- Integración completa con sistema existente
+- Header dinámico según estado de usuario
+- Enlace destacado "⭐ Recompensas" con puntos
+- Animaciones suaves en badge de puntos
+- Redirección completa a puntos.html
+- Navegación limpia para usuarios no logueados
+
+Estados de navegación:
+- Sin sesión: Navegación estándar
+- Con sesión: + Sección Recompensas con puntos
 
 Para ir a puntos:
 > FratelliPazzi.navigateToPoints()
