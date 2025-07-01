@@ -662,10 +662,12 @@
 
     .auth-card-content {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: var(--space-md);
       position: relative;
       z-index: 2;
+      text-align: center;
     }
 
     .auth-icon {
@@ -678,13 +680,11 @@
       font-size: 1.125rem;
       color: var(--cream);
       margin-bottom: 4px;
-      text-align: left;
     }
 
     .auth-text p {
       font-size: 0.875rem;
       color: rgba(251, 244, 232, 0.7);
-      text-align: left;
     }
 
     .auth-benefits {
@@ -1403,10 +1403,10 @@
     <div class="offers-container">
       <div class="offers-slider">
         <div class="slider-wrapper">
-          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=1200&h=600&fit=crop" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
-          <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=1200&h=600&fit=crop" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
-          <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1200&h=600&fit=crop" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
-          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=600&fit=crop" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
+          <img src="images/oferta1.png" alt="Oferta especial 1 - Fratelli Pazzi" loading="lazy">
+          <img src="images/oferta2.png" alt="Oferta especial 2 - Fratelli Pazzi" loading="lazy">
+          <img src="images/oferta3.png" alt="Oferta especial 3 - Fratelli Pazzi" loading="lazy">
+          <img src="images/oferta4.png" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
         </div>
         <div class="slider-controls">
           <button onclick="FratelliPazzi.moveSlider(-1)" aria-label="Oferta anterior">‹</button>
@@ -1582,7 +1582,7 @@
         <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
           🔥 MÁS VENDIDA
         </div>
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Pizza Margarita" class="card-image" loading="lazy">
+        <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Margarita Clásica</h3>
           <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
@@ -1597,7 +1597,7 @@
         <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-gold); color: var(--rich-black); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
           ⭐ TOP 3
         </div>
-        <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=300&fit=crop" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+        <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Leonardo Da Vinci</h3>
           <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
@@ -1612,7 +1612,7 @@
         <div style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-sage); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 700; z-index: 3;">
           👑 PREMIUM
         </div>
-        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=300&fit=crop" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+        <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Cuatro Formaggi</h3>
           <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
@@ -1696,7 +1696,7 @@
     </div>
     <div class="grid grid-3">
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Pizza Margarita" class="card-image" loading="lazy">
+        <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Margarita</h3>
           <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
@@ -1705,7 +1705,7 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=300&fit=crop" alt="Pizza Prosciutto" class="card-image" loading="lazy">
+        <img src="images/Prosciutto.png" alt="Pizza Prosciutto" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Prosciutto</h3>
           <p class="card-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
@@ -1714,7 +1714,7 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=300&fit=crop" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+        <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Cuatro Formaggi</h3>
           <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
@@ -1723,7 +1723,7 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop" alt="Pizza Capricciosa" class="card-image" loading="lazy">
+        <img src="images/Capriciossa.png" alt="Pizza Capricciosa" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Capricciosa</h3>
           <p class="card-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
@@ -1732,7 +1732,7 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=400&h=300&fit=crop" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+        <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Leonardo Da Vinci</h3>
           <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
@@ -1741,11 +1741,47 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
+        <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Salchicha y Friarielli</h3>
           <p class="card-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
           <div class="card-price">12€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="images/Bufala.png" alt="Pizza Bufala" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Bufala</h3>
+          <p class="card-description">Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca fresca.</p>
+          <div class="card-price">14€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="images/Peperonni.png" alt="Pizza Diavola" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Diavola</h3>
+          <p class="card-description">Fior di latte, salsa de tomate San Marzano y pepperoni picante. Sabor americano con estilo italiano.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="images/Vegetariana.png" alt="Pizza Vegetariana" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Vegetariana</h3>
+          <p class="card-description">Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural y aceitunas negras.</p>
+          <div class="card-price">12€</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <img src="images/Focaccia.png" alt="Focaccia" class="card-image" loading="lazy">
+        <div class="card-content">
+          <h3 class="card-title">Focaccia</h3>
+          <p class="card-description">Base de pizza crujiente con mantequilla de ajo, romero fresco y sal marina.</p>
+          <div class="card-price">5€</div>
         </div>
       </div>
     </div>
@@ -1761,7 +1797,7 @@
     </div>
     <div class="grid grid-3">
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1565299585323-38174c4a6706?w=400&h=300&fit=crop" alt="Calzone Tradizionale" class="card-image" loading="lazy">
+        <img src="images/Calzone Traditionale.png" alt="Calzone Tradizionale" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Calzone Tradizionale</h3>
           <p class="card-description">San Marzano, fior di latte y jamón cocido. El calzone más tradicional.</p>
@@ -1770,7 +1806,7 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop" alt="Calzone Pepperoni" class="card-image" loading="lazy">
+        <img src="images/Calzone Pepperoni.png" alt="Calzone Pepperoni" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Calzone Pepperoni</h3>
           <p class="card-description">Tomate San Marzano, fior di latte, prosciutto y peperonni.</p>
@@ -1779,7 +1815,7 @@
       </div>
       
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=400&h=300&fit=crop" alt="Calzone Vegetariano" class="card-image" loading="lazy">
+        <img src="images/Calzone Vegetariano.png" alt="Calzone Vegetariano" class="card-image" loading="lazy">
         <div class="card-content">
           <h3 class="card-title">Calzone Vegetariano</h3>
           <p class="card-description">Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.</p>
@@ -3225,10 +3261,13 @@
 
       preloadImages() {
         const imageUrls = [
-          'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=1200&h=600&fit=crop',
-          'https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=1200&h=600&fit=crop',
-          'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1200&h=600&fit=crop',
-          'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&h=600&fit=crop'
+          'images/oferta1.png',
+          'images/oferta2.png',
+          'images/oferta3.png',
+          'images/oferta4.png',
+          'images/Margarita.png',
+          'images/LeonardoDaVinci.png',
+          'images/Quatro formaggi.png'
         ];
         
         imageUrls.forEach(url => {
