@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=yes">
+  <title>Mis Recompensas - Fratelli Pazzi</title>
+  <meta name="description" content="Sistema de recompensas Fratelli Pazzi. Canjea tus puntos por pizzas gratis, bebidas y productos exclusivos.">
+  <meta name="keywords" content="recompensas, puntos, pizza gratis, fratelli pazzi, canjeo">
+  <meta property="og:title" content="Sistema de Recompensas - Fratelli Pazzi">
+  <meta property="og:description" content="Canjea tus puntos por increíbles recompensas en Fratelli Pazzi.">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap">
+  
+  <style>
+    :root {
+      /* Paleta de colores Fratelli Pazzi */
+      --cream: #FBF4E8;
+      --terracota: #D5786C;
+      --sage: #80AF7A;
+      --dark-green: #253732;
+      --gold: #cdb87c;
+      --rich-black: #1e2122;
+      
+      /* Gradientes modernos */
+      --gradient-primary: linear-gradient(135deg, var(--rich-black) 0%, var(--dark-green) 100%);
+      --gradient-accent: linear-gradient(135deg, var(--terracota) 0%, #e0958a 100%);
+      --gradient-gold: linear-gradient(135deg, var(--gold) 0%, #ddc589 100%);
+      --gradient-sage: linear-gradient(135deg, var(--sage) 0%, #8fb584 100%);
+      
+      /* Sombras suaves */
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
+      --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.15);
+      
+      /* Espaciado fluido */
+      --space-xs: clamp(0.5rem, 2vw, 0.75rem);
+      --space-sm: clamp(0.75rem, 3vw, 1rem);
+      --space-md: clamp(1rem, 4vw, 1.5rem);
+      --space-lg: clamp(1.5rem, 5vw, 2rem);
+      --space-xl: clamp(2rem, 6vw, 3rem);
+      --space-xxl: clamp(3rem, 8vw, 4rem);
+      
+      /* Radios modernos */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    /* SISTEMA BASE - TODO CENTRADO */
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--rich-black);
+      color: var(--cream); 
+      line-height: 1.6; 
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      padding-top: var(--space-xl);
+    }
+
+    /* HEADER FLOTANTE MODERNO */
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: var(--space-md);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .header-container.scrolled {
+      padding: var(--space-sm) var(--space-md);
+    }
+    
+    header {
+      background: rgba(30, 33, 34, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(205, 184, 124, 0.1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s ease;
+      margin: 0 auto;
+      max-width: 1400px;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-lg);
+      text-align: center;
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif; 
+      font-size: clamp(1.5rem, 4vw, 2rem); 
+      font-weight: 900;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    
+    .nav-main { 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-lg);
+    }
+    
+    .nav-main a { 
+      color: var(--cream); 
+      text-decoration: none; 
+      font-weight: 500; 
+      font-size: 0.9rem;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    
+    .nav-main a:hover {
+      color: var(--gold);
+      background: rgba(205, 184, 124, 0.1);
+    }
+
+    .nav-main a.active {
+      color: var(--gold);
+      background: rgba(205, 184, 124, 0.2);
+    }
+
+    /* BOTONES MODERNOS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      padding: var(--space-md) var(--space-xl);
+      border-radius: var(--radius-lg);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: var(--shadow-card);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cream);
+      border: 2px solid rgba(251, 244, 232, 0.3);
+    }
+
+    .btn-outline:hover {
+      background: var(--cream);
+      color: var(--rich-black);
+      border-color: var(--cream);
+    }
+
+    .btn-disabled {
+      background: rgba(251, 244, 232, 0.1);
+      color: rgba(251, 244, 232, 0.5);
+      cursor: not-allowed;
+      border: 1px solid rgba(251, 244, 232, 0.2);
+    }
+
+    .btn-disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .main-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-xxl) var(--space-lg);
+      text-align: center;
+    }
+
+    /* HEADER DE LA PÁGINA */
+    .page-header {
+      text-align: center;
+      margin-bottom: var(--space-xxl);
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-lg);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: rgba(251, 244, 232, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* SECCIÓN DE PUNTOS ACTUALES */
+    .current-points-section {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(205, 184, 124, 0.1) 0%, transparent 50%),
+        rgba(30, 33, 34, 0.6);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      padding: var(--space-xxl);
+      margin-bottom: var(--space-xxl);
+      text-align: center;
+    }
+
+    .points-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .points-number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 900;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      animation: pointsPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pointsPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .points-label {
+      font-size: 1.25rem;
+      color: rgba(251, 244, 232, 0.8);
+      font-weight: 600;
+    }
+
+    .points-info {
+      font-size: 1rem;
+      color: rgba(251, 244, 232, 0.7);
+      margin: 0;
+    }
+
+    .progress-section {
+      margin-top: var(--space-lg);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(205, 184, 124, 0.2);
+    }
+
+    .next-reward {
+      font-size: 0.9rem;
+      color: rgba(251, 244, 232, 0.8);
+      margin-bottom: var(--space-md);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(30, 33, 34, 0.8);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: var(--space-sm);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient-gold);
+      border-radius: 6px;
+      transition: width 1s ease;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.3) 50%, 
+        transparent 100%);
+      animation: progressShine 2s ease-in-out infinite;
+    }
+
+    @keyframes progressShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .progress-text {
+      font-size: 0.8rem;
+      color: rgba(251, 244, 232, 0.6);
+    }
+
+    /* GRID DE RECOMPENSAS */
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xxl);
+    }
+
+    .reward-card {
+      background: 
+        radial-gradient(circle at 70% 30%, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
+        rgba(30, 33, 34, 0.8);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(205, 184, 124, 0.2);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reward-card.available {
+      border-color: rgba(205, 184, 124, 0.5);
+      box-shadow: 
+        var(--shadow-card),
+        0 0 30px rgba(205, 184, 124, 0.2);
+    }
+
+    .reward-card.available::before {
+      content: '✨ DISPONIBLE';
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.7rem;
+      font-weight: 700;
+      animation: availablePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes availablePulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .reward-card.locked {
+      opacity: 0.6;
+      filter: grayscale(0.3);
+    }
+
+    .reward-card.locked::after {
+      content: '🔒';
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      font-size: 1.5rem;
+      opacity: 0.7;
+    }
+
+    .reward-card:hover.available {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        var(--shadow-hover),
+        0 0 40px rgba(205, 184, 124, 0.3);
+      border-color: var(--gold);
+    }
+
+    .reward-icon {
+      font-size: 4rem;
+      margin-bottom: var(--space-lg);
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+
+    .reward-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: var(--space-sm);
+      line-height: 1.2;
+    }
+
+    .reward-description {
+      color: rgba(251, 244, 232, 0.7);
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-bottom: var(--space-lg);
+    }
+
+    .reward-cost {
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-lg);
+    }
+
+    .reward-btn {
+      width: 100%;
+      padding: var(--space-md) var(--space-lg);
+      font-size: 0.9rem;
+    }
+
+    /* SECCIÓN INFORMATIVA */
+    .info-section {
+      background: rgba(205, 184, 124, 0.05);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(205, 184, 124, 0.1);
+      padding: var(--space-xl);
+      text-align: center;
+    }
+
+    .info-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--cream);
+      margin-bottom: var(--space-md);
+    }
+
+    .info-section p {
+      color: rgba(251, 244, 232, 0.8);
+      line-height: 1.6;
+      margin-bottom: var(--space-sm);
+    }
+
+    .info-section p:last-child {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      color: rgba(251, 244, 232, 0.6);
+    }
+
+    /* MODAL DE CONFIRMACIÓN */
+    .confirmation-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 33, 34, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      padding: var(--space-lg);
+    }
+
+    .confirmation-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .confirmation-content {
+      background: var(--rich-black);
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xxl);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-strong);
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+      color: var(--cream);
+    }
+
+    .confirmation-modal.show .confirmation-content {
+      transform: scale(1);
+    }
+
+    .confirmation-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 auto var(--space-lg);
+      animation: pulseIcon 2s ease-in-out infinite;
+      font-weight: bold;
+    }
+
+    @keyframes pulseIcon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .confirmation-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--cream);
+      margin-bottom: var(--space-md);
+      font-weight: 700;
+    }
+
+    .confirmation-message {
+      color: rgba(251, 244, 232, 0.8);
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-xl);
+      white-space: pre-line;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* NOTIFICACIONES */
+    .notification-container {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      z-index: 15000;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      max-width: 420px;
+      pointer-events: none;
+    }
+
+    .notification {
+      background: rgba(30, 33, 34, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg) var(--space-xl);
+      box-shadow: var(--shadow-strong);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      position: relative;
+      overflow: hidden;
+      pointer-events: auto;
+      transform: translateX(100%);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--cream);
+      min-width: 350px;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .notification::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      border-radius: 2px 0 0 2px;
+    }
+
+    .notification.success::before { background: var(--sage); }
+    .notification.error::before { background: #dc3545; }
+    .notification.warning::before { background: #ffc107; }
+    .notification.info::before { background: #17a2b8; }
+    .notification.fratelli::before { background: var(--gradient-accent); }
+
+    .notification-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+
+    .notification-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+      flex-shrink: 0;
+      background: rgba(205, 184, 124, 0.2);
+      color: var(--gold);
+    }
+
+    .notification-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .notification-message {
+      color: rgba(251, 244, 232, 0.9);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin: 0;
+      white-space: pre-line;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .notification-close {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: rgba(251, 244, 232, 0.6);
+      font-size: 18px;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .notification-close:hover {
+      background: rgba(220, 53, 69, 0.2);
+      color: #dc3545;
+    }
+
+    /* USER MENU */
+    .user-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      position: relative;
+    }
+
+    .user-welcome {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-lg);
+      background: rgba(205, 184, 124, 0.1);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .user-welcome:hover {
+      background: rgba(205, 184, 124, 0.2);
+      border-color: rgba(205, 184, 124, 0.4);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--gradient-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--rich-black);
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--rich-black);
+      border-top: 1px solid rgba(205, 184, 124, 0.1);
+      padding: var(--space-xl) var(--space-lg);
+      text-align: center;
+      color: rgba(251, 244, 232, 0.7);
+      margin-top: var(--space-xxl);
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: var(--space-md);
+        text-align: center;
+      }
+
+      .nav-main {
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .main-content {
+        padding: var(--space-xl) var(--space-md);
+      }
+
+      .rewards-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+      }
+
+      .reward-card {
+        padding: var(--space-lg);
+      }
+
+      .notification-container {
+        top: 80px;
+        right: var(--space-md);
+        left: var(--space-md);
+        max-width: none;
+      }
+
+      .notification {
+        min-width: auto;
+        width: 100%;
+        padding: var(--space-md) var(--space-lg);
+      }
+
+      .current-points-section {
+        padding: var(--space-lg);
+      }
+
+      .info-section {
+        padding: var(--space-lg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: clamp(2rem, 10vw, 3rem);
+      }
+
+      .reward-card {
+        padding: var(--space-md);
+      }
+
+      .points-number {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+      }
+    }
+
+    /* ESTADOS DE CARGA */
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .loading .reward-btn {
+      background: rgba(251, 244, 232, 0.1);
+      color: rgba(251, 244, 232, 0.5);
+    }
+
+    /* EFECTOS ESPECIALES */
+    .reward-card.redeeming {
+      animation: redeemPulse 0.6s ease-in-out;
+    }
+
+    @keyframes redeemPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <!-- NOTIFICACIONES -->
+  <div class="notification-container" id="notificationContainer"></div>
+
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div class="confirmation-modal" id="confirmationModal">
+    <div class="confirmation-content">
+      <div class="confirmation-icon" id="confirmationIcon">🍕</div>
+      <h3 class="confirmation-title" id="confirmationTitle">¿Estás seguro?</h3>
+      <p class="confirmation-message" id="confirmationMessage">Esta acción no se puede deshacer.</p>
+      <div style="display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl);">
+        <button class="btn btn-outline" id="confirmationCancel">Cancelar</button>
+        <button class="btn btn-primary" id="confirmationConfirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER FLOTANTE -->
+  <div class="header-container" id="headerContainer">
+    <header>
+      <div class="header-content">
+        <a href="index.html" class="logo">Fratelli Pazzi</a>
+        <nav class="nav-main">
+          <a href="index.html#ofertas">Ofertas</a>
+          <a href="index.html#nuestras-pizzas">Pizzas</a>
+          <a href="index.html#calzones">Calzones</a>
+          <a href="pedido.html">Pedido</a>
+          <a href="puntos.html" class="active">Recompensas</a>
+          <a href="index.html#contacto">Contacto</a>
+        </nav>
+        <div class="user-menu" id="userMenu">
+          <!-- Se llenará dinámicamente -->
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <!-- HEADER DE LA PÁGINA -->
+    <div class="page-header">
+      <h1 class="page-title">🏆 Mis Recompensas</h1>
+      <p class="page-subtitle">
+        Canjea tus puntos por increíbles recompensas. Cada euro que gastas te da 10 puntos.
+      </p>
+    </div>
+
+    <!-- SECCIÓN DE PUNTOS ACTUALES -->
+    <div class="current-points-section">
+      <div class="points-display">
+        <span class="points-number" id="currentPoints">0</span>
+        <span class="points-label">Puntos Disponibles</span>
+      </div>
+      <p class="points-info">💡 <strong>Ganas 10 puntos por cada € gastado</strong></p>
+      
+      <div class="progress-section" id="progressSection">
+        <div class="next-reward" id="nextRewardText">Te faltan 300 puntos para tu próxima recompensa</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 300 puntos</div>
+      </div>
+    </div>
+
+    <!-- GRID DE RECOMPENSAS -->
+    <div class="rewards-grid" id="rewardsGrid">
+      <div class="reward-card locked" id="reward-bebida">
+        <div class="reward-icon">🥤</div>
+        <h3 class="reward-name">Bebida Gratis</h3>
+        <p class="reward-description">Coca-Cola, Fanta o Agua</p>
+        <div class="reward-cost">300 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="redeemReward('bebida', 300)" disabled>
+          Faltan 300 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-pizza">
+        <div class="reward-icon">🍕</div>
+        <h3 class="reward-name">Pizza Gratis</h3>
+        <p class="reward-description">Cualquier pizza de nuestro menú</p>
+        <div class="reward-cost">1000 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="redeemReward('pizza', 1000)" disabled>
+          Faltan 1000 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-calzone">
+        <div class="reward-icon">🍝</div>
+        <h3 class="reward-name">Calzone Gratis</h3>
+        <p class="reward-description">Cualquier calzone + bebida</p>
+        <div class="reward-cost">1500 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="redeemReward('calzone', 1500)" disabled>
+          Faltan 1500 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-combo">
+        <div class="reward-icon">🍕🥤</div>
+        <h3 class="reward-name">Combo Completo</h3>
+        <p class="reward-description">Pizza + 2 bebidas + postre</p>
+        <div class="reward-cost">2500 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="redeemReward('combo', 2500)" disabled>
+          Faltan 2500 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-camiseta">
+        <div class="reward-icon">👕</div>
+        <h3 class="reward-name">Camiseta Fratelli</h3>
+        <p class="reward-description">Camiseta oficial edición limitada</p>
+        <div class="reward-cost">5000 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="redeemReward('camiseta', 5000)" disabled>
+          Faltan 5000 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-cena">
+        <div class="reward-icon">❤️</div>
+        <h3 class="reward-name">Cena Romántica</h3>
+        <p class="reward-description">2 pizzas + 2 bebidas + postre para 2</p>
+        <div class="reward-cost">10000 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="redeemReward('cena', 10000)" disabled>
+          Faltan 10000 puntos
+        </button>
+      </div>
+    </div>
+
+    <!-- SECCIÓN INFORMATIVA -->
+    <div class="info-section">
+      <h3>🎯 ¡Sigue pidiendo y acumula más puntos!</h3>
+      <p><strong>Los puntos no caducan</strong> y se acumulan automáticamente con cada pedido.</p>
+      <p>Una vez canjeada una recompensa, contacta con nosotros para reclamar tu premio.</p>
+      <p>📞 Teléfono: 660 668 812 | 💬 WhatsApp disponible</p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Sistema de Recompensas</p>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } 
+      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } 
+      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
+      authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
+      projectId: "fratelli-pazzi-pizzeria",
+      storageBucket: "fratelli-pazzi-pizzeria.firebasestorage.app",
+      messagingSenderId: "391760015146",
+      appId: "1:391760015146:web:24a265cabeefbff2187853"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.firebase = { auth, db, onAuthStateChanged, doc, setDoc, getDoc };
+
+    // ========== SISTEMA DE RECOMPENSAS ==========
+    const RewardsSystem = {
+      state: {
+        currentUser: null,
+        isFirebaseEnabled: false,
+        notifications: new Map(),
+        notificationId: 0
+      },
+
+      init() {
+        console.log('🏆 Inicializando Sistema de Recompensas...');
+        
+        this.checkFirebaseAvailability();
+        this.setupEventListeners();
+        this.checkUserSession();
+        this.setupScrollEffects();
+        
+        console.log('✅ Sistema de Recompensas inicializado');
+      },
+
+      checkFirebaseAvailability() {
+        if (typeof window.firebase !== 'undefined') {
+          this.state.isFirebaseEnabled = true;
+          console.log('🔥 Firebase habilitado');
+          this.setupFirebaseAuth();
+        } else {
+          console.log('⚠️ Firebase no disponible, usando localStorage');
+          this.state.isFirebaseEnabled = false;
+        }
+      },
+
+      setupFirebaseAuth() {
+        if (!this.state.isFirebaseEnabled) return;
+        
+        try {
+          window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
+            if (user) {
+              console.log('👤 Usuario autenticado:', user.email);
+              
+              let userData = {
+                uid: user.uid,
+                email: user.email,
+                name: user.displayName || 'Usuario',
+                emailVerified: user.emailVerified,
+                points: 0
+              };
+              
+              try {
+                const userDoc = await window.firebase.getDoc(
+                  window.firebase.doc(window.firebase.db, 'users', user.uid)
+                );
+                
+                if (userDoc.exists()) {
+                  const firestoreData = userDoc.data();
+                  userData = {
+                    ...userData,
+                    name: firestoreData.name || user.displayName || 'Usuario',
+                    points: firestoreData.points || 0,
+                    phone: firestoreData.phone,
+                    acceptsOffers: firestoreData.acceptsOffers,
+                    registeredAt: firestoreData.registeredAt
+                  };
+                }
+              } catch (firestoreError) {
+                console.error('⚠️ Error cargando datos de Firestore:', firestoreError);
+              }
+              
+              this.state.currentUser = userData;
+              this.updateInterface();
+              
+            } else {
+              console.log('👤 Usuario no autenticado - redirigiendo');
+              this.redirectToHome();
+            }
+          });
+        } catch (error) {
+          console.error('Error configurando Firebase Auth:', error);
+          this.state.isFirebaseEnabled = false;
+        }
+      },
+
+      checkUserSession() {
+        if (this.state.isFirebaseEnabled) {
+          return;
+        }
+        
+        const savedUser = localStorage.getItem('fratelli_current_user');
+        if (savedUser) {
+          this.state.currentUser = JSON.parse(savedUser);
+          this.updateInterface();
+        } else {
+          this.redirectToHome();
+        }
+      },
+
+      redirectToHome() {
+        this.showNotification(
+          'Necesitas iniciar sesión para ver tus recompensas.\n\nTe redirigiremos a la página principal.',
+          'warning',
+          'Login requerido',
+          { duration: 3000 }
+        );
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 3000);
+      },
+
+      updateInterface() {
+        if (!this.state.currentUser) return;
+        
+        this.updateUserMenu();
+        this.updatePointsDisplay();
+        this.updateRewardsGrid();
+        this.updateProgressBar();
+      },
+
+      updateUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        if (!userMenu || !this.state.currentUser) return;
+        
+        userMenu.innerHTML = `
+          <div class="user-welcome">
+            <div class="user-avatar">${this.state.currentUser.name.charAt(0).toUpperCase()}</div>
+            <span>Hola, ${this.state.currentUser.name.split(' ')[0]}</span>
+          </div>
+        `;
+      },
+
+      updatePointsDisplay() {
+        const currentPointsEl = document.getElementById('currentPoints');
+        if (currentPointsEl && this.state.currentUser) {
+          currentPointsEl.textContent = this.state.currentUser.points || 0;
+        }
+      },
+
+      updateProgressBar() {
+        if (!this.state.currentUser) return;
+        
+        const points = this.state.currentUser.points || 0;
+        const rewards = [300, 1000, 1500, 2500, 5000, 10000];
+        
+        // Encontrar próxima recompensa
+        let nextReward = rewards.find(reward => points < reward);
+        
+        if (!nextReward) {
+          // Usuario tiene todos los puntos
+          document.getElementById('nextRewardText').textContent = '¡Has desbloqueado todas las recompensas!';
+          document.getElementById('progressFill').style.width = '100%';
+          document.getElementById('progressText').textContent = `${points} puntos - ¡Máximo nivel!`;
+          return;
+        }
+        
+        // Calcular progreso
+        const previousReward = rewards[rewards.indexOf(nextReward) - 1] || 0;
+        const progressPoints = points - previousReward;
+        const neededPoints = nextReward - previousReward;
+        const progressPercent = Math.min((progressPoints / neededPoints) * 100, 100);
+        
+        // Actualizar interfaz
+        document.getElementById('nextRewardText').textContent = 
+          `Te faltan ${nextReward - points} puntos para tu próxima recompensa`;
+        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+        document.getElementById('progressText').textContent = 
+          `${progressPoints} / ${neededPoints} puntos hasta la próxima recompensa`;
+      },
+
+      updateRewardsGrid() {
+        if (!this.state.currentUser) return;
+        
+        const points = this.state.currentUser.points || 0;
+        const rewards = [
+          { id: 'bebida', cost: 300 },
+          { id: 'pizza', cost: 1000 },
+          { id: 'calzone', cost: 1500 },
+          { id: 'combo', cost: 2500 },
+          { id: 'camiseta', cost: 5000 },
+          { id: 'cena', cost: 10000 }
+        ];
+        
+        rewards.forEach(reward => {
+          const card = document.getElementById(`reward-${reward.id}`);
+          const button = card.querySelector('.reward-btn');
+          
+          if (points >= reward.cost) {
+            // Recompensa disponible
+            card.classList.remove('locked');
+            card.classList.add('available');
+            button.classList.remove('btn-disabled');
+            button.classList.add('btn-primary');
+            button.disabled = false;
+            button.textContent = 'Canjear';
+          } else {
+            // Recompensa bloqueada
+            card.classList.remove('available');
+            card.classList.add('locked');
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-disabled');
+            button.disabled = true;
+            button.textContent = `Faltan ${reward.cost - points} puntos`;
+          }
+        });
+      },
+
+      async redeemReward(rewardType, cost) {
+        if (!this.state.currentUser) return;
+        
+        const points = this.state.currentUser.points || 0;
+        if (points < cost) {
+          this.showNotification(
+            `No tienes suficientes puntos. Te faltan ${cost - points} puntos.`,
+            'warning',
+            'Puntos insuficientes'
+          );
+          return;
+        }
+        
+        const rewardNames = {
+          bebida: 'Bebida Gratis 🥤',
+          pizza: 'Pizza Gratis 🍕',
+          calzone: 'Calzone Gratis + Bebida 🍝',
+          combo: 'Combo Completo 🍕🥤',
+          camiseta: 'Camiseta Fratelli 👕',
+          cena: 'Cena Romántica para 2 ❤️'
+        };
+        
+        const shouldRedeem = await this.showConfirmation(
+          `¿Confirmas el canjeo de "${rewardNames[rewardType]}"?\n\nSe descontarán ${cost} puntos de tu cuenta.\n\nPuntos actuales: ${points}\nPuntos después del canje: ${points - cost}`,
+          '🎁 Confirmar Canjeo',
+          '🏆'
+        );
+        
+        if (shouldRedeem) {
+          // Efecto visual
+          const card = document.getElementById(`reward-${rewardType}`);
+          card.classList.add('redeeming');
+          
+          // Descontar puntos
+          this.state.currentUser.points = points - cost;
+          
+          // Actualizar en el sistema
+          if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
+            try {
+              await window.firebase.setDoc(
+                window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid),
+                {
+                  points: this.state.currentUser.points,
+                  lastRedemption: {
+                    type: rewardType,
+                    cost: cost,
+                    date: new Date().toISOString()
+                  }
+                },
+                { merge: true }
+              );
+            } catch (error) {
+              console.error('Error actualizando puntos:', error);
+            }
+          } else {
+            localStorage.setItem('fratelli_current_user', JSON.stringify(this.state.currentUser));
+          }
+          
+          // Actualizar interfaz
+          this.updateInterface();
+          
+          setTimeout(() => {
+            card.classList.remove('redeeming');
+          }, 600);
+          
+          this.showNotification(
+            `¡Felicidades! Has canjeado exitosamente: ${rewardNames[rewardType]}\n\n🎯 Puntos restantes: ${this.state.currentUser.points}\n\n📞 Contacta con nosotros para reclamar tu premio:\n660 668 812 o WhatsApp`,
+            'success',
+            '🎉 ¡Canje Exitoso!',
+            { duration: 12000 }
+          );
+        }
+      },
+
+      showConfirmation(message, title = '¿Estás seguro?', icon = '🍕') {
+        return new Promise((resolve) => {
+          const modal = document.getElementById('confirmationModal');
+          const titleEl = document.getElementById('confirmationTitle');
+          const messageEl = document.getElementById('confirmationMessage');
+          const iconEl = document.getElementById('confirmationIcon');
+          const confirmBtn = document.getElementById('confirmationConfirm');
+          const cancelBtn = document.getElementById('confirmationCancel');
+
+          if (!modal) {
+            resolve(false);
+            return;
+          }
+
+          titleEl.textContent = title;
+          messageEl.textContent = message;
+          iconEl.textContent = icon;
+
+          const newConfirmBtn = confirmBtn.cloneNode(true);
+          const newCancelBtn = cancelBtn.cloneNode(true);
+          confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+          cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+          newConfirmBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+            resolve(true);
+          });
+
+          newCancelBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+            resolve(false);
+          });
+
+          const escapeHandler = (e) => {
+            if (e.key === 'Escape') {
+              modal.classList.remove('show');
+              document.removeEventListener('keydown', escapeHandler);
+              resolve(false);
+            }
+          };
+          document.addEventListener('keydown', escapeHandler);
+
+          modal.classList.add('show');
+        });
+      },
+
+      showNotification(message, type = 'info', title = '', options = {}) {
+        const container = document.getElementById('notificationContainer');
+        if (!container) return;
+
+        const notificationId = ++this.state.notificationId;
+        
+        const config = {
+          success: { icon: '✅', title: title || '¡Éxito!' },
+          error: { icon: '❌', title: title || '¡Oops!' },
+          warning: { icon: '⚠️', title: title || '¡Atención!' },
+          info: { icon: 'ℹ️', title: title || 'Información' },
+          fratelli: { icon: '🍕', title: title || 'Fratelli Pazzi' }
+        };
+
+        const { icon, title: defaultTitle } = config[type] || config.info;
+        const finalTitle = title || defaultTitle;
+
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.setAttribute('data-id', notificationId);
+        
+        notification.innerHTML = `
+          <div class="notification-header">
+            <div class="notification-icon">${icon}</div>
+            <h4 class="notification-title">${finalTitle}</h4>
+          </div>
+          <p class="notification-message">${message}</p>
+          <button class="notification-close" onclick="RewardsSystem.closeNotification(${notificationId})">×</button>
+        `;
+
+        container.appendChild(notification);
+        this.state.notifications.set(notificationId, notification);
+
+        setTimeout(() => {
+          notification.classList.add('show');
+        }, 10);
+
+        if (options.autoClose !== false) {
+          const duration = options.duration || 5000;
+          setTimeout(() => {
+            this.closeNotification(notificationId);
+          }, duration);
+        }
+
+        return notificationId;
+      },
+
+      closeNotification(notificationId) {
+        const notification = this.state.notifications.get(notificationId);
+        if (!notification) return;
+
+        notification.classList.remove('show');
+        
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+          this.state.notifications.delete(notificationId);
+        }, 400);
+      },
+
+      setupEventListeners() {
+        // Función para añadir puntos de prueba (Ctrl+Alt+P)
+        document.addEventListener('keydown', (e) => {
+          if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'p') {
+            this.addTestPoints();
+          }
+        });
+      },
+
+      setupScrollEffects() {
+        const headerContainer = document.getElementById('headerContainer');
+        
+        window.addEventListener('scroll', () => {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (headerContainer) {
+            if (scrollTop > 100) {
+              headerContainer.classList.add('scrolled');
+            } else {
+              headerContainer.classList.remove('scrolled');
+            }
+          }
+        }, { passive: true });
+      },
+
+      async addTestPoints(amount = 500) {
+        if (!this.state.currentUser) {
+          this.showNotification(
+            'Debes estar logueado para añadir puntos de prueba.',
+            'warning',
+            'Login requerido'
+          );
+          return;
+        }
+
+        this.state.currentUser.points = (this.state.currentUser.points || 0) + amount;
+
+        // Actualizar en el sistema
+        if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
+          try {
+            await window.firebase.setDoc(
+              window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid),
+              {
+                points: this.state.currentUser.points,
+                lastTestPointsAdded: new Date().toISOString()
+              },
+              { merge: true }
+            );
+          } catch (error) {
+            console.error('Error actualizando puntos:', error);
+          }
+        } else {
+          localStorage.setItem('fratelli_current_user', JSON.stringify(this.state.currentUser));
+        }
+
+        this.updateInterface();
+        
+        this.showNotification(
+          `¡${amount} puntos añadidos para pruebas!\n\n🏆 Total actual: ${this.state.currentUser.points} puntos\n\n💡 Ahora puedes probar el sistema de recompensas`,
+          'success',
+          '🎯 Puntos de Prueba',
+          { duration: 6000 }
+        );
+      }
+    };
+
+    // Funciones globales
+    window.redeemReward = (type, cost) => RewardsSystem.redeemReward(type, cost);
+    window.RewardsSystem = RewardsSystem;
+
+    // Inicializar cuando DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => RewardsSystem.init());
+    } else {
+      RewardsSystem.init();
+    }
+
+    console.log(`
+🏆 FRATELLI PAZZI - PÁGINA DE RECOMPENSAS
+========================================
+
+✨ Página independiente de recompensas creada
+🎯 Sistema completo de canje implementado
+🎨 Diseño consistente con Fratelli Pazzi
+📱 Totalmente responsive
+
+⌨️ COMANDOS DE PRUEBA:
+> Ctrl+Alt+P = Añadir 500 puntos de prueba
+
+🚀 ¡Sistema de recompensas listo!
+    `);
+  </script>
+</body>
+</html>
