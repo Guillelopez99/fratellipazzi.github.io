@@ -625,6 +625,38 @@
       border-color: rgba(205, 184, 124, 0.3);
     }
 
+    /* CARDS CLICKEABLES PARA PUNTOS */
+    .card-clickable {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-clickable::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(205, 184, 124, 0.1) 50%, 
+        transparent 100%);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+
+    .card-clickable:hover::before {
+      left: 100%;
+    }
+
+    .card-clickable:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--gold);
+      box-shadow: 0 12px 50px rgba(205, 184, 124, 0.2);
+    }
+
     .card-image {
       width: 100%;
       height: 220px;
@@ -639,6 +671,8 @@
     .card-content {
       padding: var(--space-lg);
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
     .card-title {
@@ -1611,11 +1645,14 @@
       </div>
       
       <div class="grid grid-3" style="margin-bottom: var(--space-xxl);">
-        <div class="card">
+        <div class="card card-clickable" onclick="FratelliPazzi.navigateToPoints()">
           <div class="card-content" style="text-align: center;">
             <div style="font-size: 2rem; margin-bottom: var(--space-md);">⭐</div>
             <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="userPoints">0</div>
             <div style="color: rgba(251, 244, 232, 0.7);">Puntos</div>
+            <div style="font-size: 0.75rem; color: var(--gold); margin-top: var(--space-xs); opacity: 0.8;">
+              ¡Haz clic para ver más!
+            </div>
           </div>
         </div>
         
@@ -1627,11 +1664,14 @@
           </div>
         </div>
         
-        <div class="card">
+        <div class="card card-clickable" onclick="FratelliPazzi.navigateToPoints()">
           <div class="card-content" style="text-align: center;">
             <div style="font-size: 2rem; margin-bottom: var(--space-md);">🎁</div>
             <div style="font-size: 2rem; font-weight: 700; color: var(--gold); margin-bottom: var(--space-xs);" id="freeRewards">0</div>
             <div style="color: rgba(251, 244, 232, 0.7);">Pizzas Gratis</div>
+            <div style="font-size: 0.75rem; color: var(--gold); margin-top: var(--space-xs); opacity: 0.8;">
+              ¡Haz clic para canjear!
+            </div>
           </div>
         </div>
       </div>
@@ -2132,7 +2172,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT (misma funcionalidad) -->
+  <!-- JAVASCRIPT -->
   <script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -2290,6 +2330,31 @@
 
           modal.classList.add('show');
         });
+      },
+
+      // ========== NAVIGATION TO POINTS ==========
+      navigateToPoints() {
+        if (!this.state.currentUser) {
+          this.showNotification(
+            'Necesitas iniciar sesión para ver tus puntos.',
+            'warning',
+            'Sesión requerida'
+          );
+          return;
+        }
+
+        // Mostrar notificación de navegación
+        this.showNotification(
+          '🚀 Redirigiendo a tu sección de puntos...',
+          'fratelli',
+          'Navegando',
+          { duration: 2000 }
+        );
+
+        // Redirigir después de un breve delay
+        setTimeout(() => {
+          window.location.href = 'puntos.html';
+        }, 1500);
       },
 
       // ========== INITIALIZATION ==========
@@ -2798,7 +2863,7 @@
                 '<a href="javascript:void(0)" onclick="FratelliPazzi.resendVerificationEmail()" style="color: #ff6b6b; font-weight: bold;">📧 Verificar Email</a>' : ''}
               <a href="javascript:void(0)" onclick="FratelliPazzi.showProfile()">👤 Mi Perfil</a>
               <a href="javascript:void(0)" onclick="FratelliPazzi.showOrderHistory()">📋 Mis Pedidos</a>
-              <a href="javascript:void(0)" onclick="FratelliPazzi.showUserPoints()">⭐ Mis Puntos (${this.state.currentUser.points || 0})</a>
+              <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()">⭐ Mis Puntos (${this.state.currentUser.points || 0})</a>
               <a href="javascript:void(0)" onclick="FratelliPazzi.logout()">👋 Cerrar Sesión</a>
             </div>
           </div>
@@ -3313,17 +3378,17 @@
       },
 
       showUserPoints() {
-        if (!this.state.currentUser) return;
+        if (!this.state.currentUser) {
+          this.showNotification(
+            'Necesitas iniciar sesión para ver tus puntos.',
+            'warning',
+            'Sesión requerida'
+          );
+          return;
+        }
         
-        const points = this.state.currentUser.points || 0;
-        const nextReward = 100 - (points % 100);
-        
-        this.showNotification(
-          `Puntos actuales: ${points}\n\n🎁 PRÓXIMA RECOMPENSA:\nTe faltan ${nextReward} puntos para una pizza Margarita GRATIS\n\n💡 CÓMO GANAR PUNTOS:\n• 1 punto por cada 1€ gastado\n• Bonificaciones en fechas especiales\n\n¡Sigue pidiendo y acumula puntos!`,
-          'fratelli',
-          '⭐ Mis Puntos Fratelli',
-          { duration: 10000 }
-        );
+        // Ahora redirige a puntos.html
+        this.navigateToPoints();
       },
 
       // ========== UTILITY FUNCTIONS ==========
@@ -3483,25 +3548,22 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - DISEÑO COMPLETAMENTE CENTRADO
-=================================================
+🍕 FRATELLI PAZZI - SISTEMA DE PUNTOS INTEGRADO
+===============================================
 
-✨ Diseño renovado con centrado perfecto
-🎯 Todo el contenido alineado al centro
-🎨 Paleta de colores original mantenida
-🖼️ Imágenes originales del GitHub restauradas
-📱 Responsive optimizado
+✨ Navegación a puntos.html implementada
+🎯 Cards de puntos ahora son clickeables
+🚀 Redirección automática con notificación
+📱 Funciona desde dropdown y perfil
 
 Características principales:
-- Sistema de secciones con section-inner
-- Grids completamente centrados
-- Cards con max-width y margin auto
-- Testimonials reorganizados
-- Flexbox centrado en toda la interfaz
+- navigateToPoints() función agregada
+- Cards clickeables con hover effects
+- Redirección con delay y notificación
+- Integración completa con sistema existente
 
-Si necesitas ayuda:
-> hideLoader()
-> FratelliPazzi.showDebugInfo()
+Para ir a puntos:
+> FratelliPazzi.navigateToPoints()
     `);
   </script>
 </body>
