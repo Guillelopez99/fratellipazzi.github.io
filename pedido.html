@@ -801,6 +801,133 @@
       border-color: rgba(205, 184, 124, 0.4);
     }
     
+    /* ESTILO ESPECIAL PARA PIZZAS PREMIUM */
+    .pizza-card.premium {
+      background: linear-gradient(135deg, rgba(205, 184, 124, 0.15) 0%, rgba(30, 33, 34, 0.9) 100%);
+      border: 2px solid var(--gold);
+      min-height: 180px;
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-hover);
+      position: relative;
+    }
+    
+    .pizza-card.premium::before {
+      content: '👑';
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      font-size: 24px;
+      z-index: 1;
+    }
+    
+    /* ESTILO ESPECIAL PARA PIZZA DEL MES */
+    .pizza-card.pizza-del-mes {
+      background: linear-gradient(135deg, rgba(213, 120, 108, 0.2) 0%, rgba(205, 184, 124, 0.15) 50%, rgba(30, 33, 34, 0.9) 100%);
+      border: 3px solid var(--terracota);
+      box-shadow: 0 8px 32px rgba(213, 120, 108, 0.3);
+      animation: specialGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes specialGlow {
+      0% { 
+        box-shadow: 0 8px 32px rgba(213, 120, 108, 0.3);
+        border-color: var(--terracota);
+      }
+      100% { 
+        box-shadow: 0 12px 40px rgba(213, 120, 108, 0.5);
+        border-color: #e0958a;
+      }
+    }
+    
+    .pizza-card.pizza-del-mes::before {
+      content: '🌟';
+      font-size: 28px;
+      animation: starTwinkle 2s ease-in-out infinite;
+    }
+    
+    @keyframes starTwinkle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    
+    .pizza-card.pizza-del-mes::after {
+      content: 'PIZZA DEL MES';
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-md);
+      background: var(--gradient-accent);
+      color: white;
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+    }
+    
+    .pizza-card.pizza-del-mes .pizza-name {
+      color: var(--terracota);
+      font-size: 26px;
+    }
+    
+    .pizza-card.pizza-del-mes .pizza-price {
+      color: var(--terracota);
+      font-size: 30px;
+    }
+    
+    .pizza-card.pizza-del-mes .add-to-cart-btn {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: 0 4px 15px rgba(213, 120, 108, 0.4);
+    }
+    
+    .pizza-card.pizza-del-mes .add-to-cart-btn:hover {
+      box-shadow: 0 6px 25px rgba(213, 120, 108, 0.6);
+    }
+    
+    .pizza-card.premium:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 12px 50px rgba(205, 184, 124, 0.4);
+      border-color: #ddc589;
+    }
+    
+    .pizza-card.premium .pizza-card-image {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .pizza-card.premium .pizza-name {
+      font-size: 24px;
+      color: var(--gold);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .pizza-card.premium .pizza-price {
+      font-size: 28px;
+      color: var(--gold);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .pizza-card.premium .pizza-ingredients {
+      font-size: 16px;
+      color: rgba(251, 244, 232, 0.9);
+      font-style: italic;
+    }
+    
+    .pizza-card.premium .add-to-cart-btn {
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      font-size: 16px;
+      padding: var(--space-md) var(--space-xl);
+      box-shadow: var(--shadow-card);
+    }
+    
+    .pizza-card.premium .add-to-cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(205, 184, 124, 0.5);
+    }
+    
     .pizza-card-image {
       flex-shrink: 0;
       width: 120px;
@@ -904,6 +1031,17 @@
     .badge.popular {
       background: rgba(205, 184, 124, 0.2);
       color: var(--gold);
+    }
+    
+    .badge.pizza-del-mes {
+      background: var(--gradient-accent);
+      color: white;
+      animation: badgePulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
     
     .pizza-ingredients {
@@ -1375,7 +1513,7 @@
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
     
-    /* RESPONSIVE */
+    /* RESPONSIVE PARA PIZZAS PREMIUM */
     @media (max-width: 1200px) {
       .pizza-card {
         flex-direction: column;
@@ -1383,9 +1521,29 @@
         min-height: auto;
       }
       
+      .pizza-card.premium {
+        min-height: 200px;
+      }
+      
+      .pizza-card.pizza-del-mes {
+        min-height: 220px;
+      }
+      
+      .pizza-card.pizza-del-mes::after {
+        font-size: 9px;
+        padding: 3px 8px;
+        top: var(--space-xs);
+        right: var(--space-sm);
+      }
+      
       .pizza-card-image {
         width: 100px;
         height: 100px;
+      }
+      
+      .pizza-card.premium .pizza-card-image {
+        width: 130px;
+        height: 130px;
       }
       
       .pizza-card-header {
@@ -1403,7 +1561,7 @@
     
     @media (max-width: 768px) {
       body {
-        padding-top: 180px;
+        padding-top: 200px;
       }
       
       .header-content {
@@ -1416,6 +1574,12 @@
         flex-direction: column;
         width: 100%;
         gap: var(--space-sm);
+      }
+      
+      .filter-btn {
+        font-size: 13px;
+        padding: var(--space-xs) var(--space-sm);
+        white-space: nowrap;
       }
       
       .search-container {
@@ -1452,17 +1616,67 @@
         min-height: auto;
       }
       
+      .pizza-card.premium {
+        padding: var(--space-lg);
+        min-height: 160px;
+      }
+      
+      .pizza-card.pizza-del-mes {
+        padding: var(--space-lg);
+        min-height: 180px;
+      }
+      
+      .pizza-card.premium::before {
+        font-size: 20px;
+        top: var(--space-sm);
+        left: var(--space-sm);
+      }
+      
+      .pizza-card.pizza-del-mes::before {
+        font-size: 22px;
+        top: var(--space-sm);
+        left: var(--space-sm);
+      }
+      
+      .pizza-card.pizza-del-mes::after {
+        font-size: 8px;
+        padding: 2px 6px;
+        top: 8px;
+        right: var(--space-sm);
+      }
+      
       .pizza-card-image {
         width: 80px;
         height: 80px;
+      }
+      
+      .pizza-card.premium .pizza-card-image {
+        width: 100px;
+        height: 100px;
       }
       
       .pizza-name {
         font-size: 18px;
       }
       
+      .pizza-card.premium .pizza-name {
+        font-size: 22px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-name {
+        font-size: 24px;
+      }
+      
       .pizza-price {
         font-size: 20px;
+      }
+      
+      .pizza-card.premium .pizza-price {
+        font-size: 24px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-price {
+        font-size: 26px;
       }
       
       .carrito-modal {
@@ -1517,8 +1731,58 @@
     }
     
     @media (max-width: 480px) {
+      .filters-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-xs);
+      }
+      
+      .filter-btn {
+        font-size: 11px;
+        padding: var(--space-xs) var(--space-sm);
+        flex: 1;
+        min-width: 80px;
+        max-width: 120px;
+      }
+      
+      .search-container {
+        width: 100%;
+        order: -1;
+        margin-bottom: var(--space-sm);
+      }
+      
       .pizza-card {
         padding: var(--space-sm);
+      }
+      
+      .pizza-card.premium {
+        padding: var(--space-md);
+        min-height: 140px;
+      }
+      
+      .pizza-card.pizza-del-mes {
+        padding: var(--space-md);
+        min-height: 160px;
+      }
+      
+      .pizza-card.premium::before {
+        font-size: 18px;
+        top: 8px;
+        left: 8px;
+      }
+      
+      .pizza-card.pizza-del-mes::before {
+        font-size: 20px;
+        top: 8px;
+        left: 8px;
+      }
+      
+      .pizza-card.pizza-del-mes::after {
+        font-size: 7px;
+        padding: 2px 4px;
+        top: 6px;
+        right: 8px;
       }
       
       .pizza-card-image {
@@ -1526,12 +1790,59 @@
         height: 60px;
       }
       
+      .pizza-card.premium .pizza-card-image {
+        width: 80px;
+        height: 80px;
+      }
+      
       .pizza-name {
         font-size: 16px;
       }
       
+      .pizza-card.premium .pizza-name {
+        font-size: 18px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-name {
+        font-size: 20px;
+      }
+      
       .pizza-price {
         font-size: 18px;
+      }
+      
+      .pizza-card.premium .pizza-price {
+        font-size: 20px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-price {
+        font-size: 22px;
+      }
+      
+      .pizza-card-image {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .pizza-card.premium .pizza-card-image {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .pizza-name {
+        font-size: 16px;
+      }
+      
+      .pizza-card.premium .pizza-name {
+        font-size: 18px;
+      }
+      
+      .pizza-price {
+        font-size: 18px;
+      }
+      
+      .pizza-card.premium .pizza-price {
+        font-size: 20px;
       }
       
       .carrito-modal {
@@ -1608,8 +1919,8 @@
             <button class="search-clear" id="search-clear" onclick="limpiarBusqueda()" aria-label="Limpiar búsqueda">×</button>
           </div>
           <button class="filter-btn" id="filter-all" onclick="filtrarPorPrecio('all')" aria-label="Mostrar todos los productos">Todos</button>
-          <button class="filter-btn" id="filter-cheap" onclick="filtrarPorPrecio('cheap')" aria-label="Mostrar productos económicos">≤ 10€</button>
-          <button class="filter-btn" id="filter-expensive" onclick="filtrarPorPrecio('expensive')" aria-label="Mostrar productos premium">≥ 12€</button>
+          <button class="filter-btn" id="filter-normal" onclick="filtrarPorPrecio('normal')" aria-label="Mostrar pizzas normales">Pizzas Normales</button>
+          <button class="filter-btn" id="filter-premium" onclick="filtrarPorPrecio('premium')" aria-label="Mostrar pizzas premium">Pizzas Premium</button>
           <button class="filter-btn favorites-btn" id="filter-favorites" onclick="filtrarFavoritos()" aria-label="Mostrar favoritos">♥ Favoritos</button>
         </div>
       </div>
@@ -2092,6 +2403,21 @@
         vegetariano: true,
         descripcion: 'Helado premium Ben & Jerry\'s de vainilla con trozos de masa de galleta.',
         porcionesRecomendadas: 2
+      },
+      { 
+        id: 25, 
+        nombre: "Pizza del Mes", 
+        precio: 15.40, 
+        imagen: 'images/PizzaDelMes.png', 
+        categoria: 'pizzas',
+        ingredientes: 'Queso de cabra y cebolla caramelizada',
+        calorias: 320,
+        alergenos: ['gluten', 'lácteos'],
+        popular: true,
+        vegetariano: true,
+        pizzaDelMes: true,
+        descripcion: 'Una combinación dulce y salada que nunca falla. Base de fior di latte, suave queso de cabra y cebolla caramelizada al punto. Intensa, cremosa y con ese toque gourmet que engancha desde el primer bocado. Ideal si buscas algo diferente, sabroso y brutalmente adictivo.',
+        porcionesRecomendadas: 1
       }
     ];
 
@@ -2128,6 +2454,7 @@
 
     function obtenerBadges(producto) {
       let badges = [];
+      if (producto.pizzaDelMes) badges.push({ text: 'Pizza del Mes', class: 'pizza-del-mes' });
       if (producto.popular) badges.push({ text: 'Popular', class: 'popular' });
       if (producto.vegetariano) badges.push({ text: 'Vegetariano', class: 'vegetariano' });
       if (producto.picante) badges.push({ text: 'Picante', class: 'spicy' });
@@ -2203,6 +2530,12 @@
     function crearTarjetaProducto(producto) {
       const card = document.createElement('div');
       card.className = 'pizza-card';
+      
+      // Añadir clase especial para Pizza del Mes
+      if (producto.pizzaDelMes) {
+        card.classList.add('pizza-del-mes');
+      }
+      
       card.setAttribute('data-producto-id', producto.id);
       card.setAttribute('data-nombre', producto.nombre.toLowerCase());
       card.setAttribute('data-ingredientes', (producto.ingredientes || '').toLowerCase());
@@ -2342,36 +2675,86 @@
         });
         document.getElementById(`filter-${filtro}`).classList.add('active');
         
-        const cards = document.querySelectorAll('.pizza-card');
-        let productosVisibles = 0;
+        const searchResults = document.getElementById('search-results');
+        const normalSections = document.getElementById('normal-sections');
+        const searchGaleria = document.querySelector('[data-categoria="search"]');
         
-        cards.forEach(card => {
-          const precio = parseFloat(card.getAttribute('data-precio'));
-          let mostrar = true;
+        if (filtro === 'normal' || filtro === 'premium') {
+          // Mostrar solo resultados de pizzas filtradas
+          normalSections.classList.add('hidden');
+          searchResults.classList.remove('hidden');
           
-          switch (filtro) {
-            case 'cheap':
-              mostrar = precio <= 10;
-              break;
-            case 'expensive':
-              mostrar = precio >= 12;
-              break;
-            case 'all':
-            default:
-              mostrar = true;
-              break;
-          }
-          
-          if (mostrar) {
-            card.classList.remove('hidden');
-            productosVisibles++;
+          // Cambiar el título
+          const searchTitle = searchResults.querySelector('h2');
+          if (filtro === 'normal') {
+            searchTitle.textContent = 'Pizzas Normales';
           } else {
-            card.classList.add('hidden');
+            searchTitle.textContent = 'Pizzas Premium';
           }
-        });
+          
+          // Limpiar resultados anteriores
+          searchGaleria.innerHTML = '';
+          
+          let productosVisibles = 0;
+          
+          // Filtrar solo pizzas
+          const pizzas = productos.filter(p => p.categoria === 'pizzas');
+          
+          pizzas.forEach(producto => {
+            let mostrar = false;
+            
+            if (filtro === 'normal' && producto.precio <= 12) {
+              mostrar = true;
+            } else if (filtro === 'premium' && producto.precio > 12) {
+              mostrar = true;
+            }
+            
+            if (mostrar) {
+              const card = crearTarjetaProducto(producto);
+              
+              // Añadir clase premium si es necesario
+              if (filtro === 'premium') {
+                if (producto.pizzaDelMes) {
+                  card.classList.add('pizza-del-mes');
+                } else {
+                  card.classList.add('premium');
+                }
+              }
+              
+              searchGaleria.appendChild(card);
+              productosVisibles++;
+            }
+          });
+          
+          if (productosVisibles === 0) {
+            const tipoFiltro = filtro === 'normal' ? 'normales (≤12€)' : 'premium (>12€)';
+            searchGaleria.innerHTML = `
+              <div class="no-results">
+                <h3>Sin resultados</h3>
+                <p>No se encontraron pizzas ${tipoFiltro}</p>
+                <div class="emoji">🍕</div>
+              </div>
+            `;
+          }
+          
+          let mensaje = `${productosVisibles} pizzas ${filtro === 'normal' ? 'normales' : 'premium'}`;
+          mostrarNotificacion(mensaje, 'info');
+          
+        } else {
+          // Filtro "all" - mostrar secciones normales
+          searchResults.classList.add('hidden');
+          normalSections.classList.remove('hidden');
+          
+          const cards = document.querySelectorAll('.pizza-card');
+          cards.forEach(card => {
+            card.classList.remove('hidden');
+            card.classList.remove('premium'); // Solo quitar premium temporal
+            // Mantener pizza-del-mes si la tiene
+          });
+          
+          mostrarNotificacion('Mostrando todos los productos', 'info');
+        }
         
-        verificarResultadosBusqueda();
-        mostrarNotificacion(`Mostrando ${productosVisibles} productos`, 'info');
       } catch (error) {
         manejarError(error, 'Error al aplicar filtros');
       }
@@ -2390,38 +2773,72 @@
         // Resetear otros filtros
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         
-        const cards = document.querySelectorAll('.pizza-card');
-        let productosVisibles = 0;
+        const searchResults = document.getElementById('search-results');
+        const normalSections = document.getElementById('normal-sections');
+        const searchGaleria = document.querySelector('[data-categoria="search"]');
         
         if (estaActivo) {
-          // Mostrar todos
+          // Mostrar todas las secciones normales
+          searchResults.classList.add('hidden');
+          normalSections.classList.remove('hidden');
+          
+          const cards = document.querySelectorAll('.pizza-card');
           cards.forEach(card => {
             card.classList.remove('hidden');
-            productosVisibles++;
+            card.classList.remove('premium'); // Solo quitar premium temporal
+            // Mantener pizza-del-mes si la tiene
           });
+          
           filtroActual = 'all';
+          mostrarNotificacion('Mostrando todos los productos', 'info');
         } else {
           // Mostrar solo favoritos
           btn.classList.add('active');
-          cards.forEach(card => {
-            const productoId = parseInt(card.getAttribute('data-producto-id'));
-            if (favoritos.includes(productoId)) {
-              card.classList.remove('hidden');
+          normalSections.classList.add('hidden');
+          searchResults.classList.remove('hidden');
+          
+          // Cambiar título
+          const searchTitle = searchResults.querySelector('h2');
+          searchTitle.textContent = 'Tus Favoritos';
+          
+          // Limpiar resultados anteriores
+          searchGaleria.innerHTML = '';
+          
+          let productosVisibles = 0;
+          
+          // Mostrar solo productos favoritos
+          productos.forEach(producto => {
+            if (favoritos.includes(producto.id)) {
+              const card = crearTarjetaProducto(producto);
+              
+              // Añadir clase premium o pizza del mes si es necesario
+              if (producto.categoria === 'pizzas' && producto.precio > 12) {
+                if (producto.pizzaDelMes) {
+                  card.classList.add('pizza-del-mes');
+                } else {
+                  card.classList.add('premium');
+                }
+              }
+              
+              searchGaleria.appendChild(card);
               productosVisibles++;
-            } else {
-              card.classList.add('hidden');
             }
           });
+          
+          if (productosVisibles === 0) {
+            searchGaleria.innerHTML = `
+              <div class="no-results">
+                <h3>Sin favoritos</h3>
+                <p>No tienes productos favoritos aún</p>
+                <div class="emoji">💝</div>
+              </div>
+            `;
+          }
+          
           filtroActual = 'favorites';
+          mostrarNotificacion(`${productosVisibles} productos favoritos`, 'info');
         }
         
-        verificarResultadosBusqueda();
-        
-        if (filtroActual === 'favorites' && productosVisibles === 0) {
-          mostrarNotificacion('No tienes productos favoritos aún', 'warning');
-        } else {
-          mostrarNotificacion(`Mostrando ${productosVisibles} productos`, 'info');
-        }
       } catch (error) {
         manejarError(error, 'Error al filtrar favoritos');
       }
@@ -2969,16 +3386,22 @@
         busquedaActual = '';
         clearBtn.classList.remove('show');
         
-        // Mostrar secciones normales y ocultar resultados de búsqueda
+        // Mostrar secciones normales y ocultar resultados de búsqueda/filtros
         searchResults.classList.add('hidden');
         normalSections.classList.remove('hidden');
         
-        // Mostrar todos los productos en las secciones normales
+        // Resetear título de búsqueda
+        const searchTitle = searchResults.querySelector('h2');
+        searchTitle.textContent = 'Resultados de búsqueda';
+        
+        // Mostrar todos los productos en las secciones normales y limpiar solo clases premium temporales
         document.querySelectorAll('.pizza-card').forEach(card => {
           card.classList.remove('hidden');
+          card.classList.remove('premium'); // Solo quitar clase premium temporal
+          // NO quitar pizza-del-mes porque es permanente
         });
         
-        // Limpiar filtros
+        // Limpiar filtros activos
         document.querySelectorAll('.filter-btn').forEach(btn => {
           btn.classList.remove('active');
         });
@@ -3016,6 +3439,10 @@
               textoMensaje = `No se encontraron productos que coincidan con "${busquedaActual}"`;
             } else if (filtroActual === 'favorites') {
               textoMensaje = 'No tienes productos favoritos en esta categoría';
+            } else if (filtroActual === 'normal') {
+              textoMensaje = 'No hay pizzas normales (≤12€) en esta categoría';
+            } else if (filtroActual === 'premium') {
+              textoMensaje = 'No hay pizzas premium (>12€) en esta categoría';
             } else {
               textoMensaje = 'No hay productos en esta categoría que coincidan con el filtro';
             }
@@ -3192,7 +3619,7 @@
         
         // Mostrar mensaje de bienvenida
         setTimeout(() => {
-          mostrarNotificacion('¡Bienvenido a Fratelli Pazzi! 🍕', 'success');
+          mostrarNotificacion('¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕', 'success');
         }, 1000);
         
       } catch (error) {
