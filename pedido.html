@@ -40,6 +40,10 @@
       --radius-md: 16px;
       --radius-lg: 24px;
       --radius-xl: 32px;
+      
+      /* Optimizaciones móviles */
+      --animation-duration: 0.3s;
+      --vh: 1vh; /* Fallback para altura de viewport en móviles */
     }
 
     * { 
@@ -1513,7 +1517,60 @@
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
     
-    /* RESPONSIVE PARA PIZZAS PREMIUM */
+    /* OPTIMIZACIONES MÓVILES */
+    @media (max-width: 768px) {
+      /* Mejorar touch targets */
+      .pizza-card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(205, 184, 124, 0.2);
+      }
+      
+      .add-to-cart-btn,
+      .filter-btn,
+      .quantity-selector button,
+      .favorite-btn {
+        min-height: 44px; /* Apple touch target recommendation */
+        min-width: 44px;
+      }
+      
+      .filter-btn {
+        min-height: 36px; /* Smaller but still accessible */
+      }
+      
+      /* Optimizar animaciones para móvil */
+      .pizza-card {
+        will-change: transform;
+      }
+      
+      .pizza-card:hover {
+        transform: none; /* Desactivar hover en móvil */
+      }
+      
+      .pizza-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+      }
+      
+      /* Mejorar scroll */
+      .carrito-modal-body,
+      .product-modal-content {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+      
+      /* Evitar zoom en inputs */
+      input,
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+      
+      /* Mejorar legibilidad en pantallas pequeñas */
+      .pizza-card.premium,
+      .pizza-card.pizza-del-mes {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      }
+    }
     @media (max-width: 1200px) {
       .pizza-card {
         flex-direction: column;
@@ -1561,34 +1618,291 @@
     
     @media (max-width: 768px) {
       body {
-        padding-top: 200px;
+        padding-top: 160px;
+      }
+      
+      .header-container {
+        padding: var(--space-sm);
       }
       
       .header-content {
         flex-direction: column;
-        gap: var(--space-md);
+        gap: var(--space-sm);
         text-align: center;
       }
       
+      header h1 {
+        font-size: clamp(1.2rem, 5vw, 1.5rem);
+        margin: 0;
+      }
+      
       .filters-container {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
-        gap: var(--space-sm);
+        gap: var(--space-xs);
       }
       
       .filter-btn {
-        font-size: 13px;
+        font-size: 12px;
         padding: var(--space-xs) var(--space-sm);
         white-space: nowrap;
+        flex: 1;
+        min-width: 70px;
+        max-width: 90px;
       }
       
       .search-container {
         width: 100%;
+        order: -1;
+        margin-bottom: var(--space-sm);
       }
       
       #search-input {
         width: 100%;
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: var(--space-sm);
       }
+      
+      .main-container {
+        flex-direction: column;
+        padding: var(--space-md);
+        gap: var(--space-md);
+      }
+      
+      nav.indice {
+        position: static;
+        order: 2;
+        margin-top: var(--space-sm);
+        padding: var(--space-md);
+      }
+      
+      .coupon-container {
+        padding: var(--space-md);
+        margin-bottom: var(--space-md);
+      }
+      
+      .coupon-title {
+        font-size: 16px;
+      }
+      
+      .coupon-input {
+        flex-direction: column;
+        max-width: 100%;
+        gap: var(--space-sm);
+      }
+      
+      .coupon-input input {
+        font-size: 16px; /* Evita zoom en iOS */
+      }
+      
+      .carrito-float-btn {
+        width: 140px;
+        height: 65px;
+        bottom: var(--space-md);
+        right: var(--space-md);
+        font-size: 14px;
+      }
+      
+      .pizza-card {
+        padding: var(--space-sm);
+        min-height: auto;
+        gap: var(--space-md);
+      }
+      
+      .pizza-card.premium {
+        padding: var(--space-md);
+        min-height: 140px;
+      }
+      
+      .pizza-card.pizza-del-mes {
+        padding: var(--space-md);
+        min-height: 160px;
+        border-width: 2px;
+      }
+      
+      .pizza-card.premium::before {
+        font-size: 18px;
+        top: var(--space-xs);
+        left: var(--space-xs);
+      }
+      
+      .pizza-card.pizza-del-mes::before {
+        font-size: 20px;
+        top: var(--space-xs);
+        left: var(--space-xs);
+      }
+      
+      .pizza-card.pizza-del-mes::after {
+        font-size: 9px;
+        padding: 3px 6px;
+        top: var(--space-xs);
+        right: var(--space-xs);
+        border-radius: 4px;
+      }
+      
+      .pizza-card-image {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .pizza-card.premium .pizza-card-image {
+        width: 90px;
+        height: 90px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-card-image {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .pizza-name {
+        font-size: 16px;
+        line-height: 1.2;
+      }
+      
+      .pizza-card.premium .pizza-name {
+        font-size: 18px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-name {
+        font-size: 20px;
+      }
+      
+      .pizza-ingredients {
+        font-size: 13px;
+        -webkit-line-clamp: 2;
+        margin-bottom: var(--space-sm);
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-ingredients {
+        font-size: 14px;
+      }
+      
+      .pizza-details {
+        gap: var(--space-md);
+        font-size: 11px;
+      }
+      
+      .pizza-price {
+        font-size: 18px;
+      }
+      
+      .pizza-card.premium .pizza-price {
+        font-size: 20px;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-price {
+        font-size: 22px;
+      }
+      
+      .pizza-price-per-person {
+        font-size: 10px;
+      }
+      
+      .add-to-cart-btn {
+        font-size: 12px;
+        padding: var(--space-xs) var(--space-sm);
+      }
+      
+      .quantity-selector {
+        padding: 2px;
+      }
+      
+      .quantity-selector button {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+      }
+      
+      .quantity-selector span {
+        min-width: 20px;
+        font-size: 12px;
+      }
+      
+      .carrito-modal {
+        padding: var(--space-sm);
+        align-items: flex-end;
+      }
+      
+      .carrito-modal-content {
+        max-height: 95vh;
+        width: 100%;
+        max-width: 100%;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+      }
+      
+      .carrito-modal-body {
+        max-height: calc(95vh - 160px);
+      }
+      
+      .carrito-item {
+        padding: var(--space-md);
+        min-height: auto;
+        flex-wrap: wrap;
+      }
+      
+      .carrito-item-image {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .carrito-item-info {
+        flex: 1 1 100%;
+        margin-bottom: var(--space-sm);
+        margin-right: 0;
+      }
+      
+      .quantity-controls {
+        margin-right: auto;
+      }
+      
+      .notification {
+        right: var(--space-sm);
+        left: var(--space-sm);
+        min-width: auto;
+        font-size: 14px;
+        padding: var(--space-md);
+      }
+      
+      .product-modal-content {
+        margin: var(--space-sm);
+        max-height: calc(100vh - 2 * var(--space-sm));
+      }
+      
+      .product-modal-header {
+        height: 180px;
+      }
+      
+      .product-modal-body {
+        padding: var(--space-md);
+      }
+      
+      .product-modal-title {
+        font-size: 22px;
+      }
+      
+      .product-modal-price {
+        font-size: 20px;
+      }
+      
+      .product-modal-actions {
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+      
+      h2 {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        margin: var(--space-md) 0 var(--space-sm) 0;
+      }
+      
+      .galeria {
+        padding: var(--space-md);
+        gap: var(--space-md);
+        margin-top: var(--space-sm);
+      }
+    }
       
       .main-container {
         flex-direction: column;
@@ -3568,6 +3882,18 @@
       console.log('🚀 Inicializando Fratelli Pazzi Mejorado...');
       
       try {
+        // Detectar si es móvil para optimizaciones
+        const isMobile = window.innerWidth <= 768;
+        
+        // Configurar altura de viewport para móviles
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        
+        // Reducir animaciones en móviles para mejor rendimiento
+        if (isMobile) {
+          document.documentElement.style.setProperty('--animation-duration', '0.2s');
+        }
+        
         // Crear productos y cargar datos
         crearProductos();
         cargarDatos();
@@ -3619,7 +3945,10 @@
         
         // Mostrar mensaje de bienvenida
         setTimeout(() => {
-          mostrarNotificacion('¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕', 'success');
+          const mensaje = isMobile ? 
+            '¡Bienvenido a Fratelli Pazzi! Prueba la Pizza del Mes 🌟' : 
+            '¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕';
+          mostrarNotificacion(mensaje, 'success');
         }, 1000);
         
       } catch (error) {
