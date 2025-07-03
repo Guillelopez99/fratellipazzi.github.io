@@ -620,47 +620,45 @@
     .pizza-card { 
       background: rgba(30, 33, 34, 0.6);
       backdrop-filter: blur(20px);
-      border-radius: var(--radius-lg); 
+      border-radius: var(--radius-md); 
       box-shadow: var(--shadow-card); 
       text-align: center; 
-      padding: var(--space-xl); 
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: var(--space-md); 
+      transition: all 0.3s ease;
       border: 1px solid rgba(205, 184, 124, 0.15);
       position: relative;
       overflow: hidden;
     }
     
     .pizza-card:hover { 
-      transform: translateY(-15px) scale(1.03); 
-      box-shadow: var(--shadow-strong);
+      transform: translateY(-4px); 
+      box-shadow: var(--shadow-hover);
       border-color: rgba(205, 184, 124, 0.3);
     }
     
     .pizza-card img { 
-      width: 150px;
-      height: 150px;
+      width: 80px;
+      height: 80px;
       object-fit: cover;
-      border-radius: 50%; 
-      margin-bottom: var(--space-xl); 
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 4px solid rgba(205, 184, 124, 0.2);
+      border-radius: var(--radius-md); 
+      margin-bottom: var(--space-md); 
+      transition: all 0.3s ease;
+      border: 2px solid rgba(205, 184, 124, 0.2);
       background: rgba(251, 244, 232, 0.1);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
     
     .pizza-card:hover img {
-      transform: scale(1.15) rotate(8deg);
+      transform: scale(1.05);
       border-color: var(--gold);
-      box-shadow: 0 15px 35px rgba(205, 184, 124, 0.4);
     }
     
     .pizza-name { 
       font-family: 'Playfair Display', serif; 
-      font-size: 24px; 
+      font-size: 16px; 
       color: var(--cream); 
-      margin: var(--space-lg) 0 var(--space-sm); 
+      margin: 0 0 var(--space-xs) 0; 
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.2;
     }
     
     .pizza-card:hover .pizza-name {
@@ -668,70 +666,53 @@
     }
     
     .pizza-ingredients {
-      font-size: 14px;
-      color: rgba(251, 244, 232, 0.7);
-      margin: 0 0 var(--space-lg) 0;
-      line-height: 1.5;
+      font-size: 11px;
+      color: rgba(251, 244, 232, 0.6);
+      margin: 0 0 var(--space-sm) 0;
+      line-height: 1.3;
       font-style: italic;
-      padding: 0 var(--space-md);
+      height: 28px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      padding: 0 var(--space-xs);
     }
     
     .pizza-price { 
       font-weight: 700; 
       color: var(--gold); 
-      margin-bottom: var(--space-xl); 
-      font-size: 22px;
-      background: rgba(205, 184, 124, 0.15);
+      margin-bottom: var(--space-sm); 
+      font-size: 16px;
+      background: rgba(205, 184, 124, 0.1);
       display: inline-block;
-      padding: var(--space-sm) var(--space-lg);
-      border-radius: var(--radius-lg);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
       transition: all 0.3s ease;
     }
     
     .pizza-card:hover .pizza-price {
-      transform: scale(1.05);
-      background: rgba(205, 184, 124, 0.25);
+      background: rgba(205, 184, 124, 0.2);
     }
     
     .button { 
       background: var(--gradient-accent);
       color: white; 
-      padding: var(--space-md) var(--space-xl); 
-      border-radius: var(--radius-md); 
+      padding: var(--space-xs) var(--space-md); 
+      border-radius: var(--radius-sm); 
       text-decoration: none; 
       font-weight: 600; 
       cursor: pointer; 
-      font-size: 15px; 
+      font-size: 12px; 
       border: none;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: var(--shadow-card);
+      transition: all 0.3s ease;
       font-family: 'Inter', sans-serif;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-    
-    .button:hover::before {
-      left: 100%;
     }
     
     .button:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: var(--shadow-hover);
-    }
-    
-    .button:active {
-      transform: translateY(-2px) scale(1.01);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(213, 120, 108, 0.3);
     }
     
     /* LOADING SPINNER */
@@ -759,11 +740,11 @@
     /* TÍTULOS */
     h2 { 
       font-family: 'Playfair Display', serif; 
-      font-size: clamp(2rem, 5vw, 3rem); 
-      margin: var(--space-xxl) 0 var(--space-xl) 0; 
+      font-size: clamp(1.4rem, 3vw, 1.8rem); 
+      margin: var(--space-md) 0 var(--space-sm) 0; 
       display: flex;
       align-items: center;
-      gap: var(--space-lg);
+      gap: var(--space-md);
       font-weight: 700;
     }
     
@@ -830,10 +811,10 @@
     /* GALERÍAS */
     .galeria {
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-      gap: var(--space-xl); 
-      margin-top: var(--space-xxl);
-      padding: var(--space-xxl) var(--space-xl);
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+      gap: var(--space-md); 
+      margin-top: var(--space-lg);
+      padding: var(--space-lg) var(--space-md);
       border-radius: var(--radius-lg);
       transition: all 0.3s ease;
     }
@@ -917,6 +898,13 @@
     }
     
     /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .galeria {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-sm);
+      }
+    }
+    
     @media (max-width: 768px) {
       .header-content {
         flex-direction: column;
@@ -926,15 +914,15 @@
       
       .main-container {
         flex-direction: column;
-        padding: var(--space-xl) var(--space-lg);
-        gap: var(--space-lg);
+        padding: var(--space-lg) var(--space-md);
+        gap: var(--space-md);
       }
       
       nav.indice {
         position: static;
         order: 2;
-        margin-top: var(--space-lg);
-        padding: var(--space-lg);
+        margin-top: var(--space-md);
+        padding: var(--space-md);
         flex: 1;
       }
       
@@ -956,19 +944,47 @@
       }
       
       .galeria {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-        padding: var(--space-xl) var(--space-lg);
-        margin-top: var(--space-xl);
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: var(--space-sm);
+        padding: var(--space-md);
+        margin-top: var(--space-sm);
       }
       
       .pizza-card {
-        padding: var(--space-lg);
+        padding: var(--space-sm);
+      }
+      
+      .pizza-card img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: var(--space-sm);
+      }
+      
+      .pizza-name {
+        font-size: 14px;
+        margin: 0 0 var(--space-xs) 0;
+      }
+      
+      .pizza-ingredients {
+        font-size: 10px;
+        height: 24px;
+        margin: 0 0 var(--space-xs) 0;
+      }
+      
+      .pizza-price {
+        font-size: 14px;
+        margin-bottom: var(--space-xs);
+        padding: 2px var(--space-xs);
+      }
+      
+      .button {
+        font-size: 11px;
+        padding: var(--space-xs);
       }
       
       h2 {
-        font-size: clamp(1.5rem, 6vw, 2rem);
-        margin: var(--space-xxl) 0 var(--space-lg) 0;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        margin: var(--space-sm) 0 var(--space-xs) 0;
       }
       
       .carrito-modal {
@@ -1000,6 +1016,51 @@
     }
     
     @media (max-width: 480px) {
+      .galeria {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: var(--space-xs);
+        padding: var(--space-sm);
+        margin-top: var(--space-xs);
+      }
+      
+      .pizza-card {
+        padding: var(--space-xs);
+      }
+      
+      .pizza-card img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: var(--space-xs);
+      }
+      
+      .pizza-name {
+        font-size: 12px;
+        margin: 0 0 2px 0;
+      }
+      
+      .pizza-ingredients {
+        font-size: 9px;
+        height: 20px;
+        margin: 0 0 var(--space-xs) 0;
+        line-height: 1.2;
+      }
+      
+      .pizza-price {
+        font-size: 12px;
+        margin-bottom: var(--space-xs);
+        padding: 1px var(--space-xs);
+      }
+      
+      .button {
+        padding: var(--space-xs);
+        font-size: 10px;
+      }
+      
+      h2 {
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        margin: var(--space-xs) 0 0 0;
+      }
+      
       .carrito-modal {
         padding: var(--space-sm);
       }
@@ -1267,7 +1328,7 @@
               <button class="button" 
                       onclick="agregarAlCarrito(${producto.id})" 
                       aria-label="Añadir ${producto.nombre} al carrito">
-                🛒 Añadir al carrito
+                Añadir
               </button>
             `;
             
