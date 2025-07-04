@@ -284,7 +284,7 @@
     .menu-toggle {
       display: none;
       position: fixed;
-      top: 140px;
+      top: 150px;
       left: var(--space-sm);
       width: 36px;
       height: 36px;
@@ -294,7 +294,7 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-      z-index: 1001;
+              z-index: 1600;
       box-shadow: var(--shadow-card);
       transition: all 0.3s ease;
     }
@@ -356,6 +356,11 @@
       color: white;
       transform: translateX(8px) scale(1.02);
       box-shadow: var(--shadow-card);
+    }
+    
+    nav.indice a:active {
+      background: var(--gradient-accent) !important;
+      transform: translateX(12px) scale(1.05);
     }
     
     nav.indice a[href="#entrantes"]::before { background: var(--gradient-sage); }
@@ -1653,10 +1658,10 @@
       nav.indice {
         position: fixed;
         left: -300px;
-        top: 100px;
+        top: 120px;
         width: 280px;
-        height: calc(100vh - 120px);
-        z-index: 1500;
+        height: calc(100vh - 140px);
+        z-index: 1450;
         transition: left 0.3s ease;
         background: rgba(30, 33, 34, 0.98);
         backdrop-filter: blur(20px);
@@ -1673,7 +1678,7 @@
       /* Mostrar botón toggle */
       .menu-toggle {
         display: block !important;
-        top: 110px;
+        top: 130px;
         left: 1rem;
         z-index: 1600;
       }
@@ -3402,23 +3407,22 @@
           body.appendChild(overlay);
         }
         
-        nav.classList.toggle('hidden-mobile');
-        overlay.classList.toggle('show');
+        const isMenuHidden = nav.classList.contains('hidden-mobile');
         
-        // Prevenir scroll del body cuando el menú está abierto
-        if (!nav.classList.contains('hidden-mobile')) {
+        if (isMenuHidden) {
+          // Abrir menú
+          nav.classList.remove('hidden-mobile');
+          overlay.classList.add('show');
           body.classList.add('nav-visible');
-        } else {
-          body.classList.remove('nav-visible');
-        }
-        
-        // Cambiar icono del botón
-        if (nav.classList.contains('hidden-mobile')) {
-          toggle.innerHTML = '☰';
-          toggle.setAttribute('aria-label', 'Mostrar menú');
-        } else {
           toggle.innerHTML = '✕';
           toggle.setAttribute('aria-label', 'Ocultar menú');
+        } else {
+          // Cerrar menú
+          nav.classList.add('hidden-mobile');
+          overlay.classList.remove('show');
+          body.classList.remove('nav-visible');
+          toggle.innerHTML = '☰';
+          toggle.setAttribute('aria-label', 'Mostrar menú');
         }
       } catch (error) {
         manejarError(error, 'Error al alternar menú');
@@ -3581,6 +3585,30 @@
             // Si hay búsqueda activa, limpiarla primero
             if (busquedaActual) {
               limpiarBusqueda();
+            }
+            
+            // Cerrar menú móvil si está abierto
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+              const nav = document.getElementById('nav-menu');
+              const overlay = document.getElementById('menu-overlay');
+              const body = document.body;
+              const toggle = document.getElementById('menu-toggle');
+              
+              if (nav && !nav.classList.contains('hidden-mobile')) {
+                // Pequeño delay para mostrar el efecto visual
+                setTimeout(() => {
+                  nav.classList.add('hidden-mobile');
+                  if (overlay) overlay.classList.remove('show');
+                  body.classList.remove('nav-visible');
+                  
+                  // Cambiar icono del botón
+                  if (toggle) {
+                    toggle.innerHTML = '☰';
+                    toggle.setAttribute('aria-label', 'Mostrar menú');
+                  }
+                }, 150);
+              }
             }
             
             const targetId = this.getAttribute('href').substring(1);
@@ -3764,9 +3792,14 @@
           if (menuToggle && nav) {
             if (isMobile) {
               menuToggle.style.display = 'block';
-              nav.classList.add('hidden-mobile');
+              // Asegurar que el menú esté oculto al cambiar a móvil
+              if (!nav.classList.contains('hidden-mobile')) {
+                nav.classList.add('hidden-mobile');
+              }
               if (overlay) overlay.classList.remove('show');
               body.classList.remove('nav-visible');
+              menuToggle.innerHTML = '☰';
+              menuToggle.setAttribute('aria-label', 'Mostrar menú');
             } else {
               menuToggle.style.display = 'none';
               nav.classList.remove('hidden-mobile');
