@@ -1556,119 +1556,346 @@
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
     
-    /* OPTIMIZACIONES MÓVILES */
+  /* OPTIMIZACIONES MÓVILES */
     @media (max-width: 768px) {
-  /* Tarjeta limpia y ligera */
-  .pizza-card {
-    background: var(--cream) !important;
-    border-radius: 16px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
-    padding: 1rem !important;
-    display: grid !important;
-    grid-template-columns: 64px 1fr auto !important;
-    gap: 1rem !important;
-    align-items: center !important;
-  }
-
-  /* Imagen compacta */
-  .pizza-card-image {
-    width: 64px !important;
-    height: 64px !important;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  /* Nombre e ingredientes */
-  .pizza-name {
-    font-size: 1.125rem !important; /* 18px */
-    font-weight: 600 !important;
-    color: var(--rich-black) !important;
-    margin: 0;
-  }
-  .pizza-ingredients {
-    font-size: 0.875rem !important; /* 14px */
-    color: rgba(30,33,34,0.7) !important;
-    margin-top: 0.25rem !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Precio destacado */
-  .pizza-price {
-    font-size: 1.25rem !important; /* 20px */
-    font-weight: 700 !important;
-    color: var(--terracota) !important;
-    line-height: 1;
-  }
-
-  /* Detalles secundarios */
-  .pizza-price-per-person {
-    font-size: 0.75rem !important; /* 12px */
-    color: rgba(30,33,34,0.6) !important;
-  }
-
-  /* Badges ligeros */
-  .badge {
-    background: transparent !important;
-    border: 1px solid var(--sage) !important;
-    color: var(--sage) !important;
-    font-size: 0.625rem !important; /* 10px */
-    padding: 2px 6px !important;
-    margin-left: 0.5rem !important;
-  }
-  .badge.popular {
-    border-color: var(--gold) !important;
-    color: var(--gold) !important;
-  }
-  .badge.spicy {
-    border-color: var(--terracota) !important;
-    color: var(--terracota) !important;
-  }
-
-  /* Botón único “+” */
-  .add-to-cart-btn {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 1.25rem !important; /* 20px for “+” */
-    background: var(--gradient-accent) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
-    transition: transform 0.15s ease !important;
-  }
-  .add-to-cart-btn:active {
-    transform: scale(0.9) !important;
-  }
-
-  /* Ocultar controles de cantidad antiguos */
-  .quantity-selector,
-  .quantity-selector button,
-  .quantity-selector span,
-  .card-actions .add-to-cart-btn + .card-actions {
-    display: none !important;
-  }
-
-  /* Ajustes generales */
-  body {
-    padding-top: 120px !important;
-    background: var(--rich-black) !important;
-  }
-  header, .header-container {
-    padding: 0.5rem !important;
-  }
-  nav.indice, .filter-btn, #search-input {
-    /* tus ajustes ya existentes para móvil */
-  }
-}
-
+      /* Ajustes del body y contenedor principal */
+      body {
+        padding-top: 100px !important;
+      }
+      
+      /* Header más compacto */
+      .header-container {
+        padding: 0.75rem !important;
+      }
+      
+      header {
+        padding: 0.75rem 1rem !important;
+      }
+      
+      header h1 {
+        font-size: 1.5rem !important;
+      }
+      
+      /* Filtros en móvil */
+      .filters-container {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      
+      #search-input {
+        width: 100% !important;
+        max-width: 280px;
+        font-size: 16px; /* Evitar zoom en iOS */
+      }
+      
+      .filter-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+      }
+      
+      /* Contenedor principal sin margen lateral */
+      .main-container {
+        margin-left: 0 !important;
+        padding: 1rem !important;
+        width: 100% !important;
+      }
+      
+      /* Menú lateral oculto por defecto en móvil */
+      nav.indice {
+        position: fixed;
+        left: -300px;
+        top: 100px;
+        width: 280px;
+        height: calc(100vh - 120px);
+        z-index: 1500;
+        transition: left 0.3s ease;
+        background: rgba(30, 33, 34, 0.98);
+        backdrop-filter: blur(20px);
+      }
+      
+      nav.indice:not(.hidden-mobile) {
+        left: 0;
+      }
+      
+      nav.indice.hidden-mobile {
+        left: -300px;
+      }
+      
+      /* Mostrar botón toggle */
+      .menu-toggle {
+        display: block !important;
+        top: 110px;
+        left: 1rem;
+        z-index: 1600;
+      }
+      
+      /* Overlay cuando el menú está abierto */
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1400;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      .menu-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      /* Clase para cuando el menú está visible */
+      .nav-visible {
+        overflow: hidden;
+      }
+      
+      /* Tarjetas de productos optimizadas para móvil */
+      .pizza-card {
+        background: var(--cream) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+        padding: 1rem !important;
+        display: grid !important;
+        grid-template-columns: 80px 1fr auto !important;
+        gap: 1rem !important;
+        align-items: center !important;
+        min-height: auto !important;
+        margin-bottom: 1rem;
+      }
+      
+      /* Imagen compacta */
+      .pizza-card-image {
+        width: 80px !important;
+        height: 80px !important;
+        position: relative;
+      }
+      
+      .pizza-card img {
+        border-radius: 12px;
+        border: 2px solid rgba(213, 120, 108, 0.2);
+      }
+      
+      /* Botón favorito reposicionado */
+      .favorite-btn {
+        top: 4px;
+        right: 4px;
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+      }
+      
+      /* Contenido de la tarjeta */
+      .pizza-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        height: auto;
+      }
+      
+      .pizza-card-header {
+        margin-bottom: 0;
+      }
+      
+      /* Nombre del producto */
+      .pizza-name {
+        font-size: 1.125rem !important;
+        font-weight: 600 !important;
+        color: var(--rich-black) !important;
+        margin: 0;
+        line-height: 1.3;
+      }
+      
+      /* Ingredientes */
+      .pizza-ingredients {
+        font-size: 0.875rem !important;
+        color: rgba(30,33,34,0.7) !important;
+        margin: 0 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+      }
+      
+      /* Badges más pequeños */
+      .pizza-badges {
+        display: flex;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+        margin-top: 0.25rem;
+      }
+      
+      .badge {
+        background: transparent !important;
+        border: 1px solid var(--sage) !important;
+        color: var(--sage) !important;
+        font-size: 0.625rem !important;
+        padding: 2px 6px !important;
+        border-radius: 4px;
+      }
+      
+      .badge.popular {
+        border-color: var(--gold) !important;
+        color: var(--gold) !important;
+      }
+      
+      .badge.spicy {
+        border-color: var(--terracota) !important;
+        color: var(--terracota) !important;
+      }
+      
+      .badge.pizza-del-mes {
+        background: var(--gradient-accent) !important;
+        color: white !important;
+        border: none !important;
+      }
+      
+      /* Ocultar detalles en móvil */
+      .pizza-details {
+        display: none !important;
+      }
+      
+      /* Footer de la tarjeta simplificado */
+      .pizza-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      /* Precio destacado */
+      .price-container {
+        align-items: flex-start;
+      }
+      
+      .pizza-price {
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+        color: var(--terracota) !important;
+        line-height: 1;
+        margin: 0;
+      }
+      
+      .pizza-price-per-person {
+        font-size: 0.75rem !important;
+        color: rgba(30,33,34,0.6) !important;
+        margin-top: 2px;
+      }
+      
+      /* Acciones de la tarjeta */
+      .card-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      /* Ocultar selector de cantidad en móvil */
+      .quantity-selector {
+        display: none !important;
+      }
+      
+      /* Botón simplificado de añadir */
+      .add-to-cart-btn {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.5rem !important;
+        background: var(--gradient-accent) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3) !important;
+        transition: all 0.2s ease !important;
+        font-family: system-ui !important;
+      }
+      
+      .add-to-cart-btn:active {
+        transform: scale(0.9) !important;
+      }
+      
+      .add-to-cart-btn:before {
+        content: '+' !important;
+      }
+      
+      /* Ocultar texto del botón en móvil */
+      .add-to-cart-btn * {
+        display: none !important;
+      }
+      
+      /* Estilos especiales para Pizza del Mes en móvil */
+      .pizza-card.pizza-del-mes {
+        background: linear-gradient(135deg, #fef3f0 0%, var(--cream) 100%) !important;
+        border: 2px solid var(--terracota) !important;
+        box-shadow: 0 4px 16px rgba(213, 120, 108, 0.2) !important;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-name {
+        color: var(--terracota) !important;
+      }
+      
+      .pizza-card.pizza-del-mes .add-to-cart-btn {
+        background: var(--gradient-accent) !important;
+        box-shadow: 0 4px 12px rgba(213, 120, 108, 0.4) !important;
+      }
+      
+      /* Galerias en móvil */
+      .galeria {
+        padding: 1rem !important;
+        gap: 1rem !important;
+      }
+      
+      /* Carrito flotante ajustado */
+      .carrito-float-btn {
+        bottom: 1rem;
+        right: 1rem;
+        width: 140px;
+        height: 60px;
+        font-size: 14px;
+      }
+      
+      /* Modal del carrito optimizado */
+      .carrito-modal {
+        padding: 0.5rem;
+      }
+      
+      .carrito-modal-content {
+        max-height: 95vh;
+        border-radius: 16px;
+      }
+      
+      /* Modal de producto optimizado */
+      .product-modal {
+        padding: 0.5rem;
+      }
+      
+      .product-modal-content {
+        max-height: 95vh;
+        border-radius: 16px;
+      }
+      
+      .product-modal-header {
+        height: 200px;
+      }
+      
+      /* Notificaciones en móvil */
+      .notification {
+        top: 110px;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+        min-width: auto;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
 
   </style>
 </head>
