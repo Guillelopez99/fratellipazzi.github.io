@@ -1455,63 +1455,177 @@
     /* RESPONSIVE DESIGN CENTRADO */
     @media (max-width: 768px) {
       .logo img {
-        height: clamp(35px, 8vw, 45px);
+        height: clamp(45px, 10vw, 60px);
       }
       
       .header-container.scrolled .logo img {
-        height: clamp(30px, 6vw, 40px);
+        height: clamp(40px, 8vw, 55px);
       }
       
       .logo-loader img {
-        height: clamp(60px, 15vw, 100px);
+        height: clamp(100px, 20vw, 160px);
       }
       
+      /* OPTIMIZACIONES MÓVIL - HEADER */
       .header-content {
         flex-direction: column;
         gap: var(--space-md);
         text-align: center;
+        padding: var(--space-sm) 0;
       }
 
       .nav-main {
-        gap: var(--space-md);
+        gap: var(--space-sm);
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
+      }
+
+      .nav-main a {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.85rem;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      /* OPTIMIZACIONES MÓVIL - HERO */
+      .hero-content {
+        padding: var(--space-lg) var(--space-md);
       }
 
       .hero-cta {
         flex-direction: column;
         align-items: center;
+        gap: var(--space-md);
+        width: 100%;
       }
 
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
+
+      /* OPTIMIZACIONES MÓVIL - GRIDS */
       .grid-2,
       .grid-3,
       .grid-4 {
         grid-template-columns: 1fr;
+        gap: var(--space-lg);
         justify-items: center;
+        width: 100%;
       }
 
+      /* OPTIMIZACIONES MÓVIL - CARDS */
+      .card {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+      }
+
+      .card-content {
+        padding: var(--space-md);
+      }
+
+      .card-title {
+        font-size: 1.125rem;
+        margin-bottom: var(--space-sm);
+      }
+
+      .card-description {
+        font-size: 0.875rem;
+        line-height: 1.4;
+        margin-bottom: var(--space-md);
+      }
+
+      .card-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      /* OPTIMIZACIONES MÓVIL - SECCIONES */
+      .section {
+        padding: var(--space-xl) 0;
+      }
+
+      .section-inner {
+        padding: 0 var(--space-md);
+        width: 100%;
+      }
+
+      .section-header {
+        margin-bottom: var(--space-xl);
+        text-align: center;
+      }
+
+      .section-title {
+        font-size: clamp(1.75rem, 7vw, 2.25rem);
+        margin-bottom: var(--space-md);
+        line-height: 1.2;
+      }
+
+      .section-subtitle {
+        font-size: clamp(0.9rem, 4vw, 1rem);
+        line-height: 1.5;
+        margin-bottom: var(--space-lg);
+      }
+
+      /* OPTIMIZACIONES MÓVIL - AUTH GRID */
       .auth-grid {
         grid-template-columns: 1fr;
+        gap: var(--space-lg);
         justify-items: center;
+        padding: 0 var(--space-md);
       }
 
+      .auth-card {
+        width: 100%;
+        max-width: 320px;
+        padding: var(--space-lg);
+      }
+
+      /* OPTIMIZACIONES MÓVIL - BENEFITS */
       .auth-benefits {
         flex-direction: column;
         gap: var(--space-md);
         align-items: center;
+        width: 100%;
       }
 
+      .benefit-item {
+        font-size: 0.875rem;
+        text-align: center;
+      }
+
+      /* OPTIMIZACIONES MÓVIL - TESTIMONIOS */
+      .testimonial-header {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+      }
+
+      .testimonial-card {
+        width: 100%;
+        max-width: 100%;
+        padding: var(--space-lg);
+      }
+
+      /* OPTIMIZACIONES MÓVIL - WHATSAPP */
       .whatsapp-float {
         bottom: var(--space-lg);
-        left: var(--space-lg);
+        left: var(--space-md);
+        right: var(--space-md);
         min-width: 160px;
         padding: var(--space-sm) var(--space-md);
+        font-size: 0.875rem;
       }
 
+      /* OPTIMIZACIONES MÓVIL - NOTIFICACIONES */
       .notification-container {
         top: 100px;
-        right: var(--space-md);
-        left: var(--space-md);
+        right: var(--space-sm);
+        left: var(--space-sm);
         max-width: none;
       }
 
@@ -1519,39 +1633,87 @@
         min-width: auto;
         width: 100%;
         padding: var(--space-md) var(--space-lg);
+        font-size: 0.875rem;
       }
 
+      /* OPTIMIZACIONES MÓVIL - BANNER OFERTAS */
       .offer-content {
         flex-direction: column;
         gap: var(--space-sm);
         text-align: center;
+        padding: 0 var(--space-sm);
       }
 
-      .section-inner {
-        padding: 0 var(--space-md);
+      .offer-cta-btn {
+        font-size: 0.75rem;
+        padding: var(--space-xs) var(--space-sm);
       }
 
-      .card {
-        max-width: 300px;
+      /* OPTIMIZACIONES MÓVIL - ESPACIADO */
+      .auth-section {
+        padding: var(--space-xl) 0;
       }
 
-      .testimonial-header {
-        flex-direction: column;
-        gap: var(--space-sm);
+      /* OPTIMIZACIONES MÓVIL - FORMULARIOS */
+      .form-input {
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: var(--space-md);
+      }
+
+      /* OPTIMIZACIONES MÓVIL - USER MENU */
+      .user-welcome {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.875rem;
+      }
+
+      .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+      }
+
+      /* ASEGURAR VISIBILIDAD DE PIZZAS */
+      #nuestras-pizzas {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      #nuestras-pizzas .section-inner {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      #nuestras-pizzas .grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: var(--space-lg) !important;
+      }
+
+      #nuestras-pizzas .card {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      #nuestras-pizzas .card-image {
+        display: block !important;
+        width: 100% !important;
+        height: 200px !important;
       }
     }
 
     @media (max-width: 480px) {
       .logo img {
-        height: clamp(30px, 10vw, 40px);
+        height: clamp(50px, 15vw, 70px);
       }
       
       .header-container.scrolled .logo img {
-        height: clamp(25px, 8vw, 35px);
+        height: clamp(45px, 12vw, 60px);
       }
       
       .logo-loader img {
-        height: clamp(50px, 18vw, 80px);
+        height: clamp(120px, 30vw, 180px);
       }
       
       .offers-slider {
