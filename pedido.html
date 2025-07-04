@@ -1230,6 +1230,27 @@
       animation: spin 1s ease infinite;
     }
     
+    /* Animación de pulso para botón añadir */
+    .add-to-cart-btn.adding {
+      animation: addPulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes addPulse {
+      0% { 
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3);
+      }
+      50% { 
+        transform: scale(1.3);
+        box-shadow: 0 8px 20px rgba(213, 120, 108, 0.6);
+        background: #e0958a;
+      }
+      100% { 
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3);
+      }
+    }
+    
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -1555,7 +1576,8 @@
       background: rgba(255, 255, 255, 0.3);
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
-	    /* OVERLAY PARA MENÚ MÓVIL */
+
+    /* OVERLAY PARA MENÚ MÓVIL */
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -1578,7 +1600,12 @@
       overflow: hidden;
     }
     
-  /* OPTIMIZACIONES MÓVILES */
+    /* Clase helper para ocultar elementos */
+    .hidden {
+      display: none !important;
+    }
+    
+    /* OPTIMIZACIONES MÓVILES */
     @media (max-width: 768px) {
       /* Ajustes del body y contenedor principal */
       body {
@@ -1651,30 +1678,6 @@
         z-index: 1600;
       }
       
-      /* Overlay cuando el menú está abierto */
-      .menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1400;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-      }
-      
-      .menu-overlay.show {
-        opacity: 1;
-        visibility: visible;
-      }
-      
-      /* Clase para cuando el menú está visible */
-      .nav-visible {
-        overflow: hidden;
-      }
-      
       /* Tarjetas de productos optimizadas para móvil */
       .pizza-card {
         background: var(--cream) !important;
@@ -1682,7 +1685,7 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
         padding: 1rem !important;
         display: grid !important;
-        grid-template-columns: 80px 1fr 50px !important;
+        grid-template-columns: 80px 1fr !important;
         gap: 1rem !important;
         align-items: center !important;
         min-height: auto !important;
@@ -1698,7 +1701,7 @@
         /* Mismo tamaño que las otras tarjetas */
         padding: 1rem !important;
         min-height: auto !important;
-        grid-template-columns: 80px 1fr 50px !important;
+        grid-template-columns: 80px 1fr !important;
       }
       
       /* Normalizar pizzas premium en móvil */
@@ -1708,7 +1711,7 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
         padding: 1rem !important;
         min-height: auto !important;
-        grid-template-columns: 80px 1fr 50px !important;
+        grid-template-columns: 80px 1fr !important;
       }
       
       /* Eliminar elementos especiales que rompan el layout */
@@ -1836,15 +1839,14 @@
         margin-top: 2px;
       }
       
-      /* Acciones de la tarjeta */
+      /* Acciones de la tarjeta - posicionamiento absoluto */
       .card-actions {
+        position: absolute !important;
+        bottom: 12px !important;
+        right: 12px !important;
         display: flex !important;
-        flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 0 !important;
-        width: 50px !important;
-        height: 100% !important;
       }
       
       /* Ocultar selector de cantidad en móvil */
@@ -1852,10 +1854,10 @@
         display: none !important;
       }
       
-      /* Botón simplificado de añadir */
+      /* Botón + posicionado en esquina inferior derecha */
       .add-to-cart-btn {
-        width: 40px !important;
-        height: 40px !important;
+        width: 36px !important;
+        height: 36px !important;
         background: var(--gradient-accent) !important;
         color: white !important;
         border: none !important;
@@ -1866,26 +1868,41 @@
         padding: 0 !important;
         cursor: pointer !important;
         box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3) !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
         font-family: system-ui !important;
-        font-size: 20px !important;
+        font-size: 18px !important;
         font-weight: 300 !important;
-        position: relative;
+        position: relative !important;
+        z-index: 10 !important;
+        font-size: 0 !important; /* Ocultar texto */
       }
       
-      .add-to-cart-btn:active {
-        transform: scale(0.9) !important;
-      }
-      
-      /* Mostrar solo el símbolo + */
-      .add-to-cart-btn::before {
+      .add-to-cart-btn::after {
         content: '+' !important;
-        display: block !important;
-        line-height: 1 !important;
+        font-size: 18px !important;
+        font-weight: 300 !important;
+        color: white !important;
         position: absolute !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
+        line-height: 1 !important;
+      }
+      
+      /* Animaciones del botón */
+      .add-to-cart-btn:hover {
+        transform: scale(1.1) !important;
+        box-shadow: 0 4px 12px rgba(213, 120, 108, 0.4) !important;
+      }
+      
+      .add-to-cart-btn:active {
+        transform: scale(0.85) !important;
+        transition: all 0.1s ease !important;
+      }
+      
+      /* Animación de pulso cuando se añade */
+      .add-to-cart-btn.adding {
+        animation: addPulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
       }
       
       /* Ocultar todo el contenido de texto del botón */
@@ -1894,13 +1911,6 @@
       .add-to-cart-btn .emoji {
         display: none !important;
         visibility: hidden !important;
-      }
-      
-      /* Asegurar que solo se muestre el + */
-      .add-to-cart-btn {
-        font-size: 0 !important;
-        text-indent: 0 !important;
-        overflow: hidden !important;
       }
       
       .pizza-card.pizza-del-mes .pizza-name {
@@ -1918,6 +1928,12 @@
       .pizza-card.pizza-del-mes .add-to-cart-btn {
         background: var(--gradient-accent) !important;
         box-shadow: 0 4px 12px rgba(213, 120, 108, 0.4) !important;
+      }
+      
+      .pizza-card.pizza-del-mes .add-to-cart-btn::after {
+        content: '+' !important;
+        font-size: 18px !important;
+        color: white !important;
       }
       
       /* Galerias en móvil */
@@ -2661,21 +2677,21 @@
                 ${formatearPrecio(calcularPrecioPorPersona(producto.precio, producto.porcionesRecomendadas))} por persona
               </div>
             </div>
-            <div class="card-actions">
-              <div class="quantity-selector">
-                <button onclick="cambiarCantidadProducto(${producto.id}, -1)" 
-                        aria-label="Disminuir cantidad">-</button>
-                <span id="cantidad-${producto.id}">${cantidad}</span>
-                <button onclick="cambiarCantidadProducto(${producto.id}, 1)" 
-                        aria-label="Aumentar cantidad">+</button>
-              </div>
-              <button class="add-to-cart-btn" 
-                      onclick="agregarAlCarrito(${producto.id})" 
-                      aria-label="Añadir ${producto.nombre} al carrito">
-                🛒 Añadir
-              </button>
+            <div class="quantity-selector">
+              <button onclick="cambiarCantidadProducto(${producto.id}, -1)" 
+                      aria-label="Disminuir cantidad">-</button>
+              <span id="cantidad-${producto.id}">${cantidad}</span>
+              <button onclick="cambiarCantidadProducto(${producto.id}, 1)" 
+                      aria-label="Aumentar cantidad">+</button>
             </div>
           </div>
+        </div>
+        <div class="card-actions">
+          <button class="add-to-cart-btn" 
+                  onclick="agregarAlCarrito(${producto.id})" 
+                  aria-label="Añadir ${producto.nombre} al carrito">
+            🛒 Añadir
+          </button>
         </div>
       `;
       
@@ -2699,10 +2715,8 @@
         const index = favoritos.indexOf(productoId);
         if (index > -1) {
           favoritos.splice(index, 1);
-          // Eliminado: mostrarNotificacion para favoritos
         } else {
           favoritos.push(productoId);
-          // Eliminado: mostrarNotificacion para favoritos
         }
         
         actualizarFavoritos();
@@ -2809,9 +2823,6 @@
             `;
           }
           
-          let mensaje = `${productosVisibles} pizzas ${filtro === 'normal' ? 'normales' : 'premium'}`;
-          // Eliminado: mostrarNotificacion para filtros
-          
         } else {
           // Filtro "all" - mostrar secciones normales
           searchResults.classList.add('hidden');
@@ -2823,8 +2834,6 @@
             card.classList.remove('premium'); // Solo quitar premium temporal
             // Mantener pizza-del-mes si la tiene
           });
-          
-          // Eliminado: mostrarNotificacion para mostrar todos
         }
         
       } catch (error) {
@@ -2862,7 +2871,6 @@
           });
           
           filtroActual = 'all';
-          // Eliminado: mostrarNotificacion para mostrar todos
         } else {
           // Mostrar solo favoritos
           btn.classList.add('active');
@@ -2908,7 +2916,6 @@
           }
           
           filtroActual = 'favorites';
-          // Eliminado: mostrarNotificacion para favoritos
         }
         
       } catch (error) {
@@ -3020,7 +3027,6 @@
           btn.classList.remove('loading');
           btn.disabled = false;
           
-          // Eliminado: mostrarNotificacion del modal
           cerrarProductModal();
         }, 500);
       } catch (error) {
@@ -3080,15 +3086,13 @@
         actualizarCarrito();
         guardarDatos();
         
-        // Eliminado: mostrarNotificacion para cada producto añadido
-        
-        // Animación del botón
-        const button = event?.target;
+        // Animación del botón mejorada
+        const button = event?.target || document.querySelector(`[onclick*="agregarAlCarrito(${productoId})"]`);
         if (button) {
-          button.classList.add('loading');
+          button.classList.add('adding');
           setTimeout(() => {
-            button.classList.remove('loading');
-          }, 500);
+            button.classList.remove('adding');
+          }, 600);
         }
         
       } catch (error) {
@@ -3381,19 +3385,31 @@
       }
     }
 
-    // TOGGLE MENÚ MÓVIL
+    // TOGGLE MENÚ MÓVIL MEJORADO
     function toggleMenu() {
       try {
         const nav = document.getElementById('nav-menu');
         const toggle = document.getElementById('menu-toggle');
-        const mainContainer = document.querySelector('.main-container');
-        const isVerySmall = window.innerWidth <= 480;
+        const body = document.body;
+        
+        // Crear overlay si no existe
+        let overlay = document.getElementById('menu-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.id = 'menu-overlay';
+          overlay.className = 'menu-overlay';
+          overlay.addEventListener('click', toggleMenu);
+          body.appendChild(overlay);
+        }
         
         nav.classList.toggle('hidden-mobile');
+        overlay.classList.toggle('show');
         
-        // En pantallas muy pequeñas, también cambiar el margin del main container
-        if (isVerySmall) {
-          mainContainer.classList.toggle('nav-visible');
+        // Prevenir scroll del body cuando el menú está abierto
+        if (!nav.classList.contains('hidden-mobile')) {
+          body.classList.add('nav-visible');
+        } else {
+          body.classList.remove('nav-visible');
         }
         
         // Cambiar icono del botón
@@ -3463,9 +3479,6 @@
               <div class="emoji">🔍</div>
             </div>
           `;
-          // Eliminado: mostrarNotificacion para búsqueda sin resultados
-        } else {
-          // Eliminado: mostrarNotificacion para búsqueda con resultados
         }
         
       } catch (error) {
@@ -3669,10 +3682,17 @@
         // Detectar si es móvil para optimizaciones
         const isMobile = window.innerWidth <= 768;
         
-        // Mostrar botón toggle en móvil
+        // Configurar menú móvil
         const menuToggle = document.getElementById('menu-toggle');
-        if (isMobile && menuToggle) {
-          menuToggle.style.display = 'block';
+        const nav = document.getElementById('nav-menu');
+        
+        if (isMobile) {
+          if (menuToggle) {
+            menuToggle.style.display = 'block';
+          }
+          if (nav) {
+            nav.classList.add('hidden-mobile');
+          }
         }
         
         // Configurar altura de viewport para móviles
@@ -3736,22 +3756,22 @@
         // Listener para cambios de tamaño de ventana
         window.addEventListener('resize', function() {
           const isMobile = window.innerWidth <= 768;
-          const isVerySmall = window.innerWidth <= 480;
           const menuToggle = document.getElementById('menu-toggle');
           const nav = document.getElementById('nav-menu');
-          const mainContainer = document.querySelector('.main-container');
+          const overlay = document.getElementById('menu-overlay');
+          const body = document.body;
           
-          if (menuToggle) {
+          if (menuToggle && nav) {
             if (isMobile) {
               menuToggle.style.display = 'block';
-              if (isVerySmall) {
-                // En pantallas muy pequeñas, ocultar nav por defecto
-                mainContainer.classList.remove('nav-visible');
-              }
+              nav.classList.add('hidden-mobile');
+              if (overlay) overlay.classList.remove('show');
+              body.classList.remove('nav-visible');
             } else {
               menuToggle.style.display = 'none';
               nav.classList.remove('hidden-mobile');
-              mainContainer.classList.remove('nav-visible');
+              if (overlay) overlay.classList.remove('show');
+              body.classList.remove('nav-visible');
             }
           }
         });
