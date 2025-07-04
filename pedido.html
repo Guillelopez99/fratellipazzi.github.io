@@ -1136,12 +1136,6 @@
       line-height: 1;
     }
     
-    .pizza-price-per-person {
-      font-size: 11px;
-      color: rgba(251, 244, 232, 0.5);
-      margin-top: 2px;
-    }
-    
     .card-actions {
       display: flex;
       align-items: center;
@@ -1355,7 +1349,7 @@
     
     .product-modal-details {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: var(--space-md);
       margin-bottom: var(--space-xl);
     }
@@ -1825,8 +1819,9 @@
       
       /* Footer de la tarjeta simplificado */
       .pizza-card-footer {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         gap: 0.5rem;
       }
       
@@ -1843,17 +1838,11 @@
         margin: 0;
       }
       
-      .pizza-price-per-person {
-        font-size: 0.75rem !important;
-        color: rgba(30,33,34,0.6) !important;
-        margin-top: 2px;
-      }
-      
       /* Acciones de la tarjeta - posicionamiento absoluto */
       .card-actions {
         position: absolute !important;
-        bottom: 12px !important;
-        right: 12px !important;
+        bottom: 8px !important;
+        right: 8px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -2592,10 +2581,6 @@
       };
     }
 
-    function calcularPrecioPorPersona(precio, porciones) {
-      return precio / porciones;
-    }
-
     function obtenerBadges(producto) {
       let badges = [];
       if (producto.pizzaDelMes) badges.push({ text: 'Pizza del Mes', class: 'pizza-del-mes' });
@@ -2721,18 +2706,12 @@
               <span>🔥</span>
               <span>${producto.calorias} cal</span>
             </div>
-            <div class="detail-item">
-              <span>👥</span>
-              <span>${producto.porcionesRecomendadas} pers</span>
-            </div>
           </div>
           <div class="pizza-card-footer">
             <div class="price-container">
               <div class="pizza-price">${formatearPrecio(producto.precio)}</div>
-              <div class="pizza-price-per-person">
-                ${formatearPrecio(calcularPrecioPorPersona(producto.precio, producto.porcionesRecomendadas))} por persona
-              </div>
             </div>
+          </div>
             <div class="quantity-selector">
               <button onclick="cambiarCantidadProducto(${producto.id}, -1)" 
                       aria-label="Disminuir cantidad">-</button>
@@ -3007,10 +2986,6 @@
           <div class="detail-card">
             <div class="detail-card-title">Calorías</div>
             <div class="detail-card-value">${producto.calorias} cal</div>
-          </div>
-          <div class="detail-card">
-            <div class="detail-card-title">Porciones</div>
-            <div class="detail-card-value">${producto.porcionesRecomendadas} pers</div>
           </div>
           <div class="detail-card">
             <div class="detail-card-title">Alérgenos</div>
