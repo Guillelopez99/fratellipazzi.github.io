@@ -83,17 +83,41 @@
       position: relative;
     }
     
+    /* LOGO LOADER CON IMAGEN */
     .logo-loader {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-lg);
+      animation: logoFloat 3s ease-in-out infinite;
+      position: relative;
+    }
+    
+    .logo-loader img {
+      height: clamp(80px, 12vw, 120px);
+      width: auto;
+      filter: brightness(1.2) contrast(1.1) drop-shadow(0 4px 20px rgba(205, 184, 124, 0.3));
+      object-fit: contain;
+    }
+    
+    /* Fallback para logo loader si la imagen no carga */
+    .logo-loader img[alt]:after {
+      content: attr(alt);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: var(--gradient-gold);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: var(--space-lg);
-      letter-spacing: -0.02em;
-      animation: logoFloat 3s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 6vw, 3rem);
     }
     
     @keyframes logoFloat {
@@ -160,6 +184,10 @@
       padding: var(--space-sm) var(--space-md);
     }
     
+    .header-container.scrolled .logo img {
+      height: clamp(35px, 5vw, 50px);
+    }
+    
     header {
       background: rgba(30, 33, 34, 0.8);
       backdrop-filter: blur(20px);
@@ -180,16 +208,44 @@
       text-align: center;
     }
     
+    /* LOGO DINÁMICO CON IMAGEN */
     .logo {
-      font-family: 'Playfair Display', serif; 
-      font-size: clamp(1.5rem, 4vw, 2rem); 
-      font-weight: 900;
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      display: flex;
+      align-items: center;
       text-decoration: none;
-      letter-spacing: -0.01em;
+      position: relative;
+    }
+    
+    .logo img {
+      height: clamp(40px, 6vw, 60px);
+      width: auto;
+      transition: all 0.3s ease;
+      filter: brightness(1.1) contrast(1.1);
+      object-fit: contain;
+    }
+    
+    .logo:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.2) contrast(1.2);
+    }
+    
+    /* Fallback en caso de que la imagen no cargue */
+    .logo img[alt]:after {
+      content: attr(alt);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 4px;
     }
     
     .nav-main { 
@@ -1398,6 +1454,18 @@
 
     /* RESPONSIVE DESIGN CENTRADO */
     @media (max-width: 768px) {
+      .logo img {
+        height: clamp(35px, 8vw, 45px);
+      }
+      
+      .header-container.scrolled .logo img {
+        height: clamp(30px, 6vw, 40px);
+      }
+      
+      .logo-loader img {
+        height: clamp(60px, 15vw, 100px);
+      }
+      
       .header-content {
         flex-direction: column;
         gap: var(--space-md);
@@ -1474,6 +1542,18 @@
     }
 
     @media (max-width: 480px) {
+      .logo img {
+        height: clamp(30px, 10vw, 40px);
+      }
+      
+      .header-container.scrolled .logo img {
+        height: clamp(25px, 8vw, 35px);
+      }
+      
+      .logo-loader img {
+        height: clamp(50px, 18vw, 80px);
+      }
+      
       .offers-slider {
         height: 250px;
       }
@@ -1505,7 +1585,9 @@
   <!-- FULLSCREEN LOADER -->
   <div class="fullscreen-loader" id="pageLoader">
     <div class="loader-content">
-      <div class="logo-loader">Fratelli Pazzi</div>
+      <div class="logo-loader">
+        <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi" loading="eager">
+      </div>
       <div class="loading-dots">
         <div class="loading-dot"></div>
         <div class="loading-dot"></div>
@@ -1548,7 +1630,9 @@
   <div class="header-container" id="headerContainer">
     <header>
       <div class="header-content">
-        <a href="#" class="logo">Fratelli Pazzi</a>
+        <a href="#" class="logo">
+          <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
+        </a>
         <nav class="nav-main" id="mainNavigation">
           <a href="#ofertas">Ofertas</a>
           <a href="#nuestras-pizzas">Pizzas</a>
