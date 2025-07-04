@@ -1555,6 +1555,28 @@
       background: rgba(255, 255, 255, 0.3);
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
+	    /* OVERLAY PARA MENÚ MÓVIL */
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1400;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    body.nav-visible {
+      overflow: hidden;
+    }
     
   /* OPTIMIZACIONES MÓVILES */
     @media (max-width: 768px) {
@@ -1660,11 +1682,40 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
         padding: 1rem !important;
         display: grid !important;
-        grid-template-columns: 80px 1fr auto !important;
+        grid-template-columns: 80px 1fr 50px !important;
         gap: 1rem !important;
         align-items: center !important;
         min-height: auto !important;
         margin-bottom: 1rem;
+        position: relative;
+      }
+      
+      /* Normalizar todas las pizzas del mes para que tengan el mismo tamaño */
+      .pizza-card.pizza-del-mes {
+        background: linear-gradient(135deg, #fef3f0 0%, var(--cream) 100%) !important;
+        border: 2px solid var(--terracota) !important;
+        box-shadow: 0 4px 16px rgba(213, 120, 108, 0.2) !important;
+        /* Mismo tamaño que las otras tarjetas */
+        padding: 1rem !important;
+        min-height: auto !important;
+        grid-template-columns: 80px 1fr 50px !important;
+      }
+      
+      /* Normalizar pizzas premium en móvil */
+      .pizza-card.premium {
+        background: var(--cream) !important;
+        border: 1px solid rgba(213, 120, 108, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+        padding: 1rem !important;
+        min-height: auto !important;
+        grid-template-columns: 80px 1fr 50px !important;
+      }
+      
+      /* Eliminar elementos especiales que rompan el layout */
+      .pizza-card.pizza-del-mes::before,
+      .pizza-card.pizza-del-mes::after,
+      .pizza-card.premium::before {
+        display: none !important;
       }
       
       /* Imagen compacta */
@@ -1787,10 +1838,13 @@
       
       /* Acciones de la tarjeta */
       .card-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0 !important;
+        width: 50px !important;
+        height: 100% !important;
       }
       
       /* Ocultar selector de cantidad en móvil */
@@ -1802,7 +1856,6 @@
       .add-to-cart-btn {
         width: 40px !important;
         height: 40px !important;
-        font-size: 1.5rem !important;
         background: var(--gradient-accent) !important;
         color: white !important;
         border: none !important;
@@ -1815,30 +1868,51 @@
         box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3) !important;
         transition: all 0.2s ease !important;
         font-family: system-ui !important;
+        font-size: 20px !important;
+        font-weight: 300 !important;
+        position: relative;
       }
       
       .add-to-cart-btn:active {
         transform: scale(0.9) !important;
       }
       
-      .add-to-cart-btn:before {
+      /* Mostrar solo el símbolo + */
+      .add-to-cart-btn::before {
         content: '+' !important;
+        display: block !important;
+        line-height: 1 !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
       }
       
-      /* Ocultar texto del botón en móvil */
-      .add-to-cart-btn * {
+      /* Ocultar todo el contenido de texto del botón */
+      .add-to-cart-btn > *,
+      .add-to-cart-btn span,
+      .add-to-cart-btn .emoji {
         display: none !important;
+        visibility: hidden !important;
       }
       
-      /* Estilos especiales para Pizza del Mes en móvil */
-      .pizza-card.pizza-del-mes {
-        background: linear-gradient(135deg, #fef3f0 0%, var(--cream) 100%) !important;
-        border: 2px solid var(--terracota) !important;
-        box-shadow: 0 4px 16px rgba(213, 120, 108, 0.2) !important;
+      /* Asegurar que solo se muestre el + */
+      .add-to-cart-btn {
+        font-size: 0 !important;
+        text-indent: 0 !important;
+        overflow: hidden !important;
       }
       
       .pizza-card.pizza-del-mes .pizza-name {
         color: var(--terracota) !important;
+        font-size: 1.125rem !important;
+        font-weight: 600 !important;
+      }
+      
+      .pizza-card.pizza-del-mes .pizza-price {
+        color: var(--terracota) !important;
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
       }
       
       .pizza-card.pizza-del-mes .add-to-cart-btn {
