@@ -283,9 +283,6 @@
     /* BOTÓN TOGGLE MENÚ */
     .menu-toggle {
       display: none;
-      position: fixed;
-      top: 150px;
-      left: var(--space-sm);
       width: 36px;
       height: 36px;
       background: var(--gradient-accent);
@@ -294,9 +291,10 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-              z-index: 1600;
+      z-index: 1600;
       box-shadow: var(--shadow-card);
       transition: all 0.3s ease;
+      position: relative;
     }
     
     .menu-toggle:hover {
@@ -1626,25 +1624,40 @@
         padding: 0.75rem 1rem !important;
       }
       
+      /* Ajustar contenido del header en móvil */
+      .header-content {
+        position: relative;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+      }
+      
+      /* Ocultar controles de filtros en móvil o moverlos */
+      .filters-container {
+        display: none !important;
+      }
+      
+      /* Ajustar acciones del header para móvil */
+      .header-actions {
+        flex-shrink: 0;
+        order: 1;
+      }
+      
       header h1 {
         font-size: 1.5rem !important;
+        text-align: center !important;
+        margin: 0 !important;
+        flex: 1 !important;
+        order: 2;
       }
       
-      /* Filtros en móvil */
-      .filters-container {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-      
-      #search-input {
-        width: 100% !important;
-        max-width: 280px;
-        font-size: 16px; /* Evitar zoom en iOS */
-      }
-      
-      .filter-btn {
-        font-size: 0.875rem;
-        padding: 0.5rem 0.75rem;
+      /* Mostrar y posicionar botón toggle */
+      .menu-toggle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        order: 3 !important;
       }
       
       /* Contenedor principal sin margen lateral */
@@ -1673,14 +1686,6 @@
       
       nav.indice.hidden-mobile {
         left: -300px;
-      }
-      
-      /* Mostrar botón toggle */
-      .menu-toggle {
-        display: block !important;
-        top: 130px;
-        left: 1rem;
-        z-index: 1600;
       }
       
       /* Tarjetas de productos optimizadas para móvil */
@@ -2013,14 +2018,13 @@
           <button class="filter-btn" id="filter-premium" onclick="filtrarPorPrecio('premium')" aria-label="Mostrar pizzas premium">Pizzas Premium</button>
           <button class="filter-btn favorites-btn" id="filter-favorites" onclick="filtrarFavoritos()" aria-label="Mostrar favoritos">♥ Favoritos</button>
         </div>
+        <!-- Botón toggle para móvil integrado en el layout -->
+        <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()" style="display: none;" aria-label="Mostrar/ocultar menú">☰</button>
       </div>
     </header>
   </div>
 
   <div class="main-container">
-    <!-- Botón toggle para móvil -->
-    <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()" style="display: none;" aria-label="Mostrar/ocultar menú">☰</button>
-    
     <nav class="indice" id="nav-menu" role="navigation" aria-label="Navegación del menú">
       <h3>Menú</h3>
       <ul>
