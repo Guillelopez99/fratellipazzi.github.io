@@ -284,15 +284,15 @@
     .menu-toggle {
       display: none;
       position: fixed;
-      top: 200px;
+      top: 140px;
       left: var(--space-sm);
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       background: var(--gradient-accent);
       border: none;
       border-radius: 50%;
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
       z-index: 1001;
       box-shadow: var(--shadow-card);
@@ -1622,18 +1622,17 @@
         padding-left: var(--space-lg);
       }
       
+      /* MANTENER TARJETAS HORIZONTALES EN TABLET TAMBIÉN */
       .pizza-card {
-        flex-direction: column;
-        text-align: center;
         min-height: auto;
       }
       
       .pizza-card.premium {
-        min-height: 200px;
+        min-height: 180px;
       }
       
       .pizza-card.pizza-del-mes {
-        min-height: 220px;
+        min-height: 200px;
       }
       
       .pizza-card.pizza-del-mes::after {
@@ -1652,27 +1651,15 @@
         width: 130px;
         height: 130px;
       }
-      
-      .pizza-card-header {
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-sm);
-      }
-      
-      .pizza-card-footer {
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-sm);
-      }
     }
     
     @media (max-width: 768px) {
       body {
-        padding-top: 180px;
+        padding-top: 120px; /* Reducido de 180px a 120px */
       }
       
       .header-container {
-        padding: var(--space-sm);
+        padding: var(--space-xs); /* Más compacto */
         position: fixed;
         top: 0;
         z-index: 1000;
@@ -1680,24 +1667,25 @@
       
       .header-content {
         flex-direction: column;
-        gap: var(--space-sm);
+        gap: var(--space-xs); /* Reducido el gap */
         text-align: center;
       }
       
       header {
         width: 100%;
         box-sizing: border-box;
+        padding: var(--space-sm) var(--space-md); /* Padding más pequeño */
       }
       
       header h1 {
-        font-size: clamp(1.2rem, 5vw, 1.5rem);
+        font-size: clamp(1rem, 4vw, 1.3rem); /* Título más pequeño */
         margin: 0;
       }
       
       nav.indice {
         width: 200px;
         left: var(--space-sm);
-        top: 180px;
+        top: 130px; /* Ajustado para el header más pequeño */
         padding: var(--space-md);
         font-size: 14px;
       }
@@ -1728,21 +1716,21 @@
         flex-wrap: wrap;
         justify-content: center;
         width: 100%;
-        gap: var(--space-xs);
+        gap: 4px; /* Gap muy pequeño */
       }
       
       .menu-toggle {
         display: block;
         position: fixed;
-        top: 200px;
+        top: 140px; /* Ajustado para el header más pequeño */
         left: var(--space-sm);
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
         background: var(--gradient-accent);
         border: none;
         border-radius: 50%;
         color: white;
-        font-size: 18px;
+        font-size: 16px;
         cursor: pointer;
         z-index: 1001;
         box-shadow: var(--shadow-card);
@@ -1832,97 +1820,120 @@
       
       .pizza-card.premium {
         padding: var(--space-md);
-        min-height: 140px;
+        min-height: 120px;
       }
       
       .pizza-card.pizza-del-mes {
         padding: var(--space-md);
-        min-height: 160px;
+        min-height: 130px;
         border-width: 2px;
       }
       
       .pizza-card.premium::before {
-        font-size: 18px;
-        top: var(--space-xs);
-        left: var(--space-xs);
+        font-size: 16px;
+        top: 4px;
+        left: 4px;
       }
       
       .pizza-card.pizza-del-mes::before {
-        font-size: 20px;
-        top: var(--space-xs);
-        left: var(--space-xs);
+        font-size: 18px;
+        top: 4px;
+        left: 4px;
       }
       
       .pizza-card.pizza-del-mes::after {
-        font-size: 9px;
-        padding: 3px 6px;
-        top: var(--space-xs);
-        right: var(--space-xs);
-        border-radius: 4px;
+        font-size: 8px;
+        padding: 2px 4px;
+        top: 4px;
+        right: 4px;
+        border-radius: 3px;
       }
       
       .pizza-card-image {
+        width: 70px;
+        height: 70px;
+        flex-shrink: 0;
+      }
+      
+      .pizza-card.premium .pizza-card-image {
         width: 80px;
         height: 80px;
       }
       
-      .pizza-card.premium .pizza-card-image {
-        width: 90px;
-        height: 90px;
+      .pizza-card.pizza-del-mes .pizza-card-image {
+        width: 85px;
+        height: 85px;
       }
       
-      .pizza-card.pizza-del-mes .pizza-card-image {
-        width: 100px;
-        height: 100px;
+      .pizza-card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      
+      .pizza-card-header {
+        flex-direction: row !important;
+        justify-content: space-between;
+        align-items: flex-start !important;
+        margin-bottom: var(--space-xs);
+      }
+      
+      .pizza-card-footer {
+        flex-direction: row !important;
+        justify-content: space-between;
+        align-items: center !important;
+        gap: var(--space-xs);
       }
       
       .pizza-name {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.2;
       }
       
       .pizza-card.premium .pizza-name {
-        font-size: 18px;
+        font-size: 16px;
       }
       
       .pizza-card.pizza-del-mes .pizza-name {
-        font-size: 20px;
+        font-size: 17px;
       }
       
       .pizza-ingredients {
-        font-size: 13px;
+        font-size: 11px;
         -webkit-line-clamp: 2;
-        margin-bottom: var(--space-sm);
+        margin-bottom: var(--space-xs);
       }
       
       .pizza-card.pizza-del-mes .pizza-ingredients {
-        font-size: 14px;
+        font-size: 12px;
       }
       
       .pizza-details {
-        gap: var(--space-md);
-        font-size: 11px;
+        gap: var(--space-sm);
+        font-size: 10px;
+        margin-bottom: var(--space-xs);
       }
       
       .pizza-price {
-        font-size: 18px;
+        font-size: 16px;
       }
       
       .pizza-card.premium .pizza-price {
-        font-size: 20px;
+        font-size: 18px;
       }
       
       .pizza-card.pizza-del-mes .pizza-price {
-        font-size: 22px;
+        font-size: 19px;
       }
       
       .pizza-price-per-person {
-        font-size: 10px;
+        font-size: 9px;
       }
       
       .add-to-cart-btn {
-        font-size: 12px;
-        padding: var(--space-xs) var(--space-sm);
+        font-size: 11px;
+        padding: 6px 10px;
       }
       
       .quantity-selector {
@@ -1930,14 +1941,14 @@
       }
       
       .quantity-selector button {
-        width: 20px;
-        height: 20px;
-        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        font-size: 11px;
       }
       
       .quantity-selector span {
-        min-width: 20px;
-        font-size: 12px;
+        min-width: 18px;
+        font-size: 11px;
       }
       
       .carrito-modal {
@@ -2026,134 +2037,138 @@
     
     @media (max-width: 480px) {
       nav.indice {
-        width: 180px;
-        padding: var(--space-sm);
+        width: 160px;
+        padding: var(--space-xs);
       }
       
       nav.indice h3 {
-        font-size: 14px;
+        font-size: 12px;
       }
       
       nav.indice a {
-        font-size: 12px;
-        padding: 6px 8px;
+        font-size: 10px;
+        padding: 4px 6px;
       }
       
       .main-container {
         margin-left: 0;
         width: 100%;
-        padding: var(--space-sm);
+        padding: var(--space-xs);
       }
       
       .main-container.nav-visible {
-        margin-left: 200px;
-        width: calc(100% - 200px);
+        margin-left: 180px;
+        width: calc(100% - 180px);
       }
       
       .filters-container {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        gap: var(--space-xs);
+        gap: 2px;
       }
       
       .filter-btn {
-        font-size: 11px;
-        padding: var(--space-xs) var(--space-sm);
+        font-size: 9px;
+        padding: 3px 6px;
         flex: 1;
-        min-width: 80px;
-        max-width: 120px;
+        min-width: 55px;
+        max-width: 75px;
+        min-height: 28px;
       }
       
       .search-container {
         width: 100%;
         order: -1;
-        margin-bottom: var(--space-sm);
+        margin-bottom: 2px;
+      }
+      
+      #search-input {
+        height: 32px;
+        padding: 4px 8px;
+        font-size: 13px;
       }
       
       .pizza-card {
-        padding: var(--space-sm);
-      }
-      
-      .pizza-card.premium {
-        padding: var(--space-md);
-        min-height: 140px;
-      }
-      
-      .pizza-card.pizza-del-mes {
-        padding: var(--space-md);
-        min-height: 160px;
-      }
-      
-      .pizza-card.premium::before {
-        font-size: 18px;
-        top: 8px;
-        left: 8px;
-      }
-      
-      .pizza-card.pizza-del-mes::before {
-        font-size: 20px;
-        top: 8px;
-        left: 8px;
-      }
-      
-      .pizza-card.pizza-del-mes::after {
-        font-size: 7px;
-        padding: 2px 4px;
-        top: 6px;
-        right: 8px;
+        padding: 6px;
+        min-height: 85px;
+        gap: 8px;
+        /* MANTENER HORIZONTAL INCLUSO EN PANTALLAS MUY PEQUEÑAS */
+        flex-direction: row !important;
       }
       
       .pizza-card-image {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
       }
       
       .pizza-card.premium .pizza-card-image {
-        width: 80px;
-        height: 80px;
+        width: 65px;
+        height: 65px;
       }
       
       .pizza-name {
-        font-size: 16px;
+        font-size: 12px;
       }
       
       .pizza-card.premium .pizza-name {
-        font-size: 18px;
+        font-size: 14px;
       }
       
-      .pizza-card.pizza-del-mes .pizza-name {
-        font-size: 20px;
+      .pizza-ingredients {
+        font-size: 10px;
+        -webkit-line-clamp: 1;
+      }
+      
+      .pizza-details {
+        font-size: 9px;
+        gap: 4px;
       }
       
       .pizza-price {
-        font-size: 18px;
+        font-size: 14px;
       }
       
       .pizza-card.premium .pizza-price {
-        font-size: 20px;
+        font-size: 16px;
       }
       
-      .pizza-card.pizza-del-mes .pizza-price {
-        font-size: 22px;
+      .pizza-price-per-person {
+        font-size: 8px;
+      }
+      
+      .add-to-cart-btn {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+      
+      .quantity-selector button {
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+      }
+      
+      .quantity-selector span {
+        min-width: 16px;
+        font-size: 10px;
       }
       
       .carrito-modal {
-        padding: var(--space-sm);
+        padding: var(--space-xs);
       }
       
       .carrito-modal-content {
         max-height: 98vh;
-        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        border-radius: var(--radius-sm) var(--radius-sm) 0 0;
       }
       
       .carrito-modal-body {
-        max-height: calc(98vh - 160px);
+        max-height: calc(98vh - 140px);
       }
       
       .carrito-modal-header,
       .carrito-modal-footer {
-        padding: var(--space-md);
+        padding: var(--space-sm);
       }
     }
     
@@ -3610,8 +3625,15 @@
       try {
         const nav = document.getElementById('nav-menu');
         const toggle = document.getElementById('menu-toggle');
+        const mainContainer = document.querySelector('.main-container');
+        const isVerySmall = window.innerWidth <= 480;
         
         nav.classList.toggle('hidden-mobile');
+        
+        // En pantallas muy pequeñas, también cambiar el margin del main container
+        if (isVerySmall) {
+          mainContainer.classList.toggle('nav-visible');
+        }
         
         // Cambiar icono del botón
         if (nav.classList.contains('hidden-mobile')) {
@@ -3953,15 +3975,22 @@
         // Listener para cambios de tamaño de ventana
         window.addEventListener('resize', function() {
           const isMobile = window.innerWidth <= 768;
+          const isVerySmall = window.innerWidth <= 480;
           const menuToggle = document.getElementById('menu-toggle');
           const nav = document.getElementById('nav-menu');
+          const mainContainer = document.querySelector('.main-container');
           
           if (menuToggle) {
             if (isMobile) {
               menuToggle.style.display = 'block';
+              if (isVerySmall) {
+                // En pantallas muy pequeñas, ocultar nav por defecto
+                mainContainer.classList.remove('nav-visible');
+              }
             } else {
               menuToggle.style.display = 'none';
               nav.classList.remove('hidden-mobile');
+              mainContainer.classList.remove('nav-visible');
             }
           }
         });
