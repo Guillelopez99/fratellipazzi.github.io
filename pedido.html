@@ -1555,10 +1555,7 @@
       background: rgba(255, 255, 255, 0.3);
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
-	    /* Ocultar selector de cantidad en móvil */
-      .quantity-selector {
-        display: none !important;
-      }    /* OVERLAY PARA MENÚ MÓVIL */
+	    /* OVERLAY PARA MENÚ MÓVIL */
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -1581,7 +1578,7 @@
       overflow: hidden;
     }
     
-    /* OPTIMIZACIONES MÓVILES */
+  /* OPTIMIZACIONES MÓVILES */
     @media (max-width: 768px) {
       /* Ajustes del body y contenedor principal */
       body {
@@ -1685,7 +1682,7 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
         padding: 1rem !important;
         display: grid !important;
-        grid-template-columns: 80px 1fr !important;
+        grid-template-columns: 80px 1fr 50px !important;
         gap: 1rem !important;
         align-items: center !important;
         min-height: auto !important;
@@ -1701,7 +1698,7 @@
         /* Mismo tamaño que las otras tarjetas */
         padding: 1rem !important;
         min-height: auto !important;
-        grid-template-columns: 80px 1fr !important;
+        grid-template-columns: 80px 1fr 50px !important;
       }
       
       /* Normalizar pizzas premium en móvil */
@@ -1711,7 +1708,7 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
         padding: 1rem !important;
         min-height: auto !important;
-        grid-template-columns: 80px 1fr !important;
+        grid-template-columns: 80px 1fr 50px !important;
       }
       
       /* Eliminar elementos especiales que rompan el layout */
@@ -1839,20 +1836,26 @@
         margin-top: 2px;
       }
       
-      /* Acciones de la tarjeta - posicionamiento absoluto */
+      /* Acciones de la tarjeta */
       .card-actions {
-        position: absolute !important;
-        bottom: 12px !important;
-        right: 12px !important;
         display: flex !important;
+        flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
+        gap: 0 !important;
+        width: 50px !important;
+        height: 100% !important;
       }
       
-      /* Botón + posicionado en esquina inferior derecha */
+      /* Ocultar selector de cantidad en móvil */
+      .quantity-selector {
+        display: none !important;
+      }
+      
+      /* Botón simplificado de añadir */
       .add-to-cart-btn {
-        width: 36px !important;
-        height: 36px !important;
+        width: 40px !important;
+        height: 40px !important;
         background: var(--gradient-accent) !important;
         color: white !important;
         border: none !important;
@@ -1863,61 +1866,41 @@
         padding: 0 !important;
         cursor: pointer !important;
         box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3) !important;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        transition: all 0.2s ease !important;
         font-family: system-ui !important;
-        font-size: 18px !important;
+        font-size: 20px !important;
         font-weight: 300 !important;
-        position: relative !important;
-        z-index: 10 !important;
+        position: relative;
       }
       
-      /* Contenido del botón - solo mostrar + */
-      .add-to-cart-btn {
-        font-size: 0 !important; /* Ocultar texto */
+      .add-to-cart-btn:active {
+        transform: scale(0.9) !important;
       }
       
-      .add-to-cart-btn::after {
+      /* Mostrar solo el símbolo + */
+      .add-to-cart-btn::before {
         content: '+' !important;
-        font-size: 18px !important;
-        font-weight: 300 !important;
-        color: white !important;
+        display: block !important;
+        line-height: 1 !important;
         position: absolute !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
-        line-height: 1 !important;
       }
       
-      /* Animaciones del botón */
-      .add-to-cart-btn:hover {
-        transform: scale(1.1) !important;
-        box-shadow: 0 4px 12px rgba(213, 120, 108, 0.4) !important;
+      /* Ocultar todo el contenido de texto del botón */
+      .add-to-cart-btn > *,
+      .add-to-cart-btn span,
+      .add-to-cart-btn .emoji {
+        display: none !important;
+        visibility: hidden !important;
       }
       
-      .add-to-cart-btn:active {
-        transform: scale(0.85) !important;
-        transition: all 0.1s ease !important;
-      }
-      
-      /* Animación de pulso cuando se añade */
-      .add-to-cart-btn.adding {
-        animation: addPulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-      }
-      
-      @keyframes addPulse {
-        0% { 
-          transform: scale(1);
-          box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3);
-        }
-        50% { 
-          transform: scale(1.3);
-          box-shadow: 0 8px 20px rgba(213, 120, 108, 0.6);
-          background: #e0958a;
-        }
-        100% { 
-          transform: scale(1);
-          box-shadow: 0 2px 8px rgba(213, 120, 108, 0.3);
-        }
+      /* Asegurar que solo se muestre el + */
+      .add-to-cart-btn {
+        font-size: 0 !important;
+        text-indent: 0 !important;
+        overflow: hidden !important;
       }
       
       .pizza-card.pizza-del-mes .pizza-name {
@@ -1935,12 +1918,6 @@
       .pizza-card.pizza-del-mes .add-to-cart-btn {
         background: var(--gradient-accent) !important;
         box-shadow: 0 4px 12px rgba(213, 120, 108, 0.4) !important;
-      }
-      
-      .pizza-card.pizza-del-mes .add-to-cart-btn::after {
-        content: '+' !important;
-        font-size: 18px !important;
-        color: white !important;
       }
       
       /* Galerias en móvil */
@@ -2622,94 +2599,99 @@
       }
     }
 
-    /* ======= crearTarjetaProducto (nuevo) ======= */
-function crearTarjetaProducto(producto) {
-  const card = document.createElement('div');
-  card.className = 'pizza-card';
-
-  // Clase especial para Pizza del Mes
-  if (producto.pizzaDelMes) card.classList.add('pizza-del-mes');
-
-  card.setAttribute('data-producto-id', producto.id);
-  card.setAttribute('data-nombre', producto.nombre.toLowerCase());
-  card.setAttribute('data-ingredientes', (producto.ingredientes || '').toLowerCase());
-  card.setAttribute('data-precio', producto.precio);
-  card.setAttribute('data-categoria', producto.categoria);
-
-  const badges = obtenerBadges(producto);
-  const badgesHtml = badges
-    .map(b => `<span class="badge ${b.class}">${b.text}</span>`)
-    .join('');
-
-  const ingredientesHtml = producto.ingredientes
-    ? `<div class="pizza-ingredients">${producto.ingredientes}</div>`
-    : '';
-
-  const cantidad = cantidadProductoSeleccionado[producto.id] || 1;
-
-  card.innerHTML = `
-    <div class="pizza-card-image">
-      <img src="${producto.imagen}"
-           alt="${producto.nombre}"
-           loading="lazy"
-           onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNzAiIGZpbGw9IiNGOEY5RkEiIHN0cm9rZT0iI0RFRTJFNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNzUiIHk9Ijg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiM2Qzc1N0QiPvCfjaU8L3RleHQ+PC9zdmc+'">
-      <button class="favorite-btn ${favoritos.includes(producto.id) ? 'active' : ''}"
-              onclick="toggleFavorito(${producto.id})"
-              aria-label="Marcar como favorito">
-        ${favoritos.includes(producto.id) ? '♥' : '♡'}
-      </button>
-    </div>
-
-    <div class="pizza-card-content">
-      <div class="pizza-card-header">
-        <h3 class="pizza-name">${producto.nombre}</h3>
-        <div class="pizza-badges">${badgesHtml}</div>
-      </div>
-
-      ${ingredientesHtml}
-
-      <div class="pizza-details">
-        <div class="detail-item"><span>🔥</span><span>${producto.calorias} cal</span></div>
-        <div class="detail-item"><span>👥</span><span>${producto.porcionesRecomendadas} pers</span></div>
-      </div>
-
-      <div class="pizza-card-footer">
-        <div class="price-container">
-          <div class="pizza-price">${formatearPrecio(producto.precio)}</div>
-          <div class="pizza-price-per-person">
-            ${formatearPrecio(calcularPrecioPorPersona(producto.precio, producto.porcionesRecomendadas))} por persona
+    function crearTarjetaProducto(producto) {
+      const card = document.createElement('div');
+      card.className = 'pizza-card';
+      
+      // Añadir clase especial para Pizza del Mes
+      if (producto.pizzaDelMes) {
+        card.classList.add('pizza-del-mes');
+      }
+      
+      card.setAttribute('data-producto-id', producto.id);
+      card.setAttribute('data-nombre', producto.nombre.toLowerCase());
+      card.setAttribute('data-ingredientes', (producto.ingredientes || '').toLowerCase());
+      card.setAttribute('data-precio', producto.precio);
+      card.setAttribute('data-categoria', producto.categoria);
+      
+      const badges = obtenerBadges(producto);
+      const badgesHtml = badges.map(badge => 
+        `<span class="badge ${badge.class}">${badge.text}</span>`
+      ).join('');
+      
+      const ingredientesHtml = producto.ingredientes ? 
+        `<div class="pizza-ingredients">${producto.ingredientes}</div>` : '';
+      
+      const cantidad = cantidadProductoSeleccionado[producto.id] || 1;
+      
+      card.innerHTML = `
+        <div class="pizza-card-image">
+          <img src="${producto.imagen}" 
+               alt="${producto.nombre}" 
+               loading="lazy"
+               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNzAiIGZpbGw9IiNGOEY5RkEiIHN0cm9rZT0iI0RFRTJFNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNzUiIHk9Ijg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiM2Qzc1N0QiPvCfjaU8L3RleHQ+PC9zdmc+'">
+          <button class="favorite-btn ${favoritos.includes(producto.id) ? 'active' : ''}" 
+                  onclick="toggleFavorito(${producto.id})" 
+                  aria-label="Marcar como favorito">
+            ${favoritos.includes(producto.id) ? '♥' : '♡'}
+          </button>
+        </div>
+        <div class="pizza-card-content">
+          <div class="pizza-card-header">
+            <h3 class="pizza-name">${producto.nombre}</h3>
+            <div class="pizza-badges">
+              ${badgesHtml}
+            </div>
+          </div>
+          ${ingredientesHtml}
+          <div class="pizza-details">
+            <div class="detail-item">
+              <span>🔥</span>
+              <span>${producto.calorias} cal</span>
+            </div>
+            <div class="detail-item">
+              <span>👥</span>
+              <span>${producto.porcionesRecomendadas} pers</span>
+            </div>
+          </div>
+          <div class="pizza-card-footer">
+            <div class="price-container">
+              <div class="pizza-price">${formatearPrecio(producto.precio)}</div>
+              <div class="pizza-price-per-person">
+                ${formatearPrecio(calcularPrecioPorPersona(producto.precio, producto.porcionesRecomendadas))} por persona
+              </div>
+            </div>
+            <div class="card-actions">
+              <div class="quantity-selector">
+                <button onclick="cambiarCantidadProducto(${producto.id}, -1)" 
+                        aria-label="Disminuir cantidad">-</button>
+                <span id="cantidad-${producto.id}">${cantidad}</span>
+                <button onclick="cambiarCantidadProducto(${producto.id}, 1)" 
+                        aria-label="Aumentar cantidad">+</button>
+              </div>
+              <button class="add-to-cart-btn" 
+                      onclick="agregarAlCarrito(${producto.id})" 
+                      aria-label="Añadir ${producto.nombre} al carrito">
+                🛒 Añadir
+              </button>
+            </div>
           </div>
         </div>
-
-        <div class="quantity-selector">
-          <button onclick="cambiarCantidadProducto(${producto.id}, -1)" aria-label="Disminuir cantidad">-</button>
-          <span id="cantidad-${producto.id}">${cantidad}</span>
-          <button onclick="cambiarCantidadProducto(${producto.id}, 1)" aria-label="Aumentar cantidad">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card-actions">
-      <button class="add-to-cart-btn"
-              onclick="agregarAlCarrito(${producto.id})"
-              aria-label="Añadir ${producto.nombre} al carrito">
-      </button>
-    </div>
-  `;
-
-  // Abrir modal al hacer clic (excepto en botones)
-  card.addEventListener('click', e => {
-    if (
-      e.target.classList.contains('favorite-btn') ||
-      e.target.classList.contains('add-to-cart-btn') ||
-      e.target.closest('.quantity-selector') ||
-      e.target.closest('.card-actions')
-    ) { return; }
-    abrirProductModal(producto.id);
-  });
-
-  return card;
-}
+      `;
+      
+      // Añadir evento para abrir modal de detalles
+      card.addEventListener('click', function(e) {
+        if (e.target.classList.contains('favorite-btn') || 
+            e.target.classList.contains('add-to-cart-btn') ||
+            e.target.closest('.quantity-selector') ||
+            e.target.closest('.card-actions')) {
+          return;
+        }
+        abrirProductModal(producto.id);
+      });
+      
+      return card;
+    }
 
     // FUNCIONES DE FAVORITOS
     function toggleFavorito(productoId) {
@@ -3068,45 +3050,50 @@ function crearTarjetaProducto(producto) {
       }
     }
 
-   function agregarAlCarrito(productoId, mostrarNotif = true) {
-  try {
-    const producto = productos.find(p => p.id === productoId);
-    if (!producto) {
-      mostrarNotificacion('Producto no encontrado', 'error');
-      return;
-    }
-
-    const cantidadSeleccionada = cantidadProductoSeleccionado[productoId] || 1;
-    const existente = carrito.find(i => i.id === productoId);
-
-    if (existente) {
-      existente.cantidad += cantidadSeleccionada;
-    } else {
-      carrito.push({
-        id: productoId,
-        nombre: producto.nombre,
-        precio: producto.precio,
-        cantidad: cantidadSeleccionada,
-        imagen: producto.imagen,
-        categoria: producto.categoria
-      });
-    }
-
-    actualizarCarrito();
-    guardarDatos();
-
-    /* animación “pulse” */
-    const btn = event?.target || document.querySelector(`[onclick*="agregarAlCarrito(${productoId})"]`);
-    if (btn) {
-      btn.classList.add('adding');
-      setTimeout(() => btn.classList.remove('adding'), 600);
-    }
-
-  } catch (error) {
-    manejarError(error, 'Error al añadir producto al carrito');
-  }
-}
-/* ======= FIN agregarAlCarrito ======= */
+    // FUNCIONES DEL CARRITO
+    function agregarAlCarrito(productoId, mostrarNotif = true) {
+      try {
+        const producto = productos.find(p => p.id === productoId);
+        if (!producto) {
+          mostrarNotificacion('Producto no encontrado', 'error');
+          return;
+        }
+        
+        const cantidadSeleccionada = cantidadProductoSeleccionado[productoId] || 1;
+        
+        console.log('🛒 Añadiendo:', producto.nombre, `${cantidadSeleccionada}x`, formatearPrecio(producto.precio));
+        
+        const existente = carrito.find(item => item.id === productoId);
+        if (existente) {
+          existente.cantidad += cantidadSeleccionada;
+        } else {
+          carrito.push({ 
+            id: productoId,
+            nombre: producto.nombre, 
+            precio: producto.precio, 
+            cantidad: cantidadSeleccionada,
+            imagen: producto.imagen,
+            categoria: producto.categoria
+          });
+        }
+        
+        actualizarCarrito();
+        guardarDatos();
+        
+        // Eliminado: mostrarNotificacion para cada producto añadido
+        
+        // Animación del botón
+        const button = event?.target;
+        if (button) {
+          button.classList.add('loading');
+          setTimeout(() => {
+            button.classList.remove('loading');
+          }, 500);
+        }
+        
+      } catch (error) {
+        manejarError(error, 'Error al añadir producto al carrito');
+      }
     }
 
     function eliminarDelCarrito(productoId) {
@@ -3396,38 +3383,31 @@ function crearTarjetaProducto(producto) {
 
     // TOGGLE MENÚ MÓVIL
     function toggleMenu() {
-  try {
-    const nav     = document.getElementById('nav-menu');
-    const toggle  = document.getElementById('menu-toggle');
-    const body    = document.body;
-
-    // Crear overlay si no existe
-    let overlay = document.getElementById('menu-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'menu-overlay';
-      overlay.className = 'menu-overlay';
-      overlay.addEventListener('click', toggleMenu);
-      body.appendChild(overlay);
+      try {
+        const nav = document.getElementById('nav-menu');
+        const toggle = document.getElementById('menu-toggle');
+        const mainContainer = document.querySelector('.main-container');
+        const isVerySmall = window.innerWidth <= 480;
+        
+        nav.classList.toggle('hidden-mobile');
+        
+        // En pantallas muy pequeñas, también cambiar el margin del main container
+        if (isVerySmall) {
+          mainContainer.classList.toggle('nav-visible');
+        }
+        
+        // Cambiar icono del botón
+        if (nav.classList.contains('hidden-mobile')) {
+          toggle.innerHTML = '☰';
+          toggle.setAttribute('aria-label', 'Mostrar menú');
+        } else {
+          toggle.innerHTML = '✕';
+          toggle.setAttribute('aria-label', 'Ocultar menú');
+        }
+      } catch (error) {
+        manejarError(error, 'Error al alternar menú');
+      }
     }
-
-    nav.classList.toggle('hidden-mobile');
-    overlay.classList.toggle('show');
-
-    if (nav.classList.contains('hidden-mobile')) {
-      body.classList.remove('nav-visible');
-      toggle.innerHTML = '☰';
-      toggle.setAttribute('aria-label', 'Mostrar menú');
-    } else {
-      body.classList.add('nav-visible');
-      toggle.innerHTML = '✕';
-      toggle.setAttribute('aria-label', 'Ocultar menú');
-    }
-  } catch (error) {
-    manejarError(error, 'Error al alternar menú');
-  }
-}
-/* ======= FIN toggleMenu ======= */
 
     // BÚSQUEDA
     function buscarProductos() {
@@ -3682,90 +3662,128 @@ function crearTarjetaProducto(producto) {
     const buscarConDebounce = debounce(buscarProductos, 300);
 
     // INICIALIZACIÓN PRINCIPAL
-   document.addEventListener('DOMContentLoaded', () => {
-  console.log('🚀 Inicializando Fratelli Pazzi Mejorado…');
-
-  try {
-    const isMobile  = window.innerWidth <= 768;
-    const menuToggle = document.getElementById('menu-toggle');
-    const nav        = document.getElementById('nav-menu');
-
-    /* Configuración menú móvil */
-    if (isMobile) {
-      if (menuToggle) menuToggle.style.display = 'block';
-      if (nav)        nav.classList.add('hidden-mobile');
-    }
-
-    /* Altura de viewport para móviles */
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-
-    /* Animaciones más cortas en móvil */
-    if (isMobile) document.documentElement.style.setProperty('--animation-duration', '0.2s');
-
-    /* Cargar datos y construir la interfaz */
-    crearProductos();
-    cargarDatos();
-
-    /* Otros inicializadores */
-    initNavegacion();
-    initHeader();
-    initEventosTeclado();
-    initEventosModal();
-
-    /* Búsqueda */
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-      searchInput.addEventListener('input', buscarConDebounce);
-      searchInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') { e.preventDefault(); buscarProductos(); }
-      });
-    }
-
-    /* Cupón */
-    const couponInput = document.getElementById('coupon-code');
-    if (couponInput) {
-      couponInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') { e.preventDefault(); aplicarCupon(); }
-      });
-    }
-
-    /* Si la URL ya trae #hash */
-    if (window.location.hash) {
-      setTimeout(() => {
-        const target = document.querySelector(window.location.hash);
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 140, behavior: 'smooth' });
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Inicializando Fratelli Pazzi Mejorado...');
+      
+      try {
+        // Detectar si es móvil para optimizaciones
+        const isMobile = window.innerWidth <= 768;
+        
+        // Mostrar botón toggle en móvil
+        const menuToggle = document.getElementById('menu-toggle');
+        if (isMobile && menuToggle) {
+          menuToggle.style.display = 'block';
         }
-      }, 100);
-    }
-
-    /* Resize listener */
-    window.addEventListener('resize', () => {
-      const isMobile = window.innerWidth <= 768;
-      const overlay  = document.getElementById('menu-overlay');
-
-      if (menuToggle)   menuToggle.style.display = isMobile ? 'block' : 'none';
-      if (nav)          nav.classList.toggle('hidden-mobile', isMobile);
-      if (overlay)      overlay.classList.remove('show');
-      document.body.classList.remove('nav-visible');
+        
+        // Configurar altura de viewport para móviles
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        
+        // Reducir animaciones en móviles para mejor rendimiento
+        if (isMobile) {
+          document.documentElement.style.setProperty('--animation-duration', '0.2s');
+        }
+        
+        // Crear productos y cargar datos
+        crearProductos();
+        cargarDatos();
+        
+        // Inicializar funcionalidades
+        initNavegacion();
+        initHeader();
+        initEventosTeclado();
+        initEventosModal();
+        
+        // Event listeners
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+          searchInput.addEventListener('input', buscarConDebounce);
+          searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              buscarProductos();
+            }
+          });
+        }
+        
+        // Event listener para el cupón
+        const couponInput = document.getElementById('coupon-code');
+        if (couponInput) {
+          couponInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              aplicarCupon();
+            }
+          });
+        }
+        
+        // Navegación inicial si hay hash
+        if (window.location.hash) {
+          setTimeout(() => {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+              const headerHeight = 140;
+              window.scrollTo({
+                top: target.offsetTop - headerHeight,
+                behavior: 'smooth'
+              });
+            }
+          }, 100);
+        }
+        
+        console.log('✅ ¡Fratelli Pazzi Mejorado inicializado correctamente!');
+        
+        // Listener para cambios de tamaño de ventana
+        window.addEventListener('resize', function() {
+          const isMobile = window.innerWidth <= 768;
+          const isVerySmall = window.innerWidth <= 480;
+          const menuToggle = document.getElementById('menu-toggle');
+          const nav = document.getElementById('nav-menu');
+          const mainContainer = document.querySelector('.main-container');
+          
+          if (menuToggle) {
+            if (isMobile) {
+              menuToggle.style.display = 'block';
+              if (isVerySmall) {
+                // En pantallas muy pequeñas, ocultar nav por defecto
+                mainContainer.classList.remove('nav-visible');
+              }
+            } else {
+              menuToggle.style.display = 'none';
+              nav.classList.remove('hidden-mobile');
+              mainContainer.classList.remove('nav-visible');
+            }
+          }
+        });
+        
+        // Mostrar mensaje de bienvenida
+        setTimeout(() => {
+          const mensaje = isMobile ? 
+            '¡Bienvenido a Fratelli Pazzi! Prueba la Pizza del Mes 🌟' : 
+            '¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕';
+          mostrarNotificacion(mensaje, 'success');
+        }, 1000);
+        
+      } catch (error) {
+        manejarError(error, 'Error durante la inicialización');
+      }
     });
 
-    /* Mensaje de bienvenida */
-    setTimeout(() => {
-      mostrarNotificacion(
-        isMobile
-          ? '¡Bienvenido a Fratelli Pazzi! Prueba la Pizza del Mes 🌟'
-          : '¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕',
-        'success'
-      );
-    }, 1000);
+    // MANEJO DE ERRORES GLOBALES
+    window.addEventListener('error', function(e) {
+      console.error('Error global capturado:', e.error);
+      mostrarNotificacion('Ha ocurrido un error inesperado', 'error');
+    });
 
-    console.log('✅ ¡Fratelli Pazzi Mejorado inicializado correctamente!');
-  } catch (error) {
-    manejarError(error, 'Error durante la inicialización');
-  }
-});
-/* ======= FIN DOMContentLoaded ======= */
+    // EXPOSICIÓN DE FUNCIONES GLOBALES PARA DEBUGGING
+    window.FratelliPazziDebug = {
+      productos,
+      carrito,
+      favoritos,
+      CONFIG,
+      limpiarBusqueda,
+      mostrarNotificacion
+    };
 
   </script>
 </body>
