@@ -2559,7 +2559,8 @@
   </div>
 
   <!-- JAVASCRIPT -->
-  <script type="module">
+
+<script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword,
@@ -2729,7 +2730,6 @@
           return;
         }
 
-        // Mostrar notificación de navegación
         this.showNotification(
           '🚀 Redirigiendo a tu sección de puntos...',
           'fratelli',
@@ -2737,7 +2737,6 @@
           { duration: 2000 }
         );
 
-        // Redirigir después de un breve delay
         setTimeout(() => {
           window.location.href = 'puntos.html';
         }, 1500);
@@ -3122,51 +3121,47 @@
         }, { passive: true });
       },
 
-      // ========== COUNTDOWN ==========
+      // ========== COUNTDOWN - FUNCIÓN CORREGIDA ==========
       startCountdown() {
-  try {
-    let timeLeft = 15 * 60; // 15 minutos en segundos (CAMBIADO de 2.5 horas)
-    
-    this.state.intervals.countdown = setInterval(() => {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      
-      const countdownElement = document.getElementById('countdown');
-      if (countdownElement) {
-        // Formato MM:SS
-        countdownElement.textContent = 
-          `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        // Efecto urgente en los últimos 2 minutos
-        if (timeLeft <= 120) {
-          countdownElement.classList.add('urgent');
-        } else {
-          countdownElement.classList.remove('urgent');
+        try {
+          let timeLeft = 15 * 60; // 15 minutos en segundos
+          
+          this.state.intervals.countdown = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+              countdownElement.textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+              
+              if (timeLeft <= 120) {
+                countdownElement.classList.add('urgent');
+              } else {
+                countdownElement.classList.remove('urgent');
+              }
+            }
+            
+            timeLeft--;
+            
+            if (timeLeft < 0) {
+              clearInterval(this.state.intervals.countdown);
+              this.closeBanner();
+              
+              setTimeout(() => {
+                this.showNotification(
+                  '⏰ ¡Se acabó el tiempo! La oferta exclusiva del 15% OFF para nuevos usuarios ha expirado.',
+                  'warning',
+                  'Oferta Expirada',
+                  { duration: 8000 }
+                );
+              }, 500);
+            }
+          }, 1000);
+        } catch (error) {
+          console.error('Error en countdown:', error);
         }
-      }
-      
-      timeLeft--;
-      
-      if (timeLeft < 0) {
-        clearInterval(this.state.intervals.countdown);
-        this.closeBanner();
-        
-        // Notificación de expiración
-        setTimeout(() => {
-          this.showNotification(
-            '⏰ ¡Se acabó el tiempo! La oferta exclusiva del 15% OFF para nuevos usuarios ha expirado.',
-            'warning',
-            'Oferta Expirada',
-            { duration: 8000 }
-          );
-        }, 500);
-      }
-    }, 1000);
-  } catch (error) {
-    console.error('Error en countdown:', error);
-  }
-},
-
+      },
 
       closeBanner() {
         try {
@@ -3192,7 +3187,93 @@
         }
       },
 
-      // ========== USER AUTHENTICATION ==========
+      // ========== NUEVA FUNCIÓN PARA OFERTAS ==========
+      handleNewUserOffer() {
+        if (this.state.currentUser) {
+          this.showNotification(
+            '¡Ya tienes una cuenta! Esta oferta del 15% OFF es exclusiva para nuevos usuarios.\n\n' +
+            'Pero no te preocupes, como miembro de la Famiglia tienes acceso a nuestro sistema de puntos y ofertas especiales. ¡Revisa tu sección de Recompensas!',
+            'info',
+            'Oferta para nuevos usuarios',
+            { duration: 8000 }
+          );
+          
+          setTimeout(() => {
+            const shouldGoToPoints = confirm(
+              '¿Te gustaría ver tus puntos y recompensas disponibles?'
+            );
+            if (shouldGoToPoints) {
+              this.navigateToPoints();
+            }
+          }, 3000);
+          
+          return;
+        }
+        
+        this.showNotification(
+          '🎉 ¡Perfecto! Te ayudamos a crear tu cuenta para aprovechar el 15% OFF en tu primera pizza.',
+          'fratelli',
+          'Oferta Exclusiva NUOVO15',
+          { duration: 4000 }
+        );
+        
+        setTimeout(() => {
+          this.showNotification(
+            '📋 Detalles de tu oferta:\n\n' +
+            '🍕 15% de descuento en tu primera pizza\n' +
+            '🔑 Código: NUOVO15\n' +
+            '⏰ Válido solo durante los próximos ' + document.getElementById('countdown').textContent + '\n' +
+            '✅ Solo para nuevas cuentas\n\n' +
+            'Al registrarte también podrás:\n' +
+            '• Acumular puntos en cada pedido\n' +
+            '• Conseguir pizzas gratis\n' +
+            '• Recibir ofertas exclusivas',
+            'info',
+            '🎁 Tu Oferta Especial',
+            { duration: 12000 }
+          );
+        }, 2000);
+        
+        setTimeout(() => {
+          this.showRegisterForm();
+          
+          setTimeout(() => {
+            const offersCheckbox = document.getElementById('register-offers');
+            if (offersCheckbox) {
+              offersCheckbox.checked = true;
+              const checkmark = offersCheckbox.nextElementSibling;
+              if (checkmark) {
+                checkmark.style.background = 'var(--gold)';
+              }
+            }
+            
+            const registerForm = document.querySelector('#registerPopup .auth-popup-body');
+            if (registerForm) {
+              const offerReminder = document.createElement('div');
+              offerReminder.style.cssText = `
+                background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+                color: white;
+                padding: 12px;
+                border-radius: 8px;
+                margin-bottom: 16px;
+                text-align: center;
+                font-size: 0.875rem;
+                font-weight: 600;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+              `;
+              offerReminder.innerHTML = `
+                🔥 <strong>¡Tu oferta te espera!</strong><br>
+                15% OFF con código NUOVO15<br>
+                <small style="opacity: 0.9;">⏰ Expira en: ${document.getElementById('countdown').textContent}</small>
+              `;
+              
+              registerForm.insertBefore(offerReminder, registerForm.firstChild);
+            }
+          }, 200);
+        }, 5000);
+      },
+
+      // ========== RESTO DE FUNCIONES (continúa con todas las demás...) ==========
       checkUserSession() {
         if (this.state.isFirebaseEnabled) {
           return;
@@ -3224,7 +3305,6 @@
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
-        // Actualizar navegación principal con Recompensas
         if (mainNavigation) {
           mainNavigation.innerHTML = `
             <a href="#ofertas">Ofertas</a>
@@ -3302,7 +3382,6 @@
         
         userMenu.innerHTML = '';
         
-        // Restaurar navegación original sin Recompensas
         if (mainNavigation) {
           mainNavigation.innerHTML = `
             <a href="#ofertas">Ofertas</a>
@@ -3680,16 +3759,24 @@
             
             if (this.state.isFirebaseEnabled) {
               this.showNotification(
-                `¡Hola ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.\n\n📧 Hemos enviado un email de verificación a ${email}\n\n¡Bienvenido a la Famiglia Fratelli!`,
+                `¡Hola ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.\n\n` +
+                `🎉 ¡No olvides tu oferta especial!\n` +
+                `🍕 15% OFF en tu primera pizza\n` +
+                `🔑 Código: NUOVO15\n` +
+                `📧 Verificación enviada a: ${email}\n\n` +
+                `¡Bienvenido a la Famiglia Fratelli!`,
                 'fratelli',
                 '🍕 ¡Cuenta creada!',
-                { duration: 15000 }
+                { duration: 20000 }
               );
             } else {
               this.showNotification(
-                `¡Bienvenido ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.`,
+                `¡Bienvenido ${name.split(' ')[0]}!\n\n` +
+                `🎉 Tu cuenta ha sido creada exitosamente.\n` +
+                `🍕 15% OFF en tu primera pizza con código NUOVO15`,
                 'success',
-                '🍕 ¡Cuenta creada!'
+                '🍕 ¡Cuenta creada!',
+                { duration: 15000 }
               );
             }
             
@@ -3763,95 +3850,7 @@
       showTerms() {
         window.open('terminos-condiciones.html', '_blank', 'width=900,height=700,scrollbars=yes,resizable=yes');
       },
- handleNewUserOffer() {
-    // Si ya tiene cuenta, mostrar mensaje apropiado
-    if (this.state.currentUser) {
-      this.showNotification(
-        '¡Ya tienes una cuenta! Esta oferta del 15% OFF es exclusiva para nuevos usuarios.\n\n' +
-        'Pero no te preocupes, como miembro de la Famiglia tienes acceso a nuestro sistema de puntos y ofertas especiales. ¡Revisa tu sección de Recompensas!',
-        'info',
-        'Oferta para nuevos usuarios',
-        { duration: 8000 }
-      );
-      
-      // Opcional: redirigir a puntos después de unos segundos
-      setTimeout(() => {
-        const shouldGoToPoints = confirm(
-          '¿Te gustaría ver tus puntos y recompensas disponibles?'
-        );
-        if (shouldGoToPoints) {
-          this.navigateToPoints();
-        }
-      }, 3000);
-      
-      return;
-    }
-    
-    // Si no tiene cuenta, preparar registro con contexto de oferta
-    this.showNotification(
-      '🎉 ¡Perfecto! Te ayudamos a crear tu cuenta para aprovechar el 15% OFF en tu primera pizza.',
-      'fratelli',
-      'Oferta Exclusiva NUOVO15',
-      { duration: 4000 }
-    );
-	 setTimeout(() => {
-      this.showNotification(
-        '📋 Detalles de tu oferta:\n\n' +
-        '🍕 15% de descuento en tu primera pizza\n' +
-        '🔑 Código: NUOVO15\n' +
-        '⏰ Válido solo durante los próximos ' + document.getElementById('countdown').textContent + '\n' +
-        '✅ Solo para nuevas cuentas\n\n' +
-        'Al registrarte también podrás:\n' +
-        '• Acumular puntos en cada pedido\n' +
-        '• Conseguir pizzas gratis\n' +
-        '• Recibir ofertas exclusivas',
-        'info',
-        '🎁 Tu Oferta Especial',
-        { duration: 12000 }
-      );
-    }, 2000);
-    
-    // Abrir formulario de registro
-    setTimeout(() => {
-      this.showRegisterForm();
-      
-      // Pre-llenar checkbox de ofertas y añadir mensaje visual
-      setTimeout(() => {
-        const offersCheckbox = document.getElementById('register-offers');
-        if (offersCheckbox) {
-          offersCheckbox.checked = true;
-          const checkmark = offersCheckbox.nextElementSibling;
-          if (checkmark) {
-            checkmark.style.background = 'var(--gold)';
-          }
-        }
-        
-        // Añadir recordatorio visual en el formulario
-        const registerForm = document.querySelector('#registerPopup .auth-popup-body');
-        if (registerForm) {
-          const offerReminder = document.createElement('div');
-          offerReminder.style.cssText = `
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            text-align: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-          `;
-          offerReminder.innerHTML = `
-            🔥 <strong>¡Tu oferta te espera!</strong><br>
-            15% OFF con código NUOVO15<br>
-            <small style="opacity: 0.9;">⏰ Expira en: ${document.getElementById('countdown').textContent}</small>
-          `;
-          
-          registerForm.insertBefore(offerReminder, registerForm.firstChild);
-        }
-      }, 200);
-    }, 5000);
-  },
+
       // ========== USER ACTIONS ==========
       async logout() {
         const shouldLogout = await this.showConfirmation(
@@ -3909,7 +3908,6 @@
           return;
         }
         
-        // Ahora redirige a puntos.html
         this.navigateToPoints();
       },
 
@@ -4068,36 +4066,19 @@
         console.log('🔧 Loader ocultado manualmente');
       }
     };
-	   cleanup() {
-    Object.values(this.state.intervals).forEach(interval => {
-      if (interval) clearInterval(interval);
-    });
-  }
-}
 
     console.log(`
-🍕 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS COMPLETO
-===================================================
+🍕 FRATELLI PAZZI - VERSIÓN CORREGIDA
+====================================
 
-✨ Navegación dinámica implementada
-🎯 Sección "Recompensas" aparece al iniciar sesión
-🏆 Badge de puntos en tiempo real en el header
-📱 Diseño responsive optimizado
+✅ Errores de sintaxis solucionados
+✅ Banner 15% OFF funcionando
+✅ Timer de 15 minutos operativo
+✅ Función handleNewUserOffer() implementada
+✅ JavaScript limpio y optimizado
 
-Características principales:
-- Header dinámico según estado de usuario
-- Enlace destacado "⭐ Recompensas" con puntos
-- Animaciones suaves en badge de puntos
-- Redirección completa a puntos.html
-- Navegación limpia para usuarios no logueados
-
-Estados de navegación:
-- Sin sesión: Navegación estándar
-- Con sesión: + Sección Recompensas con puntos
-
-Para ir a puntos:
-> FratelliPazzi.navigateToPoints()
+🚀 La página debería cargar correctamente ahora
     `);
-  </script>
+</script>
 </body>
 </html>
