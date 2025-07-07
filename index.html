@@ -83,7 +83,6 @@
       position: relative;
     }
     
-    /* LOGO LOADER CON IMAGEN */
     .logo-loader {
       display: flex;
       align-items: center;
@@ -98,26 +97,6 @@
       width: auto;
       filter: brightness(1.2) contrast(1.1) drop-shadow(0 4px 20px rgba(205, 184, 124, 0.3));
       object-fit: contain;
-    }
-    
-    /* Fallback para logo loader si la imagen no carga */
-    .logo-loader img[alt]:after {
-      content: attr(alt);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-weight: 900;
-      font-size: clamp(2rem, 6vw, 3rem);
     }
     
     @keyframes logoFloat {
@@ -148,7 +127,7 @@
       50% { transform: translateY(-15px); opacity: 1; }
     }
 
-    /* SISTEMA BASE - TODO CENTRADO */
+    /* SISTEMA BASE */
     body { 
       font-family: 'Inter', sans-serif; 
       background: var(--rich-black);
@@ -159,14 +138,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
-    }
-
-    /* CONTENEDOR PRINCIPAL CENTRADO */
-    .main-container {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 var(--space-md);
+      padding-top: var(--space-xl);
     }
 
     /* HEADER FLOTANTE MODERNO */
@@ -208,7 +180,6 @@
       text-align: center;
     }
     
-    /* LOGO DINÁMICO CON IMAGEN */
     .logo {
       display: flex;
       align-items: center;
@@ -227,25 +198,6 @@
     .logo:hover img {
       transform: scale(1.05);
       filter: brightness(1.2) contrast(1.2);
-    }
-    
-    /* Fallback en caso de que la imagen no cargue */
-    .logo img[alt]:after {
-      content: attr(alt);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--gradient-gold);
-      color: var(--rich-black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 4px;
     }
     
     .nav-main { 
@@ -272,7 +224,6 @@
       background: rgba(205, 184, 124, 0.1);
     }
 
-    /* ENLACE DE RECOMPENSAS DESTACADO */
     .nav-rewards {
       position: relative;
       background: rgba(205, 184, 124, 0.1) !important;
@@ -301,83 +252,7 @@
       50% { transform: scale(1.05); }
     }
 
-    /* BANNER DE OFERTA ELEGANTE */
-    .offer-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
-      color: white;
-      padding: var(--space-sm) var(--space-md);
-      z-index: 1001;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-card);
-      animation: slideDown 0.5s ease;
-      font-weight: 600;
-      font-size: clamp(0.8rem, 2vw, 0.9rem);
-      text-align: center;
-    }
-    
-    .offer-banner.hidden {
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-    }
-    
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
-    }
-    
-    .offer-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-md);
-      flex-wrap: wrap;
-      flex: 1;
-      text-align: center;
-    }
-    
-    .offer-cta-btn {
-      background: white;
-      color: #d62828;
-      padding: var(--space-xs) var(--space-md);
-      border-radius: var(--radius-lg);
-      font-weight: 700;
-      font-size: 0.8rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .offer-cta-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-    }
-
-    /* AJUSTES POR BANNER */
-    body {
-      padding-top: calc(60px + var(--space-xl));
-    }
-    
-    .header-container {
-      top: 60px;
-    }
-    
-    .banner-hidden {
-      padding-top: var(--space-xl);
-    }
-    
-    .banner-hidden .header-container {
-      top: 0;
-    }
-
-    /* HERO SECTION RENOVADO Y CENTRADO */
+    /* HERO SECTION */
     .hero-section {
       min-height: 100vh;
       background: 
@@ -416,7 +291,6 @@
       font-weight: 600;
       margin-bottom: var(--space-lg);
       animation: badgeFloat 4s ease-in-out infinite;
-      text-align: center;
     }
 
     @keyframes badgeFloat {
@@ -435,7 +309,6 @@
       margin-bottom: var(--space-lg);
       line-height: 1.1;
       letter-spacing: -0.02em;
-      text-align: center;
     }
 
     .hero-subtitle {
@@ -447,7 +320,6 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      text-align: center;
     }
 
     .hero-cta {
@@ -459,7 +331,7 @@
       margin-top: var(--space-xl);
     }
 
-    /* BOTONES MODERNOS */
+    /* BOTONES */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -477,7 +349,6 @@
       position: relative;
       overflow: hidden;
       letter-spacing: 0.3px;
-      text-align: center;
     }
 
     .btn-primary {
@@ -503,7 +374,7 @@
       border-color: var(--cream);
     }
 
-    /* SLIDER DE OFERTAS CENTRADO */
+    /* SLIDER DE OFERTAS */
     .offers-section {
       margin: var(--space-xxl) 0;
       position: relative;
@@ -615,7 +486,7 @@
       transform: scale(1.3);
     }
 
-    /* SECCIONES PRINCIPALES - COMPLETAMENTE CENTRADAS */
+    /* SECCIONES */
     .section {
       width: 100%;
       padding: var(--space-xxl) 0;
@@ -654,7 +525,6 @@
       background-clip: text;
       margin-bottom: var(--space-md);
       line-height: 1.2;
-      text-align: center;
     }
 
     .section-subtitle {
@@ -663,10 +533,8 @@
       max-width: 600px;
       margin: 0 auto;
       line-height: 1.6;
-      text-align: center;
     }
 
-    /* GRID COMPLETAMENTE CENTRADO */
     .grid {
       display: grid;
       gap: var(--space-xl);
@@ -678,17 +546,10 @@
       align-items: start;
     }
 
-    .grid-2 { 
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    }
-    .grid-3 { 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-    }
-    .grid-4 { 
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
 
-    /* CARDS ELEGANTES CENTRADAS */
     .card {
       background: rgba(30, 33, 34, 0.6);
       backdrop-filter: blur(20px);
@@ -710,7 +571,6 @@
       border-color: rgba(205, 184, 124, 0.3);
     }
 
-    /* CARDS CLICKEABLES PARA PUNTOS */
     .card-clickable {
       cursor: pointer;
       position: relative;
@@ -767,7 +627,6 @@
       color: var(--cream);
       margin-bottom: var(--space-sm);
       line-height: 1.2;
-      text-align: center;
     }
 
     .card-description {
@@ -775,7 +634,6 @@
       font-size: 0.9rem;
       line-height: 1.5;
       margin-bottom: var(--space-lg);
-      text-align: center;
     }
 
     .card-price {
@@ -786,10 +644,8 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: var(--space-md);
-      text-align: center;
     }
 
-    /* SECCIÓN DE AUTENTICACIÓN CENTRADA */
     .auth-section {
       background: 
         radial-gradient(circle at 30% 70%, rgba(213, 120, 108, 0.1) 0%, transparent 50%),
@@ -862,7 +718,6 @@
       gap: var(--space-md);
       position: relative;
       z-index: 2;
-      text-align: center;
     }
 
     .auth-icon {
@@ -875,13 +730,11 @@
       font-size: 1.125rem;
       color: var(--cream);
       margin-bottom: 4px;
-      text-align: center;
     }
 
     .auth-text p {
       font-size: 0.875rem;
       color: rgba(251, 244, 232, 0.7);
-      text-align: center;
     }
 
     .auth-benefits {
@@ -902,10 +755,8 @@
       gap: var(--space-xs);
       font-size: 0.9rem;
       color: rgba(251, 244, 232, 0.8);
-      text-align: center;
     }
 
-    /* TESTIMONIOS CENTRADOS */
     .testimonial-card {
       background: rgba(30, 33, 34, 0.6);
       backdrop-filter: blur(20px);
@@ -951,19 +802,16 @@
       font-weight: 600;
       color: var(--cream);
       font-size: 1rem;
-      text-align: center;
     }
 
     .testimonial-date {
       font-size: 0.75rem;
       color: rgba(251, 244, 232, 0.5);
-      text-align: center;
     }
 
     .stars {
       color: var(--gold);
       font-size: 1rem;
-      text-align: center;
       margin-top: var(--space-xs);
     }
 
@@ -971,10 +819,8 @@
       color: rgba(251, 244, 232, 0.8);
       line-height: 1.6;
       font-style: italic;
-      text-align: center;
     }
 
-    /* WHATSAPP BUTTON */
     .whatsapp-float {
       position: fixed;
       bottom: var(--space-xl);
@@ -1005,7 +851,6 @@
       box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
     }
 
-    /* FOOTER CENTRADO */
     footer {
       background: var(--rich-black);
       border-top: 1px solid rgba(205, 184, 124, 0.1);
@@ -1015,7 +860,6 @@
       width: 100%;
     }
 
-    /* NOTIFICACIONES */
     .notification-container {
       position: fixed;
       top: 120px;
@@ -1102,7 +946,6 @@
       line-height: 1.5;
       margin: 0;
       white-space: pre-line;
-      font-family: 'Inter', sans-serif;
     }
 
     .notification-close {
@@ -1128,7 +971,6 @@
       color: #dc3545;
     }
 
-    /* MODAL */
     .confirmation-modal {
       position: fixed;
       top: 0;
@@ -1204,10 +1046,8 @@
       line-height: 1.5;
       margin-bottom: var(--space-xl);
       white-space: pre-line;
-      font-family: 'Inter', sans-serif;
     }
 
-    /* POPUPS DE AUTENTICACIÓN */
     .auth-popup {
       position: fixed;
       top: 0;
@@ -1286,7 +1126,6 @@
       border-radius: var(--radius-sm);
       background: rgba(30, 33, 34, 0.6);
       color: var(--cream);
-      font-family: 'Inter', sans-serif;
       font-size: 1rem;
       outline: none;
       transition: border-color 0.3s ease;
@@ -1366,7 +1205,6 @@
       text-decoration: underline;
     }
 
-    /* USER MENU CENTRADO */
     .user-menu {
       display: flex;
       align-items: center;
@@ -1440,7 +1278,6 @@
       border-bottom: none;
     }
 
-    /* ANIMATIONS */
     .fade-in {
       opacity: 0;
       transform: translateY(30px);
@@ -1452,7 +1289,7 @@
       transform: translateY(0);
     }
 
-    /* RESPONSIVE DESIGN CENTRADO */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
       .logo img {
         height: clamp(45px, 10vw, 60px);
@@ -1465,12 +1302,10 @@
       .logo-loader img {
         height: clamp(100px, 20vw, 160px);
       }
-      
-      /* OPTIMIZACIONES MÓVIL - HEADER */
+
       .header-content {
         flex-direction: column;
         gap: var(--space-md);
-        text-align: center;
         padding: var(--space-sm) 0;
       }
 
@@ -1485,10 +1320,8 @@
         padding: var(--space-xs) var(--space-sm);
         font-size: 0.85rem;
         min-width: 80px;
-        text-align: center;
       }
 
-      /* OPTIMIZACIONES MÓVIL - HERO */
       .hero-content {
         padding: var(--space-lg) var(--space-md);
       }
@@ -1506,7 +1339,6 @@
         justify-content: center;
       }
 
-      /* OPTIMIZACIONES MÓVIL - GRIDS */
       .grid-2,
       .grid-3,
       .grid-4 {
@@ -1516,7 +1348,6 @@
         width: 100%;
       }
 
-      /* OPTIMIZACIONES MÓVIL - CARDS */
       .card {
         max-width: 100%;
         width: 100%;
@@ -1544,7 +1375,6 @@
         object-fit: cover;
       }
 
-      /* OPTIMIZACIONES MÓVIL - SECCIONES */
       .section {
         padding: var(--space-xl) 0;
       }
@@ -1556,7 +1386,6 @@
 
       .section-header {
         margin-bottom: var(--space-xl);
-        text-align: center;
       }
 
       .section-title {
@@ -1571,7 +1400,6 @@
         margin-bottom: var(--space-lg);
       }
 
-      /* OPTIMIZACIONES MÓVIL - AUTH GRID */
       .auth-grid {
         grid-template-columns: 1fr;
         gap: var(--space-lg);
@@ -1585,7 +1413,6 @@
         padding: var(--space-lg);
       }
 
-      /* OPTIMIZACIONES MÓVIL - BENEFITS */
       .auth-benefits {
         flex-direction: column;
         gap: var(--space-md);
@@ -1595,14 +1422,11 @@
 
       .benefit-item {
         font-size: 0.875rem;
-        text-align: center;
       }
 
-      /* OPTIMIZACIONES MÓVIL - TESTIMONIOS */
       .testimonial-header {
         flex-direction: column;
         gap: var(--space-sm);
-        text-align: center;
       }
 
       .testimonial-card {
@@ -1611,7 +1435,6 @@
         padding: var(--space-lg);
       }
 
-      /* OPTIMIZACIONES MÓVIL - WHATSAPP */
       .whatsapp-float {
         bottom: var(--space-lg);
         left: var(--space-md);
@@ -1621,7 +1444,6 @@
         font-size: 0.875rem;
       }
 
-      /* OPTIMIZACIONES MÓVIL - NOTIFICACIONES */
       .notification-container {
         top: 100px;
         right: var(--space-sm);
@@ -1636,31 +1458,15 @@
         font-size: 0.875rem;
       }
 
-      /* OPTIMIZACIONES MÓVIL - BANNER OFERTAS */
-      .offer-content {
-        flex-direction: column;
-        gap: var(--space-sm);
-        text-align: center;
-        padding: 0 var(--space-sm);
-      }
-
-      .offer-cta-btn {
-        font-size: 0.75rem;
-        padding: var(--space-xs) var(--space-sm);
-      }
-
-      /* OPTIMIZACIONES MÓVIL - ESPACIADO */
       .auth-section {
         padding: var(--space-xl) 0;
       }
 
-      /* OPTIMIZACIONES MÓVIL - FORMULARIOS */
       .form-input {
-        font-size: 16px; /* Evita zoom en iOS */
+        font-size: 16px;
         padding: var(--space-md);
       }
 
-      /* OPTIMIZACIONES MÓVIL - USER MENU */
       .user-welcome {
         padding: var(--space-xs) var(--space-sm);
         font-size: 0.875rem;
@@ -1672,7 +1478,6 @@
         font-size: 0.75rem;
       }
 
-      /* ASEGURAR VISIBILIDAD DE PIZZAS */
       #nuestras-pizzas {
         display: block !important;
         visibility: visible !important;
@@ -1772,20 +1577,6 @@
         <button class="btn btn-primary" id="confirmationConfirm">Confirmar</button>
       </div>
     </div>
-  </div>
-
-  <!-- BANNER DE OFERTA -->
-  <div class="offer-banner" id="urgentBanner">
-    <div class="offer-content">
-      <span style="font-size: 1.125rem;">🔥</span>
-      <span>OFERTA ESPECIAL: <strong>20% OFF</strong> en pedidos +15€</span>
-      <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; font-size: 0.875rem;">
-        Código: <strong>FRATELLI20</strong>
-      </span>
-      <span style="font-size: 0.875rem;">⏰ Termina en <span id="countdown">2:30:00</span></span>
-      <button class="offer-cta-btn" onclick="window.location.href='pedido.html'">¡PEDIR AHORA!</button>
-    </div>
-    <button style="background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer; margin-left: var(--space-md);" onclick="FratelliPazzi.closeBanner()">×</button>
   </div>
 
   <!-- HEADER FLOTANTE -->
@@ -2485,7 +2276,6 @@
         currentUser: null,
         intervals: {
           autoPlay: null,
-          countdown: null,
           popupCountdown: null
         },
         isFirebaseEnabled: false,
@@ -2618,7 +2408,6 @@
           return;
         }
 
-        // Mostrar notificación de navegación
         this.showNotification(
           '🚀 Redirigiendo a tu sección de puntos...',
           'fratelli',
@@ -2626,7 +2415,6 @@
           { duration: 2000 }
         );
 
-        // Redirigir después de un breve delay
         setTimeout(() => {
           window.location.href = 'puntos.html';
         }, 1500);
@@ -2894,10 +2682,6 @@
           setTimeout(() => {
             loader.classList.add('hidden');
             this.startSectionAnimations();
-            
-            setTimeout(() => {
-              this.startCountdown();
-            }, 200);
           }, 800);
         }
       },
@@ -2907,7 +2691,6 @@
         if (loader) {
           loader.classList.add('hidden');
           this.startSectionAnimations();
-          this.startCountdown();
         }
       },
 
@@ -3011,58 +2794,6 @@
         }, { passive: true });
       },
 
-      // ========== COUNTDOWN ==========
-      startCountdown() {
-        try {
-          let timeLeft = 2.5 * 60 * 60;
-          
-          this.state.intervals.countdown = setInterval(() => {
-            const hours = Math.floor(timeLeft / 3600);
-            const minutes = Math.floor((timeLeft % 3600) / 60);
-            const seconds = timeLeft % 60;
-            
-            const countdownElement = document.getElementById('countdown');
-            if (countdownElement) {
-              countdownElement.textContent = 
-                `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-            
-            timeLeft--;
-            
-            if (timeLeft < 0) {
-              clearInterval(this.state.intervals.countdown);
-              this.closeBanner();
-            }
-          }, 1000);
-        } catch (error) {
-          console.error('Error en countdown:', error);
-        }
-      },
-
-      closeBanner() {
-        try {
-          const banner = document.getElementById('urgentBanner');
-          const body = document.body;
-          const headerContainer = document.getElementById('headerContainer');
-          
-          if (banner) {
-            banner.classList.add('hidden');
-            if (body) {
-              body.classList.add('banner-hidden');
-            }
-            if (headerContainer) {
-              headerContainer.style.top = '0';
-            }
-            
-            setTimeout(() => {
-              banner.style.display = 'none';
-            }, 300);
-          }
-        } catch (error) {
-          console.error('Error en closeBanner:', error);
-        }
-      },
-
       // ========== USER AUTHENTICATION ==========
       checkUserSession() {
         if (this.state.isFirebaseEnabled) {
@@ -3095,7 +2826,6 @@
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
-        // Actualizar navegación principal con Recompensas
         if (mainNavigation) {
           mainNavigation.innerHTML = `
             <a href="#ofertas">Ofertas</a>
@@ -3173,7 +2903,6 @@
         
         userMenu.innerHTML = '';
         
-        // Restaurar navegación original sin Recompensas
         if (mainNavigation) {
           mainNavigation.innerHTML = `
             <a href="#ofertas">Ofertas</a>
@@ -3682,20 +3411,6 @@
         );
       },
 
-      showUserPoints() {
-        if (!this.state.currentUser) {
-          this.showNotification(
-            'Necesitas iniciar sesión para ver tus puntos.',
-            'warning',
-            'Sesión requerida'
-          );
-          return;
-        }
-        
-        // Ahora redirige a puntos.html
-        this.navigateToPoints();
-      },
-
       // ========== UTILITY FUNCTIONS ==========
       suscribirse() {
         const email = document.getElementById('newsletter-email');
@@ -3853,27 +3568,27 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS COMPLETO
-===================================================
+🍕 FRATELLI PAZZI - CÓDIGO OPTIMIZADO SIN BANNER
+==================================================
 
-✨ Navegación dinámica implementada
-🎯 Sección "Recompensas" aparece al iniciar sesión
-🏆 Badge de puntos en tiempo real en el header
+✅ Banner de oferta completamente eliminado
+🎯 Header simplificado y limpio
+🏆 Sistema de recompensas completo
 📱 Diseño responsive optimizado
+🔥 Firebase y localStorage integrados
+💫 Animaciones suaves y modernas
+🛡️ Sistema de notificaciones robusto
 
 Características principales:
-- Header dinámico según estado de usuario
-- Enlace destacado "⭐ Recompensas" con puntos
-- Animaciones suaves en badge de puntos
-- Redirección completa a puntos.html
-- Navegación limpia para usuarios no logueados
+- Sin banner promocional
+- Header fijo en top: 0
+- Navegación dinámica según usuario
+- Sistema de puntos completo
+- Autenticación Firebase/localStorage
+- Diseño completamente responsive
+- Código optimizado y limpio
 
-Estados de navegación:
-- Sin sesión: Navegación estándar
-- Con sesión: + Sección Recompensas con puntos
-
-Para ir a puntos:
-> FratelliPazzi.navigateToPoints()
+¡Listo para producción! 🚀
     `);
   </script>
 </body>
