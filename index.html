@@ -192,6 +192,36 @@
       gap: var(--space-lg);
       text-align: center;
     }
+
+    /* ESTRUCTURA MÓVIL DE DOS LÍNEAS */
+    .header-mobile-layout {
+      display: none;
+    }
+
+    /* LAYOUT DESKTOP - UNA LÍNEA */
+    .header-desktop-layout {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: var(--space-lg);
+    }
+
+    /* PRIMERA LÍNEA DEL MÓVIL */
+    .header-top-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-sm);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid rgba(205, 184, 124, 0.1);
+    }
+
+    /* SEGUNDA LÍNEA DEL MÓVIL */
+    .header-nav-line {
+      display: flex;
+      justify-content: center;
+    }
     
     .logo {
       display: flex;
@@ -218,6 +248,7 @@
       align-items: center;
       justify-content: center;
       gap: var(--space-lg);
+      flex-wrap: wrap;
     }
     
     .nav-main a { 
@@ -230,6 +261,7 @@
       padding: var(--space-xs) var(--space-sm);
       border-radius: var(--radius-sm);
       text-align: center;
+      white-space: nowrap;
     }
     
     .nav-main a:hover {
@@ -1304,6 +1336,52 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
+      /* HEADER MÓVIL - DOS LÍNEAS BIEN ESTRUCTURADAS */
+      .header-content {
+        display: block;
+        padding: 0;
+      }
+
+      /* LAYOUT DESKTOP OCULTO EN MÓVIL */
+      .header-desktop-layout {
+        display: none;
+      }
+
+      /* LAYOUT MÓVIL DE DOS LÍNEAS */
+      .header-mobile-layout {
+        display: block;
+      }
+
+      /* PRIMERA LÍNEA: Logo + User Menu */
+      .header-top-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-sm);
+        padding-bottom: var(--space-sm);
+        border-bottom: 1px solid rgba(205, 184, 124, 0.1);
+      }
+
+      /* SEGUNDA LÍNEA: Navegación */
+      .header-nav-line {
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-main {
+        gap: var(--space-sm);
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .nav-main a {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.85rem;
+        min-width: auto;
+        text-align: center;
+      }
+
       /* OPTIMIZACIÓN HEADER MÓVIL */
       .header-container {
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -1320,34 +1398,23 @@
       }
 
       .logo img {
-        height: clamp(45px, 10vw, 60px);
+        height: clamp(50px, 10vw, 65px);
       }
       
       .header-container.scrolled .logo img {
-        height: clamp(40px, 8vw, 55px);
+        height: clamp(45px, 8vw, 60px);
       }
       
       .logo-loader img {
         height: clamp(100px, 20vw, 160px);
       }
 
-      .header-content {
-        flex-direction: column;
-        gap: var(--space-md);
-        padding: var(--space-sm) 0;
+      header {
+        padding: var(--space-md) var(--space-lg);
       }
 
-      .nav-main {
-        gap: var(--space-sm);
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-      }
-
-      .nav-main a {
-        padding: var(--space-xs) var(--space-sm);
-        font-size: 0.85rem;
-        min-width: 80px;
+      .header-container.scrolled header {
+        padding: var(--space-sm) var(--space-md);
       }
 
       .hero-content {
@@ -1563,18 +1630,9 @@
         height: clamp(120px, 30vw, 180px);
       }
 
-      /* NAVEGACIÓN ULTRA COMPACTA */
-      .nav-compact a {
-        padding: 4px 6px;
-        min-width: 45px;
-      }
-
-      .nav-compact .nav-icon {
-        font-size: 1rem;
-      }
-
-      .nav-compact .nav-text {
-        font-size: 0.6rem;
+      .nav-main a {
+        padding: 4px 8px;
+        font-size: 0.8rem;
       }
 
       /* USER MENU ULTRA COMPACTO */
@@ -1609,28 +1667,6 @@
       .rewards-badge {
         font-size: 0.55rem;
         padding: 1px 3px;
-      }
-
-      /* MODO MINIMAL EXTRA PARA PANTALLAS PEQUEÑAS */
-      .header-minimal header {
-        padding: 2px var(--space-xs);
-      }
-
-      .header-minimal .logo img {
-        height: clamp(35px, 8vw, 45px);
-      }
-
-      .header-minimal .nav-compact a {
-        padding: 2px 4px;
-        min-width: 35px;
-      }
-
-      .header-minimal .nav-compact .nav-icon {
-        font-size: 0.9rem;
-      }
-
-      .header-minimal .nav-compact .nav-text {
-        font-size: 0.55rem;
       }
     }
   </style>
@@ -1669,23 +1705,12 @@
   <!-- HEADER FLOTANTE -->
   <div class="header-container" id="headerContainer">
     <header>
-      <div class="header-content">
-        <!-- Primera línea: Logo + User Menu (solo visible en móvil) -->
-        <div class="header-top" style="display: none;">
-          <a href="#" class="logo">
-            <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
-          </a>
-          <div class="user-menu" id="userMenuMobile">
-            <!-- Se llenará dinámicamente en móvil -->
-          </div>
-        </div>
-        
-        <!-- Diseño desktop: Logo, Nav y User Menu en una línea -->
-        <a href="#" class="logo desktop-logo">
+      <!-- LAYOUT DESKTOP - UNA LÍNEA -->
+      <div class="header-desktop-layout">
+        <a href="#" class="logo">
           <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
         </a>
         
-        <!-- Segunda línea: Navegación -->
         <nav class="nav-main" id="mainNavigation">
           <a href="#ofertas">Ofertas</a>
           <a href="#nuestras-pizzas">Pizzas</a>
@@ -1694,9 +1719,32 @@
           <a href="#contacto">Contacto</a>
         </nav>
         
-        <!-- User menu desktop -->
-        <div class="user-menu desktop-user-menu" id="userMenu">
+        <div class="user-menu" id="userMenu">
           <!-- Se llenará dinámicamente -->
+        </div>
+      </div>
+
+      <!-- LAYOUT MÓVIL - DOS LÍNEAS -->
+      <div class="header-mobile-layout">
+        <!-- Primera línea: Logo + User Menu -->
+        <div class="header-top-line">
+          <a href="#" class="logo">
+            <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
+          </a>
+          <div class="user-menu" id="userMenuMobile">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+        
+        <!-- Segunda línea: Navegación -->
+        <div class="header-nav-line">
+          <nav class="nav-main" id="mainNavigationMobile">
+            <a href="#ofertas">Ofertas</a>
+            <a href="#nuestras-pizzas">Pizzas</a>
+            <a href="#calzones">Calzones</a>
+            <a href="pedido.html">Pedido</a>
+            <a href="#contacto">Contacto</a>
+          </nav>
         </div>
       </div>
     </header>
@@ -2535,6 +2583,7 @@
           this.checkUserSession();
           this.checkEmailVerificationReturn();
           this.initHeaderVisibility();
+          this.updateNavigationForDevice(); // Configurar layouts iniciales
           
           console.log('✅ Fratelli Pazzi inicializado correctamente');
         } catch (error) {
@@ -2832,25 +2881,22 @@
 
       // Actualizar navegación según dispositivo
       updateNavigationForDevice() {
+        // Mostrar/ocultar layouts según el tamaño de pantalla
+        const desktopLayout = document.querySelector('.header-desktop-layout');
+        const mobileLayout = document.querySelector('.header-mobile-layout');
+        
+        if (window.innerWidth <= 768) {
+          if (desktopLayout) desktopLayout.style.display = 'none';
+          if (mobileLayout) mobileLayout.style.display = 'block';
+        } else {
+          if (desktopLayout) desktopLayout.style.display = 'flex';
+          if (mobileLayout) mobileLayout.style.display = 'none';
+        }
+        
         if (this.state.currentUser) {
           this.updateUserInterface();
         } else {
           this.showGuestInterface();
-        }
-      },
-
-      // Función para activar modo súper minimalista (opcional)
-      toggleMinimalHeader() {
-        const headerContainer = document.getElementById('headerContainer');
-        if (headerContainer) {
-          headerContainer.classList.toggle('header-minimal');
-          
-          const isMinimal = headerContainer.classList.contains('header-minimal');
-          this.showNotification(
-            `Modo ${isMinimal ? 'minimalista' : 'normal'} activado`,
-            'info',
-            'Header actualizado'
-          );
         }
       },
 
@@ -3023,26 +3069,31 @@
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
         const mainNavigation = document.getElementById('mainNavigation');
+        const mainNavigationMobile = document.getElementById('mainNavigationMobile');
         
         if (!this.state.currentUser) return;
         
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
-        // Navegación con iconos para móvil, texto para desktop
+        // Navegación con puntos para usuarios logueados
+        const createNavigation = () => `
+          <a href="#ofertas">Ofertas</a>
+          <a href="#nuestras-pizzas">Pizzas</a>
+          <a href="#calzones">Calzones</a>
+          <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards">
+            Puntos
+            <span class="rewards-badge">${this.state.currentUser.points || 0}</span>
+          </a>
+          <a href="pedido.html">Pedido</a>
+          <a href="#contacto">Contacto</a>
+        `;
+        
         if (mainNavigation) {
-          mainNavigation.innerHTML = `
-            <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
-            <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
-            <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
-            <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards">
-              <span class="nav-icon">⭐</span><span class="nav-text">Puntos</span>
-              <span class="rewards-badge">${this.state.currentUser.points || 0}</span>
-            </a>
-            <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
-            <a href="#contacto"><span class="nav-icon">📞</span><span class="nav-text">Contacto</span></a>
-          `;
-          mainNavigation.className = 'nav-main nav-compact';
+          mainNavigation.innerHTML = createNavigation();
+        }
+        if (mainNavigationMobile) {
+          mainNavigationMobile.innerHTML = createNavigation();
         }
         
         const profileAvatar = document.getElementById('profileAvatar');
@@ -3111,21 +3162,26 @@
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
         const mainNavigation = document.getElementById('mainNavigation');
+        const mainNavigationMobile = document.getElementById('mainNavigationMobile');
         
         // Clear both user menus
         if (userMenu) userMenu.innerHTML = '';
         if (userMenuMobile) userMenuMobile.innerHTML = '';
         
-        // Navegación con iconos para móvil
+        // Navegación limpia sin iconos
+        const createGuestNavigation = () => `
+          <a href="#ofertas">Ofertas</a>
+          <a href="#nuestras-pizzas">Pizzas</a>
+          <a href="#calzones">Calzones</a>
+          <a href="pedido.html">Pedido</a>
+          <a href="#contacto">Contacto</a>
+        `;
+        
         if (mainNavigation) {
-          mainNavigation.innerHTML = `
-            <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
-            <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
-            <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
-            <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
-            <a href="#contacto"><span class="nav-icon">📞</span><span class="nav-text">Contacto</span></a>
-          `;
-          mainNavigation.className = 'nav-main nav-compact';
+          mainNavigation.innerHTML = createGuestNavigation();
+        }
+        if (mainNavigationMobile) {
+          mainNavigationMobile.innerHTML = createGuestNavigation();
         }
         
         if (authSection) authSection.style.display = 'block';
@@ -3797,38 +3853,40 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - HEADER DE DOS LÍNEAS OPTIMIZADO
-===================================================
+🍕 FRATELLI PAZZI - HEADER LIMPIO Y OPTIMIZADO
+===============================================
 
-✅ Header de DOS LÍNEAS para móvil implementado
-📱 Logo MÁS GRANDE como solicitaste (50-65px)
-🎯 Primera línea: Logo + User Menu
-🔥 Segunda línea: Navegación con iconos
+✅ Header SIN ICONOS implementado
+📱 Diseño de DOS LÍNEAS para móvil mejorado
+💻 Una línea elegante para desktop
+🎯 Primera línea móvil: Logo + User Menu
+🔥 Segunda línea móvil: Navegación limpia
 ⭐ Auto-hide inteligente mantenido
 💫 Transiciones suaves y optimizadas
-🎨 Modo minimalista opcional disponible
 
-Estructura del Header Móvil:
+Estructura del Header:
+
+DESKTOP (una línea):
+┌─────────────────────────────────────────────┐
+│ 🍕 LOGO    Ofertas Pizzas Calzones...  👤  │
+└─────────────────────────────────────────────┘
+
+MÓVIL (dos líneas):
 ┌─────────────────────────────────┐
-│ 🍕 LOGO (grande)    👤 Usuario │  ← Línea 1
+│ 🍕 LOGO              👤 Usuario │  ← Línea 1
 ├─────────────────────────────────┤
-│ 🔥 🍕 🥟 ⭐ 🛒 📞             │  ← Línea 2
+│ Ofertas Pizzas Calzones Pedido  │  ← Línea 2
 └─────────────────────────────────┘
 
 Características:
-• Logo más grande: 50-65px (vs 35px anterior)
-• Diseño de dos líneas en móvil
-• Una línea tradicional en desktop
-• Auto-hide al scroll hacia abajo
-• Aparece al scroll hacia arriba
-• Navegación con iconos descriptivos
+• Sin iconos, diseño minimalista
+• Navegación limpia con solo texto
+• Diseño responsive inteligente
+• Auto-hide al scroll en móvil
+• Separador visual entre líneas en móvil
+• Logo más prominente en móvil
 
-Controles disponibles:
-• Auto-hide: Automático en móvil
-• Modo minimal: FratelliPazzi.toggleMinimalHeader()
-• Responsive: Detecta automáticamente el dispositivo
-
-¡Header de dos líneas con logo grande listo! 📱✨
+¡Header limpio y profesional listo! 🎨✨
     `);
   </script>
 </body>
