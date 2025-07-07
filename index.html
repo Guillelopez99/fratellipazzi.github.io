@@ -1547,15 +1547,16 @@
       }
 
       header {
-        padding: 4px var(--space-xs);
+        padding: var(--space-xs) var(--space-sm);
       }
 
+      /* LOGO AJUSTADO PARA PANTALLAS PEQUEÑAS */
       .logo img {
-        height: clamp(30px, 8vw, 38px);
+        height: clamp(45px, 12vw, 55px);
       }
       
       .header-container.scrolled .logo img {
-        height: clamp(25px, 6vw, 32px);
+        height: clamp(40px, 10vw, 50px);
       }
       
       .logo-loader img {
@@ -1564,30 +1565,31 @@
 
       /* NAVEGACIÓN ULTRA COMPACTA */
       .nav-compact a {
-        padding: 3px 4px;
-        min-width: 35px;
+        padding: 4px 6px;
+        min-width: 45px;
       }
 
       .nav-compact .nav-icon {
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
 
       .nav-compact .nav-text {
-        font-size: 0.55rem;
+        font-size: 0.6rem;
       }
 
       /* USER MENU ULTRA COMPACTO */
       .user-welcome {
-        padding: 3px 6px;
-        font-size: 0.7rem;
+        padding: 4px 8px;
+        font-size: 0.75rem;
       }
 
       .user-avatar {
-        width: 20px;
-        height: 20px;
-        font-size: 0.6rem;
+        width: 24px;
+        height: 24px;
+        font-size: 0.65rem;
       }
-      
+
+      /* OTRAS OPTIMIZACIONES */
       .offers-slider {
         height: 250px;
       }
@@ -1605,30 +1607,30 @@
       }
 
       .rewards-badge {
-        font-size: 0.5rem;
-        padding: 1px 2px;
+        font-size: 0.55rem;
+        padding: 1px 3px;
       }
 
       /* MODO MINIMAL EXTRA PARA PANTALLAS PEQUEÑAS */
-      .header-minimal .header-content {
-        min-height: 35px;
+      .header-minimal header {
+        padding: 2px var(--space-xs);
       }
 
       .header-minimal .logo img {
-        height: clamp(24px, 5vw, 30px);
+        height: clamp(35px, 8vw, 45px);
       }
 
       .header-minimal .nav-compact a {
-        padding: 2px 3px;
-        min-width: 30px;
+        padding: 2px 4px;
+        min-width: 35px;
       }
 
       .header-minimal .nav-compact .nav-icon {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
       }
 
       .header-minimal .nav-compact .nav-text {
-        font-size: 0.5rem;
+        font-size: 0.55rem;
       }
     }
   </style>
@@ -1668,9 +1670,22 @@
   <div class="header-container" id="headerContainer">
     <header>
       <div class="header-content">
-        <a href="#" class="logo">
+        <!-- Primera línea: Logo + User Menu (solo visible en móvil) -->
+        <div class="header-top" style="display: none;">
+          <a href="#" class="logo">
+            <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
+          </a>
+          <div class="user-menu" id="userMenuMobile">
+            <!-- Se llenará dinámicamente en móvil -->
+          </div>
+        </div>
+        
+        <!-- Diseño desktop: Logo, Nav y User Menu en una línea -->
+        <a href="#" class="logo desktop-logo">
           <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
         </a>
+        
+        <!-- Segunda línea: Navegación -->
         <nav class="nav-main" id="mainNavigation">
           <a href="#ofertas">Ofertas</a>
           <a href="#nuestras-pizzas">Pizzas</a>
@@ -1678,7 +1693,9 @@
           <a href="pedido.html">Pedido</a>
           <a href="#contacto">Contacto</a>
         </nav>
-        <div class="user-menu" id="userMenu">
+        
+        <!-- User menu desktop -->
+        <div class="user-menu desktop-user-menu" id="userMenu">
           <!-- Se llenará dinámicamente -->
         </div>
       </div>
@@ -2692,11 +2709,13 @@
           this.setupScrollEffects();
           
           document.addEventListener('click', (e) => {
-            const dropdown = document.getElementById('userDropdown');
+            const dropdownDesktop = document.getElementById('userDropdownDesktop');
+            const dropdownMobile = document.getElementById('userDropdownMobile');
             const userWelcome = document.querySelector('.user-welcome');
             
-            if (dropdown && !userWelcome?.contains(e.target)) {
-              dropdown.style.display = 'none';
+            if (!userWelcome?.contains(e.target)) {
+              if (dropdownDesktop) dropdownDesktop.style.display = 'none';
+              if (dropdownMobile) dropdownMobile.style.display = 'none';
             }
           });
 
@@ -3000,49 +3019,30 @@
 
       updateUserInterface() {
         const userMenu = document.getElementById('userMenu');
+        const userMenuMobile = document.getElementById('userMenuMobile');
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
         const mainNavigation = document.getElementById('mainNavigation');
         
-        if (!userMenu || !this.state.currentUser) return;
+        if (!this.state.currentUser) return;
         
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
-        // Navegación con diferentes estilos según el dispositivo
-        const isMobile = window.innerWidth <= 768;
-        
+        // Navegación con iconos para móvil, texto para desktop
         if (mainNavigation) {
-          if (isMobile) {
-            // Versión compacta con iconos para móvil
-            mainNavigation.innerHTML = `
-              <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
-              <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
-              <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
-              <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards">
-                <span class="nav-icon">⭐</span><span class="nav-text">Puntos</span>
-                <span class="rewards-badge">${this.state.currentUser.points || 0}</span>
-              </a>
-              <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
-            `;
-            mainNavigation.className = 'nav-main nav-compact';
-          } else {
-            // Versión desktop normal
-            mainNavigation.innerHTML = `
-              <a href="#ofertas">Ofertas</a>
-              <a href="#nuestras-pizzas">Pizzas</a>
-              <a href="#calzones">Calzones</a>
-              <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards" style="color: var(--gold);">
-                ⭐ Recompensas
-                <span class="rewards-badge">
-                  ${this.state.currentUser.points || 0}
-                </span>
-              </a>
-              <a href="pedido.html">Pedido</a>
-              <a href="#contacto">Contacto</a>
-            `;
-            mainNavigation.className = 'nav-main';
-          }
+          mainNavigation.innerHTML = `
+            <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
+            <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
+            <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
+            <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards">
+              <span class="nav-icon">⭐</span><span class="nav-text">Puntos</span>
+              <span class="rewards-badge">${this.state.currentUser.points || 0}</span>
+            </a>
+            <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
+            <a href="#contacto"><span class="nav-icon">📞</span><span class="nav-text">Contacto</span></a>
+          `;
+          mainNavigation.className = 'nav-main nav-compact';
         }
         
         const profileAvatar = document.getElementById('profileAvatar');
@@ -3076,15 +3076,16 @@
         const emailVerificationBadge = !this.state.currentUser.emailVerified ? 
           '<span style="background: #ff6b6b; color: white; font-size: 8px; padding: 1px 4px; border-radius: 8px; margin-left: 3px;">📧</span>' : '';
         
-        userMenu.innerHTML = `
+        // User menu content
+        const createUserMenuContent = (isMobile = false) => `
           <div class="user-menu">
-            <div class="user-welcome" onclick="FratelliPazzi.toggleDropdown()">
+            <div class="user-welcome" onclick="toggleDropdown('${isMobile ? 'mobile' : 'desktop'}')">
               <div class="user-avatar">${this.state.currentUser.name.charAt(0).toUpperCase()}</div>
-              <span style="font-size: ${isMobile ? '0.7rem' : '0.875rem'};">${isMobile ? this.state.currentUser.name.split(' ')[0].substring(0, 6) : 'Hola, ' + this.state.currentUser.name.split(' ')[0]}</span>
+              <span>${this.state.currentUser.name.split(' ')[0]}</span>
               ${emailVerificationBadge}
               <span style="font-size: 10px;">▼</span>
             </div>
-            <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown" id="userDropdown${isMobile ? 'Mobile' : 'Desktop'}">
               ${!this.state.currentUser.emailVerified ? 
                 '<a href="javascript:void(0)" onclick="FratelliPazzi.resendVerificationEmail()" style="color: #ff6b6b; font-weight: bold;">📧 Verificar Email</a>' : ''}
               <a href="javascript:void(0)" onclick="FratelliPazzi.showProfile()">👤 Mi Perfil</a>
@@ -3094,54 +3095,57 @@
             </div>
           </div>
         `;
+
+        // Update both desktop and mobile user menus
+        if (userMenu) {
+          userMenu.innerHTML = createUserMenuContent(false);
+        }
+        if (userMenuMobile) {
+          userMenuMobile.innerHTML = createUserMenuContent(true);
+        }
       },
 
       showGuestInterface() {
         const userMenu = document.getElementById('userMenu');
+        const userMenuMobile = document.getElementById('userMenuMobile');
         const authSection = document.getElementById('authSection');
         const profileSection = document.getElementById('profileSection');
         const mainNavigation = document.getElementById('mainNavigation');
         
-        if (!userMenu) return;
+        // Clear both user menus
+        if (userMenu) userMenu.innerHTML = '';
+        if (userMenuMobile) userMenuMobile.innerHTML = '';
         
-        userMenu.innerHTML = '';
-        
-        // Navegación diferente según dispositivo
-        const isMobile = window.innerWidth <= 768;
-        
+        // Navegación con iconos para móvil
         if (mainNavigation) {
-          if (isMobile) {
-            // Versión móvil compacta con iconos
-            mainNavigation.innerHTML = `
-              <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
-              <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
-              <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
-              <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
-              <a href="#contacto"><span class="nav-icon">📞</span><span class="nav-text">Contacto</span></a>
-            `;
-            mainNavigation.className = 'nav-main nav-compact';
-          } else {
-            // Versión desktop normal
-            mainNavigation.innerHTML = `
-              <a href="#ofertas">Ofertas</a>
-              <a href="#nuestras-pizzas">Pizzas</a>
-              <a href="#calzones">Calzones</a>
-              <a href="pedido.html">Pedido</a>
-              <a href="#contacto">Contacto</a>
-            `;
-            mainNavigation.className = 'nav-main';
-          }
+          mainNavigation.innerHTML = `
+            <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
+            <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
+            <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
+            <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
+            <a href="#contacto"><span class="nav-icon">📞</span><span class="nav-text">Contacto</span></a>
+          `;
+          mainNavigation.className = 'nav-main nav-compact';
         }
         
         if (authSection) authSection.style.display = 'block';
         if (profileSection) profileSection.style.display = 'none';
       },
 
-      toggleDropdown() {
-        const dropdown = document.getElementById('userDropdown');
+      toggleDropdown(type = 'desktop') {
+        const dropdownId = type === 'mobile' ? 'userDropdownMobile' : 'userDropdownDesktop';
+        const dropdown = document.getElementById(dropdownId);
+        
         if (dropdown) {
           const isVisible = dropdown.style.display === 'block';
           dropdown.style.display = isVisible ? 'none' : 'block';
+          
+          // Cerrar el otro dropdown si está abierto
+          const otherDropdownId = type === 'mobile' ? 'userDropdownDesktop' : 'userDropdownMobile';
+          const otherDropdown = document.getElementById(otherDropdownId);
+          if (otherDropdown) {
+            otherDropdown.style.display = 'none';
+          }
         }
       },
 
@@ -3778,6 +3782,11 @@
     // Make FratelliPazzi globally available
     window.FratelliPazzi = FratelliPazzi;
 
+    // Make toggleDropdown globally available
+    window.toggleDropdown = function(type = 'desktop') {
+      FratelliPazzi.toggleDropdown(type);
+    };
+
     // Función de emergencia para ocultar loader
     window.hideLoader = function() {
       const loader = document.getElementById('pageLoader');
@@ -3788,32 +3797,38 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - HEADER SÚPER COMPACTO PARA MÓVIL
-=====================================================
+🍕 FRATELLI PAZZI - HEADER DE DOS LÍNEAS OPTIMIZADO
+===================================================
 
-✅ Header inteligente con auto-hide optimizado
-📱 Versión SÚPER COMPACTA para móvil
-🎯 Logo más pequeño (35px → 28px en minimal)
-⭐ Navegación con iconos para ahorrar espacio
-🔥 Padding reducido al mínimo
-📏 Header de solo 50px de altura (40px minimal)
+✅ Header de DOS LÍNEAS para móvil implementado
+📱 Logo MÁS GRANDE como solicitaste (50-65px)
+🎯 Primera línea: Logo + User Menu
+🔥 Segunda línea: Navegación con iconos
+⭐ Auto-hide inteligente mantenido
 💫 Transiciones suaves y optimizadas
-🎨 Dos modos: Normal y Minimalista
+🎨 Modo minimalista opcional disponible
 
-Características del Header Compacto:
-• Logo reducido: 35px (vs 60px anterior)
-• Navegación con iconos + texto mini
-• Padding mínimo en móvil
-• Scroll horizontal sin scrollbar visible
-• User menu ultra-compacto
-• Modo minimalista opcional (40px altura)
+Estructura del Header Móvil:
+┌─────────────────────────────────┐
+│ 🍕 LOGO (grande)    👤 Usuario │  ← Línea 1
+├─────────────────────────────────┤
+│ 🔥 🍕 🥟 ⭐ 🛒 📞             │  ← Línea 2
+└─────────────────────────────────┘
 
-Navegación móvil optimizada:
-🔥 Ofertas | 🍕 Pizzas | 🥟 Calzones | ⭐ Puntos | 🛒 Pedido
+Características:
+• Logo más grande: 50-65px (vs 35px anterior)
+• Diseño de dos líneas en móvil
+• Una línea tradicional en desktop
+• Auto-hide al scroll hacia abajo
+• Aparece al scroll hacia arriba
+• Navegación con iconos descriptivos
 
-¡Ahora el header molesta MUCHO menos en móvil! 📱✨
+Controles disponibles:
+• Auto-hide: Automático en móvil
+• Modo minimal: FratelliPazzi.toggleMinimalHeader()
+• Responsive: Detecta automáticamente el dispositivo
 
-Tip: Usa FratelliPazzi.toggleMinimalHeader() para modo extra-compacto
+¡Header de dos líneas con logo grande listo! 📱✨
     `);
   </script>
 </body>
