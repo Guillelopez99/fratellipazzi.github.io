@@ -1537,16 +1537,55 @@
     }
 
     @media (max-width: 480px) {
+      /* EXTRA COMPACTO PARA PANTALLAS MUY PEQUEÑAS */
+      .header-container {
+        padding: 4px var(--space-xs);
+      }
+
+      .header-container.scrolled {
+        padding: 2px var(--space-xs);
+      }
+
+      header {
+        padding: 4px var(--space-xs);
+      }
+
       .logo img {
-        height: clamp(50px, 15vw, 70px);
+        height: clamp(30px, 8vw, 38px);
       }
       
       .header-container.scrolled .logo img {
-        height: clamp(45px, 12vw, 60px);
+        height: clamp(25px, 6vw, 32px);
       }
       
       .logo-loader img {
         height: clamp(120px, 30vw, 180px);
+      }
+
+      /* NAVEGACIÓN ULTRA COMPACTA */
+      .nav-compact a {
+        padding: 3px 4px;
+        min-width: 35px;
+      }
+
+      .nav-compact .nav-icon {
+        font-size: 0.9rem;
+      }
+
+      .nav-compact .nav-text {
+        font-size: 0.55rem;
+      }
+
+      /* USER MENU ULTRA COMPACTO */
+      .user-welcome {
+        padding: 3px 6px;
+        font-size: 0.7rem;
+      }
+
+      .user-avatar {
+        width: 20px;
+        height: 20px;
+        font-size: 0.6rem;
       }
       
       .offers-slider {
@@ -1565,13 +1604,31 @@
         max-width: 280px;
       }
 
-      .nav-rewards {
-        padding: var(--space-xs) var(--space-sm) !important;
+      .rewards-badge {
+        font-size: 0.5rem;
+        padding: 1px 2px;
       }
 
-      .rewards-badge {
-        font-size: 0.65rem;
-        padding: 1px 4px;
+      /* MODO MINIMAL EXTRA PARA PANTALLAS PEQUEÑAS */
+      .header-minimal .header-content {
+        min-height: 35px;
+      }
+
+      .header-minimal .logo img {
+        height: clamp(24px, 5vw, 30px);
+      }
+
+      .header-minimal .nav-compact a {
+        padding: 2px 3px;
+        min-width: 30px;
+      }
+
+      .header-minimal .nav-compact .nav-icon {
+        font-size: 0.8rem;
+      }
+
+      .header-minimal .nav-compact .nav-text {
+        font-size: 0.5rem;
       }
     }
   </style>
@@ -2740,6 +2797,8 @@
               headerContainer.classList.remove('hidden');
               headerContainer.classList.add('visible');
             }
+            // Actualizar navegación según el tamaño de pantalla
+            this.updateNavigationForDevice();
           }
         });
 
@@ -2750,6 +2809,30 @@
             headerContainer.classList.add('visible');
           }
         }, { passive: true });
+      },
+
+      // Actualizar navegación según dispositivo
+      updateNavigationForDevice() {
+        if (this.state.currentUser) {
+          this.updateUserInterface();
+        } else {
+          this.showGuestInterface();
+        }
+      },
+
+      // Función para activar modo súper minimalista (opcional)
+      toggleMinimalHeader() {
+        const headerContainer = document.getElementById('headerContainer');
+        if (headerContainer) {
+          headerContainer.classList.toggle('header-minimal');
+          
+          const isMinimal = headerContainer.classList.contains('header-minimal');
+          this.showNotification(
+            `Modo ${isMinimal ? 'minimalista' : 'normal'} activado`,
+            'info',
+            'Header actualizado'
+          );
+        }
       },
 
       setupCheckboxStyling() {
@@ -2926,20 +3009,40 @@
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
+        // Navegación con diferentes estilos según el dispositivo
+        const isMobile = window.innerWidth <= 768;
+        
         if (mainNavigation) {
-          mainNavigation.innerHTML = `
-            <a href="#ofertas">Ofertas</a>
-            <a href="#nuestras-pizzas">Pizzas</a>
-            <a href="#calzones">Calzones</a>
-            <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards" style="color: var(--gold);">
-              ⭐ Recompensas
-              <span class="rewards-badge">
-                ${this.state.currentUser.points || 0}
-              </span>
-            </a>
-            <a href="pedido.html">Pedido</a>
-            <a href="#contacto">Contacto</a>
-          `;
+          if (isMobile) {
+            // Versión compacta con iconos para móvil
+            mainNavigation.innerHTML = `
+              <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
+              <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
+              <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
+              <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards">
+                <span class="nav-icon">⭐</span><span class="nav-text">Puntos</span>
+                <span class="rewards-badge">${this.state.currentUser.points || 0}</span>
+              </a>
+              <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
+            `;
+            mainNavigation.className = 'nav-main nav-compact';
+          } else {
+            // Versión desktop normal
+            mainNavigation.innerHTML = `
+              <a href="#ofertas">Ofertas</a>
+              <a href="#nuestras-pizzas">Pizzas</a>
+              <a href="#calzones">Calzones</a>
+              <a href="javascript:void(0)" onclick="FratelliPazzi.navigateToPoints()" class="nav-rewards" style="color: var(--gold);">
+                ⭐ Recompensas
+                <span class="rewards-badge">
+                  ${this.state.currentUser.points || 0}
+                </span>
+              </a>
+              <a href="pedido.html">Pedido</a>
+              <a href="#contacto">Contacto</a>
+            `;
+            mainNavigation.className = 'nav-main';
+          }
         }
         
         const profileAvatar = document.getElementById('profileAvatar');
@@ -2971,15 +3074,15 @@
         }
         
         const emailVerificationBadge = !this.state.currentUser.emailVerified ? 
-          '<span style="background: #ff6b6b; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: 5px;">📧 No verificado</span>' : '';
+          '<span style="background: #ff6b6b; color: white; font-size: 8px; padding: 1px 4px; border-radius: 8px; margin-left: 3px;">📧</span>' : '';
         
         userMenu.innerHTML = `
           <div class="user-menu">
             <div class="user-welcome" onclick="FratelliPazzi.toggleDropdown()">
               <div class="user-avatar">${this.state.currentUser.name.charAt(0).toUpperCase()}</div>
-              <span>Hola, ${this.state.currentUser.name.split(' ')[0]}</span>
+              <span style="font-size: ${isMobile ? '0.7rem' : '0.875rem'};">${isMobile ? this.state.currentUser.name.split(' ')[0].substring(0, 6) : 'Hola, ' + this.state.currentUser.name.split(' ')[0]}</span>
               ${emailVerificationBadge}
-              <span style="font-size: 12px;">▼</span>
+              <span style="font-size: 10px;">▼</span>
             </div>
             <div class="user-dropdown" id="userDropdown">
               ${!this.state.currentUser.emailVerified ? 
@@ -3003,14 +3106,31 @@
         
         userMenu.innerHTML = '';
         
+        // Navegación diferente según dispositivo
+        const isMobile = window.innerWidth <= 768;
+        
         if (mainNavigation) {
-          mainNavigation.innerHTML = `
-            <a href="#ofertas">Ofertas</a>
-            <a href="#nuestras-pizzas">Pizzas</a>
-            <a href="#calzones">Calzones</a>
-            <a href="pedido.html">Pedido</a>
-            <a href="#contacto">Contacto</a>
-          `;
+          if (isMobile) {
+            // Versión móvil compacta con iconos
+            mainNavigation.innerHTML = `
+              <a href="#ofertas"><span class="nav-icon">🔥</span><span class="nav-text">Ofertas</span></a>
+              <a href="#nuestras-pizzas"><span class="nav-icon">🍕</span><span class="nav-text">Pizzas</span></a>
+              <a href="#calzones"><span class="nav-icon">🥟</span><span class="nav-text">Calzones</span></a>
+              <a href="pedido.html"><span class="nav-icon">🛒</span><span class="nav-text">Pedido</span></a>
+              <a href="#contacto"><span class="nav-icon">📞</span><span class="nav-text">Contacto</span></a>
+            `;
+            mainNavigation.className = 'nav-main nav-compact';
+          } else {
+            // Versión desktop normal
+            mainNavigation.innerHTML = `
+              <a href="#ofertas">Ofertas</a>
+              <a href="#nuestras-pizzas">Pizzas</a>
+              <a href="#calzones">Calzones</a>
+              <a href="pedido.html">Pedido</a>
+              <a href="#contacto">Contacto</a>
+            `;
+            mainNavigation.className = 'nav-main';
+          }
         }
         
         if (authSection) authSection.style.display = 'block';
@@ -3668,28 +3788,32 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - CÓDIGO OPTIMIZADO CON AUTO-HIDE HEADER
-===========================================================
+🍕 FRATELLI PAZZI - HEADER SÚPER COMPACTO PARA MÓVIL
+=====================================================
 
-✅ Banner de oferta completamente eliminado
-📱 Header auto-hide en móvil implementado
-🎯 Header se oculta al scroll hacia abajo
-⬆️ Header aparece al scroll hacia arriba
-🏆 Sistema de recompensas completo
-📱 Diseño responsive optimizado
-🔥 Firebase y localStorage integrados
-💫 Animaciones suaves y modernas
-🛡️ Sistema de notificaciones robusto
+✅ Header inteligente con auto-hide optimizado
+📱 Versión SÚPER COMPACTA para móvil
+🎯 Logo más pequeño (35px → 28px en minimal)
+⭐ Navegación con iconos para ahorrar espacio
+🔥 Padding reducido al mínimo
+📏 Header de solo 50px de altura (40px minimal)
+💫 Transiciones suaves y optimizadas
+🎨 Dos modos: Normal y Minimalista
 
-Características del Header Inteligente:
-- Se oculta automáticamente al hacer scroll hacia abajo (móvil)
-- Aparece al hacer scroll hacia arriba
-- Se muestra al tocar la pantalla
-- Aparece automáticamente después de 3s sin scroll
-- Siempre visible en desktop
-- Transiciones suaves y optimizadas
+Características del Header Compacto:
+• Logo reducido: 35px (vs 60px anterior)
+• Navegación con iconos + texto mini
+• Padding mínimo en móvil
+• Scroll horizontal sin scrollbar visible
+• User menu ultra-compacto
+• Modo minimalista opcional (40px altura)
 
-¡Header inteligente listo para móvil! 🚀📱
+Navegación móvil optimizada:
+🔥 Ofertas | 🍕 Pizzas | 🥟 Calzones | ⭐ Puntos | 🛒 Pedido
+
+¡Ahora el header molesta MUCHO menos en móvil! 📱✨
+
+Tip: Usa FratelliPazzi.toggleMinimalHeader() para modo extra-compacto
     `);
   </script>
 </body>
