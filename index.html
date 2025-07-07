@@ -303,195 +303,79 @@
 
     /* BANNER DE OFERTA ELEGANTE */
     .offer-banner {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #e74c3c 100%) !important;
-  color: white !important;
-  padding: var(--space-sm) var(--space-md) !important;
-  z-index: 1001 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3) !important;
-  animation: slideDown 0.5s ease !important;
-  font-weight: 600 !important;
-  font-size: clamp(0.8rem, 2vw, 0.9rem) !important;
-  text-align: center !important;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
-}
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #d62828 0%, #f72c2c 100%);
+      color: white;
+      padding: var(--space-sm) var(--space-md);
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-card);
+      animation: slideDown 0.5s ease;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      text-align: center;
+    }
+    
+    .offer-banner.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    
+    .offer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      flex: 1;
+      text-align: center;
+    }
+    
+    .offer-cta-btn {
+      background: white;
+      color: #d62828;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-lg);
+      font-weight: 700;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .offer-cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+    }
 
-.offer-banner.hidden {
-  transform: translateY(-100%) !important;
-  transition: transform 0.3s ease !important;
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
-}
-
-.offer-content {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: var(--space-md) !important;
-  flex-wrap: wrap !important;
-  flex: 1 !important;
-  text-align: center !important;
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-}
-
-.offer-urgency {
-  display: flex !important;
-  align-items: center !important;
-  gap: var(--space-xs) !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  animation: pulseUrgent 2s ease-in-out infinite !important;
-}
-
-@keyframes pulseUrgent {
-  0%, 100% { 
-    transform: scale(1); 
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-  }
-  50% { 
-    transform: scale(1.02); 
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  }
-}
-
-.offer-main-text {
-  font-size: clamp(0.9rem, 2.2vw, 1rem) !important;
-  font-weight: 700 !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
-  color: white !important;
-}
-
-.offer-code {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: #e74c3c !important;
-  padding: var(--space-xs) var(--space-sm) !important;
-  border-radius: var(--radius-sm) !important;
-  font-weight: 800 !important;
-  font-size: 0.85rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  border: 2px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-  animation: codeGlow 3s ease-in-out infinite !important;
-}
-
-@keyframes codeGlow {
-  0%, 100% { 
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1);
-  }
-  50% { 
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-    transform: scale(1.02);
-  }
-}
-
-.offer-timer {
-  display: flex !important;
-  align-items: center !important;
-  gap: var(--space-xs) !important;
-  background: rgba(0, 0, 0, 0.3) !important;
-  padding: var(--space-xs) var(--space-sm) !important;
-  border-radius: var(--radius-md) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(10px) !important;
-  color: white !important;
-}
-
-.countdown {
-  font-family: 'Courier New', monospace !important;
-  font-weight: 800 !important;
-  font-size: clamp(0.85rem, 2vw, 0.95rem) !important;
-  color: #fff !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
-  animation: countdownPulse 1s ease-in-out infinite !important;
-}
-
-@keyframes countdownPulse {
-  0%, 100% { color: #fff; }
-  50% { color: #ffeb3b; }
-}
-
-.countdown.urgent {
-  color: #ffeb3b !important;
-  animation: urgentBlink 0.5s ease-in-out infinite !important;
-}
-
-@keyframes urgentBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-.offer-cta-btn {
-  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%) !important;
-  color: #e74c3c !important;
-  padding: var(--space-sm) var(--space-lg) !important;
-  border-radius: var(--radius-lg) !important;
-  font-weight: 800 !important;
-  font-size: clamp(0.75rem, 1.8vw, 0.85rem) !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2) !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.offer-cta-btn::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: -100% !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.2), transparent) !important;
-  transition: left 0.6s ease !important;
-}
-
-.offer-cta-btn:hover::before {
-  left: 100% !important;
-}
-
-.offer-cta-btn:hover {
-  transform: scale(1.05) translateY(-1px) !important;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3) !important;
-  background: linear-gradient(135deg, #fff 0%, #e8f5e8 100%) !important;
-}
-
-.offer-close {
-  background: none !important;
-  border: none !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  font-size: 1.5rem !important;
-  cursor: pointer !important;
-  margin-left: var(--space-md) !important;
-  width: 32px !important;
-  height: 32px !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.2s ease !important;
-}
-
-.offer-close:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: white !important;
-  transform: rotate(90deg) !important;
-}
+    /* AJUSTES POR BANNER */
+    body {
+      padding-top: calc(60px + var(--space-xl));
+    }
+    
+    .header-container {
+      top: 60px;
+    }
+    
+    .banner-hidden {
+      padding-top: var(--space-xl);
+    }
+    
+    .banner-hidden .header-container {
+      top: 0;
+    }
 
     /* HERO SECTION RENOVADO Y CENTRADO */
     .hero-section {
@@ -1892,33 +1776,38 @@
 
   <!-- BANNER DE OFERTA -->
   <div class="offer-banner" id="urgentBanner">
-  <div class="offer-content">
-    <div class="offer-urgency">
-      <span>🔥</span>
-      <span>¡OFERTA EXCLUSIVA!</span>
+    <div class="offer-content">
+      <span style="font-size: 1.125rem;">🔥</span>
+      <span>OFERTA ESPECIAL: <strong>20% OFF</strong> en pedidos +15€</span>
+      <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 6px; font-size: 0.875rem;">
+        Código: <strong>FRATELLI20</strong>
+      </span>
+      <span style="font-size: 0.875rem;">⏰ Termina en <span id="countdown">2:30:00</span></span>
+      <button class="offer-cta-btn" onclick="window.location.href='pedido.html'">¡PEDIR AHORA!</button>
     </div>
-    
-    <div class="offer-main-text">
-      <strong>15% OFF</strong> en tu primera pizza - Solo nuevas cuentas
-    </div>
-    
-    <div class="offer-code">
-      Código: <strong>NUOVO15</strong>
-    </div>
-    
-    <div class="offer-timer">
-      <span>⏰</span>
-      <span>Termina en:</span>
-      <span class="countdown" id="countdown">15:00</span>
-    </div>
-    
-    <button class="offer-cta-btn" onclick="FratelliPazzi.handleNewUserOffer()">
-      ¡CREAR CUENTA GRATIS!
-    </button>
+    <button style="background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer; margin-left: var(--space-md);" onclick="FratelliPazzi.closeBanner()">×</button>
   </div>
-  
-  <button class="offer-close" onclick="FratelliPazzi.closeBanner()">×</button>
-</div>
+
+  <!-- HEADER FLOTANTE -->
+  <div class="header-container" id="headerContainer">
+    <header>
+      <div class="header-content">
+        <a href="#" class="logo">
+          <img src="images/logo-fratelli-pazzi.png" alt="Fratelli Pazzi - Auténtica Pizzería Napolitana" loading="eager">
+        </a>
+        <nav class="nav-main" id="mainNavigation">
+          <a href="#ofertas">Ofertas</a>
+          <a href="#nuestras-pizzas">Pizzas</a>
+          <a href="#calzones">Calzones</a>
+          <a href="pedido.html">Pedido</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+        <div class="user-menu" id="userMenu">
+          <!-- Se llenará dinámicamente -->
+        </div>
+      </div>
+    </header>
+  </div>
 
   <!-- HERO SECTION -->
   <section class="hero-section">
@@ -2559,8 +2448,7 @@
   </div>
 
   <!-- JAVASCRIPT -->
-
-<script type="module">
+  <script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword,
@@ -2730,6 +2618,7 @@
           return;
         }
 
+        // Mostrar notificación de navegación
         this.showNotification(
           '🚀 Redirigiendo a tu sección de puntos...',
           'fratelli',
@@ -2737,6 +2626,7 @@
           { duration: 2000 }
         );
 
+        // Redirigir después de un breve delay
         setTimeout(() => {
           window.location.href = 'puntos.html';
         }, 1500);
@@ -3121,25 +3011,20 @@
         }, { passive: true });
       },
 
-      // ========== COUNTDOWN - FUNCIÓN CORREGIDA ==========
+      // ========== COUNTDOWN ==========
       startCountdown() {
         try {
-          let timeLeft = 15 * 60; // 15 minutos en segundos
+          let timeLeft = 2.5 * 60 * 60;
           
           this.state.intervals.countdown = setInterval(() => {
-            const minutes = Math.floor(timeLeft / 60);
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
             const seconds = timeLeft % 60;
             
             const countdownElement = document.getElementById('countdown');
             if (countdownElement) {
               countdownElement.textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-              
-              if (timeLeft <= 120) {
-                countdownElement.classList.add('urgent');
-              } else {
-                countdownElement.classList.remove('urgent');
-              }
+                `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
             
             timeLeft--;
@@ -3147,15 +3032,6 @@
             if (timeLeft < 0) {
               clearInterval(this.state.intervals.countdown);
               this.closeBanner();
-              
-              setTimeout(() => {
-                this.showNotification(
-                  '⏰ ¡Se acabó el tiempo! La oferta exclusiva del 15% OFF para nuevos usuarios ha expirado.',
-                  'warning',
-                  'Oferta Expirada',
-                  { duration: 8000 }
-                );
-              }, 500);
             }
           }, 1000);
         } catch (error) {
@@ -3187,93 +3063,7 @@
         }
       },
 
-      // ========== NUEVA FUNCIÓN PARA OFERTAS ==========
-      handleNewUserOffer() {
-        if (this.state.currentUser) {
-          this.showNotification(
-            '¡Ya tienes una cuenta! Esta oferta del 15% OFF es exclusiva para nuevos usuarios.\n\n' +
-            'Pero no te preocupes, como miembro de la Famiglia tienes acceso a nuestro sistema de puntos y ofertas especiales. ¡Revisa tu sección de Recompensas!',
-            'info',
-            'Oferta para nuevos usuarios',
-            { duration: 8000 }
-          );
-          
-          setTimeout(() => {
-            const shouldGoToPoints = confirm(
-              '¿Te gustaría ver tus puntos y recompensas disponibles?'
-            );
-            if (shouldGoToPoints) {
-              this.navigateToPoints();
-            }
-          }, 3000);
-          
-          return;
-        }
-        
-        this.showNotification(
-          '🎉 ¡Perfecto! Te ayudamos a crear tu cuenta para aprovechar el 15% OFF en tu primera pizza.',
-          'fratelli',
-          'Oferta Exclusiva NUOVO15',
-          { duration: 4000 }
-        );
-        
-        setTimeout(() => {
-          this.showNotification(
-            '📋 Detalles de tu oferta:\n\n' +
-            '🍕 15% de descuento en tu primera pizza\n' +
-            '🔑 Código: NUOVO15\n' +
-            '⏰ Válido solo durante los próximos ' + document.getElementById('countdown').textContent + '\n' +
-            '✅ Solo para nuevas cuentas\n\n' +
-            'Al registrarte también podrás:\n' +
-            '• Acumular puntos en cada pedido\n' +
-            '• Conseguir pizzas gratis\n' +
-            '• Recibir ofertas exclusivas',
-            'info',
-            '🎁 Tu Oferta Especial',
-            { duration: 12000 }
-          );
-        }, 2000);
-        
-        setTimeout(() => {
-          this.showRegisterForm();
-          
-          setTimeout(() => {
-            const offersCheckbox = document.getElementById('register-offers');
-            if (offersCheckbox) {
-              offersCheckbox.checked = true;
-              const checkmark = offersCheckbox.nextElementSibling;
-              if (checkmark) {
-                checkmark.style.background = 'var(--gold)';
-              }
-            }
-            
-            const registerForm = document.querySelector('#registerPopup .auth-popup-body');
-            if (registerForm) {
-              const offerReminder = document.createElement('div');
-              offerReminder.style.cssText = `
-                background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-                color: white;
-                padding: 12px;
-                border-radius: 8px;
-                margin-bottom: 16px;
-                text-align: center;
-                font-size: 0.875rem;
-                font-weight: 600;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-              `;
-              offerReminder.innerHTML = `
-                🔥 <strong>¡Tu oferta te espera!</strong><br>
-                15% OFF con código NUOVO15<br>
-                <small style="opacity: 0.9;">⏰ Expira en: ${document.getElementById('countdown').textContent}</small>
-              `;
-              
-              registerForm.insertBefore(offerReminder, registerForm.firstChild);
-            }
-          }, 200);
-        }, 5000);
-      },
-
-      // ========== RESTO DE FUNCIONES (continúa con todas las demás...) ==========
+      // ========== USER AUTHENTICATION ==========
       checkUserSession() {
         if (this.state.isFirebaseEnabled) {
           return;
@@ -3305,6 +3095,7 @@
         if (authSection) authSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'block';
         
+        // Actualizar navegación principal con Recompensas
         if (mainNavigation) {
           mainNavigation.innerHTML = `
             <a href="#ofertas">Ofertas</a>
@@ -3382,6 +3173,7 @@
         
         userMenu.innerHTML = '';
         
+        // Restaurar navegación original sin Recompensas
         if (mainNavigation) {
           mainNavigation.innerHTML = `
             <a href="#ofertas">Ofertas</a>
@@ -3759,24 +3551,16 @@
             
             if (this.state.isFirebaseEnabled) {
               this.showNotification(
-                `¡Hola ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.\n\n` +
-                `🎉 ¡No olvides tu oferta especial!\n` +
-                `🍕 15% OFF en tu primera pizza\n` +
-                `🔑 Código: NUOVO15\n` +
-                `📧 Verificación enviada a: ${email}\n\n` +
-                `¡Bienvenido a la Famiglia Fratelli!`,
+                `¡Hola ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.\n\n📧 Hemos enviado un email de verificación a ${email}\n\n¡Bienvenido a la Famiglia Fratelli!`,
                 'fratelli',
                 '🍕 ¡Cuenta creada!',
-                { duration: 20000 }
+                { duration: 15000 }
               );
             } else {
               this.showNotification(
-                `¡Bienvenido ${name.split(' ')[0]}!\n\n` +
-                `🎉 Tu cuenta ha sido creada exitosamente.\n` +
-                `🍕 15% OFF en tu primera pizza con código NUOVO15`,
+                `¡Bienvenido ${name.split(' ')[0]}! Tu cuenta ha sido creada exitosamente.`,
                 'success',
-                '🍕 ¡Cuenta creada!',
-                { duration: 15000 }
+                '🍕 ¡Cuenta creada!'
               );
             }
             
@@ -3908,6 +3692,7 @@
           return;
         }
         
+        // Ahora redirige a puntos.html
         this.navigateToPoints();
       },
 
@@ -4068,17 +3853,28 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - VERSIÓN CORREGIDA
-====================================
+🍕 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS COMPLETO
+===================================================
 
-✅ Errores de sintaxis solucionados
-✅ Banner 15% OFF funcionando
-✅ Timer de 15 minutos operativo
-✅ Función handleNewUserOffer() implementada
-✅ JavaScript limpio y optimizado
+✨ Navegación dinámica implementada
+🎯 Sección "Recompensas" aparece al iniciar sesión
+🏆 Badge de puntos en tiempo real en el header
+📱 Diseño responsive optimizado
 
-🚀 La página debería cargar correctamente ahora
+Características principales:
+- Header dinámico según estado de usuario
+- Enlace destacado "⭐ Recompensas" con puntos
+- Animaciones suaves en badge de puntos
+- Redirección completa a puntos.html
+- Navegación limpia para usuarios no logueados
+
+Estados de navegación:
+- Sin sesión: Navegación estándar
+- Con sesión: + Sección Recompensas con puntos
+
+Para ir a puntos:
+> FratelliPazzi.navigateToPoints()
     `);
-</script>
+  </script>
 </body>
 </html>
