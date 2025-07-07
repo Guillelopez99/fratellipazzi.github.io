@@ -141,7 +141,7 @@
       padding-top: var(--space-xl);
     }
 
-    /* HEADER FLOTANTE MODERNO */
+    /* HEADER FLOTANTE MODERNO CON AUTO-HIDE EN MÓVIL */
     .header-container {
       position: fixed;
       top: 0;
@@ -150,6 +150,7 @@
       z-index: 1000;
       padding: var(--space-md);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(0);
     }
     
     .header-container.scrolled {
@@ -158,6 +159,18 @@
     
     .header-container.scrolled .logo img {
       height: clamp(45px, 7vw, 70px);
+    }
+
+    /* HEADER OCULTO EN MÓVIL AL HACER SCROLL DOWN */
+    .header-container.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* HEADER VISIBLE AL HACER SCROLL UP */
+    .header-container.visible {
+      transform: translateY(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     header {
@@ -1291,6 +1304,21 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
+      /* OPTIMIZACIÓN HEADER MÓVIL */
+      .header-container {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    padding 0.3s ease;
+        will-change: transform;
+      }
+
+      .header-container.hidden {
+        transform: translateY(-100%);
+      }
+
+      .header-container.visible {
+        transform: translateY(0);
+      }
+
       .logo img {
         height: clamp(45px, 10vw, 60px);
       }
@@ -2432,11 +2460,19 @@
           this.initMobileOptimizations();
           this.checkUserSession();
           this.checkEmailVerificationReturn();
+          this.initHeaderVisibility();
           
           console.log('✅ Fratelli Pazzi inicializado correctamente');
         } catch (error) {
           console.error('❌ Error en inicialización:', error);
           this.forceHideLoader();
+        }
+      },
+
+      initHeaderVisibility() {
+        const headerContainer = document.getElementById('headerContainer');
+        if (headerContainer) {
+          headerContainer.classList.add('visible');
         }
       },
 
@@ -2636,19 +2672,83 @@
       setupScrollEffects() {
         const headerContainer = document.getElementById('headerContainer');
         let lastScrollTop = 0;
+        let scrollTimeout = null;
 
         window.addEventListener('scroll', () => {
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const isMobile = window.innerWidth <= 768;
           
           if (headerContainer) {
+            // Aplicar clase 'scrolled' cuando se hace scroll
             if (scrollTop > 100) {
               headerContainer.classList.add('scrolled');
             } else {
               headerContainer.classList.remove('scrolled');
             }
+
+            // Auto-hide header en móvil basado en dirección del scroll
+            if (isMobile && scrollTop > 150) { // Umbral mínimo para activar auto-hide
+              if (scrollTop > lastScrollTop && scrollTop > 200) {
+                // Scroll hacia abajo - ocultar header
+                headerContainer.classList.add('hidden');
+                headerContainer.classList.remove('visible');
+              } else if (scrollTop < lastScrollTop) {
+                // Scroll hacia arriba - mostrar header
+                headerContainer.classList.remove('hidden');
+                headerContainer.classList.add('visible');
+              }
+            } else if (isMobile && scrollTop <= 150) {
+              // Cerca del top - siempre mostrar header
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+            }
+
+            // En desktop, siempre mantener header visible
+            if (!isMobile) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+            }
           }
           
           lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+          // Detectar cuando el usuario para de hacer scroll
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            // Si el usuario para de hacer scroll y está en móvil, mostrar header brevemente
+            if (isMobile && headerContainer && scrollTop > 200) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+              
+              // Volver a ocultar después de 3 segundos si no hay actividad
+              setTimeout(() => {
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentScroll > 200 && window.innerWidth <= 768) {
+                  headerContainer.classList.add('hidden');
+                  headerContainer.classList.remove('visible');
+                }
+              }, 3000);
+            }
+          }, 150);
+        }, { passive: true });
+
+        // Mostrar header al cambiar orientación o redimensionar
+        window.addEventListener('resize', () => {
+          if (headerContainer) {
+            const isMobile = window.innerWidth <= 768;
+            if (!isMobile) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+            }
+          }
+        });
+
+        // Mostrar header al hacer touch (inicio de interacción)
+        window.addEventListener('touchstart', () => {
+          if (headerContainer && window.innerWidth <= 768) {
+            headerContainer.classList.remove('hidden');
+            headerContainer.classList.add('visible');
+          }
         }, { passive: true });
       },
 
@@ -3568,27 +3668,28 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - CÓDIGO OPTIMIZADO SIN BANNER
-==================================================
+🍕 FRATELLI PAZZI - CÓDIGO OPTIMIZADO CON AUTO-HIDE HEADER
+===========================================================
 
 ✅ Banner de oferta completamente eliminado
-🎯 Header simplificado y limpio
+📱 Header auto-hide en móvil implementado
+🎯 Header se oculta al scroll hacia abajo
+⬆️ Header aparece al scroll hacia arriba
 🏆 Sistema de recompensas completo
 📱 Diseño responsive optimizado
 🔥 Firebase y localStorage integrados
 💫 Animaciones suaves y modernas
 🛡️ Sistema de notificaciones robusto
 
-Características principales:
-- Sin banner promocional
-- Header fijo en top: 0
-- Navegación dinámica según usuario
-- Sistema de puntos completo
-- Autenticación Firebase/localStorage
-- Diseño completamente responsive
-- Código optimizado y limpio
+Características del Header Inteligente:
+- Se oculta automáticamente al hacer scroll hacia abajo (móvil)
+- Aparece al hacer scroll hacia arriba
+- Se muestra al tocar la pantalla
+- Aparece automáticamente después de 3s sin scroll
+- Siempre visible en desktop
+- Transiciones suaves y optimizadas
 
-¡Listo para producción! 🚀
+¡Header inteligente listo para móvil! 🚀📱
     `);
   </script>
 </body>
