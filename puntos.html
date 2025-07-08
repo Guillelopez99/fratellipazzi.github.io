@@ -66,10 +66,10 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
-      padding-top: var(--space-xl);
+      padding-top: 120px; /* Aumentado para evitar que el header pise el contenido */
     }
 
-    /* HEADER FLOTANTE MODERNO */
+    /* HEADER FLOTANTE MODERNO CON AUTO-HIDE EN MÓVIL */
     .header-container {
       position: fixed;
       top: 0;
@@ -78,10 +78,23 @@
       z-index: 1000;
       padding: var(--space-md);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(0);
     }
     
     .header-container.scrolled {
       padding: var(--space-sm) var(--space-md);
+    }
+
+    /* HEADER OCULTO EN MÓVIL AL HACER SCROLL DOWN */
+    .header-container.hidden {
+      transform: translateY(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* HEADER VISIBLE AL HACER SCROLL UP */
+    .header-container.visible {
+      transform: translateY(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     header {
@@ -734,6 +747,10 @@
 
     /* RESPONSIVE DESIGN */
     @media (max-width: 768px) {
+      body {
+        padding-top: 140px; /* Más espacio en móvil para el header de dos líneas */
+      }
+
       .header-content {
         flex-direction: column;
         gap: var(--space-md);
@@ -786,6 +803,10 @@
     }
 
     @media (max-width: 480px) {
+      body {
+        padding-top: 160px; /* Aún más espacio en pantallas muy pequeñas */
+      }
+
       .page-title {
         font-size: clamp(2rem, 10vw, 3rem);
       }
@@ -1007,8 +1028,16 @@
         this.setupEventListeners();
         this.checkUserSession();
         this.setupScrollEffects();
+        this.initHeaderVisibility();
         
         console.log('✅ Sistema de Recompensas inicializado');
+      },
+
+      initHeaderVisibility() {
+        const headerContainer = document.getElementById('headerContainer');
+        if (headerContainer) {
+          headerContainer.classList.add('visible');
+        }
       },
 
       checkFirebaseAvailability() {
@@ -1387,9 +1416,12 @@
 
       setupScrollEffects() {
         const headerContainer = document.getElementById('headerContainer');
-        
+        let lastScrollTop = 0;
+        let scrollTimeout = null;
+
         window.addEventListener('scroll', () => {
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const isMobile = window.innerWidth <= 768;
           
           if (headerContainer) {
             if (scrollTop > 100) {
@@ -1397,6 +1429,59 @@
             } else {
               headerContainer.classList.remove('scrolled');
             }
+
+            if (isMobile && scrollTop > 150) {
+              if (scrollTop > lastScrollTop && scrollTop > 200) {
+                headerContainer.classList.add('hidden');
+                headerContainer.classList.remove('visible');
+              } else if (scrollTop < lastScrollTop) {
+                headerContainer.classList.remove('hidden');
+                headerContainer.classList.add('visible');
+              }
+            } else if (isMobile && scrollTop <= 150) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+            }
+
+            if (!isMobile) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+            }
+          }
+          
+          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            if (isMobile && headerContainer && scrollTop > 200) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+              
+              setTimeout(() => {
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentScroll > 200 && window.innerWidth <= 768) {
+                  headerContainer.classList.add('hidden');
+                  headerContainer.classList.remove('visible');
+                }
+              }, 3000);
+            }
+          }, 150);
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+          if (headerContainer) {
+            const isMobile = window.innerWidth <= 768;
+            if (!isMobile) {
+              headerContainer.classList.remove('hidden');
+              headerContainer.classList.add('visible');
+            }
+          }
+        });
+
+        window.addEventListener('touchstart', () => {
+          if (headerContainer && window.innerWidth <= 768) {
+            headerContainer.classList.remove('hidden');
+            headerContainer.classList.add('visible');
           }
         }, { passive: true });
       },
@@ -1471,10 +1556,17 @@ images/recompensas/
 ├── camiseta-fratelli.png
 └── cena-romantica.png
 
+📱 MEJORAS EN MÓVIL:
+• Header auto-hide al hacer scroll hacia abajo
+• Header reaparece al hacer scroll hacia arriba
+• Header siempre visible al tocar la pantalla
+• Padding superior ajustado (140px móvil, 160px pantallas pequeñas)
+• Header nunca pisa el contenido
+
 ⌨️ COMANDOS DE PRUEBA:
 > Ctrl+Alt+P = Añadir 500 puntos de prueba
 
-🚀 ¡Sistema de recompensas con imágenes listo!
+🚀 ¡Sistema de recompensas optimizado para móvil!
     `);
   </script>
 </body>
