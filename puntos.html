@@ -1108,6 +1108,7 @@
         this.checkUserSession();
         this.setupScrollEffects();
         this.initHeaderVisibility();
+        this.cleanupExpiredRewards();
         
         console.log('✅ Sistema de Recompensas inicializado');
       },
@@ -1330,7 +1331,7 @@
         };
         
         const shouldRedeem = await this.showConfirmation(
-          `¿Confirmas el canjeo de "${rewardNames[rewardType]}"?\n\nSe descontarán ${cost} puntos de tu cuenta.\n\nPuntos actuales: ${points}\nPuntos después del canje: ${points - cost}`,
+          `¿Confirmas el canjeo de "${rewardNames[rewardType]}"?\n\nSe descontarán ${cost} puntos de tu cuenta y serás redirigido a la página de pedidos para aplicar tu recompensa.\n\nPuntos actuales: ${points}\nPuntos después del canje: ${points - cost}`,
           '🎁 Confirmar Canjeo',
           '🏆'
         );
@@ -1365,19 +1366,30 @@
             localStorage.setItem('fratelli_current_user', JSON.stringify(this.state.currentUser));
           }
           
-          // Actualizar interfaz
-          this.updateInterface();
+          // Preparar recompensa para el carrito
+          const rewardData = {
+            type: rewardType,
+            name: rewardNames[rewardType],
+            cost: cost,
+            redeemedAt: new Date().toISOString(),
+            userId: this.state.currentUser.uid || this.state.currentUser.email,
+            pointsRemaining: this.state.currentUser.points
+          };
           
-          setTimeout(() => {
-            card.classList.remove('redeeming');
-          }, 600);
+          // Guardar recompensa para pedido.html
+          localStorage.setItem('fratelli_active_reward', JSON.stringify(rewardData));
           
           this.showNotification(
-            `¡Felicidades! Has canjeado exitosamente: ${rewardNames[rewardType]}\n\n🎯 Puntos restantes: ${this.state.currentUser.points}\n\n📞 Contacta con nosotros para reclamar tu premio:\n660 668 812 o WhatsApp`,
+            `¡Recompensa canjeada exitosamente!\n\n🎯 Puntos restantes: ${this.state.currentUser.points}\n\n🛒 Redirigiendo a la página de pedidos...`,
             'success',
             '🎉 ¡Canje Exitoso!',
-            { duration: 12000 }
+            { duration: 3000 }
           );
+          
+          // Redireccionar a pedidos después de 2 segundos
+          setTimeout(() => {
+            window.location.href = 'pedido.html?reward=' + rewardType;
+          }, 2000);
         }
       },
 
@@ -1486,6 +1498,153 @@
           }
           this.state.notifications.delete(notificationId);
         }, 400);
+      },
+
+      // ========== UTILIDADES PARA INTEGRACIÓN CON CARRITO ==========
+      getRewardCartItems(rewardType) {
+        const rewardCartMapping = {
+          bebida: [
+            { 
+              id: 'bebida-gratis',
+              name: 'Bebida Gratis (Recompensa)',
+              type: 'bebida',
+              price: 0,
+              originalPrice: 2.5,
+              quantity: 1,
+              isReward: true
+            }
+          ],
+          pizza: [
+            { 
+              id: 'pizza-gratis',
+              name: 'Pizza Gratis (Recompensa)', 
+              type: 'pizza',
+              price: 0,
+              originalPrice: 12,
+              quantity: 1,
+              isReward: true,
+              note: 'Elige cualquier pizza del menú'
+            }
+          ],
+          calzone: [
+            { 
+              id: 'calzone-gratis',
+              name: 'Calzone Gratis (Recompensa)',
+              type: 'calzone', 
+              price: 0,
+              originalPrice: 12,
+              quantity: 1,
+              isReward: true
+            },
+            { 
+              id: 'bebida-combo',
+              name: 'Bebida Gratis (Combo)',
+              type: 'bebida',
+              price: 0,
+              originalPrice: 2.5,
+              quantity: 1,
+              isReward: true
+            }
+          ],
+          combo: [
+            { 
+              id: 'pizza-combo',
+              name: 'Pizza Gratis (Combo)',
+              type: 'pizza',
+              price: 0,
+              originalPrice: 12,
+              quantity: 1,
+              isReward: true
+            },
+            { 
+              id: 'bebidas-combo',
+              name: 'Bebidas Gratis (Combo)',
+              type: 'bebida',
+              price: 0,
+              originalPrice: 5,
+              quantity: 2,
+              isReward: true
+            },
+            { 
+              id: 'postre-combo',
+              name: 'Postre Gratis (Combo)',
+              type: 'postre',
+              price: 0,
+              originalPrice: 4,
+              quantity: 1,
+              isReward: true
+            }
+          ],
+          camiseta: [
+            { 
+              id: 'camiseta-fratelli',
+              name: 'Camiseta Fratelli Edición Limitada',
+              type: 'merchandise',
+              price: 0,
+              originalPrice: 25,
+              quantity: 1,
+              isReward: true,
+              note: 'Talla a elegir al finalizar pedido'
+            }
+          ],
+          cena: [
+            { 
+              id: 'pizza-cena-1',
+              name: 'Pizza Gratis (Cena Romántica)',
+              type: 'pizza',
+              price: 0,
+              originalPrice: 12,
+              quantity: 1,
+              isReward: true
+            },
+            { 
+              id: 'pizza-cena-2',
+              name: 'Pizza Gratis (Cena Romántica)',
+              type: 'pizza',
+              price: 0,
+              originalPrice: 12,
+              quantity: 1,
+              isReward: true
+            },
+            { 
+              id: 'bebidas-cena',
+              name: 'Bebidas Gratis (Cena Romántica)',
+              type: 'bebida',
+              price: 0,
+              originalPrice: 5,
+              quantity: 2,
+              isReward: true
+            },
+            { 
+              id: 'postre-cena',
+              name: 'Postre Romántico Gratis',
+              type: 'postre',
+              price: 0,
+              originalPrice: 6,
+              quantity: 1,
+              isReward: true
+            }
+          ]
+        };
+        
+        return rewardCartMapping[rewardType] || [];
+      },
+
+      // Función para limpiar recompensas expiradas
+      cleanupExpiredRewards() {
+        const activeReward = localStorage.getItem('fratelli_active_reward');
+        if (activeReward) {
+          const reward = JSON.parse(activeReward);
+          const rewardTime = new Date(reward.redeemedAt).getTime();
+          const now = new Date().getTime();
+          const hoursPassed = (now - rewardTime) / (1000 * 60 * 60);
+          
+          // Las recompensas expiran después de 24 horas
+          if (hoursPassed > 24) {
+            localStorage.removeItem('fratelli_active_reward');
+            console.log('🧹 Recompensa expirada limpiada');
+          }
+        }
       },
 
       setupEventListeners() {
@@ -1628,6 +1787,35 @@
     window.redeemReward = (type, cost) => RewardsSystem.redeemReward(type, cost);
     window.RewardsSystem = RewardsSystem;
 
+    // Funciones auxiliares globales para integración con carrito
+    window.getActiveReward = () => {
+      const reward = localStorage.getItem('fratelli_active_reward');
+      return reward ? JSON.parse(reward) : null;
+    };
+
+    window.clearActiveReward = () => {
+      localStorage.removeItem('fratelli_active_reward');
+    };
+
+    window.getRewardCartItems = (rewardType) => {
+      return RewardsSystem.getRewardCartItems(rewardType);
+    };
+
+    // Función para pedido.html - verificar recompensa al cargar
+    window.checkForActiveReward = () => {
+      const reward = window.getActiveReward();
+      if (reward) {
+        console.log('🎁 Recompensa activa detectada:', reward);
+        return {
+          isActive: true,
+          reward: reward,
+          items: RewardsSystem.getRewardCartItems(reward.type),
+          message: `¡Tienes una recompensa activa: ${reward.name}!`
+        };
+      }
+      return { isActive: false };
+    };
+
     // Inicializar cuando DOM esté listo
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => RewardsSystem.init());
@@ -1636,13 +1824,14 @@
     }
 
     console.log(`
-🏆 FRATELLI PAZZI - PÁGINA DE RECOMPENSAS CON IMÁGENES
-====================================================
+🏆 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS INTEGRADO
+===================================================
 
 ✨ Sistema completo de recompensas implementado
 📸 Ahora usa imágenes reales en lugar de iconos
 🎨 Diseño consistente con Fratelli Pazzi
 📱 Totalmente responsive
+🛒 INTEGRADO CON CARRITO DE PEDIDOS
 
 📁 ESTRUCTURA DE IMÁGENES ESPERADA:
 images/recompensas/
@@ -1653,17 +1842,50 @@ images/recompensas/
 ├── camiseta-fratelli.png
 └── cena-romantica.png
 
-📱 MEJORAS EN MÓVIL:
-• Header auto-hide al hacer scroll hacia abajo
-• Header reaparece al hacer scroll hacia arriba
-• Header siempre visible al tocar la pantalla
-• Padding superior ajustado (140px móvil, 160px pantallas pequeñas)
-• Header nunca pisa el contenido
+🛒 INTEGRACIÓN CON CARRITO:
+• Al canjear: Descuenta puntos automáticamente
+• Redirecciona a pedido.html con parámetro ?reward=tipo
+• Guarda recompensa en localStorage como 'fratelli_active_reward'
+• pedido.html debe detectar y aplicar automáticamente
+• Recompensas expiran en 24 horas
+• Mapping completo de productos por recompensa
+
+💾 DATOS DE RECOMPENSA GUARDADOS:
+{
+  type: 'pizza',
+  name: 'Pizza Gratis 🍕',
+  cost: 1000,
+  redeemedAt: '2025-01-08T...',
+  userId: 'user@email.com',
+  pointsRemaining: 500
+}
+
+🔧 FUNCIONES PARA PEDIDO.HTML:
+• window.checkForActiveReward() - Verificar recompensa al cargar
+• window.getActiveReward() - Obtener recompensa activa
+• window.getRewardCartItems(type) - Obtener items del carrito
+• window.clearActiveReward() - Limpiar recompensa usada
+
+📱 MÓVIL CON BOTÓN FLOTANTE:
+• Botón ☰ discreto en esquina superior derecha
+• Header oculto por defecto para más espacio
+• Control total del usuario, no molesto
 
 ⌨️ COMANDOS DE PRUEBA:
 > Ctrl+Alt+P = Añadir 500 puntos de prueba
 
-🚀 ¡Sistema de recompensas optimizado para móvil!
+🔗 CÓDIGO EJEMPLO PARA PEDIDO.HTML:
+// Al cargar la página
+const rewardCheck = window.checkForActiveReward();
+if (rewardCheck.isActive) {
+  console.log(rewardCheck.message);
+  // Añadir items al carrito automáticamente
+  rewardCheck.items.forEach(item => addToCart(item));
+  // Limpiar recompensa después de usar
+  window.clearActiveReward();
+}
+
+🚀 ¡Sistema de recompensas completamente integrado!
     `);
   </script>
 </body>
