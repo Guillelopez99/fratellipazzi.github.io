@@ -69,7 +69,7 @@
       padding-top: 120px; /* Aumentado para evitar que el header pise el contenido */
     }
 
-    /* HEADER FLOTANTE MODERNO CON AUTO-HIDE EN MÓVIL */
+    /* HEADER FLOTANTE MODERNO CON CONTROL MANUAL EN MÓVIL */
     .header-container {
       position: fixed;
       top: 0;
@@ -85,16 +85,81 @@
       padding: var(--space-sm) var(--space-md);
     }
 
-    /* HEADER OCULTO EN MÓVIL AL HACER SCROLL DOWN */
-    .header-container.hidden {
-      transform: translateY(-100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* HEADER OCULTO EN MÓVIL POR DEFECTO */
+    @media (max-width: 768px) {
+      .header-container {
+        transform: translateY(-100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-container.mobile-visible {
+        transform: translateY(0);
+      }
     }
 
-    /* HEADER VISIBLE AL HACER SCROLL UP */
-    .header-container.visible {
-      transform: translateY(0);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* BOTÓN FLOTANTE PARA MÓVIL */
+    .mobile-header-toggle {
+      position: fixed;
+      top: var(--space-lg);
+      right: var(--space-lg);
+      z-index: 1001;
+      background: rgba(30, 33, 34, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(205, 184, 124, 0.3);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-card);
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+
+    .mobile-header-toggle:hover {
+      transform: scale(1.1);
+      background: rgba(30, 33, 34, 0.95);
+      border-color: rgba(205, 184, 124, 0.5);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .mobile-header-toggle:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-header-toggle {
+        display: flex;
+      }
+    }
+
+    /* OVERLAY PARA CERRAR HEADER EN MÓVIL */
+    .mobile-header-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .mobile-header-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (min-width: 769px) {
+      .mobile-header-overlay {
+        display: none;
+      }
     }
     
     header {
@@ -748,7 +813,7 @@
     /* RESPONSIVE DESIGN */
     @media (max-width: 768px) {
       body {
-        padding-top: 140px; /* Más espacio en móvil para el header de dos líneas */
+        padding-top: var(--space-xl); /* Menos espacio ya que el header está oculto por defecto */
       }
 
       .header-content {
@@ -804,7 +869,7 @@
 
     @media (max-width: 480px) {
       body {
-        padding-top: 160px; /* Aún más espacio en pantallas muy pequeñas */
+        padding-top: var(--space-lg); /* Menos espacio en pantallas muy pequeñas */
       }
 
       .page-title {
@@ -821,6 +886,12 @@
 
       .points-number {
         font-size: clamp(2.5rem, 12vw, 4rem);
+      }
+
+      .mobile-header-toggle {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
       }
     }
 
@@ -862,6 +933,14 @@
       </div>
     </div>
   </div>
+
+  <!-- BOTÓN FLOTANTE PARA MÓVIL -->
+  <button class="mobile-header-toggle" id="mobileHeaderToggle" aria-label="Abrir/Cerrar menú">
+    ☰
+  </button>
+
+  <!-- OVERLAY PARA CERRAR HEADER EN MÓVIL -->
+  <div class="mobile-header-overlay" id="mobileHeaderOverlay"></div>
 
   <!-- HEADER FLOTANTE -->
   <div class="header-container" id="headerContainer">
@@ -1036,7 +1115,11 @@
       initHeaderVisibility() {
         const headerContainer = document.getElementById('headerContainer');
         if (headerContainer) {
-          headerContainer.classList.add('visible');
+          // En desktop siempre visible, en móvil oculto por defecto
+          if (window.innerWidth > 768) {
+            headerContainer.classList.add('visible');
+          }
+          // En móvil el header está oculto por defecto via CSS
         }
       },
 
@@ -1416,12 +1499,10 @@
 
       setupScrollEffects() {
         const headerContainer = document.getElementById('headerContainer');
-        let lastScrollTop = 0;
-        let scrollTimeout = null;
-
+        
+        // Solo efectos de scroll para desktop (cambio de padding)
         window.addEventListener('scroll', () => {
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          const isMobile = window.innerWidth <= 768;
           
           if (headerContainer) {
             if (scrollTop > 100) {
@@ -1429,61 +1510,77 @@
             } else {
               headerContainer.classList.remove('scrolled');
             }
-
-            if (isMobile && scrollTop > 150) {
-              if (scrollTop > lastScrollTop && scrollTop > 200) {
-                headerContainer.classList.add('hidden');
-                headerContainer.classList.remove('visible');
-              } else if (scrollTop < lastScrollTop) {
-                headerContainer.classList.remove('hidden');
-                headerContainer.classList.add('visible');
-              }
-            } else if (isMobile && scrollTop <= 150) {
-              headerContainer.classList.remove('hidden');
-              headerContainer.classList.add('visible');
-            }
-
-            if (!isMobile) {
-              headerContainer.classList.remove('hidden');
-              headerContainer.classList.add('visible');
-            }
           }
-          
-          lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-          clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(() => {
-            if (isMobile && headerContainer && scrollTop > 200) {
-              headerContainer.classList.remove('hidden');
-              headerContainer.classList.add('visible');
-              
-              setTimeout(() => {
-                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                if (currentScroll > 200 && window.innerWidth <= 768) {
-                  headerContainer.classList.add('hidden');
-                  headerContainer.classList.remove('visible');
-                }
-              }, 3000);
-            }
-          }, 150);
         }, { passive: true });
 
-        window.addEventListener('resize', () => {
-          if (headerContainer) {
-            const isMobile = window.innerWidth <= 768;
-            if (!isMobile) {
-              headerContainer.classList.remove('hidden');
-              headerContainer.classList.add('visible');
+        // Configurar el botón flotante para móvil
+        this.setupMobileHeaderToggle();
+      },
+
+      setupMobileHeaderToggle() {
+        const headerContainer = document.getElementById('headerContainer');
+        const toggleBtn = document.getElementById('mobileHeaderToggle');
+        const overlay = document.getElementById('mobileHeaderOverlay');
+        
+        if (!toggleBtn || !headerContainer || !overlay) return;
+
+        let isHeaderVisible = false;
+
+        const toggleHeader = () => {
+          if (window.innerWidth <= 768) {
+            isHeaderVisible = !isHeaderVisible;
+            
+            if (isHeaderVisible) {
+              headerContainer.classList.add('mobile-visible');
+              overlay.classList.add('show');
+              toggleBtn.innerHTML = '✕';
+            } else {
+              headerContainer.classList.remove('mobile-visible');
+              overlay.classList.remove('show');
+              toggleBtn.innerHTML = '☰';
             }
+          }
+        };
+
+        const closeHeader = () => {
+          if (window.innerWidth <= 768 && isHeaderVisible) {
+            isHeaderVisible = false;
+            headerContainer.classList.remove('mobile-visible');
+            overlay.classList.remove('show');
+            toggleBtn.innerHTML = '☰';
+          }
+        };
+
+        // Event listeners
+        toggleBtn.addEventListener('click', toggleHeader);
+        overlay.addEventListener('click', closeHeader);
+
+        // Cerrar al hacer click en un enlace del menú en móvil
+        const navLinks = headerContainer.querySelectorAll('.nav-main a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              setTimeout(closeHeader, 300); // Pequeño delay para mejor UX
+            }
+          });
+        });
+
+        // Cerrar al cambiar a desktop
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768) {
+            isHeaderVisible = false;
+            headerContainer.classList.remove('mobile-visible');
+            overlay.classList.remove('show');
+            toggleBtn.innerHTML = '☰';
           }
         });
 
-        window.addEventListener('touchstart', () => {
-          if (headerContainer && window.innerWidth <= 768) {
-            headerContainer.classList.remove('hidden');
-            headerContainer.classList.add('visible');
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            closeHeader();
           }
-        }, { passive: true });
+        });
       },
 
       async addTestPoints(amount = 500) {
