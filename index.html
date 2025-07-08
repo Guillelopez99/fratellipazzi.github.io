@@ -1667,6 +1667,25 @@
         font-size: 0.75rem;
       }
 
+      /* DROPDOWN ESPECÍFICO PARA MÓVIL */
+      .user-dropdown {
+        min-width: 180px;
+        right: 0;
+        left: auto;
+        margin-top: 4px;
+        box-shadow: var(--shadow-strong);
+      }
+
+      .user-dropdown a {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        gap: 6px;
+      }
+
+      .user-dropdown a:hover {
+        background: rgba(205, 184, 124, 0.15);
+      }
+
       #nuestras-pizzas {
         display: block !important;
         visibility: visible !important;
@@ -1757,6 +1776,24 @@
         font-size: 0.65rem;
       }
 
+      /* DROPDOWN EXTRA COMPACTO PARA PANTALLAS MUY PEQUEÑAS */
+      .user-dropdown {
+        min-width: 160px;
+        right: 0;
+        left: auto;
+        margin-top: 2px;
+        max-width: calc(100vw - 20px);
+      }
+
+      .user-dropdown a {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        gap: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       /* OTRAS OPTIMIZACIONES */
       .offers-slider {
         height: clamp(280px, 70vw, 400px);
@@ -1816,6 +1853,9 @@
         font-size: 0.75rem !important;
         line-height: 1.2 !important;
         gap: var(--space-xs) !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        text-align: left !important;
       }
 
       #contacto .card-content > div > div span:first-child {
@@ -1828,7 +1868,9 @@
         font-size: 0.7rem !important;
         line-height: 1.2 !important;
         word-break: break-all !important;
-        text-align: center !important;
+        text-align: left !important;
+        flex: 0 1 auto;
+        max-width: calc(100% - 1.5rem);
       }
     }
   </style>
@@ -2959,11 +3001,26 @@
           document.addEventListener('click', (e) => {
             const dropdownDesktop = document.getElementById('userDropdownDesktop');
             const dropdownMobile = document.getElementById('userDropdownMobile');
-            const userWelcome = document.querySelector('.user-welcome');
+            const userWelcomes = document.querySelectorAll('.user-welcome');
             
-            if (!userWelcome?.contains(e.target)) {
-              if (dropdownDesktop) dropdownDesktop.style.display = 'none';
-              if (dropdownMobile) dropdownMobile.style.display = 'none';
+            // Verificar si el clic fue en algún user-welcome
+            let clickedOnUserWelcome = false;
+            userWelcomes.forEach(welcome => {
+              if (welcome?.contains(e.target)) {
+                clickedOnUserWelcome = true;
+              }
+            });
+            
+            // Si no se hizo clic en ningún user-welcome, cerrar todos los dropdowns
+            if (!clickedOnUserWelcome) {
+              if (dropdownDesktop) {
+                dropdownDesktop.classList.remove('show');
+                dropdownDesktop.style.display = 'none';
+              }
+              if (dropdownMobile) {
+                dropdownMobile.classList.remove('show');
+                dropdownMobile.style.display = 'none';
+              }
             }
           });
 
@@ -3382,15 +3439,30 @@
         const dropdownId = type === 'mobile' ? 'userDropdownMobile' : 'userDropdownDesktop';
         const dropdown = document.getElementById(dropdownId);
         
+        console.log(`🔽 toggleDropdown called for ${type}, dropdown:`, dropdown);
+        
         if (dropdown) {
-          const isVisible = dropdown.style.display === 'block';
-          dropdown.style.display = isVisible ? 'none' : 'block';
+          const isVisible = dropdown.classList.contains('show');
           
-          const otherDropdownId = type === 'mobile' ? 'userDropdownDesktop' : 'userDropdownMobile';
-          const otherDropdown = document.getElementById(otherDropdownId);
-          if (otherDropdown) {
-            otherDropdown.style.display = 'none';
+          // Cerrar todos los dropdowns primero
+          document.querySelectorAll('.user-dropdown').forEach(d => {
+            d.classList.remove('show');
+            d.style.display = 'none';
+          });
+          
+          // Si no estaba visible, mostrarlo
+          if (!isVisible) {
+            dropdown.style.display = 'block';
+            setTimeout(() => {
+              dropdown.classList.add('show');
+            }, 10);
+            
+            console.log(`✅ Dropdown ${type} abierto`);
+          } else {
+            console.log(`❌ Dropdown ${type} cerrado`);
           }
+        } else {
+          console.error(`❌ No se encontró el dropdown: ${dropdownId}`);
         }
       },
 
@@ -4061,6 +4133,28 @@
       FratelliPazzi.moveSliderTo(index);
     };
 
+    // Función de testing para el dropdown
+    window.testDropdown = function() {
+      console.log('🧪 Testing dropdown...');
+      const isMobile = window.innerWidth <= 768;
+      const type = isMobile ? 'mobile' : 'desktop';
+      console.log(`📱 Detected device: ${type}`);
+      
+      const dropdownId = type === 'mobile' ? 'userDropdownMobile' : 'userDropdownDesktop';
+      const dropdown = document.getElementById(dropdownId);
+      const userWelcome = document.querySelector('.user-welcome');
+      
+      console.log(`🔍 Dropdown element (${dropdownId}):`, dropdown);
+      console.log(`👤 User welcome element:`, userWelcome);
+      
+      if (dropdown && userWelcome) {
+        console.log('🎯 Testing dropdown toggle...');
+        FratelliPazzi.toggleDropdown(type);
+      } else {
+        console.error('❌ Elements not found for testing');
+      }
+    };
+
     // Función de testing para el slider
     window.testSlider = function() {
       console.log('🧪 Testing slider...');
@@ -4089,8 +4183,8 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - NAVEGACIÓN Y OFERTAS CORREGIDAS
-==================================================
+🍕 FRATELLI PAZZI - DROPDOWN MÓVIL IMPLEMENTADO
+===============================================
 
 ✅ NAVEGACIÓN PERFECTA:
 • Los enlaces del header van correctamente al encabezado de cada sección
@@ -4101,22 +4195,25 @@
 • Imágenes se muestran COMPLETAS (sin recortar)
 • object-fit: contain para ver toda la imagen
 • JavaScript del slider CORREGIDO y funcionando
-• Funciones globales disponibles (moveSlider, moveSliderTo)
 • AutoPlay funcional cada 5 segundos
-• Controles de navegación funcionando
-• Dots indicator funcionando
-• Debugging añadido (usa testSlider() en consola)
+
+📱 DROPDOWN MÓVIL FUNCIONANDO:
+• Click en tu nombre abre dropdown en móvil
+• Opción "Cerrar Sesión" disponible
+• Animaciones suaves y responsive
+• Se cierra automáticamente al tocar fuera
+• Estilos optimizados para pantallas pequeñas
 
 🎨 ICONOS CONSERVADOS:
 • 🔥 Ofertas Especiales  
 • 🍕 Nuestras Pizzas
 • 🥟 Calzones
-• 📍 Contacto
+• 📍 Contacto (justificado al centro en móvil)
 
-🔧 TESTING:
-• Abre la consola del navegador
-• Escribe: testSlider()
-• Verifica que el slider cambie de imagen
+🔧 TESTING DISPONIBLE:
+• testSlider() - Prueba el slider de ofertas
+• testDropdown() - Prueba el dropdown de usuario
+• Abre la consola y prueba estas funciones
 
 🔧 FUNCIONALIDADES ORIGINALES:
 • Sistema completo de autenticación Firebase
@@ -4126,7 +4223,7 @@
 • Newsletter y testimonios
 • Diseño responsive completo
 
-¡Slider completamente funcional! 🎯✨
+¡Dropdown móvil completamente funcional! 📱✨
     `);
   </script>
 </body>
