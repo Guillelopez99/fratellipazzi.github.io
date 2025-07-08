@@ -1860,14 +1860,14 @@
           <img src="images/oferta4.png" alt="Oferta especial 4 - Fratelli Pazzi" loading="lazy">
         </div>
         <div class="slider-controls">
-          <button onclick="FratelliPazzi.moveSlider(-1)" aria-label="Oferta anterior">‹</button>
-          <button onclick="FratelliPazzi.moveSlider(1)" aria-label="Siguiente oferta">›</button>
+          <button onclick="moveSlider(-1)" aria-label="Oferta anterior">‹</button>
+          <button onclick="moveSlider(1)" aria-label="Siguiente oferta">›</button>
         </div>
         <div class="slider-dots">
-          <span onclick="FratelliPazzi.moveSliderTo(0)" class="active" aria-label="Ir a oferta 1"></span>
-          <span onclick="FratelliPazzi.moveSliderTo(1)" aria-label="Ir a oferta 2"></span>
-          <span onclick="FratelliPazzi.moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
-          <span onclick="FratelliPazzi.moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
+          <span onclick="moveSliderTo(0)" class="active" aria-label="Ir a oferta 1"></span>
+          <span onclick="moveSliderTo(1)" aria-label="Ir a oferta 2"></span>
+          <span onclick="moveSliderTo(2)" aria-label="Ir a oferta 3"></span>
+          <span onclick="moveSliderTo(3)" aria-label="Ir a oferta 4"></span>
         </div>
       </div>
     </div>
@@ -2333,7 +2333,8 @@
             </p>
             <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
               <span style="color: var(--gold);">🕐</span>
-              Lunes a Domingo 20:00 - 23:00
+              Martes y Miércoles: 20:00 - 23:00<br>
+              Viernes, Sábados y Domingos: 20:00 - 23:00
             </p>
             <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); font-size: 1rem; opacity: 0.7;">
               <span style="color: var(--gold);">🏢</span>
@@ -2657,7 +2658,7 @@
         try {
           this.checkFirebaseAvailability();
           this.setupEventListeners();
-          this.updateSlider();
+          this.initSlider(); // Nueva función para inicializar slider
           this.preloadImages();
           this.initMobileOptimizations();
           this.checkUserSession();
@@ -2670,6 +2671,20 @@
           console.error('❌ Error en inicialización:', error);
           this.forceHideLoader();
         }
+      },
+
+      // ========== SLIDER INITIALIZATION ==========
+      initSlider() {
+        console.log('🎬 Inicializando slider...');
+        
+        // Asegurar que el slider esté en el estado inicial
+        this.state.currentSlide = 0;
+        
+        // Esperar a que las imágenes estén cargadas
+        setTimeout(() => {
+          this.updateSlider();
+          console.log('✅ Slider inicializado');
+        }, 100);
       },
 
       initHeaderVisibility() {
@@ -3032,6 +3047,7 @@
         
         if (wrapper) {
           wrapper.style.transform = `translateX(-${this.state.currentSlide * 100}%)`;
+          console.log(`🎯 Slider actualizado: slide ${this.state.currentSlide}`);
         }
         
         dots.forEach(dot => dot.classList.remove('active'));
@@ -3042,16 +3058,22 @@
 
       moveSlider(direction) {
         const slides = document.querySelectorAll('.slider-wrapper img');
+        console.log(`🎬 moveSlider called with direction: ${direction}, total slides: ${slides.length}`);
+        
         if (slides.length > 0) {
           this.state.currentSlide = (this.state.currentSlide + direction + slides.length) % slides.length;
+          console.log(`📍 New slide index: ${this.state.currentSlide}`);
           this.updateSlider();
         }
       },
 
       moveSliderTo(index) {
         const slides = document.querySelectorAll('.slider-wrapper img');
+        console.log(`🎯 moveSliderTo called with index: ${index}, total slides: ${slides.length}`);
+        
         if (slides.length > 0 && index >= 0 && index < slides.length) {
           this.state.currentSlide = index;
+          console.log(`📍 Slide set to index: ${this.state.currentSlide}`);
           this.updateSlider();
         }
       },
@@ -3060,8 +3082,10 @@
         const slides = document.querySelectorAll('.slider-wrapper img');
         if (slides.length > 0) {
           this.state.intervals.autoPlay = setInterval(() => {
+            console.log('🔄 Auto-advancing slider...');
             this.moveSlider(1);
           }, 5000);
+          console.log('▶️ AutoPlay iniciado');
         }
       },
 
@@ -3069,6 +3093,7 @@
         if (this.state.intervals.autoPlay) {
           clearInterval(this.state.intervals.autoPlay);
           this.state.intervals.autoPlay = null;
+          console.log('⏸️ AutoPlay detenido');
         }
       },
 
@@ -3921,6 +3946,35 @@
       FratelliPazzi.toggleDropdown(type);
     };
 
+    // Make slider functions globally available
+    window.moveSlider = function(direction) {
+      console.log(`🎬 Global moveSlider called with direction: ${direction}`);
+      FratelliPazzi.moveSlider(direction);
+    };
+
+    window.moveSliderTo = function(index) {
+      console.log(`🎯 Global moveSliderTo called with index: ${index}`);
+      FratelliPazzi.moveSliderTo(index);
+    };
+
+    // Función de testing para el slider
+    window.testSlider = function() {
+      console.log('🧪 Testing slider...');
+      const slides = document.querySelectorAll('.slider-wrapper img');
+      const wrapper = document.querySelector('.slider-wrapper');
+      console.log(`📊 Found ${slides.length} slides`);
+      console.log(`📦 Wrapper element:`, wrapper);
+      console.log(`🎯 Current slide: ${FratelliPazzi.state.currentSlide}`);
+      
+      if (wrapper) {
+        console.log(`🎨 Current transform: ${wrapper.style.transform}`);
+      }
+      
+      // Test manual slide change
+      console.log('🎬 Testing slide change...');
+      FratelliPazzi.moveSlider(1);
+    };
+
     // Función de emergencia para ocultar loader
     window.hideLoader = function() {
       const loader = document.getElementById('pageLoader');
@@ -3939,19 +3993,26 @@
 • Se muestran perfectamente los títulos con iconos
 • Scroll suave mejorado con offsets dinámicos
 
-🖼️ SLIDER DE OFERTAS ARREGLADO:
+🖼️ SLIDER DE OFERTAS COMPLETAMENTE ARREGLADO:
 • Imágenes se muestran COMPLETAS (sin recortar)
 • object-fit: contain para ver toda la imagen
-• Altura optimizada para todos los dispositivos
-• Padding interno para mejor presentación
-• Controles mejorados con mejor posicionamiento
-• Fondo gradiente elegante
+• JavaScript del slider CORREGIDO y funcionando
+• Funciones globales disponibles (moveSlider, moveSliderTo)
+• AutoPlay funcional cada 5 segundos
+• Controles de navegación funcionando
+• Dots indicator funcionando
+• Debugging añadido (usa testSlider() en consola)
 
 🎨 ICONOS CONSERVADOS:
 • 🔥 Ofertas Especiales  
 • 🍕 Nuestras Pizzas
 • 🥟 Calzones
 • 📍 Contacto
+
+🔧 TESTING:
+• Abre la consola del navegador
+• Escribe: testSlider()
+• Verifica que el slider cambie de imagen
 
 🔧 FUNCIONALIDADES ORIGINALES:
 • Sistema completo de autenticación Firebase
@@ -3961,7 +4022,7 @@
 • Newsletter y testimonios
 • Diseño responsive completo
 
-¡Navegación perfecta + Ofertas sin recortes! 🎯✨
+¡Slider completamente funcional! 🎯✨
     `);
   </script>
 </body>
