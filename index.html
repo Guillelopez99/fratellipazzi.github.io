@@ -3413,8 +3413,25 @@
         const mainNavigation = document.getElementById('mainNavigation');
         const mainNavigationMobile = document.getElementById('mainNavigationMobile');
         
-        if (userMenu) userMenu.innerHTML = '';
-        if (userMenuMobile) userMenuMobile.innerHTML = '';
+        // Crear botones de autenticación para invitados
+        const createGuestButtons = (isMobile = false) => `
+          <div class="guest-buttons" style="display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap; justify-content: center;">
+            <button class="btn btn-outline" onclick="FratelliPazzi.showLoginForm()" style="font-size: 0.8rem; padding: var(--space-xs) var(--space-sm); ${isMobile ? 'min-width: 70px;' : ''}">
+              Entrar
+            </button>
+            <button class="btn btn-primary" onclick="FratelliPazzi.showRegisterForm()" style="font-size: 0.8rem; padding: var(--space-xs) var(--space-sm); ${isMobile ? 'min-width: 80px;' : ''}">
+              Registro
+            </button>
+          </div>
+        `;
+        
+        // Actualizar ambos menús de usuario
+        if (userMenu) {
+          userMenu.innerHTML = createGuestButtons(false);
+        }
+        if (userMenuMobile) {
+          userMenuMobile.innerHTML = createGuestButtons(true);
+        }
         
         const createGuestNavigation = () => `
           <a href="#ofertas">Ofertas</a>
