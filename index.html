@@ -1528,7 +1528,7 @@
         text-align: left !important;
         margin-bottom: 0 !important;
         width: 100%;
-        flex-wrap: wrap;
+        flex-wrap: nowrap !important;
       }
 
       #contacto .card-content > div > div span:first-child {
@@ -1542,8 +1542,9 @@
         font-size: 0.8rem !important;
         line-height: 1.3;
         word-break: break-word;
-        text-align: left;
-        flex: 1;
+        text-align: left !important;
+        flex: 0 1 auto;
+        max-width: calc(100% - 2rem);
       }
 
       .card-title {
@@ -1827,6 +1828,7 @@
         font-size: 0.7rem !important;
         line-height: 1.2 !important;
         word-break: break-all !important;
+        text-align: center !important;
       }
     }
   </style>
