@@ -392,6 +392,10 @@
       filter: grayscale(0.3);
     }
 
+    .reward-card.locked .reward-image {
+      filter: grayscale(0.7) brightness(0.7);
+    }
+
     .reward-card.locked::after {
       content: '🔒';
       position: absolute;
@@ -409,11 +413,21 @@
       border-color: var(--gold);
     }
 
-    .reward-icon {
-      font-size: 4rem;
+    .reward-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
       margin-bottom: var(--space-lg);
-      display: block;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      transition: transform 0.4s ease;
+    }
+
+    .reward-card:hover.available .reward-image {
+      transform: scale(1.05);
+    }
+
+    .reward-card.available .reward-image {
+      filter: none;
     }
 
     .reward-name {
@@ -745,6 +759,10 @@
         padding: var(--space-lg);
       }
 
+      .reward-image {
+        height: 180px;
+      }
+
       .notification-container {
         top: 80px;
         right: var(--space-md);
@@ -774,6 +792,10 @@
 
       .reward-card {
         padding: var(--space-md);
+      }
+
+      .reward-image {
+        height: 160px;
       }
 
       .points-number {
@@ -870,7 +892,7 @@
     <!-- GRID DE RECOMPENSAS -->
     <div class="rewards-grid" id="rewardsGrid">
       <div class="reward-card locked" id="reward-bebida">
-        <div class="reward-icon">🥤</div>
+        <img src="images/recompensas/bebida-gratis.png" alt="Bebida Gratis - Coca-Cola, Fanta o Agua" class="reward-image" loading="lazy">
         <h3 class="reward-name">Bebida Gratis</h3>
         <p class="reward-description">Coca-Cola, Fanta o Agua</p>
         <div class="reward-cost">300 puntos</div>
@@ -880,7 +902,7 @@
       </div>
       
       <div class="reward-card locked" id="reward-pizza">
-        <div class="reward-icon">🍕</div>
+        <img src="images/recompensas/pizza-gratis.png" alt="Pizza Gratis - Cualquier pizza de nuestro menú" class="reward-image" loading="lazy">
         <h3 class="reward-name">Pizza Gratis</h3>
         <p class="reward-description">Cualquier pizza de nuestro menú</p>
         <div class="reward-cost">1000 puntos</div>
@@ -890,7 +912,7 @@
       </div>
       
       <div class="reward-card locked" id="reward-calzone">
-        <div class="reward-icon">🍝</div>
+        <img src="images/recompensas/calzone-combo.png" alt="Calzone Gratis + Bebida" class="reward-image" loading="lazy">
         <h3 class="reward-name">Calzone Gratis</h3>
         <p class="reward-description">Cualquier calzone + bebida</p>
         <div class="reward-cost">1500 puntos</div>
@@ -900,7 +922,7 @@
       </div>
       
       <div class="reward-card locked" id="reward-combo">
-        <div class="reward-icon">🍕🥤</div>
+        <img src="images/recompensas/combo-completo.png" alt="Combo Completo - Pizza + 2 bebidas + postre" class="reward-image" loading="lazy">
         <h3 class="reward-name">Combo Completo</h3>
         <p class="reward-description">Pizza + 2 bebidas + postre</p>
         <div class="reward-cost">2500 puntos</div>
@@ -910,7 +932,7 @@
       </div>
       
       <div class="reward-card locked" id="reward-camiseta">
-        <div class="reward-icon">👕</div>
+        <img src="images/recompensas/camiseta-fratelli.png" alt="Camiseta Fratelli - Edición limitada oficial" class="reward-image" loading="lazy">
         <h3 class="reward-name">Camiseta Fratelli</h3>
         <p class="reward-description">Camiseta oficial edición limitada</p>
         <div class="reward-cost">5000 puntos</div>
@@ -920,7 +942,7 @@
       </div>
       
       <div class="reward-card locked" id="reward-cena">
-        <div class="reward-icon">❤️</div>
+        <img src="images/recompensas/cena-romantica.png" alt="Cena Romántica para 2 - 2 pizzas + 2 bebidas + postre" class="reward-image" loading="lazy">
         <h3 class="reward-name">Cena Romántica</h3>
         <p class="reward-description">2 pizzas + 2 bebidas + postre para 2</p>
         <div class="reward-cost">10000 puntos</div>
@@ -1432,18 +1454,27 @@
     }
 
     console.log(`
-🏆 FRATELLI PAZZI - PÁGINA DE RECOMPENSAS
-========================================
+🏆 FRATELLI PAZZI - PÁGINA DE RECOMPENSAS CON IMÁGENES
+====================================================
 
-✨ Página independiente de recompensas creada
-🎯 Sistema completo de canje implementado
+✨ Sistema completo de recompensas implementado
+📸 Ahora usa imágenes reales en lugar de iconos
 🎨 Diseño consistente con Fratelli Pazzi
 📱 Totalmente responsive
+
+📁 ESTRUCTURA DE IMÁGENES ESPERADA:
+images/recompensas/
+├── bebida-gratis.png
+├── pizza-gratis.png  
+├── calzone-combo.png
+├── combo-completo.png
+├── camiseta-fratelli.png
+└── cena-romantica.png
 
 ⌨️ COMANDOS DE PRUEBA:
 > Ctrl+Alt+P = Añadir 500 puntos de prueba
 
-🚀 ¡Sistema de recompensas listo!
+🚀 ¡Sistema de recompensas con imágenes listo!
     `);
   </script>
 </body>
