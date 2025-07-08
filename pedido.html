@@ -3847,6 +3847,20 @@
         manejarError(error, 'Error durante la inicialización');
       }
     });
+        document.addEventListener('DOMContentLoaded', () => {
+      // Comprueba si hay recompensas pendientes de canjear
+      const rewardCheck = window.checkForActiveReward?.();
+      if (rewardCheck?.isActive) {
+        rewardCheck.items.forEach(item => {
+          // Aquí usa tu función real para añadir al carrito
+          addToCart(item);
+        });
+        // Borra la recompensa aplicada para que no se repita
+        window.clearActiveReward?.();
+        // Opcional: muestra un mensaje al usuario
+        mostrarNotificacion('¡Tu recompensa se ha aplicado al carrito!', 'success');
+      }
+    });
 
     // MANEJO DE ERRORES GLOBALES
     window.addEventListener('error', function(e) {
