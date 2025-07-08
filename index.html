@@ -444,11 +444,12 @@
     }
 
     .offers-slider {
-      height: clamp(300px, 50vw, 500px);
+      height: clamp(350px, 60vw, 600px);
       position: relative;
       overflow: hidden;
       border-radius: 0;
-      background: var(--dark-green);
+      background: linear-gradient(135deg, var(--dark-green) 0%, var(--rich-black) 100%);
+      padding: var(--space-md);
     }
     
     .slider-wrapper { 
@@ -456,32 +457,38 @@
       transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
       height: 100%;
       width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
     }
     
     .slider-wrapper img { 
       flex: 0 0 100%; 
       width: 100%; 
       height: 100%;
-      object-fit: cover; 
-      filter: brightness(0.9);
-      transition: filter 0.3s ease;
+      object-fit: contain; 
+      filter: brightness(0.95);
+      transition: all 0.3s ease;
+      background: transparent;
     }
     
     .slider-wrapper:hover img {
-      filter: brightness(1);
+      filter: brightness(1.05);
+      transform: scale(1.01);
     }
     
     .slider-controls { 
       position: absolute; 
       top: 50%; 
-      width: 100%; 
+      width: calc(100% - var(--space-xl)); 
       display: flex; 
       justify-content: space-between; 
       transform: translateY(-50%); 
-      padding: 0 var(--space-xl); 
+      padding: 0 var(--space-lg); 
       opacity: 0; 
       transition: opacity 0.3s; 
       pointer-events: none;
+      left: 50%;
+      margin-left: calc(-50% + var(--space-md));
     }
     
     .offers-slider:hover .slider-controls { 
@@ -504,16 +511,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: var(--shadow-card);
     }
     
     .slider-controls button:hover {
-      background: rgba(205, 184, 124, 0.2);
+      background: rgba(205, 184, 124, 0.3);
       transform: scale(1.1);
+      color: var(--cream);
     }
     
     .slider-dots { 
       position: absolute; 
-      bottom: var(--space-lg); 
+      bottom: var(--space-xl); 
       width: 100%; 
       text-align: center; 
     }
@@ -1699,7 +1708,18 @@
 
       /* OTRAS OPTIMIZACIONES */
       .offers-slider {
-        height: 250px;
+        height: clamp(280px, 70vw, 400px);
+        padding: var(--space-sm);
+      }
+
+      .slider-controls {
+        width: calc(100% - var(--space-md));
+        padding: 0 var(--space-sm);
+        margin-left: calc(-50% + var(--space-sm));
+      }
+
+      .slider-dots {
+        bottom: var(--space-lg);
       }
 
       .hero-title {
@@ -3911,13 +3931,21 @@
     };
 
     console.log(`
-🍕 FRATELLI PAZZI - NAVEGACIÓN CORREGIDA
-========================================
+🍕 FRATELLI PAZZI - NAVEGACIÓN Y OFERTAS CORREGIDAS
+==================================================
 
 ✅ NAVEGACIÓN PERFECTA:
 • Los enlaces del header van correctamente al encabezado de cada sección
 • Se muestran perfectamente los títulos con iconos
 • Scroll suave mejorado con offsets dinámicos
+
+🖼️ SLIDER DE OFERTAS ARREGLADO:
+• Imágenes se muestran COMPLETAS (sin recortar)
+• object-fit: contain para ver toda la imagen
+• Altura optimizada para todos los dispositivos
+• Padding interno para mejor presentación
+• Controles mejorados con mejor posicionamiento
+• Fondo gradiente elegante
 
 🎨 ICONOS CONSERVADOS:
 • 🔥 Ofertas Especiales  
@@ -3929,12 +3957,11 @@
 • Sistema completo de autenticación Firebase
 • Sistema de puntos y recompensas
 • Header auto-hide en móvil
-• Slider de ofertas funcional
 • WhatsApp integration
 • Newsletter y testimonios
 • Diseño responsive completo
 
-¡Navegación perfecta con iconos conservados! 🎯✨
+¡Navegación perfecta + Ofertas sin recortes! 🎯✨
     `);
   </script>
 </body>
