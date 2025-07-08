@@ -302,6 +302,24 @@
       50% { transform: scale(1.05); }
     }
 
+    /* GUEST BUTTONS - BOTONES HORIZONTALES */
+    .guest-buttons {
+      display: flex;
+      gap: var(--space-xs);
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: nowrap;
+    }
+
+    .guest-buttons .btn {
+      font-size: 0.75rem;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+      min-width: auto;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     /* HERO SECTION */
     .hero-section {
       min-height: 100vh;
@@ -1395,7 +1413,7 @@
         display: block;
       }
 
-      /* PRIMERA LÍNEA: Logo + User Menu */
+      /* PRIMERA LÍNEA: Logo + User Menu/Guest Buttons */
       .header-top-line {
         display: flex;
         align-items: center;
@@ -1423,6 +1441,21 @@
         font-size: 0.85rem;
         min-width: auto;
         text-align: center;
+      }
+
+      /* GUEST BUTTONS OPTIMIZADOS PARA MÓVIL */
+      .guest-buttons {
+        gap: var(--space-xs);
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+      }
+
+      .guest-buttons .btn {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+        border-radius: 6px;
+        min-width: 55px;
+        height: 32px;
       }
 
       /* OPTIMIZACIÓN HEADER MÓVIL */
@@ -1762,6 +1795,14 @@
       .nav-main a {
         padding: 4px 8px;
         font-size: 0.8rem;
+      }
+
+      /* GUEST BUTTONS ULTRA COMPACTOS */
+      .guest-buttons .btn {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        min-width: 45px;
+        height: 28px;
       }
 
       /* USER MENU ULTRA COMPACTO */
@@ -2304,60 +2345,6 @@
       </div>
       <div class="grid grid-3">
         <div class="card">
-          <img src="images/Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Margarita</h3>
-            <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
-            <div class="card-price">10€</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="images/Prosciutto.png" alt="Pizza Prosciutto" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Prosciutto</h3>
-            <p class="card-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
-            <div class="card-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Cuatro Formaggi</h3>
-            <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
-            <div class="card-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="images/Capriciossa.png" alt="Pizza Capricciosa" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Capricciosa</h3>
-            <p class="card-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
-            <div class="card-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Leonardo Da Vinci</h3>
-            <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
-            <div class="card-price">14€</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
-          <div class="card-content">
-            <h3 class="card-title">Salchicha y Friarielli</h3>
-            <p class="card-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
-            <div class="card-price">12€</div>
-          </div>
-        </div>
-        
-        <div class="card">
           <img src="images/Bufala.png" alt="Pizza Bufala" class="card-image" loading="lazy">
           <div class="card-content">
             <h3 class="card-title">Bufala</h3>
@@ -2804,7 +2791,7 @@
         try {
           this.checkFirebaseAvailability();
           this.setupEventListeners();
-          this.initSlider(); // Nueva función para inicializar slider
+          this.initSlider();
           this.preloadImages();
           this.initMobileOptimizations();
           this.checkUserSession();
@@ -2823,10 +2810,8 @@
       initSlider() {
         console.log('🎬 Inicializando slider...');
         
-        // Asegurar que el slider esté en el estado inicial
         this.state.currentSlide = 0;
         
-        // Esperar a que las imágenes estén cargadas
         setTimeout(() => {
           this.updateSlider();
           console.log('✅ Slider inicializado');
@@ -3003,7 +2988,6 @@
             const dropdownMobile = document.getElementById('userDropdownMobile');
             const userWelcomes = document.querySelectorAll('.user-welcome');
             
-            // Verificar si el clic fue en algún user-welcome
             let clickedOnUserWelcome = false;
             userWelcomes.forEach(welcome => {
               if (welcome?.contains(e.target)) {
@@ -3011,7 +2995,6 @@
               }
             });
             
-            // Si no se hizo clic en ningún user-welcome, cerrar todos los dropdowns
             if (!clickedOnUserWelcome) {
               if (dropdownDesktop) {
                 dropdownDesktop.classList.remove('show');
@@ -3413,19 +3396,18 @@
         const mainNavigation = document.getElementById('mainNavigation');
         const mainNavigationMobile = document.getElementById('mainNavigationMobile');
         
-        // Crear botones de autenticación para invitados
+        // BOTONES HORIZONTALES MEJORADOS
         const createGuestButtons = (isMobile = false) => `
-          <div class="guest-buttons" style="display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap; justify-content: center;">
-            <button class="btn btn-outline" onclick="FratelliPazzi.showLoginForm()" style="font-size: 0.8rem; padding: var(--space-xs) var(--space-sm); ${isMobile ? 'min-width: 70px;' : ''}">
+          <div class="guest-buttons">
+            <button class="btn btn-outline" onclick="FratelliPazzi.showLoginForm()">
               Entrar
             </button>
-            <button class="btn btn-primary" onclick="FratelliPazzi.showRegisterForm()" style="font-size: 0.8rem; padding: var(--space-xs) var(--space-sm); ${isMobile ? 'min-width: 80px;' : ''}">
+            <button class="btn btn-primary" onclick="FratelliPazzi.showRegisterForm()">
               Registro
             </button>
           </div>
         `;
         
-        // Actualizar ambos menús de usuario
         if (userMenu) {
           userMenu.innerHTML = createGuestButtons(false);
         }
@@ -3461,13 +3443,11 @@
         if (dropdown) {
           const isVisible = dropdown.classList.contains('show');
           
-          // Cerrar todos los dropdowns primero
           document.querySelectorAll('.user-dropdown').forEach(d => {
             d.classList.remove('show');
             d.style.display = 'none';
           });
           
-          // Si no estaba visible, mostrarlo
           if (!isVisible) {
             dropdown.style.display = 'block';
             setTimeout(() => {
@@ -3999,7 +3979,6 @@
         window.open(whatsappURL, '_blank');
       },
 
-      // ========== SMOOTH SCROLL MEJORADO ==========
       setupSmoothScroll() {
         document.querySelectorAll('.nav-main a').forEach(link => {
           link.addEventListener('click', (e) => {
@@ -4150,98 +4129,91 @@
       FratelliPazzi.moveSliderTo(index);
     };
 
-    // Función de testing para el dropdown
-    window.testDropdown = function() {
-      console.log('🧪 Testing dropdown...');
-      const isMobile = window.innerWidth <= 768;
-      const type = isMobile ? 'mobile' : 'desktop';
-      console.log(`📱 Detected device: ${type}`);
-      
-      const dropdownId = type === 'mobile' ? 'userDropdownMobile' : 'userDropdownDesktop';
-      const dropdown = document.getElementById(dropdownId);
-      const userWelcome = document.querySelector('.user-welcome');
-      
-      console.log(`🔍 Dropdown element (${dropdownId}):`, dropdown);
-      console.log(`👤 User welcome element:`, userWelcome);
-      
-      if (dropdown && userWelcome) {
-        console.log('🎯 Testing dropdown toggle...');
-        FratelliPazzi.toggleDropdown(type);
-      } else {
-        console.error('❌ Elements not found for testing');
-      }
-    };
-
-    // Función de testing para el slider
-    window.testSlider = function() {
-      console.log('🧪 Testing slider...');
-      const slides = document.querySelectorAll('.slider-wrapper img');
-      const wrapper = document.querySelector('.slider-wrapper');
-      console.log(`📊 Found ${slides.length} slides`);
-      console.log(`📦 Wrapper element:`, wrapper);
-      console.log(`🎯 Current slide: ${FratelliPazzi.state.currentSlide}`);
-      
-      if (wrapper) {
-        console.log(`🎨 Current transform: ${wrapper.style.transform}`);
-      }
-      
-      // Test manual slide change
-      console.log('🎬 Testing slide change...');
-      FratelliPazzi.moveSlider(1);
-    };
-
-    // Función de emergencia para ocultar loader
-    window.hideLoader = function() {
-      const loader = document.getElementById('pageLoader');
-      if (loader) {
-        loader.style.display = 'none';
-        console.log('🔧 Loader ocultado manualmente');
-      }
-    };
-
     console.log(`
-🍕 FRATELLI PAZZI - DROPDOWN MÓVIL IMPLEMENTADO
-===============================================
+🍕 FRATELLI PAZZI - BOTONES HORIZONTALES IMPLEMENTADOS
+=====================================================
 
-✅ NAVEGACIÓN PERFECTA:
-• Los enlaces del header van correctamente al encabezado de cada sección
-• Se muestran perfectamente los títulos con iconos
-• Scroll suave mejorado con offsets dinámicos
+✅ BOTONES "ENTRAR" Y "REGISTRO" AHORA HORIZONTALES:
+• Los botones aparecen uno al lado del otro
+• Aprovechan el espacio horizontal disponible
+• Optimizados para móvil y desktop
+• Mantienen el diseño responsive
+• Estilos mejorados y consistentes
 
-🖼️ SLIDER DE OFERTAS COMPLETAMENTE ARREGLADO:
-• Imágenes se muestran COMPLETAS (sin recortar)
-• object-fit: contain para ver toda la imagen
-• JavaScript del slider CORREGIDO y funcionando
-• AutoPlay funcional cada 5 segundos
+📱 LAYOUT MÓVIL PERFECTO:
+• Primera línea: Logo + Botones (Entrar | Registro)
+• Segunda línea: Navegación centrada
+• Botones compactos pero legibles
+• Transiciones suaves
 
-📱 DROPDOWN MÓVIL FUNCIONANDO:
-• Click en tu nombre abre dropdown en móvil
-• Opción "Cerrar Sesión" disponible
-• Animaciones suaves y responsive
-• Se cierra automáticamente al tocar fuera
-• Estilos optimizados para pantallas pequeñas
+🎨 MEJORAS EN GUEST BUTTONS:
+• Clase .guest-buttons para layout horizontal
+• Gap optimizado entre botones
+• Tamaños responsivos
+• flex-wrap: nowrap para mantener en línea
+• justify-content: flex-end para alineación
 
-🎨 ICONOS CONSERVADOS:
-• 🔥 Ofertas Especiales  
-• 🍕 Nuestras Pizzas
-• 🥟 Calzones
-• 📍 Contacto (justificado al centro en móvil)
+💻 RESPONSIVE DESIGN:
+• Desktop: Botones normales horizontales
+• Móvil: Botones compactos horizontales
+• Pantallas pequeñas: Extra compactos pero funcionales
 
-🔧 TESTING DISPONIBLE:
-• testSlider() - Prueba el slider de ofertas
-• testDropdown() - Prueba el dropdown de usuario
-• Abre la consola y prueba estas funciones
-
-🔧 FUNCIONALIDADES ORIGINALES:
-• Sistema completo de autenticación Firebase
-• Sistema de puntos y recompensas
-• Header auto-hide en móvil
-• WhatsApp integration
-• Newsletter y testimonios
-• Diseño responsive completo
-
-¡Dropdown móvil completamente funcional! 📱✨
+¡Ahora los botones "Entrar" y "Registro" aparecen perfectamente uno al lado del otro! 🎯✨
     `);
   </script>
 </body>
-</html>
+</html>Margarita.png" alt="Pizza Margarita" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Margarita</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte y albahaca fresca. La pizza más clásica y auténtica.</p>
+            <div class="card-price">10€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/Prosciutto.png" alt="Pizza Prosciutto" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Prosciutto</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte y jamón cocido de primera calidad.</p>
+            <div class="card-price">12€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/Quatro formaggi.png" alt="Pizza Cuatro Formaggi" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Cuatro Formaggi</h3>
+            <p class="card-description">Fior di latte, pecorino romano, gorgonzola DOP y grana padano. Un festival de sabores.</p>
+            <div class="card-price">12€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/Capriciossa.png" alt="Pizza Capricciosa" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Capricciosa</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.</p>
+            <div class="card-price">12€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/LeonardoDaVinci.png" alt="Pizza Leonardo Da Vinci" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Leonardo Da Vinci</h3>
+            <p class="card-description">Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula fresca.</p>
+            <div class="card-price">14€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/SalchichaFriarielli.png" alt="Pizza Salchicha y Friarielli" class="card-image" loading="lazy">
+          <div class="card-content">
+            <h3 class="card-title">Salchicha y Friarielli</h3>
+            <p class="card-description">Fior di latte, jamón serrano, salchicha italiana y friarielli napolitanos.</p>
+            <div class="card-price">12€</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="images/
