@@ -1330,43 +1330,32 @@
           cena: 'Cena Romántica para 2 ❤️'
         };
         
-        const shouldRedeem = await this.showConfirmation(
-          `¿Quieres usar "${rewardNames[rewardType]}" en tu próximo pedido?\n\n⚠️ Los puntos se descontarán SOLO cuando completes la compra exitosamente.\n\nPuntos requeridos: ${cost}\nPuntos actuales: ${points}\n\nSerás redirigido a la página de pedidos.`,
-          '🎁 Usar Recompensa',
-          '🛒'
+        // Efecto visual
+        const card = document.getElementById(`reward-${rewardType}`);
+        card.classList.add('redeeming');
+        
+        // Guardar información de la recompensa seleccionada
+        const selectedReward = {
+          type: rewardType,
+          name: rewardNames[rewardType],
+          cost: cost,
+          userId: this.state.currentUser.uid || this.state.currentUser.email,
+          selectedAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('fratelli_selected_reward', JSON.stringify(selectedReward));
+        
+        this.showNotification(
+          `¡Recompensa seleccionada!\n\n🎁 ${rewardNames[rewardType]}\n\n🛒 Redirigiendo al carrito...`,
+          'success',
+          '🛒 Ir al Carrito',
+          { duration: 2000 }
         );
         
-        if (shouldRedeem) {
-          // Efecto visual
-          const card = document.getElementById(`reward-${rewardType}`);
-          card.classList.add('redeeming');
-          
-          // Preparar recompensa PENDIENTE (NO canjear puntos todavía)
-          const pendingReward = {
-            type: rewardType,
-            name: rewardNames[rewardType],
-            cost: cost,
-            status: 'pending', // ⚠️ PENDIENTE, no canjeada
-            reservedAt: new Date().toISOString(),
-            userId: this.state.currentUser.uid || this.state.currentUser.email,
-            userPoints: points // Puntos actuales para verificar al momento de la compra
-          };
-          
-          // Guardar recompensa PENDIENTE para pedido.html
-          localStorage.setItem('fratelli_pending_reward', JSON.stringify(pendingReward));
-          
-          this.showNotification(
-            `¡Recompensa seleccionada!\n\n🎯 "${rewardNames[rewardType]}" será aplicada a tu carrito.\n\n⚠️ Los puntos (${cost}) se descontarán SOLO al completar la compra.\n\n🛒 Redirigiendo a pedidos...`,
-            'info',
-            '🛒 Ir a Pedidos',
-            { duration: 4000 }
-          );
-          
-          // Redireccionar a pedidos después de 2 segundos
-          setTimeout(() => {
-            window.location.href = 'pedido.html?reward=' + rewardType;
-          }, 2000);
-        }
+        // Redireccionar inmediatamente
+        setTimeout(() => {
+          window.location.href = 'pedido.html?reward=' + rewardType;
+        }, 1500);
       },
 
       showConfirmation(message, title = '¿Estás seguro?', icon = '🍕') {
@@ -1606,90 +1595,19 @@
         return rewardCartMapping[rewardType] || [];
       },
 
-      // Función para limpiar recompensas expiradas
+      // Función para limpiar recompensas seleccionadas expiradas (1 hora)
       cleanupExpiredRewards() {
-        // Limpiar recompensas pendientes expiradas (3 horas)
-        const pendingReward = localStorage.getItem('fratelli_pending_reward');
-        if (pendingReward) {
-          const reward = JSON.parse(pendingReward);
-          const rewardTime = new Date(reward.reservedAt).getTime();
+        const selectedReward = localStorage.getItem('fratelli_selected_reward');
+        if (selectedReward) {
+          const reward = JSON.parse(selectedReward);
+          const rewardTime = new Date(reward.selectedAt).getTime();
           const now = new Date().getTime();
           const hoursPassed = (now - rewardTime) / (1000 * 60 * 60);
           
-          if (hoursPassed > 3) {
-            localStorage.removeItem('fratelli_pending_reward');
-            console.log('🧹 Recompensa pendiente expirada limpiada');
+          if (hoursPassed > 1) {
+            localStorage.removeItem('fratelli_selected_reward');
+            console.log('🧹 Recompensa seleccionada expirada limpiada');
           }
-        }
-
-        // Limpiar recompensas activas expiradas (24 horas) - por compatibilidad
-        const activeReward = localStorage.getItem('fratelli_active_reward');
-        if (activeReward) {
-          const reward = JSON.parse(activeReward);
-          const rewardTime = new Date(reward.redeemedAt).getTime();
-          const now = new Date().getTime();
-          const hoursPassed = (now - rewardTime) / (1000 * 60 * 60);
-          
-          if (hoursPassed > 24) {
-            localStorage.removeItem('fratelli_active_reward');
-            console.log('🧹 Recompensa activa expirada limpiada');
-          }
-        }
-      },
-
-      // Función para confirmar canje cuando la compra sea exitosa
-      async confirmRewardRedemption(rewardData) {
-        if (!this.state.currentUser || !this.state.isFirebaseEnabled) {
-          // Fallback para localStorage
-          const currentUser = JSON.parse(localStorage.getItem('fratelli_current_user') || '{}');
-          if (currentUser.points >= rewardData.cost) {
-            currentUser.points -= rewardData.cost;
-            localStorage.setItem('fratelli_current_user', JSON.stringify(currentUser));
-            return { success: true, newPoints: currentUser.points };
-          }
-          return { success: false, error: 'Puntos insuficientes' };
-        }
-
-        try {
-          // Obtener datos actuales del usuario
-          const userDoc = await window.firebase.getDoc(
-            window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid)
-          );
-          
-          if (!userDoc.exists()) {
-            return { success: false, error: 'Usuario no encontrado' };
-          }
-          
-          const userData = userDoc.data();
-          const currentPoints = userData.points || 0;
-          
-          // Verificar que aún tiene suficientes puntos
-          if (currentPoints < rewardData.cost) {
-            return { success: false, error: 'Puntos insuficientes', currentPoints };
-          }
-          
-          // Descontar puntos
-          const newPoints = currentPoints - rewardData.cost;
-          
-          await window.firebase.setDoc(
-            window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid),
-            {
-              points: newPoints,
-              lastRedemption: {
-                type: rewardData.type,
-                cost: rewardData.cost,
-                date: new Date().toISOString(),
-                orderId: rewardData.orderId || null
-              }
-            },
-            { merge: true }
-          );
-          
-          return { success: true, newPoints };
-          
-        } catch (error) {
-          console.error('Error confirmando canje:', error);
-          return { success: false, error: 'Error de sistema' };
         }
       },
 
@@ -1834,77 +1752,32 @@
     window.RewardsSystem = RewardsSystem;
 
     // Funciones auxiliares globales para integración con carrito
-    window.getPendingReward = () => {
-      const reward = localStorage.getItem('fratelli_pending_reward');
+    window.getSelectedReward = () => {
+      const reward = localStorage.getItem('fratelli_selected_reward');
       return reward ? JSON.parse(reward) : null;
     };
 
-    window.clearPendingReward = () => {
-      localStorage.removeItem('fratelli_pending_reward');
-    };
-
-    window.getActiveReward = () => {
-      const reward = localStorage.getItem('fratelli_active_reward');
-      return reward ? JSON.parse(reward) : null;
-    };
-
-    window.clearActiveReward = () => {
-      localStorage.removeItem('fratelli_active_reward');
+    window.clearSelectedReward = () => {
+      localStorage.removeItem('fratelli_selected_reward');
     };
 
     window.getRewardCartItems = (rewardType) => {
       return RewardsSystem.getRewardCartItems(rewardType);
     };
 
-    // Función para pedido.html - verificar recompensa pendiente al cargar
-    window.checkForPendingReward = () => {
-      const reward = window.getPendingReward();
-      if (reward && reward.status === 'pending') {
-        console.log('🎁 Recompensa pendiente detectada:', reward);
+    // Función simple para pedido.html - verificar recompensa seleccionada
+    window.checkForSelectedReward = () => {
+      const reward = window.getSelectedReward();
+      if (reward) {
+        console.log('🎁 Recompensa seleccionada:', reward);
         return {
-          isPending: true,
+          hasReward: true,
           reward: reward,
           items: RewardsSystem.getRewardCartItems(reward.type),
-          message: `¡Tienes una recompensa pendiente: ${reward.name}!`
+          message: `Aplicando: ${reward.name}`
         };
       }
-      return { isPending: false };
-    };
-
-    // Función CRÍTICA para confirmar canje cuando compra sea exitosa
-    window.confirmRewardPurchase = async (orderId = null) => {
-      const pendingReward = window.getPendingReward();
-      if (!pendingReward) {
-        return { success: false, error: 'No hay recompensa pendiente' };
-      }
-
-      // Añadir ID del pedido si se proporciona
-      pendingReward.orderId = orderId;
-      
-      const result = await RewardsSystem.confirmRewardRedemption(pendingReward);
-      
-      if (result.success) {
-        // Limpiar recompensa pendiente
-        window.clearPendingReward();
-        
-        // Crear registro de recompensa completada para historial
-        const completedReward = {
-          ...pendingReward,
-          status: 'completed',
-          completedAt: new Date().toISOString(),
-          finalPoints: result.newPoints
-        };
-        
-        console.log('✅ Recompensa confirmada exitosamente:', completedReward);
-        return { 
-          success: true, 
-          newPoints: result.newPoints,
-          reward: completedReward
-        };
-      } else {
-        console.error('❌ Error confirmando recompensa:', result.error);
-        return result;
-      }
+      return { hasReward: false };
     };
 
     // Inicializar cuando DOM esté listo
@@ -1915,14 +1788,14 @@
     }
 
     console.log(`
-🏆 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS SEGURO
-================================================
+🏆 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS OPTIMIZADO
+====================================================
 
 ✨ Sistema completo de recompensas implementado
-📸 Ahora usa imágenes reales en lugar de iconos
+📸 Usa imágenes reales en lugar de iconos
 🎨 Diseño consistente con Fratelli Pazzi
-📱 Totalmente responsive
-🛒 INTEGRADO SEGURO CON CARRITO DE PEDIDOS
+📱 Totalmente responsive con botón flotante móvil
+🛒 INTEGRACIÓN SIMPLE CON CARRITO
 
 📁 ESTRUCTURA DE IMÁGENES ESPERADA:
 images/recompensas/
@@ -1933,56 +1806,47 @@ images/recompensas/
 ├── camiseta-fratelli.png
 └── cena-romantica.png
 
-🔒 FLUJO SEGURO DE CANJEO:
-1. Usuario hace clic en "Canjear" → NO descuenta puntos
-2. Guarda recompensa como PENDIENTE (3h expiración)
-3. Redirecciona a pedido.html
-4. pedido.html aplica recompensa al carrito
-5. SOLO al completar compra → descuenta puntos
-6. Si abandona carrito → puntos NO se pierden
+🚀 FLUJO SIMPLIFICADO:
+1. Usuario hace clic en "Canjear"
+2. Verifica que tenga puntos suficientes
+3. Guarda recompensa seleccionada (1h expiración)
+4. Redirecciona inmediatamente a pedido.html
+5. pedido.html maneja el canje de puntos
 
-💾 DATOS DE RECOMPENSA PENDIENTE:
+💾 DATOS GUARDADOS (SIMPLE):
 {
   type: 'pizza',
   name: 'Pizza Gratis 🍕',
   cost: 1000,
-  status: 'pending',
-  reservedAt: '2025-01-08T...',
   userId: 'user@email.com',
-  userPoints: 1500
+  selectedAt: '2025-01-08T...'
 }
 
-🔧 FUNCIONES CRÍTICAS PARA PEDIDO.HTML:
-• window.checkForPendingReward() - Verificar recompensa pendiente
-• window.getPendingReward() - Obtener recompensa pendiente
-• window.getRewardCartItems(type) - Obtener items del carrito
-• window.confirmRewardPurchase(orderId) - ⚠️ CONFIRMAR CANJE AL PAGAR
-• window.clearPendingReward() - Limpiar si se abandona
+🔧 FUNCIONES PARA PEDIDO.HTML:
+• window.checkForSelectedReward() - Verificar recompensa seleccionada
+• window.getSelectedReward() - Obtener recompensa
+• window.getRewardCartItems(type) - Obtener items del carrito  
+• window.clearSelectedReward() - Limpiar después de usar
 
-📱 MÓVIL CON BOTÓN FLOTANTE:
-• Botón ☰ discreto en esquina superior derecha
+📱 MÓVIL OPTIMIZADO:
+• Botón flotante ☰ en esquina superior derecha
 • Header oculto por defecto para más espacio
+• Control total del usuario, no molesto
 
-⌨️ COMANDOS DE PRUEBA:
-> Ctrl+Alt+P = Añadir 500 puntos de prueba
+⌨️ COMANDO DE PRUEBA:
+> Ctrl + Alt + P = Añadir 500 puntos de prueba
 
-🔗 CÓDIGO CRÍTICO PARA PEDIDO.HTML:
+🔗 CÓDIGO SIMPLE PARA PEDIDO.HTML:
 // Al cargar la página
-const rewardCheck = window.checkForPendingReward();
-if (rewardCheck.isPending) {
-  // Aplicar al carrito
+const rewardCheck = window.checkForSelectedReward();
+if (rewardCheck.hasReward) {
+  console.log(rewardCheck.message);
+  // Aplicar items al carrito
   rewardCheck.items.forEach(item => addToCart(item));
+  // El canje de puntos se maneja en pedido.html
 }
 
-// ⚠️ AL COMPLETAR COMPRA EXITOSAMENTE
-const result = await window.confirmRewardPurchase(orderId);
-if (result.success) {
-  console.log('Puntos descontados:', result.newPoints);
-} else {
-  console.error('Error:', result.error);
-}
-
-🚀 ¡Sistema de recompensas SEGURO implementado!
+🚀 ¡Sistema optimizado y simple!
     `);
   </script>
 </body>
