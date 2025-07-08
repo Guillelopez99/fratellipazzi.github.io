@@ -1517,37 +1517,33 @@
       #contacto .card-content > div {
         gap: var(--space-md) !important;
         font-size: 0.9rem !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        align-items: center !important;
       }
 
-      #contacto .card-content p {
+      #contacto .card-content > div > div {
         display: flex !important;
-        align-items: center !important;
+        align-items: flex-start !important;
         justify-content: center !important;
         gap: var(--space-sm) !important;
-        flex-direction: column !important;
-        text-align: center !important;
-        margin-bottom: var(--space-lg);
+        text-align: left !important;
+        margin-bottom: 0 !important;
         width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        flex-wrap: wrap;
       }
 
-      #contacto .card-content p span:first-child {
-        font-size: 1.3rem !important;
+      #contacto .card-content > div > div span:first-child {
+        font-size: 1.2rem !important;
         flex-shrink: 0;
-        margin-bottom: var(--space-xs);
+        margin-top: 2px;
       }
 
-      #contacto .card-content p a,
-      #contacto .card-content p span:not(:first-child) {
+      #contacto .card-content > div > div span:not(:first-child),
+      #contacto .card-content > div > div a {
         font-size: 0.8rem !important;
-        word-break: break-all;
-        text-align: center;
         line-height: 1.3;
-        max-width: 100%;
+        word-break: break-word;
+        text-align: left;
+        flex: 1;
       }
 
       .card-title {
@@ -1801,30 +1797,35 @@
       #contacto .card {
         margin: 0 !important;
         max-width: 100% !important;
+        width: calc(100vw - var(--space-md)) !important;
       }
 
       #contacto .card-content {
         padding: var(--space-md) var(--space-xs) !important;
-        font-size: 0.8rem !important;
+        font-size: 0.75rem !important;
       }
 
       #contacto .card-content > div {
-        gap: var(--space-xs) !important;
-        font-size: 0.85rem !important;
-      }
-
-      #contacto .card-content p {
-        margin-bottom: var(--space-sm) !important;
+        gap: var(--space-sm) !important;
         font-size: 0.8rem !important;
-        line-height: 1.3 !important;
       }
 
-      #contacto .card-content p span {
-        font-size: 1rem !important;
-      }
-
-      #contacto .card-content p a {
+      #contacto .card-content > div > div {
+        margin-bottom: 0 !important;
         font-size: 0.75rem !important;
+        line-height: 1.2 !important;
+        gap: var(--space-xs) !important;
+      }
+
+      #contacto .card-content > div > div span:first-child {
+        font-size: 1rem !important;
+        margin-top: 1px !important;
+      }
+
+      #contacto .card-content > div > div span:not(:first-child),
+      #contacto .card-content > div > div a {
+        font-size: 0.7rem !important;
+        line-height: 1.2 !important;
         word-break: break-all !important;
       }
     }
@@ -2407,30 +2408,40 @@
       
       <div class="card" style="max-width: 800px;">
         <div class="card-content" style="text-align: center;">
-          <div style="display: grid; gap: var(--space-md); font-size: 1.125rem; line-height: 1.6; margin-top: var(--space-xl);">
-            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-              <span style="color: var(--gold);">📍</span>
-              Avenida de Atenas 3, 28290 Las Rozas (Madrid), España
-            </p>
-            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-              <span style="color: var(--gold);">📱</span>
-              <a href="tel:660668812" style="color: var(--gold); text-decoration: none;">660 668 812</a>
-            </p>
-            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
-              <span style="color: var(--gold);">📧</span>
-              <a href="mailto:PIZZASFRATELLIPAZZI@GMAIL.COM" style="color: var(--gold); text-decoration: none;">PIZZASFRATELLIPAZZI@GMAIL.COM</a>
-            </p>
-            <p style="display: flex; align-items: flex-start; justify-content: center; gap: var(--space-sm); flex-direction: column; text-align: center;">
-              <span style="color: var(--gold); font-size: 1.2em;">🕐</span>
+          <div style="display: flex; flex-direction: column; gap: var(--space-lg); font-size: 1.125rem; line-height: 1.6; margin-top: var(--space-xl); align-items: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold); font-size: 1.5rem;">📍</span>
+              <span style="text-align: center;">Avenida de Atenas 3, 28290 Las Rozas (Madrid), España</span>
+            </div>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold); font-size: 1.5rem;">📱</span>
+              <a href="tel:660668812" style="color: var(--gold); text-decoration: none; font-weight: 600;">660 668 812</a>
+            </div>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm);">
+              <span style="color: var(--gold); font-size: 1.5rem;">📧</span>
+              <a href="mailto:PIZZASFRATELLIPAZZI@GMAIL.COM" style="color: var(--gold); text-decoration: none; font-weight: 600;">PIZZASFRATELLIPAZZI@GMAIL.COM</a>
+            </div>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); text-align: center;">
+              <span style="color: var(--gold); font-size: 1.5rem;">🕐</span>
               <span style="line-height: 1.4;">
-                <strong>Martes y Miércoles:</strong> 20:00 - 23:00<br>
-                <strong>Viernes, Sábados y Domingos:</strong> 20:00 - 23:00
+                Martes y Miércoles: 20:00 - 23:00<br>
+                Viernes, Sábados y Domingos: 20:00 - 23:00
               </span>
-            </p>
-            <p style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); font-size: 1rem; opacity: 0.7;">
+            </div>
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); font-size: 1rem; opacity: 0.7;">
               <span style="color: var(--gold);">🏢</span>
-              CIF: B16359283
-            </p>
+              <span>CIF: B16359283</span>
+            </div>
+          </div>
+          
+          <div style="margin-top: var(--space-xxl);">
+            <button class="btn btn-primary" onclick="FratelliPazzi.openWhatsApp()">
+              💬 Chatea con nosotros
+            </button>
           </div>
         </div>
       </div>
