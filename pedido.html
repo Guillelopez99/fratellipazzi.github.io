@@ -1349,14 +1349,14 @@
     }
     
     .product-modal-content {
-      background: var(--rich-black);
+      background: white;
       border-radius: var(--radius-lg);
       max-width: 700px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: var(--shadow-strong);
-      border: 1px solid rgba(205, 184, 124, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       animation: scaleIn 0.3s ease;
     }
     
@@ -1378,9 +1378,9 @@
       position: absolute;
       top: var(--space-md);
       right: var(--space-md);
-      background: rgba(30, 33, 34, 0.8);
+      background: rgba(255, 255, 255, 0.9);
       border: none;
-      color: white;
+      color: var(--rich-black);
       font-size: 24px;
       cursor: pointer;
       width: 40px;
@@ -1390,36 +1390,39 @@
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
     
     .product-modal-close:hover {
-      background: rgba(213, 120, 108, 0.8);
-      transform: rotate(90deg);
+      background: white;
+      transform: scale(1.1);
     }
     
     .product-modal-body {
       padding: var(--space-xl);
+      background: white;
     }
     
     .product-modal-title {
       font-family: 'Playfair Display', serif;
       font-size: 28px;
-      color: var(--cream);
-      margin-bottom: var(--space-md);
+      color: var(--rich-black);
+      margin-bottom: var(--space-sm);
       font-weight: 700;
     }
     
     .product-modal-price {
       font-size: 24px;
-      color: var(--gold);
+      color: var(--rich-black);
       font-weight: 700;
-      margin-bottom: var(--space-lg);
+      margin-bottom: var(--space-md);
     }
     
     .product-modal-description {
-      color: rgba(251, 244, 232, 0.8);
+      color: rgba(0, 0, 0, 0.7);
       line-height: 1.6;
       margin-bottom: var(--space-lg);
+      font-size: 16px;
     }
     
     .product-modal-details {
@@ -1430,7 +1433,7 @@
     }
     
     .detail-card {
-      background: rgba(205, 184, 124, 0.1);
+      background: rgba(0, 0, 0, 0.05);
       padding: var(--space-md);
       border-radius: var(--radius-md);
       text-align: center;
@@ -1438,15 +1441,16 @@
     
     .detail-card-title {
       font-size: 12px;
-      color: rgba(251, 244, 232, 0.6);
+      color: rgba(0, 0, 0, 0.6);
       text-transform: uppercase;
       margin-bottom: var(--space-xs);
+      font-weight: 600;
     }
     
     .detail-card-value {
       font-size: 16px;
       font-weight: 600;
-      color: var(--cream);
+      color: var(--rich-black);
     }
     
     .product-modal-actions {
@@ -1455,135 +1459,236 @@
       align-items: center;
       justify-content: space-between;
       padding-top: var(--space-lg);
-      border-top: 1px solid rgba(205, 184, 124, 0.2);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      background: white;
     }
     
-    /* SISTEMA DE PERSONALIZACIÓN */
-    .customization-container {
-      margin-top: var(--space-lg);
-      padding: var(--space-lg);
-      background: rgba(205, 184, 124, 0.05);
+    .product-modal-actions .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: rgba(0, 0, 0, 0.05);
       border-radius: var(--radius-md);
-      border: 1px solid rgba(205, 184, 124, 0.2);
+      padding: var(--space-sm);
     }
     
-    .customization-title {
-      color: var(--gold);
-      font-size: 18px;
-      margin-bottom: var(--space-sm);
+    .product-modal-actions .quantity-selector button {
+      background: var(--rich-black);
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
       font-weight: 600;
-    }
-    
-    .customization-subtitle {
-      color: rgba(251, 244, 232, 0.7);
-      font-size: 14px;
-      margin-bottom: var(--space-lg);
-      font-style: italic;
-    }
-    
-    .current-ingredients,
-    .add-ingredients {
-      margin-bottom: var(--space-lg);
-    }
-    
-    .current-ingredients h5,
-    .add-ingredients h5 {
-      color: var(--cream);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 16px;
-      margin-bottom: var(--space-md);
+    }
+    
+    .product-modal-actions .quantity-selector button:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .product-modal-actions .quantity-selector span {
+      min-width: 32px;
+      text-align: center;
       font-weight: 600;
+      color: var(--rich-black);
+      font-size: 16px;
     }
     
-    .ingredient-category {
-      margin-bottom: var(--space-md);
+    /* SISTEMA DE PERSONALIZACIÓN ESTILO APP */
+    .customization-section {
+      margin-bottom: var(--space-xl);
+      background: white;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     }
     
-    .ingredient-category h6 {
-      color: var(--gold);
-      font-size: 14px;
-      margin-bottom: var(--space-sm);
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-lg) var(--space-lg) 0;
+      background: white;
+    }
+    
+    .section-title {
+      color: var(--rich-black);
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .section-badge {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
-    .ingredients-list,
-    .ingredients-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--space-sm);
+    .section-badge.obligatorio {
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--rich-black);
     }
     
-    .ingredient-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      padding: var(--space-sm);
-      background: rgba(30, 33, 34, 0.6);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(205, 184, 124, 0.1);
-    }
-    
-    .ingredient-item:hover:not(.base-ingredient) {
-      background: rgba(205, 184, 124, 0.1);
-      border-color: rgba(205, 184, 124, 0.3);
-    }
-    
-    .ingredient-item.base-ingredient {
-      opacity: 0.6;
-      cursor: not-allowed;
-      background: rgba(128, 128, 128, 0.2);
-    }
-    
-    .ingredient-item input[type="checkbox"] {
-      accent-color: var(--gold);
-      transform: scale(1.2);
-    }
-    
-    .ingredient-item input[type="checkbox"]:disabled {
-      opacity: 0.5;
-    }
-    
-    .ingredient-name {
-      flex: 1;
-      color: var(--cream);
+    .section-subtitle {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 14px;
+      margin: var(--space-xs) 0 0;
+      padding: 0 var(--space-lg);
       font-weight: 500;
     }
     
-    .ingredient-price {
-      color: var(--gold);
+    .ingredients-container {
+      padding: var(--space-lg);
+      background: white;
+    }
+    
+    .ingredient-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin: 0;
+    }
+    
+    .ingredient-option:last-child {
+      border-bottom: none;
+    }
+    
+    .ingredient-option:hover {
+      background: rgba(0, 0, 0, 0.02);
+    }
+    
+    .ingredient-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      margin-right: var(--space-md);
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .ingredient-checkbox:checked {
+      background: var(--rich-black);
+      border-color: var(--rich-black);
+    }
+    
+    .ingredient-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 14px;
       font-weight: 600;
-      font-size: 12px;
     }
     
-    .ingredient-item small {
-      color: rgba(251, 244, 232, 0.5);
-      font-size: 11px;
-      margin-left: auto;
+    .ingredient-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     
-    .price-update {
-      background: var(--gradient-gold);
+    .ingredient-name {
       color: var(--rich-black);
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0;
+    }
+    
+    .ingredient-price {
+      color: var(--rich-black);
+      font-size: 16px;
+      font-weight: 600;
+      margin-left: var(--space-sm);
+    }
+    
+    .popular-badge {
+      background: rgba(76, 175, 80, 0.1);
+      color: #4CAF50;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: var(--space-sm);
+    }
+    
+    .special-instructions {
+      width: 100%;
+      min-height: 80px;
       padding: var(--space-md);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-sm);
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      color: var(--rich-black);
+      background: white;
+      resize: vertical;
+      margin-bottom: var(--space-sm);
+    }
+    
+    .special-instructions::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
+    
+    .special-instructions:focus {
+      outline: none;
+      border-color: var(--rich-black);
+    }
+    
+    .instructions-note {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+      margin: 0;
+      padding: 0 var(--space-lg) var(--space-lg);
+      background: white;
+    }
+    
+    /* Actualizar el botón del modal para mostrar precio dinámico */
+    .product-modal-actions .add-to-cart-btn {
+      background: var(--rich-black);
+      color: white;
+      border: none;
+      padding: var(--space-md) var(--space-xl);
       border-radius: var(--radius-md);
-      text-align: center;
-      font-weight: 700;
-      font-size: 18px;
-      margin-top: var(--space-lg);
-      box-shadow: var(--shadow-card);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
     }
     
-    .add-ingredient:has(input:checked) {
-      background: rgba(205, 184, 124, 0.2) !important;
-      border-color: var(--gold) !important;
-      transform: scale(1.02);
+    .product-modal-actions .add-to-cart-btn:hover:not(:disabled) {
+      background: rgba(0, 0, 0, 0.8);
     }
     
-    .ingredient-item:has(input:checked) .ingredient-name {
-      color: var(--gold);
+    .product-modal-actions .add-to-cart-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
     
     /* TÍTULOS */
@@ -2179,46 +2284,131 @@
       }
       
       /* Estilos de personalización optimizados para móvil */
-      .customization-container {
-        margin-top: 1rem !important;
-        padding: 1rem !important;
-        background: rgba(255, 107, 107, 0.05) !important;
-        border: 1px solid rgba(255, 107, 107, 0.2) !important;
+      .customization-section {
+        margin-bottom: 1rem !important;
+        background: white !important;
         border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
       }
       
-      .customization-title {
-        font-size: 1rem !important;
+      .section-header {
+        padding: 1rem 1rem 0 !important;
+      }
+      
+      .section-title {
+        font-size: 1.125rem !important;
+        color: var(--rich-black) !important;
         margin-bottom: 0.5rem !important;
       }
       
-      .customization-subtitle {
+      .section-subtitle {
         font-size: 0.875rem !important;
-        margin-bottom: 1rem !important;
+        color: rgba(0,0,0,0.6) !important;
+        margin-bottom: 0.5rem !important;
+        padding: 0 1rem !important;
       }
       
-      .ingredients-list,
-      .ingredients-grid {
-        grid-template-columns: 1fr !important;
-        gap: 0.5rem !important;
+      .section-badge {
+        padding: 3px 8px !important;
+        font-size: 10px !important;
+        border-radius: 12px !important;
+        background: rgba(0,0,0,0.08) !important;
+        color: var(--rich-black) !important;
       }
       
-      .ingredient-item {
+      .ingredients-container {
+        padding: 0 1rem 1rem !important;
+      }
+      
+      .ingredient-option {
+        padding: 0.75rem 0 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+      }
+      
+      .ingredient-checkbox {
+        width: 20px !important;
+        height: 20px !important;
+        margin-right: 0.75rem !important;
+      }
+      
+      .ingredient-name {
+        font-size: 0.875rem !important;
+        color: var(--rich-black) !important;
+      }
+      
+      .ingredient-price {
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        color: var(--rich-black) !important;
+      }
+      
+      .popular-badge {
+        padding: 2px 6px !important;
+        font-size: 10px !important;
+        border-radius: 8px !important;
+        background: rgba(76, 175, 80, 0.1) !important;
+        color: #4CAF50 !important;
+        margin-left: 0.5rem !important;
+      }
+      
+      .special-instructions {
+        min-height: 60px !important;
         padding: 0.75rem !important;
         font-size: 0.875rem !important;
         border-radius: 8px !important;
-      }
-      
-      .ingredient-category h6 {
-        font-size: 0.875rem !important;
         margin-bottom: 0.5rem !important;
       }
       
-      .price-update {
+      .instructions-note {
+        font-size: 11px !important;
+        color: rgba(0,0,0,0.6) !important;
+        padding: 0 1rem 1rem !important;
+      }
+      
+      .product-modal-body {
+        padding: 1.5rem !important;
+        background: #f8f9fa !important;
+      }
+      
+      .product-modal-actions {
         padding: 1rem !important;
-        font-size: 1.125rem !important;
-        margin-top: 1rem !important;
-        border-radius: 8px !important;
+        background: white !important;
+        border-top: 1px solid rgba(0,0,0,0.1) !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      
+      .product-modal-actions .quantity-selector {
+        justify-content: center !important;
+        background: rgba(0,0,0,0.05) !important;
+        padding: 0.75rem !important;
+        border-radius: 12px !important;
+      }
+      
+      .product-modal-actions .quantity-selector button {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 18px !important;
+        background: var(--rich-black) !important;
+      }
+      
+      .product-modal-actions .quantity-selector span {
+        min-width: 40px !important;
+        font-size: 18px !important;
+        color: var(--rich-black) !important;
+        font-weight: 600 !important;
+      }
+      
+      .product-modal-actions .add-to-cart-btn {
+        width: 100% !important;
+        padding: 1rem !important;
+        font-size: 1rem !important;
+        border-radius: 12px !important;
+        background: var(--rich-black) !important;
+        color: white !important;
+        font-weight: 600 !important;
       }
       
       /* Galerias en móvil */
@@ -2495,7 +2685,7 @@
             <button onclick="cambiarCantidadModal(1)">+</button>
           </div>
           <button class="add-to-cart-btn" onclick="agregarAlCarritoModal()" id="modal-add-btn">
-            🛒 Añadir al Carrito
+            Añade 1 al carrito • 0,00€
           </button>
         </div>
       </div>
@@ -2525,6 +2715,10 @@
       'tomate san marzano': { nombre: 'Tomate San Marzano', precio: 0, categoria: 'base' },
       'fior di latte': { nombre: 'Fior di Latte', precio: 0, categoria: 'base' },
       
+      // Ingredientes baratos (+0,50€)
+      'albahaca': { nombre: 'Albahaca', precio: 0.5, categoria: 'verdura', popular: true },
+      'rúcula': { nombre: 'Rúcula', precio: 0.5, categoria: 'verdura' },
+      
       // Ingredientes normales (+1€)
       'jamón cocido': { nombre: 'Jamón Cocido', precio: 1, categoria: 'carne' },
       'jamón serrano': { nombre: 'Jamón Serrano', precio: 1, categoria: 'carne' },
@@ -2541,8 +2735,6 @@
       'alcachofa': { nombre: 'Alcachofa', precio: 1, categoria: 'verdura' },
       'friarielli': { nombre: 'Friarielli', precio: 1, categoria: 'verdura' },
       'berenjena': { nombre: 'Berenjena', precio: 1, categoria: 'verdura' },
-      'rúcula': { nombre: 'Rúcula', precio: 1, categoria: 'verdura' },
-      'albahaca': { nombre: 'Albahaca', precio: 1, categoria: 'verdura' },
       'cebolla caramelizada': { nombre: 'Cebolla Caramelizada', precio: 1, categoria: 'verdura' },
       
       'pecorino': { nombre: 'Pecorino', precio: 1, categoria: 'queso' },
@@ -2554,7 +2746,7 @@
       
       // Ingredientes premium (+2€)
       'mozzarella di bufala': { nombre: 'Mozzarella di Bufala', precio: 2, categoria: 'queso premium' },
-      'burrata': { nombre: 'Burrata', precio: 2, categoria: 'queso premium' }
+      'burrata': { nombre: 'Burrata', precio: 2, categoria: 'queso premium', popular: true }
     };
 
     // DATOS AMPLIADOS DE PRODUCTOS
@@ -2988,7 +3180,7 @@
       return ingredientesFinales;
     }
 
-    function generarTextoPersonalizacion(ingredientesQuitados = [], ingredientesAnadidos = []) {
+    function generarTextoPersonalizacion(ingredientesQuitados = [], ingredientesAnadidos = [], instrucciones = '') {
       let texto = '';
       
       if (ingredientesQuitados.length > 0) {
@@ -3008,106 +3200,114 @@
         texto += `Extra: ${nombresAnadidos.join(', ')}`;
       }
       
+      if (instrucciones && instrucciones.trim()) {
+        if (texto) texto += ' | ';
+        texto += `Nota: ${instrucciones.trim()}`;
+      }
+      
       return texto;
     }
 
     function crearSelectorIngredientes(producto) {
       if (!producto.personalizable) return '';
       
-      const categoriasOrden = ['base', 'carne', 'pescado', 'queso', 'queso premium', 'verdura', 'salsa'];
-      const categoriasPorNombre = {
-        'base': 'Base',
-        'carne': 'Carnes',
-        'pescado': 'Pescados',
-        'queso': 'Quesos',
-        'queso premium': 'Quesos Premium',
-        'verdura': 'Verduras',
-        'salsa': 'Salsas'
-      };
-      
-      let html = '<div class="customization-container">';
+      let html = '';
       
       if (producto.pizzaPersonalizable) {
-        html += '<h4 class="customization-title">🍕 Añade ingredientes a tu pizza</h4>';
-        html += '<p class="customization-subtitle">Ingredientes normales +1€ | Burrata y Bufala +2€</p>';
-      } else {
-        html += '<h4 class="customization-title">🎨 Personaliza tu pizza</h4>';
-        html += '<p class="customization-subtitle">Quita ingredientes gratis | Añade extras con cargo</p>';
-      }
-      
-      // Mostrar ingredientes actuales si no es personalizable
-      if (!producto.pizzaPersonalizable && producto.ingredientesArray) {
-        html += '<div class="current-ingredients">';
-        html += '<h5>Ingredientes actuales:</h5>';
-        html += '<div class="ingredients-list">';
+        // FORMATO PARA PIZZA PERSONALIZABLE - SOLO AÑADIR INGREDIENTES
+        html += `
+          <div class="customization-section">
+            <div class="section-header">
+              <h4 class="section-title">Pizza Personalizada</h4>
+              <span class="section-badge obligatorio">Obligatorio</span>
+            </div>
+            <p class="section-subtitle">Elige entre 1 y 5</p>
+            <div class="ingredients-container">
+        `;
         
-        producto.ingredientesArray.forEach(ingrediente => {
-          const info = ingredientesDisponibles[ingrediente.toLowerCase()];
-          const nombre = info ? info.nombre : ingrediente;
-          const isBase = info && info.categoria === 'base';
+        // Obtener todos los ingredientes disponibles para añadir (excluyendo los base)
+        const ingredientesParaAnadir = Object.entries(ingredientesDisponibles)
+          .filter(([key, info]) => !producto.ingredientesArray?.includes(key))
+          .sort((a, b) => {
+            // Ordenar por precio y luego por nombre
+            if (a[1].precio !== b[1].precio) {
+              return a[1].precio - b[1].precio;
+            }
+            return a[1].nombre.localeCompare(b[1].nombre);
+          });
+        
+        ingredientesParaAnadir.forEach(([key, info]) => {
+          const precioTexto = info.precio === 0 ? 'Incluido' : `+${info.precio.toFixed(2).replace('.', ',')}€`;
+          const popularBadge = info.popular ? '<span class="popular-badge">Popular</span>' : '';
           
           html += `
-            <label class="ingredient-item ${isBase ? 'base-ingredient' : ''}">
+            <label class="ingredient-option">
               <input type="checkbox" 
-                     class="ingredient-remove" 
-                     data-ingredient="${ingrediente}" 
-                     ${isBase ? 'disabled' : ''}
-                     onchange="toggleIngredienteQuitar('${ingrediente}')">
-              <span class="ingredient-name">${nombre}</span>
-              ${isBase ? '<small>(base - no se puede quitar)</small>' : '<small>(quitar gratis)</small>'}
+                     class="ingredient-checkbox" 
+                     data-ingredient="${key}" 
+                     data-price="${info.precio}"
+                     onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
+              <div class="ingredient-info">
+                <div class="ingredient-name">${info.nombre}</div>
+                <div class="ingredient-price">${precioTexto}</div>
+                ${popularBadge}
+              </div>
             </label>
           `;
         });
         
         html += '</div></div>';
+        
+      } else {
+        // FORMATO PARA PIZZAS NORMALES - SOLO QUITAR INGREDIENTES
+        html += `
+          <div class="customization-section">
+            <div class="section-header">
+              <h4 class="section-title">Ingredientes ${producto.nombre}</h4>
+            </div>
+            <p class="section-subtitle">Elige hasta 3</p>
+            <div class="ingredients-container">
+        `;
+        
+        // Mostrar solo los ingredientes que se pueden quitar (excluyendo base)
+        if (producto.ingredientesArray) {
+          producto.ingredientesArray.forEach(ingrediente => {
+            const info = ingredientesDisponibles[ingrediente.toLowerCase()];
+            const nombre = info ? info.nombre : ingrediente;
+            const isBase = info && info.categoria === 'base';
+            
+            if (!isBase) {
+              html += `
+                <label class="ingredient-option">
+                  <input type="checkbox" 
+                         class="ingredient-checkbox" 
+                         data-ingredient="${ingrediente}" 
+                         onchange="toggleIngredienteQuitar('${ingrediente}')">
+                  <div class="ingredient-info">
+                    <div class="ingredient-name">Sin ${nombre}</div>
+                  </div>
+                </label>
+              `;
+            }
+          });
+        }
+        
+        html += '</div></div>';
       }
       
-      // Mostrar ingredientes para añadir por categorías
-      html += '<div class="add-ingredients">';
-      html += '<h5>Ingredientes para añadir:</h5>';
-      
-      categoriasOrden.forEach(categoria => {
-        const ingredientesCategoria = Object.entries(ingredientesDisponibles)
-          .filter(([key, info]) => info.categoria === categoria)
-          .filter(([key]) => {
-            // Para pizza personalizable, excluir ingredientes base que ya tiene
-            if (producto.pizzaPersonalizable && producto.ingredientesArray?.includes(key)) {
-              return false;
-            }
-            // Para pizzas normales, excluir ingredientes que ya tiene
-            if (!producto.pizzaPersonalizable && producto.ingredientesArray?.includes(key)) {
-              return false;
-            }
-            return true;
-          });
-        
-        if (ingredientesCategoria.length > 0) {
-          html += `<div class="ingredient-category">`;
-          html += `<h6>${categoriasPorNombre[categoria]}</h6>`;
-          html += `<div class="ingredients-grid">`;
-          
-          ingredientesCategoria.forEach(([key, info]) => {
-            const precioTexto = info.precio === 0 ? 'Incluido' : `+${formatearPrecio(info.precio)}`;
-            html += `
-              <label class="ingredient-item add-ingredient">
-                <input type="checkbox" 
-                       class="ingredient-add" 
-                       data-ingredient="${key}" 
-                       data-price="${info.precio}"
-                       onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
-                <span class="ingredient-name">${info.nombre}</span>
-                <span class="ingredient-price">${precioTexto}</span>
-              </label>
-            `;
-          });
-          
-          html += '</div></div>';
-        }
-      });
-      
-      html += '</div>';
-      html += '<div class="price-update" id="price-update">Precio: <span id="current-price">' + formatearPrecio(producto.precio) + '</span></div>';
-      html += '</div>';
+      // Añadir sección de instrucciones especiales
+      html += `
+        <div class="customization-section">
+          <div class="section-header">
+            <h4 class="section-title">Instrucciones especiales</h4>
+          </div>
+          <textarea class="special-instructions" 
+                    placeholder="Añadir una nota" 
+                    maxlength="200"
+                    onchange="actualizarInstrucciones(this.value)"></textarea>
+          <p class="instructions-note">Es posible que se te cobre por añadir artículos adicionales.</p>
+        </div>
+      `;
       
       return html;
     }
@@ -3121,6 +3321,14 @@
       if (index > -1) {
         personalizacionActual.ingredientesQuitados.splice(index, 1);
       } else {
+        // Límite de 3 ingredientes para quitar
+        if (personalizacionActual.ingredientesQuitados.length >= 3) {
+          mostrarNotificacion('Máximo 3 ingredientes se pueden quitar', 'warning');
+          // Desmarcar el checkbox
+          const checkbox = document.querySelector(`input[data-ingredient="${ingrediente}"]`);
+          if (checkbox) checkbox.checked = false;
+          return;
+        }
         personalizacionActual.ingredientesQuitados.push(ingrediente);
       }
       
@@ -3136,10 +3344,26 @@
       if (index > -1) {
         personalizacionActual.ingredientesAnadidos.splice(index, 1);
       } else {
+        // Límite de 5 ingredientes para añadir
+        if (personalizacionActual.ingredientesAnadidos.length >= 5) {
+          mostrarNotificacion('Máximo 5 ingredientes se pueden añadir', 'warning');
+          // Desmarcar el checkbox
+          const checkbox = document.querySelector(`input[data-ingredient="${ingrediente}"]`);
+          if (checkbox) checkbox.checked = false;
+          return;
+        }
         personalizacionActual.ingredientesAnadidos.push(ingrediente);
       }
       
       actualizarPrecioModal();
+    }
+
+    function actualizarInstrucciones(instrucciones) {
+      if (!personalizacionActual.instrucciones) {
+        personalizacionActual.instrucciones = '';
+      }
+      personalizacionActual.instrucciones = instrucciones;
+      guardarDatos();
     }
 
     function actualizarPrecioModal() {
@@ -3151,9 +3375,12 @@
         personalizacionActual.ingredientesAnadidos || []
       );
       
-      const priceElement = document.getElementById('current-price');
-      if (priceElement) {
-        priceElement.textContent = formatearPrecio(precioActualizado);
+      // Actualizar el precio en el botón
+      const modalAddBtn = document.getElementById('modal-add-btn');
+      if (modalAddBtn) {
+        const cantidad = document.getElementById('modal-quantity');
+        const cantidadTexto = cantidad ? cantidad.textContent : '1';
+        modalAddBtn.innerHTML = `Añade ${cantidadTexto} al carrito • ${formatearPrecio(precioActualizado)}`;
       }
       
       // Actualizar también el precio principal del modal
@@ -3596,7 +3823,8 @@
         productoModalActual = producto;
         personalizacionActual = {
           ingredientesQuitados: [],
-          ingredientesAnadidos: []
+          ingredientesAnadidos: [],
+          instrucciones: ''
         };
         
         const modal = document.getElementById('product-modal');
@@ -3607,12 +3835,20 @@
         const detalles = document.getElementById('product-modal-details');
         const cantidad = document.getElementById('modal-quantity');
         
-        imagen.src = producto.imagen;
+        // Usar imagen personalizada si es pizza personalizable
+        let imagenSrc = producto.imagen;
+        if (producto.pizzaPersonalizable) {
+          imagenSrc = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwaXp6YUJhc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmY3ZTY7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmZlNGIzO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJ0b21hdGUiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZjY2NjY7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY0NDQ0O3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNzUiIHI9IjcwIiBmaWxsPSJ1cmwoI3BpenphQmFzZSkiIHN0cm9rZT0iI2RkYzU4OSIgc3Ryb2tlLXdpZHRoPSIzIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNjAiIGZpbGw9InVybCgjdG9tYXRlKSIgb3BhY2l0eT0iMC44Ii8+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNDUiIGZpbGw9IiNmZmY3ZTYiIG9wYWNpdHk9IjAuOSIvPjx0ZXh0IHg9Ijc1IiB5PSI2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmY2YjZiIj7wn46oPC90ZXh0Pjx0ZXh0IHg9Ijc1IiB5PSI5NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNjY2IiBmb250LXdlaWdodD0iNjAwIj5QZXJzb25hbGl6YWJsZTwvdGV4dD48L3N2Zz4=';
+        }
+        
+        imagen.src = imagenSrc;
         imagen.alt = producto.nombre;
         titulo.textContent = producto.nombre;
         precio.textContent = formatearPrecio(producto.precio);
         descripcion.textContent = producto.descripcion || producto.ingredientes;
-        cantidad.textContent = cantidadProductoSeleccionado[productoId] || 1;
+        
+        const cantidadInicial = cantidadProductoSeleccionado[productoId] || 1;
+        cantidad.textContent = cantidadInicial;
         
         // Crear tarjetas de detalles básicos
         let detallesHtml = `
@@ -3633,6 +3869,12 @@
         
         detalles.innerHTML = detallesHtml;
         
+        // Inicializar el botón con precio inicial
+        const modalAddBtn = document.getElementById('modal-add-btn');
+        if (modalAddBtn) {
+          modalAddBtn.innerHTML = `Añade ${cantidadInicial} al carrito • ${formatearPrecio(producto.precio)}`;
+        }
+        
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
         
@@ -3650,7 +3892,11 @@
         modal.classList.remove('show');
         document.body.style.overflow = 'auto';
         productoModalActual = null;
-        personalizacionActual = {}; // Limpiar personalización
+        personalizacionActual = {
+          ingredientesQuitados: [],
+          ingredientesAnadidos: [],
+          instrucciones: ''
+        }; // Limpiar personalización
       } catch (error) {
         manejarError(error, 'Error al cerrar modal');
       }
@@ -3674,6 +3920,9 @@
         if (cantidadCard) {
           cantidadCard.textContent = nuevaCantidad;
         }
+        
+        // Actualizar el botón con la nueva cantidad
+        actualizarPrecioModal();
         
         guardarDatos();
       } catch (error) {
@@ -3786,7 +4035,8 @@
           let mensaje = `${producto.nombre} añadido al carrito`;
           const textoPersonalizacion = generarTextoPersonalizacion(
             personalizacionFinal.ingredientesQuitados || [], 
-            personalizacionFinal.ingredientesAnadidos || []
+            personalizacionFinal.ingredientesAnadidos || [],
+            personalizacionFinal.instrucciones || ''
           );
           if (textoPersonalizacion) {
             mensaje += ` (${textoPersonalizacion})`;
@@ -3935,7 +4185,8 @@
             if (item.personalizacion) {
               const textoPersonalizacion = generarTextoPersonalizacion(
                 item.personalizacion.ingredientesQuitados || [], 
-                item.personalizacion.ingredientesAnadidos || []
+                item.personalizacion.ingredientesAnadidos || [],
+                item.personalizacion.instrucciones || ''
               );
               if (textoPersonalizacion) {
                 personalizacionTexto = `<div class="carrito-item-customization">${textoPersonalizacion}</div>`;
@@ -4549,8 +4800,8 @@
         // Mostrar mensaje de bienvenida
         setTimeout(() => {
           const mensaje = isMobile ? 
-            '¡Bienvenido a Fratelli Pazzi! Prueba la nueva pizza personalizable 🎨🍕' : 
-            '¡Bienvenido a Fratelli Pazzi! Descubre nuestra nueva pizza personalizable y la Pizza del Mes 🎨🌟🍕';
+            '¡Bienvenido a Fratelli Pazzi! Personaliza tu pizza ideal 🎨🍕' : 
+            '¡Bienvenido a Fratelli Pazzi! Personaliza tu pizza ideal o quita ingredientes de nuestras especialidades 🎨🌟🍕';
           mostrarNotificacion(mensaje, 'success');
         }, 1000);
         
