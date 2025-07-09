@@ -1467,90 +1467,129 @@
     }
     
     .customization-section {
-      margin-bottom: var(--space-xl);
-      background: white;
-      border-radius: var(--radius-md);
+      margin: var(--space-xl) auto var(--space-xl);
+      background: rgba(30, 33, 34, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+      transition: all 0.3s ease;
+      max-width: 800px;
+      width: 100%;
+    }
+    
+    .customization-section:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(205, 184, 124, 0.4);
     }
     
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--space-lg) var(--space-lg) 0;
-      background: white;
+      padding: var(--space-lg) var(--space-xl);
+      background: linear-gradient(135deg, rgba(205, 184, 124, 0.15) 0%, rgba(205, 184, 124, 0.05) 100%);
+      border-bottom: 1px solid rgba(205, 184, 124, 0.1);
+      position: relative;
+    }
+    
+    .section-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-gold);
+      opacity: 0.6;
     }
     
     .section-title {
-      color: var(--rich-black);
+      color: var(--gold);
       font-size: 20px;
       font-weight: 700;
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Playfair Display', serif;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
     
     .section-badge {
-      padding: 4px 12px;
-      border-radius: 16px;
-      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
     
     .section-badge.obligatorio {
-      background: rgba(0, 0, 0, 0.08);
-      color: var(--rich-black);
+      background: var(--gradient-accent);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .section-subtitle {
-      color: rgba(0, 0, 0, 0.6);
+      color: rgba(251, 244, 232, 0.7);
       font-size: 14px;
-      margin: var(--space-xs) 0 0;
-      padding: 0 var(--space-lg);
+      margin: 0;
+      padding: 0 var(--space-xl) var(--space-lg);
       font-weight: 500;
+      font-style: italic;
+      text-align: center;
     }
     
     .ingredients-container {
-      padding: var(--space-lg);
-      background: white;
+      padding: 0 var(--space-xl) var(--space-xl);
+      background: rgba(30, 33, 34, 0.7);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-sm);
     }
     
     .ingredient-option {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: var(--space-md) 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: var(--space-md);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
       margin: 0;
-    }
-    
-    .ingredient-option:last-child {
-      border-bottom: none;
+      border-radius: var(--radius-sm);
+      background: rgba(205, 184, 124, 0.05);
+      border: 1px solid rgba(205, 184, 124, 0.1);
     }
     
     .ingredient-option:hover {
-      background: rgba(0, 0, 0, 0.02);
+      background: rgba(205, 184, 124, 0.12);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(205, 184, 124, 0.2);
+      border-color: rgba(205, 184, 124, 0.3);
     }
     
     .ingredient-checkbox {
-      width: 24px;
-      height: 24px;
-      border: 2px solid rgba(0, 0, 0, 0.2);
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(205, 184, 124, 0.4);
       border-radius: 4px;
-      margin-right: var(--space-md);
+      margin-right: var(--space-sm);
       cursor: pointer;
       appearance: none;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
       position: relative;
+      background: rgba(251, 244, 232, 0.05);
+      flex-shrink: 0;
+    }
+    
+    .ingredient-checkbox:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(205, 184, 124, 0.3);
     }
     
     .ingredient-checkbox:checked {
-      background: var(--rich-black);
-      border-color: var(--rich-black);
+      background: var(--gradient-gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 12px rgba(205, 184, 124, 0.4);
     }
     
     .ingredient-checkbox:checked::after {
@@ -1559,9 +1598,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
+      color: var(--rich-black);
+      font-size: 12px;
+      font-weight: 700;
     }
     
     .ingredient-info {
@@ -1569,63 +1608,44 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      min-width: 0;
     }
     
     .ingredient-name {
-      color: var(--rich-black);
-      font-size: 16px;
+      color: var(--cream);
+      font-size: 14px;
       font-weight: 500;
       margin: 0;
+      transition: color 0.3s ease;
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .ingredient-option:hover .ingredient-name {
+      color: var(--gold);
     }
     
     .ingredient-price {
-      color: var(--rich-black);
-      font-size: 16px;
+      color: var(--gold);
+      font-size: 13px;
       font-weight: 600;
-      margin-left: var(--space-sm);
+      margin-left: var(--space-xs);
+      font-family: 'Playfair Display', serif;
+      flex-shrink: 0;
     }
     
     .popular-badge {
-      background: rgba(76, 175, 80, 0.1);
-      color: #4CAF50;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11px;
+      background: rgba(128, 175, 122, 0.2);
+      color: var(--sage);
+      border: 1px solid rgba(128, 175, 122, 0.3);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-size: 8px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-left: var(--space-sm);
-    }
-    
-    .special-instructions {
-      width: 100%;
-      min-height: 80px;
-      padding: var(--space-md);
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: var(--radius-sm);
-      font-size: 16px;
-      font-family: 'Inter', sans-serif;
-      color: var(--rich-black);
-      background: white;
-      resize: vertical;
-      margin-bottom: var(--space-sm);
-    }
-    
-    .special-instructions::placeholder {
-      color: rgba(0, 0, 0, 0.4);
-    }
-    
-    .special-instructions:focus {
-      outline: none;
-      border-color: var(--rich-black);
-    }
-    
-    .instructions-note {
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 12px;
-      margin: 0;
-      padding: 0 var(--space-lg) var(--space-lg);
-      background: white;
+      margin-left: var(--space-xs);
+      flex-shrink: 0;
     }
     
     .product-modal-actions .add-to-cart-btn {
@@ -2213,130 +2233,216 @@
       }
       
       .customization-section {
-        margin-bottom: 1rem !important;
-        background: white !important;
+        margin: 1rem auto !important;
+        background: rgba(30, 33, 34, 0.9) !important;
+        backdrop-filter: blur(20px) !important;
         border-radius: 12px !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+        border: 1px solid rgba(205, 184, 124, 0.3) !important;
+        max-width: 100% !important;
       }
       
       .section-header {
-        padding: 1rem 1rem 0 !important;
+        padding: 1rem 1rem 0.75rem !important;
+        background: linear-gradient(135deg, rgba(205, 184, 124, 0.2) 0%, rgba(205, 184, 124, 0.08) 100%) !important;
+        border-bottom: 1px solid rgba(205, 184, 124, 0.15) !important;
       }
       
       .section-title {
         font-size: 1.125rem !important;
-        color: var(--rich-black) !important;
-        margin-bottom: 0.5rem !important;
+        color: var(--gold) !important;
+        font-family: 'Playfair Display', serif !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        font-weight: 700 !important;
       }
       
       .section-subtitle {
         font-size: 0.875rem !important;
-        color: rgba(0,0,0,0.6) !important;
-        margin-bottom: 0.5rem !important;
-        padding: 0 1rem !important;
+        color: rgba(251, 244, 232, 0.6) !important;
+        margin: 0 !important;
+        padding: 0 1rem 0.75rem !important;
+        font-style: italic !important;
+        text-align: center !important;
       }
       
       .section-badge {
-        padding: 3px 8px !important;
+        padding: 4px 10px !important;
         font-size: 10px !important;
         border-radius: 12px !important;
-        background: rgba(0,0,0,0.08) !important;
-        color: var(--rich-black) !important;
+        background: var(--gradient-accent) !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
       }
       
       .ingredients-container {
         padding: 0 1rem 1rem !important;
+        background: rgba(30, 33, 34, 0.8) !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
       }
       
       .ingredient-option {
-        padding: 0.75rem 0 !important;
-        border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+        padding: 0.75rem !important;
+        background: rgba(205, 184, 124, 0.05) !important;
+        border: 1px solid rgba(205, 184, 124, 0.1) !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+      }
+      
+      .ingredient-option:hover {
+        background: rgba(205, 184, 124, 0.12) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 2px 8px rgba(205, 184, 124, 0.2) !important;
+        border-color: rgba(205, 184, 124, 0.3) !important;
       }
       
       .ingredient-checkbox {
-        width: 20px !important;
-        height: 20px !important;
+        width: 18px !important;
+        height: 18px !important;
         margin-right: 0.75rem !important;
+        border: 2px solid rgba(205, 184, 124, 0.4) !important;
+        border-radius: 4px !important;
+        background: rgba(251, 244, 232, 0.05) !important;
+        flex-shrink: 0 !important;
+      }
+      
+      .ingredient-checkbox:checked {
+        background: var(--gradient-gold) !important;
+        border-color: var(--gold) !important;
+      }
+      
+      .ingredient-checkbox:checked::after {
+        color: var(--rich-black) !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+      }
+      
+      .ingredient-info {
+        flex: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
       }
       
       .ingredient-name {
         font-size: 0.875rem !important;
-        color: var(--rich-black) !important;
+        color: var(--cream) !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+        flex: 1 !important;
+      }
+      
+      .ingredient-option:hover .ingredient-name {
+        color: var(--gold) !important;
       }
       
       .ingredient-price {
         font-size: 0.875rem !important;
         font-weight: 600 !important;
-        color: var(--rich-black) !important;
+        color: var(--gold) !important;
+        font-family: 'Playfair Display', serif !important;
+        margin-left: 0.5rem !important;
+        flex-shrink: 0 !important;
       }
       
       .popular-badge {
         padding: 2px 6px !important;
-        font-size: 10px !important;
+        font-size: 8px !important;
         border-radius: 8px !important;
-        background: rgba(76, 175, 80, 0.1) !important;
-        color: #4CAF50 !important;
-        margin-left: 0.5rem !important;
-      }
-      
-      .special-instructions {
-        min-height: 60px !important;
-        padding: 0.75rem !important;
-        font-size: 0.875rem !important;
-        border-radius: 8px !important;
-        margin-bottom: 0.5rem !important;
-      }
-      
-      .instructions-note {
-        font-size: 11px !important;
-        color: rgba(0,0,0,0.6) !important;
-        padding: 0 1rem 1rem !important;
+        background: rgba(128, 175, 122, 0.2) !important;
+        color: var(--sage) !important;
+        border: 1px solid rgba(128, 175, 122, 0.3) !important;
+        margin-left: 0.25rem !important;
+        flex-shrink: 0 !important;
       }
       
       .product-modal-body {
         padding: 1.5rem !important;
-        background: #f8f9fa !important;
+        background: var(--rich-black) !important;
+        color: var(--cream) !important;
+      }
+      
+      .product-modal-title {
+        color: var(--gold) !important;
+        font-family: 'Playfair Display', serif !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+      }
+      
+      .product-modal-price {
+        color: var(--gold) !important;
+        font-family: 'Playfair Display', serif !important;
+      }
+      
+      .product-modal-description {
+        color: rgba(251, 244, 232, 0.8) !important;
       }
       
       .product-modal-actions {
         padding: 1rem !important;
-        background: white !important;
-        border-top: 1px solid rgba(0,0,0,0.1) !important;
+        background: rgba(30, 33, 34, 0.95) !important;
+        backdrop-filter: blur(15px) !important;
+        border-top: 2px solid rgba(205, 184, 124, 0.3) !important;
         position: sticky !important;
         bottom: 0 !important;
         flex-direction: column !important;
         gap: 1rem !important;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2) !important;
       }
       
       .product-modal-actions .quantity-selector {
         justify-content: center !important;
-        background: rgba(0,0,0,0.05) !important;
+        background: rgba(205, 184, 124, 0.15) !important;
+        border: 1px solid rgba(205, 184, 124, 0.3) !important;
         padding: 0.75rem !important;
         border-radius: 12px !important;
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1) !important;
       }
       
       .product-modal-actions .quantity-selector button {
         width: 36px !important;
         height: 36px !important;
         font-size: 18px !important;
-        background: var(--rich-black) !important;
+        background: var(--gradient-gold) !important;
+        color: var(--rich-black) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+        font-weight: 700 !important;
+      }
+      
+      .product-modal-actions .quantity-selector button:hover {
+        background: var(--gold) !important;
+        transform: scale(1.1) !important;
       }
       
       .product-modal-actions .quantity-selector span {
         min-width: 40px !important;
         font-size: 18px !important;
-        color: var(--rich-black) !important;
+        color: var(--cream) !important;
         font-weight: 600 !important;
+        font-family: 'Playfair Display', serif !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
       }
       
       .product-modal-actions .add-to-cart-btn {
         width: 100% !important;
         padding: 1rem !important;
-        font-size: 1rem !important;
+        font-size: 1.125rem !important;
         border-radius: 12px !important;
-        background: var(--rich-black) !important;
+        background: var(--gradient-accent) !important;
         color: white !important;
         font-weight: 600 !important;
+        box-shadow: var(--shadow-card) !important;
+        border: none !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        letter-spacing: 0.3px !important;
+      }
+      
+      .product-modal-actions .add-to-cart-btn:hover:not(:disabled) {
+        background: #e0958a !important;
+        transform: translateY(-2px) !important;
+        box-shadow: var(--shadow-hover) !important;
       }
       
       .galeria {
@@ -2772,7 +2878,7 @@
       return precioBase;
     }
 
-    function generarTextoPersonalizacion(ingredientesQuitados = [], ingredientesAnadidos = [], instrucciones = '') {
+    function generarTextoPersonalizacion(ingredientesQuitados = [], ingredientesAnadidos = []) {
       let texto = '';
       
       if (ingredientesQuitados.length > 0) {
@@ -2792,11 +2898,6 @@
         texto += `Extra: ${nombresAnadidos.join(', ')}`;
       }
       
-      if (instrucciones && instrucciones.trim()) {
-        if (texto) texto += ' | ';
-        texto += `Nota: ${instrucciones.trim()}`;
-      }
-      
       return texto;
     }
 
@@ -2812,7 +2913,7 @@
               <h4 class="section-title">Pizza Personalizada</h4>
               <span class="section-badge obligatorio">Obligatorio</span>
             </div>
-            <p class="section-subtitle">Elige entre 1 y 5</p>
+            <p class="section-subtitle">Selecciona de 1 a 5 ingredientes para crear tu pizza ideal</p>
             <div class="ingredients-container">
         `;
         
@@ -2851,9 +2952,9 @@
         html += `
           <div class="customization-section">
             <div class="section-header">
-              <h4 class="section-title">Ingredientes ${producto.nombre}</h4>
+              <h4 class="section-title">Personalizar ${producto.nombre}</h4>
             </div>
-            <p class="section-subtitle">Elige hasta 3</p>
+            <p class="section-subtitle">Puedes quitar hasta 3 ingredientes</p>
             <div class="ingredients-container">
         `;
         
@@ -2881,19 +2982,6 @@
         
         html += '</div></div>';
       }
-      
-      html += `
-        <div class="customization-section">
-          <div class="section-header">
-            <h4 class="section-title">Instrucciones especiales</h4>
-          </div>
-          <textarea class="special-instructions" 
-                    placeholder="Añadir una nota" 
-                    maxlength="200"
-                    onchange="actualizarInstrucciones(this.value)"></textarea>
-          <p class="instructions-note">Es posible que se te cobre por añadir artículos adicionales.</p>
-        </div>
-      `;
       
       return html;
     }
@@ -2941,10 +3029,7 @@
     }
 
     function actualizarInstrucciones(instrucciones) {
-      if (!personalizacionActual.instrucciones) {
-        personalizacionActual.instrucciones = '';
-      }
-      personalizacionActual.instrucciones = instrucciones;
+      // Función simplificada - ya no se usan instrucciones especiales
       guardarDatos();
     }
 
@@ -3295,8 +3380,7 @@
         productoModalActual = producto;
         personalizacionActual = {
           ingredientesQuitados: [],
-          ingredientesAnadidos: [],
-          instrucciones: ''
+          ingredientesAnadidos: []
         };
         
         const modal = document.getElementById('product-modal');
@@ -3361,8 +3445,7 @@
         productoModalActual = null;
         personalizacionActual = {
           ingredientesQuitados: [],
-          ingredientesAnadidos: [],
-          instrucciones: ''
+          ingredientesAnadidos: []
         };
       } catch (error) {
         manejarError(error, 'Error al cerrar modal');
@@ -3490,8 +3573,7 @@
           let mensaje = `${producto.nombre} añadido al carrito`;
           const textoPersonalizacion = generarTextoPersonalizacion(
             personalizacionFinal.ingredientesQuitados || [], 
-            personalizacionFinal.ingredientesAnadidos || [],
-            personalizacionFinal.instrucciones || ''
+            personalizacionFinal.ingredientesAnadidos || []
           );
           if (textoPersonalizacion) {
             mensaje += ` (${textoPersonalizacion})`;
@@ -3630,8 +3712,7 @@
             if (item.personalizacion) {
               const textoPersonalizacion = generarTextoPersonalizacion(
                 item.personalizacion.ingredientesQuitados || [], 
-                item.personalizacion.ingredientesAnadidos || [],
-                item.personalizacion.instrucciones || ''
+                item.personalizacion.ingredientesAnadidos || []
               );
               if (textoPersonalizacion) {
                 personalizacionTexto = `<div class="carrito-item-customization">${textoPersonalizacion}</div>`;
