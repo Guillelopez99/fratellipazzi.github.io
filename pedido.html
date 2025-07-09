@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fratelli Pazzi - Pedido Mejorado</title>
+  <title>Fratelli Pazzi - Pedido con Personalización</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
     :root {
@@ -679,6 +679,17 @@
       margin-top: 4px;
     }
     
+    .carrito-item-customization {
+      font-size: 11px;
+      color: var(--gold);
+      margin-top: 4px;
+      font-style: italic;
+      background: rgba(205, 184, 124, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    
     .quantity-controls {
       display: flex;
       align-items: center;
@@ -932,6 +943,64 @@
       box-shadow: 0 6px 25px rgba(213, 120, 108, 0.6);
     }
     
+    /* ESTILO ESPECIAL PARA PIZZA PERSONALIZABLE */
+    .pizza-card.pizza-personalizable {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 165, 0, 0.1) 50%, rgba(30, 33, 34, 0.9) 100%);
+      border: 2px solid #ff6b6b;
+      position: relative;
+    }
+    
+    .pizza-card.pizza-personalizable::before {
+      content: '🎨';
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      font-size: 24px;
+      z-index: 1;
+    }
+    
+    .pizza-card.pizza-personalizable::after {
+      content: 'PERSONALIZABLE';
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-md);
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+    }
+    
+    .pizza-card.pizza-personalizable:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+      border-color: #ffa500;
+    }
+    
+    .pizza-card.pizza-personalizable .pizza-name {
+      color: #ff6b6b;
+      font-size: 22px;
+    }
+    
+    .pizza-card.pizza-personalizable .pizza-price {
+      color: #ff6b6b;
+      font-size: 26px;
+    }
+    
+    .pizza-card.pizza-personalizable .add-to-cart-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+    
+    .pizza-card.pizza-personalizable .add-to-cart-btn:hover {
+      box-shadow: 0 6px 25px rgba(255, 107, 107, 0.6);
+    }
+    
     .pizza-card.premium:hover {
       transform: translateY(-6px) scale(1.02);
       box-shadow: 0 12px 50px rgba(205, 184, 124, 0.4);
@@ -1080,9 +1149,15 @@
     }
     
     .badge.pizza-del-mes {
-      background: var(--gradient-accent);
-      color: white;
+      background: var(--gradient-accent) !important;
+      color: white !important;
       animation: badgePulse 2s ease-in-out infinite;
+    }
+    
+    .badge.personalizable {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+      color: white;
+      font-weight: 600;
     }
     
     @keyframes badgePulse {
@@ -1381,6 +1456,134 @@
       justify-content: space-between;
       padding-top: var(--space-lg);
       border-top: 1px solid rgba(205, 184, 124, 0.2);
+    }
+    
+    /* SISTEMA DE PERSONALIZACIÓN */
+    .customization-container {
+      margin-top: var(--space-lg);
+      padding: var(--space-lg);
+      background: rgba(205, 184, 124, 0.05);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(205, 184, 124, 0.2);
+    }
+    
+    .customization-title {
+      color: var(--gold);
+      font-size: 18px;
+      margin-bottom: var(--space-sm);
+      font-weight: 600;
+    }
+    
+    .customization-subtitle {
+      color: rgba(251, 244, 232, 0.7);
+      font-size: 14px;
+      margin-bottom: var(--space-lg);
+      font-style: italic;
+    }
+    
+    .current-ingredients,
+    .add-ingredients {
+      margin-bottom: var(--space-lg);
+    }
+    
+    .current-ingredients h5,
+    .add-ingredients h5 {
+      color: var(--cream);
+      font-size: 16px;
+      margin-bottom: var(--space-md);
+      font-weight: 600;
+    }
+    
+    .ingredient-category {
+      margin-bottom: var(--space-md);
+    }
+    
+    .ingredient-category h6 {
+      color: var(--gold);
+      font-size: 14px;
+      margin-bottom: var(--space-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .ingredients-list,
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-sm);
+    }
+    
+    .ingredient-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm);
+      background: rgba(30, 33, 34, 0.6);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(205, 184, 124, 0.1);
+    }
+    
+    .ingredient-item:hover:not(.base-ingredient) {
+      background: rgba(205, 184, 124, 0.1);
+      border-color: rgba(205, 184, 124, 0.3);
+    }
+    
+    .ingredient-item.base-ingredient {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: rgba(128, 128, 128, 0.2);
+    }
+    
+    .ingredient-item input[type="checkbox"] {
+      accent-color: var(--gold);
+      transform: scale(1.2);
+    }
+    
+    .ingredient-item input[type="checkbox"]:disabled {
+      opacity: 0.5;
+    }
+    
+    .ingredient-name {
+      flex: 1;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    
+    .ingredient-price {
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 12px;
+    }
+    
+    .ingredient-item small {
+      color: rgba(251, 244, 232, 0.5);
+      font-size: 11px;
+      margin-left: auto;
+    }
+    
+    .price-update {
+      background: var(--gradient-gold);
+      color: var(--rich-black);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: var(--space-lg);
+      box-shadow: var(--shadow-card);
+    }
+    
+    .add-ingredient:has(input:checked) {
+      background: rgba(205, 184, 124, 0.2) !important;
+      border-color: var(--gold) !important;
+      transform: scale(1.02);
+    }
+    
+    .ingredient-item:has(input:checked) .ingredient-name {
+      color: var(--gold);
     }
     
     /* TÍTULOS */
@@ -1718,10 +1921,22 @@
         grid-template-columns: 80px 1fr !important;
       }
       
+      /* Normalizar pizza personalizable en móvil */
+      .pizza-card.pizza-personalizable {
+        background: linear-gradient(135deg, #fff0f0 0%, var(--cream) 100%) !important;
+        border: 2px solid #ff6b6b !important;
+        box-shadow: 0 4px 16px rgba(255, 107, 107, 0.2) !important;
+        padding: 1rem !important;
+        min-height: auto !important;
+        grid-template-columns: 80px 1fr !important;
+      }
+      
       /* Eliminar elementos especiales que rompan el layout */
       .pizza-card.pizza-del-mes::before,
       .pizza-card.pizza-del-mes::after,
-      .pizza-card.premium::before {
+      .pizza-card.premium::before,
+      .pizza-card.pizza-personalizable::before,
+      .pizza-card.pizza-personalizable::after {
         display: none !important;
       }
       
@@ -1810,6 +2025,11 @@
         background: var(--gradient-accent) !important;
         color: white !important;
         border: none !important;
+      }
+      
+      .badge.personalizable {
+        border-color: #ff6b6b !important;
+        color: #ff6b6b !important;
       }
       
       /* Ocultar detalles en móvil */
@@ -1933,6 +2153,72 @@
         content: '+' !important;
         font-size: 18px !important;
         color: white !important;
+      }
+      
+      .pizza-card.pizza-personalizable .pizza-name {
+        color: #ff6b6b !important;
+        font-size: 1.125rem !important;
+        font-weight: 600 !important;
+      }
+      
+      .pizza-card.pizza-personalizable .pizza-price {
+        color: #ff6b6b !important;
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+      }
+      
+      .pizza-card.pizza-personalizable .add-to-cart-btn {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%) !important;
+        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4) !important;
+      }
+      
+      .pizza-card.pizza-personalizable .add-to-cart-btn::after {
+        content: '+' !important;
+        font-size: 18px !important;
+        color: white !important;
+      }
+      
+      /* Estilos de personalización optimizados para móvil */
+      .customization-container {
+        margin-top: 1rem !important;
+        padding: 1rem !important;
+        background: rgba(255, 107, 107, 0.05) !important;
+        border: 1px solid rgba(255, 107, 107, 0.2) !important;
+        border-radius: 12px !important;
+      }
+      
+      .customization-title {
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      
+      .customization-subtitle {
+        font-size: 0.875rem !important;
+        margin-bottom: 1rem !important;
+      }
+      
+      .ingredients-list,
+      .ingredients-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+      }
+      
+      .ingredient-item {
+        padding: 0.75rem !important;
+        font-size: 0.875rem !important;
+        border-radius: 8px !important;
+      }
+      
+      .ingredient-category h6 {
+        font-size: 0.875rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      
+      .price-update {
+        padding: 1rem !important;
+        font-size: 1.125rem !important;
+        margin-top: 1rem !important;
+        border-radius: 8px !important;
       }
       
       /* Galerias en móvil */
@@ -2233,6 +2519,44 @@
       }
     };
 
+    // INGREDIENTES DISPONIBLES PARA PERSONALIZACIÓN
+    const ingredientesDisponibles = {
+      // Ingredientes base (incluidos por defecto)
+      'tomate san marzano': { nombre: 'Tomate San Marzano', precio: 0, categoria: 'base' },
+      'fior di latte': { nombre: 'Fior di Latte', precio: 0, categoria: 'base' },
+      
+      // Ingredientes normales (+1€)
+      'jamón cocido': { nombre: 'Jamón Cocido', precio: 1, categoria: 'carne' },
+      'jamón serrano': { nombre: 'Jamón Serrano', precio: 1, categoria: 'carne' },
+      'peperonni': { nombre: 'Pepperoni', precio: 1, categoria: 'carne' },
+      'salchicha italiana': { nombre: 'Salchicha Italiana', precio: 1, categoria: 'carne' },
+      'salmón ahumado': { nombre: 'Salmón Ahumado', precio: 1, categoria: 'pescado' },
+      
+      'champiñones': { nombre: 'Champiñones', precio: 1, categoria: 'verdura' },
+      'cebolla': { nombre: 'Cebolla', precio: 1, categoria: 'verdura' },
+      'tomate natural': { nombre: 'Tomate Natural', precio: 1, categoria: 'verdura' },
+      'tomate cherry': { nombre: 'Tomate Cherry', precio: 1, categoria: 'verdura' },
+      'aceitunas negras': { nombre: 'Aceitunas Negras', precio: 1, categoria: 'verdura' },
+      'aceitunas': { nombre: 'Aceitunas', precio: 1, categoria: 'verdura' },
+      'alcachofa': { nombre: 'Alcachofa', precio: 1, categoria: 'verdura' },
+      'friarielli': { nombre: 'Friarielli', precio: 1, categoria: 'verdura' },
+      'berenjena': { nombre: 'Berenjena', precio: 1, categoria: 'verdura' },
+      'rúcula': { nombre: 'Rúcula', precio: 1, categoria: 'verdura' },
+      'albahaca': { nombre: 'Albahaca', precio: 1, categoria: 'verdura' },
+      'cebolla caramelizada': { nombre: 'Cebolla Caramelizada', precio: 1, categoria: 'verdura' },
+      
+      'pecorino': { nombre: 'Pecorino', precio: 1, categoria: 'queso' },
+      'gorgonzola': { nombre: 'Gorgonzola', precio: 1, categoria: 'queso' },
+      'grana padano': { nombre: 'Grana Padano', precio: 1, categoria: 'queso' },
+      'queso philadelphia': { nombre: 'Queso Philadelphia', precio: 1, categoria: 'queso' },
+      'queso de cabra': { nombre: 'Queso de Cabra', precio: 1, categoria: 'queso' },
+      'pesto serrano': { nombre: 'Pesto Serrano', precio: 1, categoria: 'salsa' },
+      
+      // Ingredientes premium (+2€)
+      'mozzarella di bufala': { nombre: 'Mozzarella di Bufala', precio: 2, categoria: 'queso premium' },
+      'burrata': { nombre: 'Burrata', precio: 2, categoria: 'queso premium' }
+    };
+
     // DATOS AMPLIADOS DE PRODUCTOS
     const productos = [
       { 
@@ -2242,10 +2566,12 @@
         imagen: 'images/Focaccia.png', 
         categoria: 'entrantes', 
         ingredientes: 'Base de pizza con mantequilla de ajo y romero.',
+        ingredientesArray: ['mantequilla de ajo', 'romero'],
         calorias: 180,
         alergenos: ['gluten'],
         popular: false,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Nuestra focaccia artesanal se prepara con masa madre y se hornea con aceite de oliva extra virgen, ajo fresco y romero del mediterráneo.'
       },
       { 
@@ -2255,10 +2581,12 @@
         imagen: 'images/Margarita.png', 
         categoria: 'pizzas', 
         ingredientes: 'Tomate San Marzano, fior di latte y albahaca.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'albahaca'],
         calorias: 250,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: true,
+        personalizable: true,
         descripcion: 'La clásica pizza italiana con tomates San Marzano DOP, mozzarella fresca y albahaca. Simplemente perfecta.'
       },
       { 
@@ -2268,10 +2596,12 @@
         imagen: 'images/Prosciutto.png', 
         categoria: 'pizzas', 
         ingredientes: 'Tomate San Marzano, fior di latte y jamón cocido.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón cocido'],
         calorias: 290,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: false,
+        personalizable: true,
         descripcion: 'Pizza clásica con jamón cocido de la mejor calidad, tomate San Marzano y mozzarella fresca.'
       },
       { 
@@ -2281,10 +2611,12 @@
         imagen: 'images/Quatro formaggi.png', 
         categoria: 'pizzas', 
         ingredientes: 'Fior di latte, pecorino, gorgonzola y grana padano.',
+        ingredientesArray: ['fior di latte', 'pecorino', 'gorgonzola', 'grana padano'],
         calorias: 320,
         alergenos: ['gluten', 'lácteos'],
         popular: false,
         vegetariano: true,
+        personalizable: true,
         descripcion: 'Una sinfonía de quesos italianos: mozzarella, pecorino, gorgonzola y grana padano. Para los amantes del queso.'
       },
       { 
@@ -2294,10 +2626,12 @@
         imagen: 'images/Capriciossa.png', 
         categoria: 'pizzas', 
         ingredientes: 'Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'champiñones', 'jamón cocido', 'aceitunas', 'alcachofa'],
         calorias: 310,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: false,
+        personalizable: true,
         descripcion: 'Pizza completa con jamón, champiñones, alcachofas y aceitunas. Una explosión de sabores mediterráneos.'
       },
       { 
@@ -2307,10 +2641,12 @@
         imagen: 'images/LeonardoDaVinci.png', 
         categoria: 'pizzas', 
         ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'salmón ahumado', 'queso philadelphia', 'rúcula'],
         calorias: 340,
         alergenos: ['gluten', 'lácteos', 'pescado'],
         popular: true,
         vegetariano: false,
+        personalizable: true,
         descripcion: 'Nuestra pizza gourmet con salmón ahumado, queso philadelphia y rúcula fresca. Una obra maestra culinaria.'
       },
       { 
@@ -2320,10 +2656,12 @@
         imagen: 'images/SalchichaFriarielli.png', 
         categoria: 'pizzas', 
         ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.',
+        ingredientesArray: ['fior di latte', 'jamón serrano', 'salchicha italiana', 'friarielli'],
         calorias: 330,
         alergenos: ['gluten', 'lácteos'],
         popular: false,
         vegetariano: false,
+        personalizable: true,
         descripcion: 'Pizza napolitana auténtica con salchicha italiana y friarielli (brócoli napolitano). Sabor tradicional intenso.'
       },
       { 
@@ -2333,10 +2671,12 @@
         imagen: 'images/Bufala.png', 
         categoria: 'pizzas', 
         ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.',
+        ingredientesArray: ['tomate san marzano', 'mozzarella di bufala', 'tomate cherry', 'pesto serrano', 'albahaca'],
         calorias: 280,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: true,
+        personalizable: true,
         descripcion: 'Pizza premium con auténtica mozzarella di bufala DOP, tomates cherry y pesto de albahaca.'
       },
       { 
@@ -2346,10 +2686,12 @@
         imagen: 'images/Peperonni.png', 
         categoria: 'pizzas', 
         ingredientes: 'Fior di latte, salsa y peperonni.',
+        ingredientesArray: ['fior di latte', 'peperonni'],
         calorias: 300,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: false,
+        personalizable: true,
         picante: true,
         descripcion: 'Pizza americana clásica con pepperoni picante y abundante queso mozzarella.'
       },
@@ -2360,10 +2702,12 @@
         imagen: 'images/Vegetariana.png', 
         categoria: 'pizzas', 
         ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, aceitunas negras.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'cebolla', 'champiñones', 'tomate natural', 'aceitunas negras'],
         calorias: 240,
         alergenos: ['gluten', 'lácteos'],
         popular: false,
         vegetariano: true,
+        personalizable: true,
         descripcion: 'Pizza vegetariana con verduras frescas de temporada: champiñones, cebolla, tomate y aceitunas.'
       },
       { 
@@ -2373,10 +2717,12 @@
         imagen: 'images/Calzone Traditionale.png', 
         categoria: 'calzones', 
         ingredientes: 'San marzano, fior di latte y jamón cocido.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón cocido'],
         calorias: 380,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: false,
+        personalizable: true,
         descripcion: 'Calzone tradicional napolitano relleno de tomate, mozzarella y jamón, horneado hasta quedar dorado.'
       },
       { 
@@ -2386,10 +2732,12 @@
         imagen: 'images/Calzone Pepperoni.png', 
         categoria: 'calzones', 
         ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón serrano', 'peperonni'],
         calorias: 400,
         alergenos: ['gluten', 'lácteos'],
         popular: false,
         vegetariano: false,
+        personalizable: true,
         picante: true,
         descripcion: 'Calzone relleno de pepperoni picante, jamón y queso mozzarella. Intenso y sabroso.'
       },
@@ -2400,10 +2748,12 @@
         imagen: 'images/Calzone Vegetariano.png', 
         categoria: 'calzones', 
         ingredientes: 'Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'champiñones', 'tomate natural', 'berenjena'],
         calorias: 350,
         alergenos: ['gluten', 'lácteos'],
         popular: false,
         vegetariano: true,
+        personalizable: true,
         descripcion: 'Calzone vegetariano con verduras mediterráneas: champiñones, berenjena y tomate fresco.'
       },
       { 
@@ -2416,6 +2766,7 @@
         alergenos: [],
         popular: true,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Coca-Cola original en lata de 33cl. Refrescante y perfecta para acompañar cualquier comida.'
       },
       { 
@@ -2428,6 +2779,7 @@
         alergenos: [],
         popular: true,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Coca-Cola Zero en lata de 33cl. Todo el sabor sin azúcar.'
       },
       { 
@@ -2440,6 +2792,7 @@
         alergenos: [],
         popular: false,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Bebida isotónica con sabor a limón. Perfecta para hidratarse.'
       },
       { 
@@ -2452,6 +2805,7 @@
         alergenos: [],
         popular: false,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Fanta de limón en lata de 33cl. Refrescante y con sabor cítrico.'
       },
       { 
@@ -2464,6 +2818,7 @@
         alergenos: [],
         popular: true,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Fanta naranja en lata de 33cl. Sabor frutal y burbujeante.'
       },
       { 
@@ -2476,6 +2831,7 @@
         alergenos: [],
         popular: false,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Té helado Nestea con sabor a limón. Refrescante y natural.'
       },
       { 
@@ -2488,6 +2844,7 @@
         alergenos: ['gluten'],
         popular: true,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Cerveza rubia de 33cl. Perfecta para acompañar pizza. +18 años.'
       },
       { 
@@ -2500,6 +2857,7 @@
         alergenos: ['lácteos', 'huevos'],
         popular: true,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Helado premium Ben & Jerry\'s de chocolate con trozos de brownie y fudge.'
       },
       { 
@@ -2512,6 +2870,7 @@
         alergenos: ['lácteos'],
         popular: false,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Helado premium Ben & Jerry\'s de fresa con trozos de fruta natural.'
       },
       { 
@@ -2524,6 +2883,7 @@
         alergenos: ['lácteos', 'frutos secos'],
         popular: false,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Helado premium Ben & Jerry\'s de mantequilla de cacahuete con trozos crujientes.'
       },
       { 
@@ -2536,6 +2896,7 @@
         alergenos: ['lácteos', 'gluten', 'huevos'],
         popular: true,
         vegetariano: true,
+        personalizable: false,
         descripcion: 'Helado premium Ben & Jerry\'s de vainilla con trozos de masa de galleta.'
       },
       { 
@@ -2545,12 +2906,31 @@
         imagen: 'images/PizzaDelMes.png', 
         categoria: 'pizzas',
         ingredientes: 'Queso de cabra y cebolla caramelizada',
+        ingredientesArray: ['tomate san marzano', 'fior di latte', 'queso de cabra', 'cebolla caramelizada'],
         calorias: 320,
         alergenos: ['gluten', 'lácteos'],
         popular: true,
         vegetariano: true,
+        personalizable: true,
         pizzaDelMes: true,
         descripcion: 'Una combinación dulce y salada que nunca falla. Base de fior di latte, suave queso de cabra y cebolla caramelizada al punto. Intensa, cremosa y con ese toque gourmet que engancha desde el primer bocado. Ideal si buscas algo diferente, sabroso y brutalmente adictivo.'
+      },
+      { 
+        id: 26, 
+        nombre: "Pizza Personalizable", 
+        precio: 8, 
+        imagen: 'images/PizzaPersonalizable.png', 
+        categoria: 'pizzas',
+        ingredientes: 'Tomate San Marzano y fior di latte (base)',
+        ingredientesArray: ['tomate san marzano', 'fior di latte'],
+        ingredientesExtra: [],
+        calorias: 200,
+        alergenos: ['gluten', 'lácteos'],
+        popular: false,
+        vegetariano: true,
+        personalizable: true,
+        pizzaPersonalizable: true,
+        descripcion: 'Crea tu pizza perfecta con nuestra base de tomate San Marzano y mozzarella fresca. Añade todos los ingredientes que quieras.'
       }
     ];
 
@@ -2563,6 +2943,225 @@
     let descuentoActual = 0;
     let cantidadProductoSeleccionado = {};
     let productoModalActual = null;
+    let personalizacionActual = {}; // Para almacenar las personalizaciones del modal
+
+    // FUNCIONES DE PERSONALIZACIÓN
+    function calcularPrecioPersonalizado(producto, ingredientesQuitados = [], ingredientesAnadidos = []) {
+      let precioBase = producto.precio;
+      
+      if (producto.pizzaPersonalizable) {
+        // Para pizza personalizable, solo contar ingredientes añadidos
+        ingredientesAnadidos.forEach(ingrediente => {
+          const infoIngrediente = ingredientesDisponibles[ingrediente.toLowerCase()];
+          if (infoIngrediente) {
+            precioBase += infoIngrediente.precio;
+          }
+        });
+      } else {
+        // Para pizzas normales, solo añadir ingredientes extra (quitar ingredientes no afecta el precio)
+        ingredientesAnadidos.forEach(ingrediente => {
+          const infoIngrediente = ingredientesDisponibles[ingrediente.toLowerCase()];
+          if (infoIngrediente) {
+            precioBase += infoIngrediente.precio;
+          }
+        });
+      }
+      
+      return precioBase;
+    }
+
+    function obtenerIngredientesFinales(producto, ingredientesQuitados = [], ingredientesAnadidos = []) {
+      let ingredientesFinales = [...(producto.ingredientesArray || [])];
+      
+      // Quitar ingredientes
+      ingredientesFinales = ingredientesFinales.filter(ing => 
+        !ingredientesQuitados.some(quitado => quitado.toLowerCase() === ing.toLowerCase())
+      );
+      
+      // Añadir ingredientes nuevos
+      ingredientesAnadidos.forEach(ingrediente => {
+        if (!ingredientesFinales.some(ing => ing.toLowerCase() === ingrediente.toLowerCase())) {
+          ingredientesFinales.push(ingrediente);
+        }
+      });
+      
+      return ingredientesFinales;
+    }
+
+    function generarTextoPersonalizacion(ingredientesQuitados = [], ingredientesAnadidos = []) {
+      let texto = '';
+      
+      if (ingredientesQuitados.length > 0) {
+        const nombresQuitados = ingredientesQuitados.map(ing => {
+          const info = ingredientesDisponibles[ing.toLowerCase()];
+          return info ? info.nombre : ing;
+        });
+        texto += `Sin: ${nombresQuitados.join(', ')}`;
+      }
+      
+      if (ingredientesAnadidos.length > 0) {
+        if (texto) texto += ' | ';
+        const nombresAnadidos = ingredientesAnadidos.map(ing => {
+          const info = ingredientesDisponibles[ing.toLowerCase()];
+          return info ? info.nombre : ing;
+        });
+        texto += `Extra: ${nombresAnadidos.join(', ')}`;
+      }
+      
+      return texto;
+    }
+
+    function crearSelectorIngredientes(producto) {
+      if (!producto.personalizable) return '';
+      
+      const categoriasOrden = ['base', 'carne', 'pescado', 'queso', 'queso premium', 'verdura', 'salsa'];
+      const categoriasPorNombre = {
+        'base': 'Base',
+        'carne': 'Carnes',
+        'pescado': 'Pescados',
+        'queso': 'Quesos',
+        'queso premium': 'Quesos Premium',
+        'verdura': 'Verduras',
+        'salsa': 'Salsas'
+      };
+      
+      let html = '<div class="customization-container">';
+      
+      if (producto.pizzaPersonalizable) {
+        html += '<h4 class="customization-title">🍕 Añade ingredientes a tu pizza</h4>';
+        html += '<p class="customization-subtitle">Ingredientes normales +1€ | Burrata y Bufala +2€</p>';
+      } else {
+        html += '<h4 class="customization-title">🎨 Personaliza tu pizza</h4>';
+        html += '<p class="customization-subtitle">Quita ingredientes gratis | Añade extras con cargo</p>';
+      }
+      
+      // Mostrar ingredientes actuales si no es personalizable
+      if (!producto.pizzaPersonalizable && producto.ingredientesArray) {
+        html += '<div class="current-ingredients">';
+        html += '<h5>Ingredientes actuales:</h5>';
+        html += '<div class="ingredients-list">';
+        
+        producto.ingredientesArray.forEach(ingrediente => {
+          const info = ingredientesDisponibles[ingrediente.toLowerCase()];
+          const nombre = info ? info.nombre : ingrediente;
+          const isBase = info && info.categoria === 'base';
+          
+          html += `
+            <label class="ingredient-item ${isBase ? 'base-ingredient' : ''}">
+              <input type="checkbox" 
+                     class="ingredient-remove" 
+                     data-ingredient="${ingrediente}" 
+                     ${isBase ? 'disabled' : ''}
+                     onchange="toggleIngredienteQuitar('${ingrediente}')">
+              <span class="ingredient-name">${nombre}</span>
+              ${isBase ? '<small>(base - no se puede quitar)</small>' : '<small>(quitar gratis)</small>'}
+            </label>
+          `;
+        });
+        
+        html += '</div></div>';
+      }
+      
+      // Mostrar ingredientes para añadir por categorías
+      html += '<div class="add-ingredients">';
+      html += '<h5>Ingredientes para añadir:</h5>';
+      
+      categoriasOrden.forEach(categoria => {
+        const ingredientesCategoria = Object.entries(ingredientesDisponibles)
+          .filter(([key, info]) => info.categoria === categoria)
+          .filter(([key]) => {
+            // Para pizza personalizable, excluir ingredientes base que ya tiene
+            if (producto.pizzaPersonalizable && producto.ingredientesArray?.includes(key)) {
+              return false;
+            }
+            // Para pizzas normales, excluir ingredientes que ya tiene
+            if (!producto.pizzaPersonalizable && producto.ingredientesArray?.includes(key)) {
+              return false;
+            }
+            return true;
+          });
+        
+        if (ingredientesCategoria.length > 0) {
+          html += `<div class="ingredient-category">`;
+          html += `<h6>${categoriasPorNombre[categoria]}</h6>`;
+          html += `<div class="ingredients-grid">`;
+          
+          ingredientesCategoria.forEach(([key, info]) => {
+            const precioTexto = info.precio === 0 ? 'Incluido' : `+${formatearPrecio(info.precio)}`;
+            html += `
+              <label class="ingredient-item add-ingredient">
+                <input type="checkbox" 
+                       class="ingredient-add" 
+                       data-ingredient="${key}" 
+                       data-price="${info.precio}"
+                       onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
+                <span class="ingredient-name">${info.nombre}</span>
+                <span class="ingredient-price">${precioTexto}</span>
+              </label>
+            `;
+          });
+          
+          html += '</div></div>';
+        }
+      });
+      
+      html += '</div>';
+      html += '<div class="price-update" id="price-update">Precio: <span id="current-price">' + formatearPrecio(producto.precio) + '</span></div>';
+      html += '</div>';
+      
+      return html;
+    }
+
+    function toggleIngredienteQuitar(ingrediente) {
+      if (!personalizacionActual.ingredientesQuitados) {
+        personalizacionActual.ingredientesQuitados = [];
+      }
+      
+      const index = personalizacionActual.ingredientesQuitados.indexOf(ingrediente);
+      if (index > -1) {
+        personalizacionActual.ingredientesQuitados.splice(index, 1);
+      } else {
+        personalizacionActual.ingredientesQuitados.push(ingrediente);
+      }
+      
+      actualizarPrecioModal();
+    }
+
+    function toggleIngredienteAnadir(ingrediente, precio) {
+      if (!personalizacionActual.ingredientesAnadidos) {
+        personalizacionActual.ingredientesAnadidos = [];
+      }
+      
+      const index = personalizacionActual.ingredientesAnadidos.indexOf(ingrediente);
+      if (index > -1) {
+        personalizacionActual.ingredientesAnadidos.splice(index, 1);
+      } else {
+        personalizacionActual.ingredientesAnadidos.push(ingrediente);
+      }
+      
+      actualizarPrecioModal();
+    }
+
+    function actualizarPrecioModal() {
+      if (!productoModalActual) return;
+      
+      const precioActualizado = calcularPrecioPersonalizado(
+        productoModalActual, 
+        personalizacionActual.ingredientesQuitados || [], 
+        personalizacionActual.ingredientesAnadidos || []
+      );
+      
+      const priceElement = document.getElementById('current-price');
+      if (priceElement) {
+        priceElement.textContent = formatearPrecio(precioActualizado);
+      }
+      
+      // Actualizar también el precio principal del modal
+      const modalPrice = document.getElementById('product-modal-price');
+      if (modalPrice) {
+        modalPrice.textContent = formatearPrecio(precioActualizado);
+      }
+    }
 
     // UTILIDADES
     function formatearPrecio(precio) {
@@ -2604,6 +3203,7 @@
         localStorage.setItem('fratelli-pazzi-favoritos', JSON.stringify(favoritos));
         localStorage.setItem('fratelli-pazzi-cupones', JSON.stringify(CONFIG.cupones));
         localStorage.setItem('fratelli-pazzi-cantidades', JSON.stringify(cantidadProductoSeleccionado));
+        localStorage.setItem('fratelli-pazzi-personalizaciones', JSON.stringify(personalizacionActual));
       } catch (error) {
         console.warn('No se pudo guardar los datos:', error);
       }
@@ -2616,6 +3216,7 @@
         const favoritosGuardados = localStorage.getItem('fratelli-pazzi-favoritos');
         const cuponesGuardados = localStorage.getItem('fratelli-pazzi-cupones');
         const cantidadesGuardadas = localStorage.getItem('fratelli-pazzi-cantidades');
+        const personalizacionesGuardadas = localStorage.getItem('fratelli-pazzi-personalizaciones');
         
         if (carritoGuardado) {
           carrito = JSON.parse(carritoGuardado);
@@ -2628,6 +3229,9 @@
         }
         if (cantidadesGuardadas) {
           cantidadProductoSeleccionado = JSON.parse(cantidadesGuardadas);
+        }
+        if (personalizacionesGuardadas) {
+          personalizacionActual = JSON.parse(personalizacionesGuardadas);
         }
         
         actualizarCarrito();
@@ -2665,6 +3269,11 @@
         card.classList.add('pizza-del-mes');
       }
       
+      // Añadir clase especial para Pizza Personalizable
+      if (producto.pizzaPersonalizable) {
+        card.classList.add('pizza-personalizable');
+      }
+      
       card.setAttribute('data-producto-id', producto.id);
       card.setAttribute('data-nombre', producto.nombre.toLowerCase());
       card.setAttribute('data-ingredientes', (producto.ingredientes || '').toLowerCase());
@@ -2672,6 +3281,12 @@
       card.setAttribute('data-categoria', producto.categoria);
       
       const badges = obtenerBadges(producto);
+      
+      // Añadir badge de personalizable
+      if (producto.personalizable) {
+        badges.push({ text: 'Personalizable', class: 'personalizable' });
+      }
+      
       const badgesHtml = badges.map(badge => 
         `<span class="badge ${badge.class}">${badge.text}</span>`
       ).join('');
@@ -2679,11 +3294,17 @@
       const ingredientesHtml = producto.ingredientes ? 
         `<div class="pizza-ingredients">${producto.ingredientes}</div>` : '';
       
+      // Imagen especial para pizza personalizable
+      let imagenSrc = producto.imagen;
+      if (producto.pizzaPersonalizable) {
+        imagenSrc = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwaXp6YUJhc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmY3ZTY7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmZlNGIzO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJ0b21hdGUiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZjY2NjY7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY0NDQ0O3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNzUiIHI9IjcwIiBmaWxsPSJ1cmwoI3BpenphQmFzZSkiIHN0cm9rZT0iI2RkYzU4OSIgc3Ryb2tlLXdpZHRoPSIzIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNjAiIGZpbGw9InVybCgjdG9tYXRlKSIgb3BhY2l0eT0iMC44Ii8+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNDUiIGZpbGw9IiNmZmY3ZTYiIG9wYWNpdHk9IjAuOSIvPjx0ZXh0IHg9Ijc1IiB5PSI2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmY2YjZiIj7wn46oPC90ZXh0Pjx0ZXh0IHg9Ijc1IiB5PSI5NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNjY2IiBmb250LXdlaWdodD0iNjAwIj5QZXJzb25hbGl6YWJsZTwvdGV4dD48L3N2Zz4=';
+      }
+      
       const cantidad = cantidadProductoSeleccionado[producto.id] || 1;
       
       card.innerHTML = `
         <div class="pizza-card-image">
-          <img src="${producto.imagen}" 
+          <img src="${imagenSrc}" 
                alt="${producto.nombre}" 
                loading="lazy"
                onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNzAiIGZpbGw9IiNGOEY5RkEiIHN0cm9rZT0iI0RFRTJFNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNzUiIHk9Ijg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiM2Qzc1N0QiPvCfjaU8L3RleHQ+PC9zdmc+'">
@@ -2711,7 +3332,6 @@
             <div class="price-container">
               <div class="pizza-price">${formatearPrecio(producto.precio)}</div>
             </div>
-          </div>
             <div class="quantity-selector">
               <button onclick="cambiarCantidadProducto(${producto.id}, -1)" 
                       aria-label="Disminuir cantidad">-</button>
@@ -2833,13 +3453,18 @@
             if (mostrar) {
               const card = crearTarjetaProducto(producto);
               
-              // Añadir clase premium si es necesario
+              // Añadir clase premium o especial si es necesario
               if (filtro === 'premium') {
                 if (producto.pizzaDelMes) {
                   card.classList.add('pizza-del-mes');
                 } else {
                   card.classList.add('premium');
                 }
+              }
+              
+              // Añadir clase para pizza personalizable
+              if (producto.pizzaPersonalizable) {
+                card.classList.add('pizza-personalizable');
               }
               
               searchGaleria.appendChild(card);
@@ -2926,13 +3551,17 @@
             if (favoritos.includes(producto.id)) {
               const card = crearTarjetaProducto(producto);
               
-              // Añadir clase premium o pizza del mes si es necesario
+              // Añadir clase premium, pizza del mes o personalizable si es necesario
               if (producto.categoria === 'pizzas' && producto.precio > 12) {
                 if (producto.pizzaDelMes) {
                   card.classList.add('pizza-del-mes');
                 } else {
                   card.classList.add('premium');
                 }
+              }
+              
+              if (producto.pizzaPersonalizable) {
+                card.classList.add('pizza-personalizable');
               }
               
               searchGaleria.appendChild(card);
@@ -2965,6 +3594,10 @@
         if (!producto) return;
         
         productoModalActual = producto;
+        personalizacionActual = {
+          ingredientesQuitados: [],
+          ingredientesAnadidos: []
+        };
         
         const modal = document.getElementById('product-modal');
         const imagen = document.getElementById('product-modal-image');
@@ -2981,8 +3614,8 @@
         descripcion.textContent = producto.descripcion || producto.ingredientes;
         cantidad.textContent = cantidadProductoSeleccionado[productoId] || 1;
         
-        // Crear tarjetas de detalles
-        detalles.innerHTML = `
+        // Crear tarjetas de detalles básicos
+        let detallesHtml = `
           <div class="detail-card">
             <div class="detail-card-title">Calorías</div>
             <div class="detail-card-value">${producto.calorias} cal</div>
@@ -2992,6 +3625,13 @@
             <div class="detail-card-value">${producto.alergenos?.join(', ') || 'Ninguno'}</div>
           </div>
         `;
+        
+        // Añadir personalización si es aplicable
+        if (producto.personalizable) {
+          detallesHtml += crearSelectorIngredientes(producto);
+        }
+        
+        detalles.innerHTML = detallesHtml;
         
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
@@ -3010,6 +3650,7 @@
         modal.classList.remove('show');
         document.body.style.overflow = 'auto';
         productoModalActual = null;
+        personalizacionActual = {}; // Limpiar personalización
       } catch (error) {
         manejarError(error, 'Error al cerrar modal');
       }
@@ -3052,7 +3693,7 @@
         
         setTimeout(() => {
           for (let i = 0; i < cantidadModal; i++) {
-            agregarAlCarrito(productoModalActual.id, false);
+            agregarAlCarrito(productoModalActual.id, false, personalizacionActual);
           }
           
           btn.classList.remove('loading');
@@ -3088,7 +3729,7 @@
     }
 
     // FUNCIONES DEL CARRITO
-    function agregarAlCarrito(productoId, mostrarNotif = true) {
+    function agregarAlCarrito(productoId, mostrarNotif = true, personalizacion = null) {
       try {
         const producto = productos.find(p => p.id === productoId);
         if (!producto) {
@@ -3098,24 +3739,60 @@
         
         const cantidadSeleccionada = cantidadProductoSeleccionado[productoId] || 1;
         
-        console.log('🛒 Añadiendo:', producto.nombre, `${cantidadSeleccionada}x`, formatearPrecio(producto.precio));
+        // Crear objeto de personalización si existe
+        const personalizacionFinal = personalizacion || {
+          ingredientesQuitados: [],
+          ingredientesAnadidos: []
+        };
         
-        const existente = carrito.find(item => item.id === productoId);
+        // Calcular precio con personalizaciones
+        const precioFinal = calcularPrecioPersonalizado(
+          producto, 
+          personalizacionFinal.ingredientesQuitados || [], 
+          personalizacionFinal.ingredientesAnadidos || []
+        );
+        
+        // Generar ID único para productos personalizados
+        const personalizacionId = JSON.stringify(personalizacionFinal);
+        const itemId = `${productoId}_${btoa(personalizacionId).replace(/[^a-zA-Z0-9]/g, '')}`;
+        
+        console.log('🛒 Añadiendo:', producto.nombre, `${cantidadSeleccionada}x`, formatearPrecio(precioFinal));
+        
+        // Buscar si ya existe el mismo producto con la misma personalización
+        const existente = carrito.find(item => item.itemId === itemId);
         if (existente) {
           existente.cantidad += cantidadSeleccionada;
         } else {
-          carrito.push({ 
+          const nuevoItem = { 
+            itemId: itemId,
             id: productoId,
             nombre: producto.nombre, 
-            precio: producto.precio, 
+            precio: producto.precio,
+            precioFinal: precioFinal,
             cantidad: cantidadSeleccionada,
             imagen: producto.imagen,
-            categoria: producto.categoria
-          });
+            categoria: producto.categoria,
+            personalizacion: personalizacionFinal
+          };
+          
+          carrito.push(nuevoItem);
         }
         
         actualizarCarrito();
         guardarDatos();
+        
+        // Mostrar notificación con personalización
+        if (mostrarNotif) {
+          let mensaje = `${producto.nombre} añadido al carrito`;
+          const textoPersonalizacion = generarTextoPersonalizacion(
+            personalizacionFinal.ingredientesQuitados || [], 
+            personalizacionFinal.ingredientesAnadidos || []
+          );
+          if (textoPersonalizacion) {
+            mensaje += ` (${textoPersonalizacion})`;
+          }
+          mostrarNotificacion(mensaje, 'success');
+        }
         
         // Animación del botón mejorada
         const button = event?.target || document.querySelector(`[onclick*="agregarAlCarrito(${productoId})"]`);
@@ -3131,9 +3808,9 @@
       }
     }
 
-    function eliminarDelCarrito(productoId) {
+    function eliminarDelCarrito(itemId) {
       try {
-        const index = carrito.findIndex(item => item.id === productoId);
+        const index = carrito.findIndex(item => item.itemId === itemId);
         if (index > -1) {
           const nombreProducto = carrito[index].nombre;
           carrito.splice(index, 1);
@@ -3146,13 +3823,13 @@
       }
     }
 
-    function cambiarCantidad(productoId, cambio) {
+    function cambiarCantidad(itemId, cambio) {
       try {
-        const item = carrito.find(item => item.id === productoId);
+        const item = carrito.find(item => item.itemId === itemId);
         if (item) {
           item.cantidad += cambio;
           if (item.cantidad <= 0) {
-            eliminarDelCarrito(productoId);
+            eliminarDelCarrito(itemId);
           } else {
             actualizarCarrito();
             guardarDatos();
@@ -3168,7 +3845,8 @@
       let totalItems = 0;
       
       carrito.forEach(item => {
-        subtotal += item.precio * item.cantidad;
+        const precioUnitario = item.precioFinal || item.precio;
+        subtotal += precioUnitario * item.cantidad;
         totalItems += item.cantidad;
       });
       
@@ -3248,28 +3926,46 @@
             </div>
           `;
         } else {
-          carritoItems.innerHTML = carrito.map(item => `
-            <div class="carrito-item" role="listitem">
-              <img src="${item.imagen}" alt="${item.nombre}" class="carrito-item-image">
-              <div class="carrito-item-info">
-                <h4>${item.nombre}</h4>
-                <div class="carrito-item-price">${formatearPrecio(item.precio * item.cantidad)}</div>
-                <div class="carrito-item-details">${formatearPrecio(item.precio)} × ${item.cantidad}</div>
+          carritoItems.innerHTML = carrito.map(item => {
+            const precioUnitario = item.precioFinal || item.precio;
+            const precioTotal = precioUnitario * item.cantidad;
+            
+            // Generar texto de personalización
+            let personalizacionTexto = '';
+            if (item.personalizacion) {
+              const textoPersonalizacion = generarTextoPersonalizacion(
+                item.personalizacion.ingredientesQuitados || [], 
+                item.personalizacion.ingredientesAnadidos || []
+              );
+              if (textoPersonalizacion) {
+                personalizacionTexto = `<div class="carrito-item-customization">${textoPersonalizacion}</div>`;
+              }
+            }
+            
+            return `
+              <div class="carrito-item" role="listitem">
+                <img src="${item.imagen}" alt="${item.nombre}" class="carrito-item-image">
+                <div class="carrito-item-info">
+                  <h4>${item.nombre}</h4>
+                  <div class="carrito-item-price">${formatearPrecio(precioTotal)}</div>
+                  <div class="carrito-item-details">${formatearPrecio(precioUnitario)} × ${item.cantidad}</div>
+                  ${personalizacionTexto}
+                </div>
+                <div class="quantity-controls">
+                  <button class="quantity-btn" 
+                          onclick="cambiarCantidad('${item.itemId}', -1)"
+                          aria-label="Disminuir cantidad de ${item.nombre}">-</button>
+                  <span class="quantity-display" aria-label="Cantidad: ${item.cantidad}">${item.cantidad}</span>
+                  <button class="quantity-btn" 
+                          onclick="cambiarCantidad('${item.itemId}', 1)"
+                          aria-label="Aumentar cantidad de ${item.nombre}">+</button>
+                </div>
+                <button class="remove-btn" 
+                        onclick="eliminarDelCarrito('${item.itemId}')"
+                        aria-label="Eliminar ${item.nombre} del carrito">🗑️</button>
               </div>
-              <div class="quantity-controls">
-                <button class="quantity-btn" 
-                        onclick="cambiarCantidad(${item.id}, -1)"
-                        aria-label="Disminuir cantidad de ${item.nombre}">-</button>
-                <span class="quantity-display" aria-label="Cantidad: ${item.cantidad}">${item.cantidad}</span>
-                <button class="quantity-btn" 
-                        onclick="cambiarCantidad(${item.id}, 1)"
-                        aria-label="Aumentar cantidad de ${item.nombre}">+</button>
-              </div>
-              <button class="remove-btn" 
-                      onclick="eliminarDelCarrito(${item.id})"
-                      aria-label="Eliminar ${item.nombre} del carrito">🗑️</button>
-            </div>
-          `).join('');
+            `;
+          }).join('');
         }
       } catch (error) {
         manejarError(error, 'Error al actualizar el carrito');
@@ -3381,6 +4077,7 @@
             cuponAplicado = null;
             descuentoActual = 0;
             cantidadProductoSeleccionado = {};
+            personalizacionActual = {}; // Limpiar personalizaciones
             
             // Resetear cupones usados (solo para demo)
             Object.keys(CONFIG.cupones).forEach(codigo => {
@@ -3488,14 +4185,28 @@
           const nombre = producto.nombre.toLowerCase();
           const ingredientes = (producto.ingredientes || '').toLowerCase();
           const categoria = producto.categoria.toLowerCase();
+          const personalizable = producto.personalizable ? 'personalizable personalizar' : '';
           
           const coincide = nombre.includes(query) || 
                           ingredientes.includes(query) || 
-                          categoria.includes(query);
+                          categoria.includes(query) ||
+                          personalizable.includes(query);
           
           if (coincide) {
             // Crear tarjeta para resultados de búsqueda
             const card = crearTarjetaProducto(producto);
+            
+            // Añadir clases especiales si es necesario
+            if (producto.pizzaDelMes) {
+              card.classList.add('pizza-del-mes');
+            } else if (producto.categoria === 'pizzas' && producto.precio > 12) {
+              card.classList.add('premium');
+            }
+            
+            if (producto.pizzaPersonalizable) {
+              card.classList.add('pizza-personalizable');
+            }
+            
             searchGaleria.appendChild(card);
             resultadosEncontrados++;
           }
@@ -3730,7 +4441,7 @@
 
     // INICIALIZACIÓN PRINCIPAL
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('🚀 Inicializando Fratelli Pazzi Mejorado...');
+      console.log('🚀 Inicializando Fratelli Pazzi con Personalización...');
       
       try {
         // Detectar si es móvil para optimizaciones
@@ -3805,7 +4516,7 @@
           }, 100);
         }
         
-        console.log('✅ ¡Fratelli Pazzi Mejorado inicializado correctamente!');
+        console.log('✅ ¡Fratelli Pazzi con Personalización inicializado correctamente!');
         
         // Listener para cambios de tamaño de ventana
         window.addEventListener('resize', function() {
@@ -3838,27 +4549,13 @@
         // Mostrar mensaje de bienvenida
         setTimeout(() => {
           const mensaje = isMobile ? 
-            '¡Bienvenido a Fratelli Pazzi! Prueba la Pizza del Mes 🌟' : 
-            '¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕';
+            '¡Bienvenido a Fratelli Pazzi! Prueba la nueva pizza personalizable 🎨🍕' : 
+            '¡Bienvenido a Fratelli Pazzi! Descubre nuestra nueva pizza personalizable y la Pizza del Mes 🎨🌟🍕';
           mostrarNotificacion(mensaje, 'success');
         }, 1000);
         
       } catch (error) {
         manejarError(error, 'Error durante la inicialización');
-      }
-    });
-        document.addEventListener('DOMContentLoaded', () => {
-      // Comprueba si hay recompensas pendientes de canjear
-      const rewardCheck = window.checkForActiveReward?.();
-      if (rewardCheck?.isActive) {
-        rewardCheck.items.forEach(item => {
-          // Aquí usa tu función real para añadir al carrito
-          addToCart(item);
-        });
-        // Borra la recompensa aplicada para que no se repita
-        window.clearActiveReward?.();
-        // Opcional: muestra un mensaje al usuario
-        mostrarNotificacion('¡Tu recompensa se ha aplicado al carrito!', 'success');
       }
     });
 
@@ -3874,8 +4571,12 @@
       carrito,
       favoritos,
       CONFIG,
+      ingredientesDisponibles,
+      personalizacionActual,
       limpiarBusqueda,
-      mostrarNotificacion
+      mostrarNotificacion,
+      calcularPrecioPersonalizado,
+      obtenerIngredientesFinales
     };
 
   </script>
