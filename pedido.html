@@ -1467,7 +1467,7 @@
     }
     
     .customization-section {
-      margin: var(--space-xl) 0 var(--space-xl);
+      margin: var(--space-xl) auto var(--space-xl);
       background: rgba(30, 33, 34, 0.85);
       backdrop-filter: blur(20px);
       border-radius: var(--radius-lg);
@@ -1475,6 +1475,7 @@
       box-shadow: var(--shadow-card);
       border: 1px solid rgba(205, 184, 124, 0.2);
       transition: all 0.3s ease;
+      max-width: 800px;
       width: 100%;
     }
     
@@ -1539,15 +1540,11 @@
       text-align: center;
     }
     
-    .section-subtitle.hide-text {
-      display: none;
-    }
-    
     .ingredients-container {
       padding: 0 var(--space-xl) var(--space-xl);
       background: rgba(30, 33, 34, 0.7);
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: var(--space-sm);
     }
     
@@ -2236,13 +2233,13 @@
       }
       
       .customization-section {
-        margin: 1rem 0 !important;
+        margin: 1rem auto !important;
         background: rgba(30, 33, 34, 0.9) !important;
         backdrop-filter: blur(20px) !important;
         border-radius: 12px !important;
         box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
         border: 1px solid rgba(205, 184, 124, 0.3) !important;
-        width: 100% !important;
+        max-width: 100% !important;
       }
       
       .section-header {
@@ -2266,10 +2263,6 @@
         padding: 0 1rem 0.75rem !important;
         font-style: italic !important;
         text-align: center !important;
-      }
-      
-      .section-subtitle.hide-text {
-        display: none !important;
       }
       
       .section-badge {
@@ -2961,7 +2954,7 @@
             <div class="section-header">
               <h4 class="section-title">Personalizar ${producto.nombre}</h4>
             </div>
-            <p class="section-subtitle hide-text">Puedes quitar hasta 3 ingredientes</p>
+            <p class="section-subtitle">Puedes quitar hasta 3 ingredientes</p>
             <div class="ingredients-container">
         `;
         
@@ -3038,6 +3031,28 @@
     function actualizarInstrucciones(instrucciones) {
       // Función simplificada - ya no se usan instrucciones especiales
       guardarDatos();
+    }
+
+    function actualizarPrecioModal() {
+      if (!productoModalActual) return;
+      
+      const precioActualizado = calcularPrecioPersonalizado(
+        productoModalActual, 
+        personalizacionActual.ingredientesQuitados || [], 
+        personalizacionActual.ingredientesAnadidos || []
+      );
+      
+      const modalAddBtn = document.getElementById('modal-add-btn');
+      if (modalAddBtn) {
+        const cantidad = document.getElementById('modal-quantity');
+        const cantidadTexto = cantidad ? cantidad.textContent : '1';
+        modalAddBtn.innerHTML = `Añade ${cantidadTexto} al carrito • ${formatearPrecio(precioActualizado)}`;
+      }
+      
+      const modalPrice = document.getElementById('product-modal-price');
+      if (modalPrice) {
+        modalPrice.textContent = formatearPrecio(precioActualizado);
+      }
     }
 
     function crearProductos() {
@@ -3352,6 +3367,11 @@
           filtroActual = 'favorites';
         }
         
+      } catch (error) {
+        manejarError(error, 'Error al filtrar favoritos');
+      }
+    }
+
     function abrirProductModal(productoId) {
       try {
         const producto = productos.find(p => p.id === productoId);
@@ -3630,6 +3650,9 @@
       const envio = carrito.length > 0 ? (subtotalConDescuento >= CONFIG.envioGratis ? 0 : CONFIG.envio) : 0;
       const totalFinal = subtotalConDescuento + envio;
       
+      return { subtotal, totalItems, envio, totalFinal, descuento };
+    }
+
     function actualizarCarrito() {
       try {
         const { subtotal, totalItems, envio, totalFinal, descuento } = calcularTotales();
