@@ -1392,12 +1392,13 @@
     }
     
     .product-modal-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-md);
-      margin-bottom: var(--space-xl);
+ 	 display: grid;
+	 grid-template-columns: repeat(2, 1fr);
+ 	 gap: var(--space-md);
     }
-    
+    .product-modal-details .customization-section {
+  grid-column: 1 / -1;
+	}
     .detail-card {
       background: rgba(0, 0, 0, 0.05);
       padding: var(--space-md);
