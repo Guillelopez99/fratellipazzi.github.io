@@ -2565,6 +2565,70 @@
         text-align: center;
       }
     }
+	  /* 1) Aseguramos que todos los textos dentro del modal sean claros */
+.product-modal-content,
+.product-modal-body,
+.product-modal-details,
+.product-modal-details .detail-card,
+.product-modal-details .customization-section {
+  color: var(--cream) !important;
+}
+
+/* Los títulos y subtítulos en la sección de personalización */
+.section-title,
+.section-subtitle {
+  color: var(--gold) !important;
+}
+
+/* Los nombres y precios de ingredientes */
+.ingredient-name,
+.ingredient-price {
+  color: var(--cream) !important;
+}
+
+/* 2) Rediseño de la barra de “Añade al carrito” */
+.product-modal-actions {
+  background: var(--rich-black);
+  border-top: 1px solid rgba(205, 184, 124, 0.2);
+  padding: var(--space-md) var(--space-xl);
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  margin-top: var(--space-lg);
+}
+
+/* Botón destacar y stretch al 100% */
+.product-modal-actions .add-to-cart-btn {
+  flex: 1;
+  background: var(--gradient-accent);
+  color: var(--rich-black);
+  font-weight: 700;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Hover más vivo */
+.product-modal-actions .add-to-cart-btn:hover:not(:disabled) {
+  background: var(--terracota);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Selector de cantidad más legible */
+.product-modal-actions .quantity-selector {
+  background: rgba(205, 184, 124, 0.1);
+  border: 1px solid rgba(205, 184, 124, 0.3);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+}
+
+.product-modal-actions .quantity-selector button {
+  background: var(--gradient-gold);
+  color: var(--rich-black);
+}
+
 
   </style>
 </head>
