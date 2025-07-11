@@ -1333,29 +1333,21 @@
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
       overflow: hidden;
     }
-	 /* overlay de degradado sobre la cabecera */
-.product-modal-header::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 200px;  /* altura del fade: muestra más foto */
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(30,33,34,0) 40%,   /* 0% transparente hasta 40% de la altura */
-    var(--rich-black) 100%  /* luego llaga al 100% con tu fondo */
-  );
-  z-index: 2;
-}
 
 .product-modal-header img {
-  display: block;
-  width: 100%;
-  height: auto;
-  position: relative;
-  z-index: 1;
+  /* degradado de máscara: 0→70% opaco, de 70→100% hace fade a transparente */
+  -webkit-mask-image: linear-gradient(to bottom, 
+    black 0%, 
+    black 70%, 
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, 
+    black 0%, 
+    black 70%, 
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 }
     
     .product-modal-image {
