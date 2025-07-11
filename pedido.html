@@ -1337,19 +1337,23 @@
 .product-modal-header::after {
   content: "";
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 100px;                     /* juega con este valor */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;  /* altura del fade: muestra más foto */
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0) 0%,
-    var(--rich-black) 100%
+    rgba(30,33,34,0) 40%,   /* 0% transparente hasta 40% de la altura */
+    var(--rich-black) 100%  /* luego llaga al 100% con tu fondo */
   );
-  z-index: 2;                        /* importantísimo: debe quedar sobre la img */
+  z-index: 2;
 }
 
-/* y sitúa la img justo por debajo */
 .product-modal-header img {
+  display: block;
+  width: 100%;
+  height: auto;
   position: relative;
   z-index: 1;
 }
