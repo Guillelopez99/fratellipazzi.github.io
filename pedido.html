@@ -1326,22 +1326,38 @@
       animation: scaleIn 0.3s ease;
     }
     
+/* 1) Asegura el stacking context */
 .product-modal-header {
   position: relative;
-  height: 250px;
-  background: var(--gradient-primary);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   overflow: hidden;
 }
 
-    
-.product-modal-image {
+/* 2) La imagen bajo el overlay */
+.product-modal-header .product-modal-image {
   display: block;
   width: 100%;
-  height: 100%;         /* ocupa todo el alto del header */
-  object-fit: cover;    /* recorta/escala manteniendo proporción */
-  /* sombra interna para el fade-bottom */
-  box-shadow: inset 0 -80px 80px -10px rgba(30, 33, 34, 1);
+  height: 100%;
+  object-fit: cover;
+  position: relative;  /* para que z-index funcione */
+  z-index: 0;
+}
+
+/* 3) Overlay suave desde mitad hacia abajo */
+.product-modal-header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(30,33,34,0)   50%,   /* transparente hasta 50% */
+    rgba(30,33,34,0.6) 75%,   /* semitransparente a 75% */
+    rgba(30,33,34,1)   100%   /* opaco al fondo */
+  );
+  z-index: 1;  /* por encima de la imagen */
 }
     
     .product-modal-close {
