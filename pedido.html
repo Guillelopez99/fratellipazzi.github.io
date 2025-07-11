@@ -1334,21 +1334,21 @@
       overflow: hidden;
     }
 
-.product-modal-header img {
-  /* degradado de máscara: 0→70% opaco, de 70→100% hace fade a transparente */
-  -webkit-mask-image: linear-gradient(to bottom, 
-    black 0%, 
-    black 70%, 
-    transparent 100%
+..product-modal-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;  /* sube/baja según necesites */
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(30,33,34,0) 0%,      /* inicia 100% transparente */
+    rgba(30,33,34,0.8) 50%,   /* a mitad ya casi negro */
+    rgba(30,33,34,1) 100%     /* al fondo negro puro */
   );
-  mask-image: linear-gradient(to bottom, 
-    black 0%, 
-    black 70%, 
-    transparent 100%
-  );
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-}
+	}
     
     .product-modal-image {
       width: 100%;
