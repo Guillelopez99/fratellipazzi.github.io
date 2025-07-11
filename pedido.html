@@ -3131,26 +3131,33 @@
     }
 
     function actualizarPrecioModal() {
-      if (!productoModalActual) return;
-      
-      const precioActualizado = calcularPrecioPersonalizado(
-        productoModalActual, 
-        personalizacionActual.ingredientesQuitados || [], 
-        personalizacionActual.ingredientesAnadidos || []
-      );
-      
-      const modalAddBtn = document.getElementById('modal-add-btn');
-      if (modalAddBtn) {
-        const cantidad = document.getElementById('modal-quantity');
-        const cantidadTexto = cantidad ? cantidad.textContent : '1';
-        modalAddBtn.innerHTML = `Añade ${cantidadTexto} al carrito • ${formatearPrecio(precioActualizado)}`;
-      }
-      
-      const modalPrice = document.getElementById('product-modal-price');
-      if (modalPrice) {
-        modalPrice.textContent = formatearPrecio(precioActualizado);
-      }
-    }
+  if (!productoModalActual) return;
+
+  // precio unitario según personalización
+  const precioUnitario = calcularPrecioPersonalizado(
+    productoModalActual,
+    personalizacionActual.ingredientesQuitados || [],
+    personalizacionActual.ingredientesAnadidos || []
+  );
+
+  // lee la cantidad elegida
+  const cantidad = parseInt(document.getElementById('modal-quantity').textContent, 10);
+
+  // calcula precio total
+  const precioTotal = precioUnitario * cantidad;
+
+  // actualiza texto del botón con el total correcto
+  const modalAddBtn = document.getElementById('modal-add-btn');
+  if (modalAddBtn) {
+    modalAddBtn.innerHTML = `Añade ${cantidad} al carrito • ${formatearPrecio(precioTotal)}`;
+  }
+
+  // actualiza el precio unitario en la cabecera (si lo quieres seguir mostrando)
+  const modalPrice = document.getElementById('product-modal-price');
+  if (modalPrice) {
+    modalPrice.textContent = formatearPrecio(precioUnitario);
+  }
+}	
 
     function crearProductos() {
       try {
@@ -3574,30 +3581,26 @@
       }
     }
 
-    function agregarAlCarritoModal() {
-      try {
-        if (!productoModalActual) return;
-        
-        const cantidadModal = parseInt(document.getElementById('modal-quantity').textContent);
-        const btn = document.getElementById('modal-add-btn');
-        
-        btn.classList.add('loading');
-        btn.disabled = true;
-        
-        setTimeout(() => {
-          for (let i = 0; i < cantidadModal; i++) {
-            agregarAlCarrito(productoModalActual.id, false, personalizacionActual);
-          }
-          
-          btn.classList.remove('loading');
-          btn.disabled = false;
-          
-          cerrarProductModal();
-        }, 500);
-      } catch (error) {
-        manejarError(error, 'Error al añadir al carrito');
-      }
-    }
+ function agregarAlCarritoModal() {
+  try {
+    if (!productoModalActual) return;
+
+    const btn = document.getElementById('modal-add-btn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    setTimeout(() => {
+      // Añade al carrito UNA sola vez, con la cantidad que hayas seleccionado
+      agregarAlCarrito(productoModalActual.id, true, personalizacionActual);
+
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      cerrarProductModal();
+    }, 500);
+  } catch (error) {
+    manejarError(error, 'Error al añadir al carrito');
+  }
+}
 
     function cambiarCantidadProducto(productoId, cambio) {
       try {
