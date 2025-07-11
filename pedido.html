@@ -1326,35 +1326,23 @@
       animation: scaleIn 0.3s ease;
     }
     
-    .product-modal-header {
-      position: relative;
-      height: 250px;
-      background: var(--gradient-primary);
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      overflow: hidden;
-    }
+.product-modal-header {
+  position: relative;
+  height: 250px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+}
 
- .product-modal-header::after {
-  content: "";
-  position: absolute;
-  bottom: 00;
-  left: 0;
-  right: 0;
-  height: 200px;  /* sube/baja según necesites */
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(30,33,34,0) 0%,      /* inicia 100% transparente */
-    rgba(30,33,34,0.8) 50%,   /* a mitad ya casi negro */
-    rgba(30,33,34,1) 100%     /* al fondo negro puro */
-  );
-	}
     
-    .product-modal-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.product-modal-image {
+  display: block;
+  width: 100%;
+  height: 100%;         /* ocupa todo el alto del header */
+  object-fit: cover;    /* recorta/escala manteniendo proporción */
+  /* sombra interna para el fade-bottom */
+  box-shadow: inset 0 -80px 80px -10px rgba(30, 33, 34, 1);
+}
     
     .product-modal-close {
       position: absolute;
