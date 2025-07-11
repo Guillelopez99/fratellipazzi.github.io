@@ -1333,6 +1333,20 @@
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
       overflow: hidden;
     }
+	  product-modal-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;                 /* ajusta la altura del fade */
+  pointer-events: none;          /* para que no interfiera con clicks */
+  background: linear-gradient(
+    to bottom,
+    rgba(30,33,34,0) 0%,         /* 0% transparente */
+    var(--rich-black) 100%       /* 100% color de fondo oscuro */
+  );
+}
     
     .product-modal-image {
       width: 100%;
