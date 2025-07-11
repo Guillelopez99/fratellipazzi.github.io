@@ -1333,19 +1333,25 @@
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
       overflow: hidden;
     }
-	  product-modal-header::after {
+	 /* overlay de degradado sobre la cabecera */
+.product-modal-header::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 120px;                 /* ajusta la altura del fade */
-  pointer-events: none;          /* para que no interfiera con clicks */
+  bottom: 0; left: 0; right: 0;
+  height: 100px;                     /* juega con este valor */
+  pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(30,33,34,0) 0%,         /* 0% transparente */
-    var(--rich-black) 100%       /* 100% color de fondo oscuro */
+    rgba(0,0,0,0) 0%,
+    var(--rich-black) 100%
   );
+  z-index: 2;                        /* importantísimo: debe quedar sobre la img */
+}
+
+/* y sitúa la img justo por debajo */
+.product-modal-header img {
+  position: relative;
+  z-index: 1;
 }
     
     .product-modal-image {
