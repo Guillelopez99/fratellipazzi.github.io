@@ -2634,15 +2634,14 @@
 
 /* Botón destacar y stretch al 100% */
 .product-modal-actions .add-to-cart-btn {
-  flex: 1 !important;
-  padding: 0.75rem !important;
-  font-size: 1rem !important;
-  border-radius: 8px !important;
-  background: var(--gradient-accent) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  box-shadow: var(--shadow-card) !important;
-  border: none !important;
+  flex: 1;
+  background: var(--gradient-accent);
+  color: var(--rich-black);
+  font-weight: 700;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 /* Hover más vivo */
@@ -2812,7 +2811,7 @@
             <button onclick="cambiarCantidadModal(1)">+</button>
           </div>
           <button class="add-to-cart-btn" onclick="agregarAlCarritoModal()" id="modal-add-btn">
-            Añade 1 al carrito 0,00€
+            Añade 1 al carrito • 0,00€
           </button>
         </div>
       </div>
@@ -2901,7 +2900,7 @@
     let personalizacionActual = {};
 
     function formatearPrecio(precio) {
-      return precio.toFixed(2).replace('.', ',') '€';
+      return precio.toFixed(2).replace('.', ',') + '€';
     }
 
     function debounce(func, wait) {
