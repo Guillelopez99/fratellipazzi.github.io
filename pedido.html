@@ -2859,32 +2859,32 @@
     };
 
     const productos = [
-      { id: 1, nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.', ingredientesArray: ['mantequilla de ajo', 'romero'], calorias: 180, alergenos: ['gluten'], popular: false, vegetariano: true, personalizable: false, descripcion: 'Nuestra focaccia artesanal se prepara con masa madre y se hornea con aceite de oliva extra virgen, ajo fresco y romero del mediterráneo.' },
-      { id: 2, nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y albahaca.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'albahaca'], calorias: 250, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: true, personalizable: true, descripcion: 'La clásica pizza italiana con tomates San Marzano DOP, mozzarella fresca y albahaca. Simplemente perfecta.' },
-      { id: 3, nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y jamón cocido.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón cocido'], calorias: 290, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Pizza clásica con jamón cocido de la mejor calidad, tomate San Marzano y mozzarella fresca.' },
-      { id: 4, nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas', ingredientes: 'Fior di latte, pecorino, gorgonzola y grana padano.', ingredientesArray: ['fior di latte', 'pecorino', 'gorgonzola', 'grana padano'], calorias: 320, alergenos: ['gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, descripcion: 'Una sinfonía de quesos italianos: mozzarella, pecorino, gorgonzola y grana padano. Para los amantes del queso.' },
-      { id: 5, nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'champiñones', 'jamón cocido', 'aceitunas', 'alcachofa'], calorias: 310, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Pizza completa con jamón, champiñones, alcachofas y aceitunas. Una explosión de sabores mediterráneos.' },
-      { id: 6, nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'salmón ahumado', 'queso philadelphia', 'rúcula'], calorias: 340, alergenos: ['gluten', 'lácteos', 'pescado'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Nuestra pizza gourmet con salmón ahumado, queso philadelphia y rúcula fresca. Una obra maestra culinaria.' },
-      { id: 7, nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.', ingredientesArray: ['fior di latte', 'jamón serrano', 'salchicha italiana', 'friarielli'], calorias: 330, alergenos: ['gluten', 'lácteos'], popular: false, vegetariano: false, personalizable: true, descripcion: 'Pizza napolitana auténtica con salchicha italiana y friarielli (brócoli napolitano). Sabor tradicional intenso.' },
-      { id: 8, nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.', ingredientesArray: ['tomate san marzano', 'mozzarella di bufala', 'tomate cherry', 'pesto serrano', 'albahaca'], calorias: 280, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: true, personalizable: true, descripcion: 'Pizza premium con auténtica mozzarella di bufala DOP, tomates cherry y pesto de albahaca.' },
-      { id: 9, nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.', ingredientesArray: ['fior di latte', 'peperonni'], calorias: 300, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, picante: true, descripcion: 'Pizza americana clásica con pepperoni picante y abundante queso mozzarella.' },
-      { id: 10, nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, aceitunas negras.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'cebolla', 'champiñones', 'tomate natural', 'aceitunas negras'], calorias: 240, alergenos: ['gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, descripcion: 'Pizza vegetariana con verduras frescas de temporada: champiñones, cebolla, tomate y aceitunas.' },
-      { id: 11, nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón cocido'], calorias: 380, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Calzone tradicional napolitano relleno de tomate, mozzarella y jamón, horneado hasta quedar dorado.' },
-      { id: 12, nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón serrano', 'peperonni'], calorias: 400, alergenos: ['gluten', 'lácteos'], popular: false, vegetariano: false, personalizable: true, picante: true, descripcion: 'Calzone relleno de pepperoni picante, jamón y queso mozzarella. Intenso y sabroso.' },
-      { id: 13, nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'champiñones', 'tomate natural', 'berenjena'], calorias: 350, alergenos: ['gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, descripcion: 'Calzone vegetariano con verduras mediterráneas: champiñones, berenjena y tomate fresco.' },
+      { id: 1, nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.', ingredientesArray: ['mantequilla de ajo', 'romero'], calorias: 180, alergenos: ['Gluten'], popular: false, vegetariano: true, personalizable: false, descripcion: 'Nuestra focaccia artesanal se prepara con masa madre y se hornea con aceite de oliva extra virgen, ajo fresco y romero del mediterráneo.' },
+      { id: 2, nombre: 'Margarita', precio: 10, imagen: 'images/Margarita.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y albahaca.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'albahaca'], calorias: 250, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: true, personalizable: true, descripcion: 'La clásica pizza italiana con tomates San Marzano DOP, mozzarella fresca y albahaca. Simplemente perfecta.' },
+      { id: 3, nombre: 'Prosciutto', precio: 12, imagen: 'images/Prosciutto.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte y jamón cocido.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón cocido'], calorias: 290, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Pizza clásica con jamón cocido de la mejor calidad, tomate San Marzano y mozzarella fresca.' },
+      { id: 4, nombre: 'Cuatro Formaggi', precio: 12, imagen: 'images/Quatro formaggi.png', categoria: 'pizzas', ingredientes: 'Fior di latte, pecorino, gorgonzola y grana padano.', ingredientesArray: ['fior di latte', 'pecorino', 'gorgonzola', 'grana padano'], calorias: 320, alergenos: ['Gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, descripcion: 'Una sinfonía de quesos italianos: mozzarella, pecorino, gorgonzola y grana padano. Para los amantes del queso.' },
+      { id: 5, nombre: 'Capricciosa', precio: 12, imagen: 'images/Capriciossa.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, jamón cocido, aceitunas y alcachofa.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'champiñones', 'jamón cocido', 'aceitunas', 'alcachofa'], calorias: 310, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Pizza completa con jamón, champiñones, alcachofas y aceitunas. Una explosión de sabores mediterráneos.' },
+      { id: 6, nombre: 'Leonardo Da Vinci', precio: 14, imagen: 'images/LeonardoDaVinci.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, salmón ahumado, queso philadelphia y rúcula.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'salmón ahumado', 'queso philadelphia', 'rúcula'], calorias: 340, alergenos: ['Gluten', 'lácteos', 'pescado'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Nuestra pizza gourmet con salmón ahumado, queso philadelphia y rúcula fresca. Una obra maestra culinaria.' },
+      { id: 7, nombre: 'Salchicha y Friarielli', precio: 12, imagen: 'images/SalchichaFriarielli.png', categoria: 'pizzas', ingredientes: 'Fior di latte, jamón serrano, salchicha italiana y friarielli.', ingredientesArray: ['fior di latte', 'jamón serrano', 'salchicha italiana', 'friarielli'], calorias: 330, alergenos: ['Gluten', 'lácteos'], popular: false, vegetariano: false, personalizable: true, descripcion: 'Pizza napolitana auténtica con salchicha italiana y friarielli (brócoli napolitano). Sabor tradicional intenso.' },
+      { id: 8, nombre: 'Bufala', precio: 14, imagen: 'images/Bufala.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, mozzarella di bufala, tomate cherry, pesto serrano y albahaca.', ingredientesArray: ['tomate san marzano', 'mozzarella di bufala', 'tomate cherry', 'pesto serrano', 'albahaca'], calorias: 280, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: true, personalizable: true, descripcion: 'Pizza premium con auténtica mozzarella di bufala DOP, tomates cherry y pesto de albahaca.' },
+      { id: 9, nombre: 'Peperonni', precio: 12, imagen: 'images/Peperonni.png', categoria: 'pizzas', ingredientes: 'Fior di latte, salsa y peperonni.', ingredientesArray: ['fior di latte', 'peperonni'], calorias: 300, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, picante: true, descripcion: 'Pizza americana clásica con pepperoni picante y abundante queso mozzarella.' },
+      { id: 10, nombre: 'Vegetariana', precio: 12, imagen: 'images/Vegetariana.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano, fior di latte, cebolla, champiñón, tomate natural, aceitunas negras.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'cebolla', 'champiñones', 'tomate natural', 'aceitunas negras'], calorias: 240, alergenos: ['Gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, descripcion: 'Pizza vegetariana con verduras frescas de temporada: champiñones, cebolla, tomate y aceitunas.' },
+      { id: 11, nombre: 'Calzone Tradizionale', precio: 12, imagen: 'images/Calzone Traditionale.png', categoria: 'calzones', ingredientes: 'San marzano, fior di latte y jamón cocido.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón cocido'], calorias: 380, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: false, personalizable: true, descripcion: 'Calzone tradicional napolitano relleno de tomate, mozzarella y jamón, horneado hasta quedar dorado.' },
+      { id: 12, nombre: 'Calzone Pepperoni', precio: 12, imagen: 'images/Calzone Pepperoni.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, prosciutto y peperonni.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'jamón serrano', 'peperonni'], calorias: 400, alergenos: ['Gluten', 'lácteos'], popular: false, vegetariano: false, personalizable: true, picante: true, descripcion: 'Calzone relleno de pepperoni picante, jamón y queso mozzarella. Intenso y sabroso.' },
+      { id: 13, nombre: 'Calzone Vegetariano', precio: 12, imagen: 'images/Calzone Vegetariano.png', categoria: 'calzones', ingredientes: 'Tomate San Marzano, fior di latte, champiñones, tomate natural y berenjena.', ingredientesArray: ['tomate san marzano', 'fior di latte', 'champiñones', 'tomate natural', 'berenjena'], calorias: 350, alergenos: ['Gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, descripcion: 'Calzone vegetariano con verduras mediterráneas: champiñones, berenjena y tomate fresco.' },
       { id: 14, nombre: 'Coca Cola', precio: 2, imagen: 'images/CocaCola.png', categoria: 'bebidas', calorias: 140, alergenos: [], popular: true, vegetariano: true, personalizable: false, descripcion: 'Coca-Cola original en lata de 33cl. Refrescante y perfecta para acompañar cualquier comida.' },
       { id: 15, nombre: 'Coca Cola zero', precio: 2, imagen: 'images/CocaColaZero.png', categoria: 'bebidas', calorias: 0, alergenos: [], popular: true, vegetariano: true, personalizable: false, descripcion: 'Coca-Cola Zero en lata de 33cl. Todo el sabor sin azúcar.' },
       { id: 16, nombre: 'Aquarius de limón', precio: 2, imagen: 'images/Aquarius.png', categoria: 'bebidas', calorias: 80, alergenos: [], popular: false, vegetariano: true, personalizable: false, descripcion: 'Bebida isotónica con sabor a limón. Perfecta para hidratarse.' },
       { id: 17, nombre: 'Fanta de limón', precio: 2, imagen: 'images/FantaLimon.png', categoria: 'bebidas', calorias: 120, alergenos: [], popular: false, vegetariano: true, personalizable: false, descripcion: 'Fanta de limón en lata de 33cl. Refrescante y con sabor cítrico.' },
       { id: 18, nombre: 'Fanta naranja', precio: 2, imagen: 'images/FantaNaranja.png', categoria: 'bebidas', calorias: 130, alergenos: [], popular: true, vegetariano: true, personalizable: false, descripcion: 'Fanta naranja en lata de 33cl. Sabor frutal y burbujeante.' },
       { id: 19, nombre: 'Nestea', precio: 2, imagen: 'images/Nestea.png', categoria: 'bebidas', calorias: 70, alergenos: [], popular: false, vegetariano: true, personalizable: false, descripcion: 'Té helado Nestea con sabor a limón. Refrescante y natural.' },
-      { id: 20, nombre: 'Cerveza', precio: 2.4, imagen: 'images/Cerveza.png', categoria: 'bebidas', calorias: 150, alergenos: ['gluten'], popular: true, vegetariano: true, personalizable: false, descripcion: 'Cerveza rubia de 33cl. Perfecta para acompañar pizza. +18 años.' },
+      { id: 20, nombre: 'Cerveza', precio: 2.4, imagen: 'images/Cerveza.png', categoria: 'bebidas', calorias: 150, alergenos: ['Gluten'], popular: true, vegetariano: true, personalizable: false, descripcion: 'Cerveza rubia de 33cl. Perfecta para acompañar pizza. +18 años.' },
       { id: 21, nombre: "BEN & JERRY'S CHOCOLATE", precio: 5, imagen: 'images/BJ_Chocolate.png', categoria: 'helados', calorias: 250, alergenos: ['lácteos', 'huevos'], popular: true, vegetariano: true, personalizable: false, descripcion: 'Helado premium Ben & Jerry\'s de chocolate con trozos de brownie y fudge.' },
       { id: 22, nombre: "BEN & JERRY'S STRAWBERRY", precio: 5, imagen: 'images/BJ_Strawberry.png', categoria: 'helados', calorias: 220, alergenos: ['lácteos'], popular: false, vegetariano: true, personalizable: false, descripcion: 'Helado premium Ben & Jerry\'s de fresa con trozos de fruta natural.' },
       { id: 23, nombre: "BEN & JERRY'S PEANUT BUTTER", precio: 5, imagen: 'images/BJ_Peanut.png', categoria: 'helados', calorias: 280, alergenos: ['lácteos', 'frutos secos'], popular: false, vegetariano: true, personalizable: false, descripcion: 'Helado premium Ben & Jerry\'s de mantequilla de cacahuete con trozos crujientes.' },
-      { id: 24, nombre: "BEN & JERRY'S COOKIE DOUGH", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados', calorias: 270, alergenos: ['lácteos', 'gluten', 'huevos'], popular: true, vegetariano: true, personalizable: false, descripcion: 'Helado premium Ben & Jerry\'s de vainilla con trozos de masa de galleta.' },
-      { id: 25, nombre: "Pizza del Mes", precio: 15.40, imagen: 'images/PizzaDelMes.png', categoria: 'pizzas', ingredientes: 'Queso de cabra y cebolla caramelizada', ingredientesArray: ['tomate san marzano', 'fior di latte', 'queso de cabra', 'cebolla caramelizada'], calorias: 320, alergenos: ['gluten', 'lácteos'], popular: true, vegetariano: true, personalizable: true, pizzaDelMes: true, descripcion: 'Una combinación dulce y salada que nunca falla. Base de fior di latte, suave queso de cabra y cebolla caramelizada al punto. Intensa, cremosa y con ese toque gourmet que engancha desde el primer bocado. Ideal si buscas algo diferente, sabroso y brutalmente adictivo.' },
-      { id: 26, nombre: "Pizza Personalizable", precio: 8, imagen: 'images/PizzaPersonalizable.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano y fior di latte (base)', ingredientesArray: ['tomate san marzano', 'fior di latte'], ingredientesExtra: [], calorias: 200, alergenos: ['gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, pizzaPersonalizable: true, descripcion: 'Crea tu pizza perfecta con nuestra base de tomate San Marzano y mozzarella fresca. Añade todos los ingredientes que quieras.' }
+      { id: 24, nombre: "BEN & JERRY'S COOKIE DOUGH", precio: 5, imagen: 'images/BJ_Cookie.png', categoria: 'helados', calorias: 270, alergenos: ['lácteos', 'Gluten', 'huevos'], popular: true, vegetariano: true, personalizable: false, descripcion: 'Helado premium Ben & Jerry\'s de vainilla con trozos de masa de galleta.' },
+      { id: 25, nombre: "Pizza del Mes", precio: 15.40, imagen: 'images/PizzaDelMes.png', categoria: 'pizzas', ingredientes: 'Queso de cabra y cebolla caramelizada', ingredientesArray: ['tomate san marzano', 'fior di latte', 'queso de cabra', 'cebolla caramelizada'], calorias: 320, alergenos: ['Gluten', 'lácteos'], popular: true, vegetariano: true, personalizable: true, pizzaDelMes: true, descripcion: 'Una combinación dulce y salada que nunca falla. Base de fior di latte, suave queso de cabra y cebolla caramelizada al punto. Intensa, cremosa y con ese toque gourmet que engancha desde el primer bocado. Ideal si buscas algo diferente, sabroso y brutalmente adictivo.' },
+      { id: 26, nombre: "Pizza Personalizable", precio: 8, imagen: 'images/PizzaPersonalizable.png', categoria: 'pizzas', ingredientes: 'Tomate San Marzano y fior di latte (base)', ingredientesArray: ['tomate san marzano', 'fior di latte'], ingredientesExtra: [], calorias: 200, alergenos: ['Gluten', 'lácteos'], popular: false, vegetariano: true, personalizable: true, pizzaPersonalizable: true, descripcion: 'Crea tu pizza perfecta con nuestra base de tomate San Marzano y mozzarella fresca. Añade todos los ingredientes que quieras.' }
     ];
 
     let carrito = [];
@@ -3586,30 +3586,37 @@
       }
     }
 
-    function agregarAlCarritoModal() {
-      try {
-        if (!productoModalActual) return;
-        
-        const cantidadModal = parseInt(document.getElementById('modal-quantity').textContent);
-        const btn = document.getElementById('modal-add-btn');
-        
-        btn.classList.add('loading');
-        btn.disabled = true;
-        
-        setTimeout(() => {
-          for (let i = 0; i < cantidadModal; i++) {
-            agregarAlCarrito(productoModalActual.id, false, personalizacionActual);
-          }
-          
-          btn.classList.remove('loading');
-          btn.disabled = false;
-          
-          cerrarProductModal();
-        }, 500);
-      } catch (error) {
-        manejarError(error, 'Error al añadir al carrito');
-      }
-    }
+   function agregarAlCarritoModal() {
+  try {
+    if (!productoModalActual) return;
+    
+    const cantidadModal = parseInt(document.getElementById('modal-quantity').textContent);
+    const btn = document.getElementById('modal-add-btn');
+    
+    btn.classList.add('loading');
+    btn.disabled = true;
+    
+    setTimeout(() => {
+      // Guardar la cantidad original
+      const cantidadOriginal = cantidadProductoSeleccionado[productoModalActual.id];
+      // Establecer la cantidad del modal temporalmente
+      cantidadProductoSeleccionado[productoModalActual.id] = cantidadModal;
+      
+      // Agregar al carrito una sola vez con la cantidad correcta
+      agregarAlCarrito(productoModalActual.id, false, personalizacionActual);
+      
+      // Restaurar la cantidad original
+      cantidadProductoSeleccionado[productoModalActual.id] = cantidadOriginal || 1;
+      
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      
+      cerrarProductModal();
+    }, 500);
+  } catch (error) {
+    manejarError(error, 'Error al añadir al carrito');
+  }
+}
 
     function cambiarCantidadProducto(productoId, cambio) {
       try {
