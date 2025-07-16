@@ -2404,9 +2404,10 @@
         flex-shrink: 0 !important;
       }
       
-     .product-modal-body {
+ .product-modal-body {
   padding: 1.5rem !important;
-  padding-bottom: 6rem !important;
+  overflow-y: auto !important;
+  max-height: none !important; 
   background: var(--rich-black) !important;
   color: var(--cream) !important;
 }
@@ -2426,7 +2427,7 @@
         color: rgba(251, 244, 232, 0.8) !important;
       }
       
-  .product-modal-actions {
+ .product-modal-actions {
   padding: 1rem !important;
   background: var(--rich-black) !important;
   backdrop-filter: blur(15px) !important;
@@ -2434,7 +2435,6 @@
   position: static !important;
   flex-direction: row !important;
   gap: 1rem !important;
-  box-shadow: none !important;
   align-items: center !important;
   justify-content: space-between !important;
 }
@@ -2522,14 +2522,14 @@
         padding-top: 0 !important;
       }
       
-      .product-modal-content {
-        max-height: 100vh !important;
-        height: 100vh !important;
-        max-width: 100vw !important;
-        width: 100vw !important;
-        border-radius: 0 !important;
-        margin: 0 !important;
-      }
+    .product-modal-content {
+  max-height: 90vh !important;  
+  height: auto !important;      
+  max-width: 100vw !important;
+  width: 100vw !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
       
       .product-modal-header {
         height: 250px !important;
