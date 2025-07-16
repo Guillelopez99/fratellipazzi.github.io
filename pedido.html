@@ -3020,53 +3020,48 @@
       let html = '';
       
       if (producto.pizzaPersonalizable) {
-       html += `
-  <label class="ingredient-option">
-    <input type="checkbox" 
-           class="ingredient-checkbox" 
-           data-ingredient="${key}" 
-           data-price="${info.precio}"
-           onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
-    <div class="ingredient-info">
-      <div class="ingredient-name">${info.nombre}</div>
-      <div class="ingredient-price-container">
-        <div class="ingredient-price">${precioTexto}</div>
-        ${popularBadge}
+  html += `
+    <div class="customization-section">
+      <div class="section-header">
+        <h4 class="section-title">Pizza Personalizada</h4>
+        <span class="section-badge obligatorio">Obligatorio</span>
       </div>
-    </div>
-  </label>
-`;
-        
-        const ingredientesParaAnadir = Object.entries(ingredientesDisponibles)
-          .filter(([key, info]) => !producto.ingredientesArray?.includes(key))
-          .sort((a, b) => {
-            if (a[1].precio !== b[1].precio) {
-              return a[1].precio - b[1].precio;
-            }
-            return a[1].nombre.localeCompare(b[1].nombre);
-          });
-        
-        ingredientesParaAnadir.forEach(([key, info]) => {
-          const precioTexto = info.precio === 0 ? 'Incluido' : `+${info.precio.toFixed(2).replace('.', ',')}€`;
-          const popularBadge = info.popular ? '<span class="popular-badge">Popular</span>' : '';
-          
-          html += `
-            <label class="ingredient-option">
-              <input type="checkbox" 
-                     class="ingredient-checkbox" 
-                     data-ingredient="${key}" 
-                     data-price="${info.precio}"
-                     onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
-              <div class="ingredient-info">
-                <div class="ingredient-name">${info.nombre}</div>
-                <div class="ingredient-price">${precioTexto}</div>
-                ${popularBadge}
-              </div>
-            </label>
-          `;
-        });
-        
-        html += '</div></div>';
+      <p class="section-subtitle">Selecciona de 1 a 5 ingredientes para crear tu pizza ideal</p>
+      <div class="ingredients-container">
+  `;
+  
+  const ingredientesParaAnadir = Object.entries(ingredientesDisponibles)
+    .filter(([key, info]) => !producto.ingredientesArray?.includes(key))
+    .sort((a, b) => {
+      if (a[1].precio !== b[1].precio) {
+        return a[1].precio - b[1].precio;
+      }
+      return a[1].nombre.localeCompare(b[1].nombre);
+    });
+  
+  ingredientesParaAnadir.forEach(([key, info]) => {
+    const precioTexto = info.precio === 0 ? 'Incluido' : `+${info.precio.toFixed(2).replace('.', ',')}€`;
+    const popularBadge = info.popular ? '<span class="popular-badge">Popular</span>' : '';
+    
+    html += `
+      <label class="ingredient-option">
+        <input type="checkbox" 
+               class="ingredient-checkbox" 
+               data-ingredient="${key}" 
+               data-price="${info.precio}"
+               onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
+        <div class="ingredient-info">
+          <div class="ingredient-name">${info.nombre}</div>
+          <div class="ingredient-price-container">
+            <div class="ingredient-price">${precioTexto}</div>
+            ${popularBadge}
+          </div>
+        </div>
+      </label>
+    `;
+  });
+  
+  html += '</div></div>';
         
       } else {
         html += `
