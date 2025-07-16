@@ -2401,11 +2401,12 @@
         flex-shrink: 0 !important;
       }
       
-      .product-modal-body {
-        padding: 1.5rem !important;
-        background: var(--rich-black) !important;
-        color: var(--cream) !important;
-      }
+     .product-modal-body {
+  padding: 1.5rem !important;
+  padding-bottom: 6rem !important;
+  background: var(--rich-black) !important;
+  color: var(--cream) !important;
+}
       
       .product-modal-title {
         color: var(--gold) !important;
@@ -2422,18 +2423,19 @@
         color: rgba(251, 244, 232, 0.8) !important;
       }
       
-      .product-modal-actions {
+    .product-modal-actions {
   padding: 1rem !important;
   background: var(--rich-black) !important;
   backdrop-filter: blur(15px) !important;
   border-top: 1px solid rgba(205, 184, 124, 0.2) !important;
   position: sticky !important;
   bottom: 0 !important;
-  flex-direction: row !important; /* Cambia a row para poner elementos en línea */
+  flex-direction: row !important;
   gap: 1rem !important;
-  box-shadow: none !important; /* Quita la sombra */
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
   align-items: center !important;
   justify-content: space-between !important;
+  z-index: 1000 !important;
 }
       
     .product-modal-actions .quantity-selector {
@@ -3173,7 +3175,7 @@
   // actualiza texto del botón con el total correcto
   const modalAddBtn = document.getElementById('modal-add-btn');
   if (modalAddBtn) {
-    modalAddBtn.innerHTML = `Añadir • ${formatearPrecio(precioTotal)}`;
+    modalAddBtn.innerHTML = `Añadir al carrito • ${formatearPrecio(precioTotal)}`;
   }
 
   // actualiza el precio unitario en la cabecera (si lo quieres seguir mostrando)
@@ -3552,7 +3554,7 @@
         
         const modalAddBtn = document.getElementById('modal-add-btn');
         if (modalAddBtn) {
-          modalAddBtn.innerHTML = `Añade ${cantidadInicial} al carrito • ${formatearPrecio(producto.precio)}`;
+          modalAddBtn.innerHTML = `Añadir al carrito • ${formatearPrecio(producto.precio)}`;
         }
         
         modal.classList.add('show');
