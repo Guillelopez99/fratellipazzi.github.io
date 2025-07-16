@@ -1634,6 +1634,12 @@
       justify-content: space-between;
       min-width: 0;
     }
+	  .ingredient-price-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
     
     .ingredient-name {
       color: var(--cream);
@@ -2349,6 +2355,13 @@
         align-items: center !important;
         justify-content: space-between !important;
       }
+		.ingredient-price-container {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  margin-top: 1px !important;
+  width: 100% !important;
+}
       
       .ingredient-name {
         font-size: 0.875rem !important;
@@ -2832,34 +2845,29 @@
     };
 
     const ingredientesDisponibles = {
-      'tomate san marzano': { nombre: 'Tomate San Marzano', precio: 0, categoria: 'base' },
-      'fior di latte': { nombre: 'Fior di Latte', precio: 0, categoria: 'base' },
-      'albahaca': { nombre: 'Albahaca', precio: 0.5, categoria: 'verdura', popular: true },
-      'rúcula': { nombre: 'Rúcula', precio: 0.5, categoria: 'verdura' },
-      'jamón cocido': { nombre: 'Jamón Cocido', precio: 1, categoria: 'carne' },
-      'jamón serrano': { nombre: 'Jamón Serrano', precio: 1, categoria: 'carne' },
-      'peperonni': { nombre: 'Pepperoni', precio: 1, categoria: 'carne' },
-      'salchicha italiana': { nombre: 'Salchicha Italiana', precio: 1, categoria: 'carne' },
-      'salmón ahumado': { nombre: 'Salmón Ahumado', precio: 1, categoria: 'pescado' },
-      'champiñones': { nombre: 'Champiñones', precio: 1, categoria: 'verdura' },
-      'cebolla': { nombre: 'Cebolla', precio: 1, categoria: 'verdura' },
-      'tomate natural': { nombre: 'Tomate Natural', precio: 1, categoria: 'verdura' },
-      'tomate cherry': { nombre: 'Tomate Cherry', precio: 1, categoria: 'verdura' },
-      'aceitunas negras': { nombre: 'Aceitunas Negras', precio: 1, categoria: 'verdura' },
-      'aceitunas': { nombre: 'Aceitunas', precio: 1, categoria: 'verdura' },
-      'alcachofa': { nombre: 'Alcachofa', precio: 1, categoria: 'verdura' },
-      'friarielli': { nombre: 'Friarielli', precio: 1, categoria: 'verdura' },
-      'berenjena': { nombre: 'Berenjena', precio: 1, categoria: 'verdura' },
-      'cebolla caramelizada': { nombre: 'Cebolla Caramelizada', precio: 1, categoria: 'verdura' },
-      'pecorino': { nombre: 'Pecorino', precio: 1, categoria: 'queso' },
-      'gorgonzola': { nombre: 'Gorgonzola', precio: 1, categoria: 'queso' },
-      'grana padano': { nombre: 'Grana Padano', precio: 1, categoria: 'queso' },
-      'queso philadelphia': { nombre: 'Queso Philadelphia', precio: 1, categoria: 'queso' },
-      'queso de cabra': { nombre: 'Queso de Cabra', precio: 1, categoria: 'queso' },
-      'pesto serrano': { nombre: 'Pesto Serrano', precio: 1, categoria: 'salsa' },
-      'mozzarella di bufala': { nombre: 'Mozzarella di Bufala', precio: 2, categoria: 'queso premium' },
-      'burrata': { nombre: 'Burrata', precio: 2, categoria: 'queso premium', popular: true }
-    };
+  'tomate san marzano': { nombre: 'Tomate San Marzano', precio: 0, categoria: 'base' },
+  'fior di latte': { nombre: 'Fior di Latte', precio: 0, categoria: 'base' },
+  'albahaca': { nombre: 'Albahaca', precio: 0.5, categoria: 'verdura', popular: true },
+  'rúcula': { nombre: 'Rúcula', precio: 0.5, categoria: 'verdura' },
+  'jamón cocido': { nombre: 'Jamón Cocido', precio: 1, categoria: 'carne' },
+  'jamón serrano': { nombre: 'Jamón Serrano', precio: 1, categoria: 'carne' },
+  'peperonni': { nombre: 'Pepperoni', precio: 1, categoria: 'carne' },
+  'salchicha italiana': { nombre: 'Salchicha Italiana', precio: 1, categoria: 'carne' },
+  'champiñones': { nombre: 'Champiñones', precio: 1, categoria: 'verdura' },
+  'cebolla': { nombre: 'Cebolla', precio: 1, categoria: 'verdura' },
+  'tomate natural': { nombre: 'Tomate Natural', precio: 1, categoria: 'verdura' },
+  'aceitunas negras': { nombre: 'Aceitunas Negras', precio: 1, categoria: 'verdura' },
+  'aceitunas': { nombre: 'Aceitunas', precio: 1, categoria: 'verdura' },
+  'alcachofa': { nombre: 'Alcachofa', precio: 1, categoria: 'verdura' },
+  'friarielli': { nombre: 'Friarielli', precio: 1, categoria: 'verdura' },
+  'cebolla caramelizada': { nombre: 'Cebolla Caramelizada', precio: 1, categoria: 'verdura' },
+  'gorgonzola': { nombre: 'Gorgonzola', precio: 1, categoria: 'queso' },
+  'grana padano': { nombre: 'Grana Padano', precio: 1, categoria: 'queso' },
+  'queso philadelphia': { nombre: 'Queso Philadelphia', precio: 1, categoria: 'queso' },
+  'queso de cabra': { nombre: 'Queso de Cabra', precio: 1, categoria: 'queso' },
+  'mozzarella di bufala': { nombre: 'Mozzarella di Bufala', precio: 2, categoria: 'queso premium' },
+  'burrata': { nombre: 'Burrata', precio: 2, categoria: 'queso premium', popular: true }
+};
 
     const productos = [
       { id: 1, nombre: 'Focaccia', precio: 5, imagen: 'images/Focaccia.png', categoria: 'entrantes', ingredientes: 'Base de pizza con mantequilla de ajo y romero.', ingredientesArray: ['mantequilla de ajo', 'romero'], calorias: 180, alergenos: ['Gluten'], popular: false, vegetariano: true, personalizable: false, descripcion: 'Nuestra focaccia artesanal se prepara con masa madre y se hornea con aceite de oliva extra virgen, ajo fresco y romero del mediterráneo.' },
@@ -3012,15 +3020,22 @@
       let html = '';
       
       if (producto.pizzaPersonalizable) {
-        html += `
-          <div class="customization-section">
-            <div class="section-header">
-              <h4 class="section-title">Pizza Personalizada</h4>
-              <span class="section-badge obligatorio">Obligatorio</span>
-            </div>
-            <p class="section-subtitle">Selecciona de 1 a 5 ingredientes para crear tu pizza ideal</p>
-            <div class="ingredients-container">
-        `;
+       html += `
+  <label class="ingredient-option">
+    <input type="checkbox" 
+           class="ingredient-checkbox" 
+           data-ingredient="${key}" 
+           data-price="${info.precio}"
+           onchange="toggleIngredienteAnadir('${key}', ${info.precio})">
+    <div class="ingredient-info">
+      <div class="ingredient-name">${info.nombre}</div>
+      <div class="ingredient-price-container">
+        <div class="ingredient-price">${precioTexto}</div>
+        ${popularBadge}
+      </div>
+    </div>
+  </label>
+`;
         
         const ingredientesParaAnadir = Object.entries(ingredientesDisponibles)
           .filter(([key, info]) => !producto.ingredientesArray?.includes(key))
