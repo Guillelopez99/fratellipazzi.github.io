@@ -2517,34 +2517,39 @@
         border-radius: 16px;
       }
       
-      .product-modal {
-        padding: 0 !important;
-        align-items: flex-start !important;
-        padding-top: 0 !important;
-      }
+     .product-modal {
+  padding: 0 !important;
+  align-items: flex-start !important;
+  padding-top: 0 !important;
+  overflow-y: auto !important;  /* Añadir esto */
+}
       
 .product-modal-content {
-  max-height: 90vh !important;
+  max-height: none !important;  /* Eliminar restricción de altura */
   height: auto !important;
   max-width: 100vw !important;
   width: 100vw !important;
   border-radius: 0 !important;
   margin: 0 !important;
-  overflow-y: auto !important;  /* Un solo scroll para todo */
+  overflow-y: visible !important;
   display: flex !important;
   flex-direction: column !important;
-}
-      
+  min-height: 100vh !important;  /* Asegurar que ocupe toda la pantalla */
+    }  
       .product-modal-header {
         height: 250px !important;
         border-radius: 0 !important;
       }
       
-      .product-modal-body {
-        padding: 1.5rem !important;
-        overflow-y: auto !important;
-        max-height: calc(100vh - 250px) !important;
-      }
+     .product-modal-body {
+  padding: 1.5rem !important;
+  padding-bottom: 1rem !important;
+  overflow-y: visible !important;
+  max-height: none !important;
+  background: var(--rich-black) !important;
+  color: var(--cream) !important;
+  flex: 1 !important;
+}
       
       .product-modal-title {
         font-size: 1.75rem !important;
