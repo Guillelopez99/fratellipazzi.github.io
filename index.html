@@ -3542,7 +3542,10 @@ const userCredential = { user: result.user };
               
               if (shouldResend) {
                 try {
-                  await window.firebaseService.sendEmailVerification(userCredential.user);	
+                  const emailResult = await window.firebaseService.sendEmailVerification(userCredential.user);
+if (!emailResult.success) {
+  console.error('Error enviando email de verificación:', emailResult.error);
+}	
                   this.showNotification(
                     'Email de verificación reenviado exitosamente.\n\nRevisa tu bandeja de entrada y la carpeta de spam.',
                     'success',
