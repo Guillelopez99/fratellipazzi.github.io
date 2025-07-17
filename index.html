@@ -2677,33 +2677,7 @@
   <!-- JAVASCRIPT -->
   <script type="module">
     // Import Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-             createUserWithEmailAndPassword, sendEmailVerification,
-             sendPasswordResetEmail, signOut, updateProfile } 
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } 
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
-      authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
-      projectId: "fratelli-pazzi-pizzeria",
-      storageBucket: "fratelli-pazzi-pizzeria.firebasestorage.app",
-      messagingSenderId: "391760015146",
-      appId: "1:391760015146:web:24a265cabeefbff2187853"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.firebase = { auth, db,
-      signInWithEmailAndPassword, createUserWithEmailAndPassword,
-      sendEmailVerification, sendPasswordResetEmail, signOut,
-      updateProfile, onAuthStateChanged, doc, setDoc, getDoc
-    };
+   import firebaseService from './firebase-config.js';
 
     // ========== FRATELLI PAZZI APPLICATION ==========
     const FratelliPazzi = {
@@ -2923,57 +2897,41 @@
       },
 
       async refreshUserEmailStatus() {
-        if (!this.state.isFirebaseEnabled || !window.firebase.auth.currentUser) {
-          return;
-        }
-        
-        try {
-          await window.firebase.auth.currentUser.reload();
-          
-          const isNowVerified = window.firebase.auth.currentUser.emailVerified;
-          
-          if (isNowVerified && this.state.currentUser && !this.state.currentUser.emailVerified) {
-            console.log('✅ Email verificado detectado, actualizando estado...');
-            
-            this.state.currentUser.emailVerified = true;
-            
-            try {
-              await window.firebase.setDoc(
-                window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid),
-                {
-                  emailVerified: true,
-                  emailVerifiedAt: new Date().toISOString()
-                },
-                { merge: true }
-              );
-            } catch (firestoreError) {
-              console.error('⚠️ Error actualizando Firestore:', firestoreError);
-            }
-            
-            this.updateUserInterface();
-            console.log('🎉 Estado de verificación actualizado correctamente');
-          }
-        } catch (error) {
-          console.error('❌ Error refrescando estado del email:', error);
-        }
+        if (!this.state.isFirebaseEnabled || !window.firebaseService.getCurrentUser()) {
+  return;
+}
+
+try {
+  const result = await window.firebaseService.refreshUserEmailStatus();
+  
+  if (result.success && result.emailVerified && this.state.currentUser && !this.state.currentUser.emailVerified) {
+    console.log('✅ Email verificado detectado, actualizando estado...');
+    
+    this.state.currentUser.emailVerified = true;
+    this.updateUserInterface();
+    console.log('🎉 Estado de verificación actualizado correctamente');
+  }
+} catch (error) {
+  console.error('❌ Error refrescando estado del email:', error);
+}
       },
 
       checkFirebaseAvailability() {
-        if (typeof window.firebase !== 'undefined') {
-          this.state.isFirebaseEnabled = true;
-          console.log('🔥 Firebase habilitado');
-          this.setupFirebaseAuth();
-        } else {
-          console.log('⚠️ Firebase no disponible, usando localStorage');
-          this.state.isFirebaseEnabled = false;
-        }
-      },
+  if (typeof window.firebaseService !== 'undefined') {
+    this.state.isFirebaseEnabled = true;
+    console.log('🔥 Firebase habilitado');
+    this.setupFirebaseAuth();
+  } else {
+    console.log('⚠️ Firebase no disponible, usando localStorage');
+    this.state.isFirebaseEnabled = false;
+  }
+},
 
       setupFirebaseAuth() {
         if (!this.state.isFirebaseEnabled) return;
         
         try {
-          window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
+          window.firebaseService.onAuthStateChanged(async (user) => {
             if (user) {
               console.log('👤 Usuario autenticado:', user.email);
               
@@ -2986,12 +2944,10 @@
               };
               
               try {
-                const userDoc = await window.firebase.getDoc(
-                  window.firebase.doc(window.firebase.db, 'users', user.uid)
-                );
+                const userDocResult = await window.firebaseService.getUserData(user.uid);
                 
-                if (userDoc.exists()) {
-                  const firestoreData = userDoc.data();
+                if (userDocResult.success) {
+  const firestoreData = userDocResult.data;
                   userData = {
                     ...userData,
                     name: firestoreData.name || user.displayName || 'Usuario',
@@ -3569,7 +3525,11 @@
         
         if (this.state.isFirebaseEnabled) {
           try {
-            const userCredential = await window.firebase.signInWithEmailAndPassword(window.firebase.auth, email, password);
+            const result = await window.firebaseService.signIn(email, password);
+if (!result.success) {
+  throw result.error;
+}
+const userCredential = { user: result.user };
             
             if (!userCredential.user.emailVerified) {
               this.closeLoginForm();
@@ -3582,7 +3542,7 @@
               
               if (shouldResend) {
                 try {
-                  await window.firebase.sendEmailVerification(userCredential.user);
+                  await window.firebaseService.sendEmailVerification(userCredential.user);	
                   this.showNotification(
                     'Email de verificación reenviado exitosamente.\n\nRevisa tu bandeja de entrada y la carpeta de spam.',
                     'success',
@@ -3668,7 +3628,10 @@
         
         if (this.state.isFirebaseEnabled) {
           try {
-            await window.firebase.sendPasswordResetEmail(window.firebase.auth, email);
+            const result = await window.firebaseService.sendPasswordReset(email);
+if (!result.success) {
+  throw result.error;
+}
             
             this.showNotification(
               `Email de restablecimiento enviado a ${email}\n\nRevisa tu bandeja de entrada y sigue las instrucciones.`,
@@ -3707,14 +3670,17 @@
           return;
         }
         
-        if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
-          try {
-            const actionCodeSettings = {
-              url: `${window.location.origin}?emailVerified=true&resent=true`,
-              handleCodeInApp: false
-            };
-            
-            await window.firebase.sendEmailVerification(window.firebase.auth.currentUser, actionCodeSettings);
+        if (this.state.isFirebaseEnabled && window.firebaseService.getCurrentUser()) {
+  try {
+    const actionCodeSettings = {
+      url: `${window.location.origin}?emailVerified=true&resent=true`,
+      handleCodeInApp: false
+    };
+    
+    const result = await window.firebaseService.sendEmailVerification(null, actionCodeSettings);
+    if (!result.success) {
+      throw result.error;
+    }
             
             this.showNotification(
               `Email de verificación reenviado exitosamente\n\n📬 Enviado a: ${this.state.currentUser.email}\n\n✅ Revisa tu bandeja de entrada y la carpeta de spam.`,
@@ -3803,42 +3769,17 @@
 
         try {
           if (this.state.isFirebaseEnabled) {
-            const userCredential = await window.firebase.createUserWithEmailAndPassword(window.firebase.auth, email, password);
-            
-            try {
-              await window.firebase.updateProfile(userCredential.user, {
-                displayName: name
-              });
-            } catch (profileError) {
-              console.error('Error actualizando perfil:', profileError);
-            }
-            
-            const actionCodeSettings = {
-              url: `${window.location.origin}?emailVerified=true`,
-              handleCodeInApp: false
-            };
-            
-            try {
-              await window.firebase.sendEmailVerification(userCredential.user, actionCodeSettings);
-            } catch (emailError) {
-              console.error('Error enviando email de verificación:', emailError);
-            }
-            
-            try {
-              await window.firebase.setDoc(window.firebase.doc(window.firebase.db, 'users', userCredential.user.uid), {
-                name: name,
-                email: email,
-                phone: phone || null,
-                acceptsOffers: acceptsOffers,
-                registeredAt: new Date().toISOString(),
-                points: 0,
-                orders: [],
-                hasUsedWelcomeDiscount: false,
-                emailVerified: false
-              });
-            } catch (firestoreError) {
-              console.error('Error guardando en Firestore:', firestoreError);
-            }
+            const result = await window.firebaseService.signUp(email, password, {
+  name: name,
+  phone: phone,
+  acceptsOffers: acceptsOffers
+});
+
+if (!result.success) {
+  throw result.error;
+}
+
+const userCredential = { user: result.user };
 
             this.state.currentUser = {
               uid: userCredential.user.uid,
@@ -3985,7 +3926,7 @@
         if (shouldLogout) {
           if (this.state.isFirebaseEnabled) {
             try {
-              await window.firebase.signOut(window.firebase.auth);
+              await window.firebaseService.signOut();
             } catch (error) {
               console.error('Error al cerrar sesión:', error);
             }
