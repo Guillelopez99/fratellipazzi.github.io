@@ -417,6 +417,19 @@
       color: rgba(251, 244, 232, 0.6);
     }
 
+    .user-level-info {
+      background: rgba(205, 184, 124, 0.1);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .user-level {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+    }
+
     /* GRID DE RECOMPENSAS */
     .rewards-grid {
       display: grid;
@@ -980,6 +993,11 @@
       </div>
       <p class="points-info">💡 <strong>Ganas 10 puntos por cada € gastado</strong></p>
       
+      <div class="user-level-info" id="userLevelInfo">
+        <div class="user-level" id="userLevel">🍕 Principiante</div>
+        <div class="user-level-details" id="userLevelDetails">¡Sigue pidiendo para subir de nivel!</div>
+      </div>
+      
       <div class="progress-section" id="progressSection">
         <div class="next-reward" id="nextRewardText">Te faltan 300 puntos para tu próxima recompensa</div>
         <div class="progress-bar">
@@ -1066,140 +1084,62 @@
     <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Sistema de Recompensas</p>
   </footer>
 
-  <!-- JAVASCRIPT -->
+  <!-- FIREBASE CONFIG SCRIPT -->
+  <script type="module" src="firebase-config.js"></script>
+
+  <!-- JAVASCRIPT DEL SISTEMA DE RECOMPENSAS -->
   <script type="module">
-    // Import Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } 
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } 
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    // Importar Firebase Service
+    import firebaseService, { REWARDS_CONFIG } from './firebase-config.js';
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
-      authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
-      projectId: "fratelli-pazzi-pizzeria",
-      storageBucket: "fratelli-pazzi-pizzeria.firebasestorage.app",
-      messagingSenderId: "391760015146",
-      appId: "1:391760015146:web:24a265cabeefbff2187853"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.firebase = { auth, db, onAuthStateChanged, doc, setDoc, getDoc };
-
-    // ========== SISTEMA DE RECOMPENSAS ==========
-    const RewardsSystem = {
+    // ========== SISTEMA DE RECOMPENSAS CON FIREBASE ==========
+    const EnhancedRewardsSystem = {
       state: {
         currentUser: null,
-        isFirebaseEnabled: false,
+        userRewards: null,
+        isFirebaseEnabled: true,
         notifications: new Map(),
-        notificationId: 0
+        notificationId: 0,
+        isLoading: false
       },
 
-      init() {
-        console.log('🏆 Inicializando Sistema de Recompensas...');
+      async init() {
+        console.log('🏆 Inicializando Sistema de Recompensas Firebase...');
         
-        this.checkFirebaseAvailability();
         this.setupEventListeners();
-        this.checkUserSession();
         this.setupScrollEffects();
         this.initHeaderVisibility();
         this.cleanupExpiredRewards();
         
-        console.log('✅ Sistema de Recompensas inicializado');
-      },
-
-      initHeaderVisibility() {
-        const headerContainer = document.getElementById('headerContainer');
-        if (headerContainer) {
-          // En desktop siempre visible, en móvil oculto por defecto
-          if (window.innerWidth > 768) {
-            headerContainer.classList.add('visible');
-          }
-          // En móvil el header está oculto por defecto via CSS
-        }
-      },
-
-      checkFirebaseAvailability() {
-        if (typeof window.firebase !== 'undefined') {
-          this.state.isFirebaseEnabled = true;
-          console.log('🔥 Firebase habilitado');
-          this.setupFirebaseAuth();
-        } else {
-          console.log('⚠️ Firebase no disponible, usando localStorage');
-          this.state.isFirebaseEnabled = false;
-        }
-      },
-
-      setupFirebaseAuth() {
-        if (!this.state.isFirebaseEnabled) return;
-        
-        try {
-          window.firebase.onAuthStateChanged(window.firebase.auth, async (user) => {
-            if (user) {
-              console.log('👤 Usuario autenticado:', user.email);
-              
-              let userData = {
-                uid: user.uid,
-                email: user.email,
-                name: user.displayName || 'Usuario',
-                emailVerified: user.emailVerified,
-                points: 0
-              };
-              
-              try {
-                const userDoc = await window.firebase.getDoc(
-                  window.firebase.doc(window.firebase.db, 'users', user.uid)
-                );
-                
-                if (userDoc.exists()) {
-                  const firestoreData = userDoc.data();
-                  userData = {
-                    ...userData,
-                    name: firestoreData.name || user.displayName || 'Usuario',
-                    points: firestoreData.points || 0,
-                    phone: firestoreData.phone,
-                    acceptsOffers: firestoreData.acceptsOffers,
-                    registeredAt: firestoreData.registeredAt
-                  };
-                }
-              } catch (firestoreError) {
-                console.error('⚠️ Error cargando datos de Firestore:', firestoreError);
-              }
-              
-              this.state.currentUser = userData;
-              this.updateInterface();
-              
-            } else {
-              console.log('👤 Usuario no autenticado - redirigiendo');
-              this.redirectToHome();
-            }
+        // Configurar listener de autenticación Firebase
+        if (firebaseService && firebaseService.onAuthStateChanged) {
+          firebaseService.onAuthStateChanged((user) => {
+            this.handleAuthStateChange(user);
           });
-        } catch (error) {
-          console.error('Error configurando Firebase Auth:', error);
-          this.state.isFirebaseEnabled = false;
-        }
-      },
-
-      checkUserSession() {
-        if (this.state.isFirebaseEnabled) {
-          return;
+        } else {
+          console.warn('⚠️ Firebase Service no disponible');
+          this.handleNoAuth();
         }
         
-        const savedUser = localStorage.getItem('fratelli_current_user');
-        if (savedUser) {
-          this.state.currentUser = JSON.parse(savedUser);
+        console.log('✅ Sistema de Recompensas Firebase inicializado');
+      },
+
+      async handleAuthStateChange(user) {
+        if (user) {
+          console.log('👤 Usuario autenticado:', user.email);
+          this.state.currentUser = user;
+          
+          // Cargar datos de recompensas
+          await this.loadUserRewards();
           this.updateInterface();
+          
         } else {
-          this.redirectToHome();
+          console.log('👤 Usuario no autenticado');
+          this.handleNoAuth();
         }
       },
 
-      redirectToHome() {
+      handleNoAuth() {
         this.showNotification(
           'Necesitas iniciar sesión para ver tus recompensas.\n\nTe redirigiremos a la página principal.',
           'warning',
@@ -1212,11 +1152,41 @@
         }, 3000);
       },
 
-      updateInterface() {
+      async loadUserRewards() {
         if (!this.state.currentUser) return;
+
+        try {
+          this.state.isLoading = true;
+          
+          const result = await firebaseService.loadUserRewards(this.state.currentUser.uid);
+          
+          if (result.success) {
+            this.state.userRewards = result.rewards;
+            console.log('🎁 Recompensas cargadas:', this.state.userRewards);
+          } else {
+            console.warn('⚠️ No se pudieron cargar las recompensas');
+            this.state.userRewards = {
+              points: 0,
+              level: 'Principiante',
+              totalPointsEarned: 0,
+              totalPointsSpent: 0,
+              rewardsHistory: []
+            };
+          }
+          
+        } catch (error) {
+          console.error('❌ Error cargando recompensas:', error);
+        } finally {
+          this.state.isLoading = false;
+        }
+      },
+
+      updateInterface() {
+        if (!this.state.currentUser || !this.state.userRewards) return;
         
         this.updateUserMenu();
         this.updatePointsDisplay();
+        this.updateUserLevel();
         this.updateRewardsGrid();
         this.updateProgressBar();
       },
@@ -1225,26 +1195,53 @@
         const userMenu = document.getElementById('userMenu');
         if (!userMenu || !this.state.currentUser) return;
         
+        const displayName = this.state.currentUser.displayName || 
+                           this.state.currentUser.email.split('@')[0];
+        
         userMenu.innerHTML = `
           <div class="user-welcome">
-            <div class="user-avatar">${this.state.currentUser.name.charAt(0).toUpperCase()}</div>
-            <span>Hola, ${this.state.currentUser.name.split(' ')[0]}</span>
+            <div class="user-avatar">${displayName.charAt(0).toUpperCase()}</div>
+            <span>Hola, ${displayName.split(' ')[0]}</span>
           </div>
         `;
       },
 
       updatePointsDisplay() {
         const currentPointsEl = document.getElementById('currentPoints');
-        if (currentPointsEl && this.state.currentUser) {
-          currentPointsEl.textContent = this.state.currentUser.points || 0;
+        if (currentPointsEl && this.state.userRewards) {
+          currentPointsEl.textContent = this.state.userRewards.points || 0;
+        }
+      },
+
+      updateUserLevel() {
+        const userLevelEl = document.getElementById('userLevel');
+        const userLevelDetailsEl = document.getElementById('userLevelDetails');
+        
+        if (!userLevelEl || !this.state.userRewards) return;
+
+        const totalPoints = this.state.userRewards.totalPointsEarned || 0;
+        const levelInfo = firebaseService.getUserLevel(totalPoints);
+        
+        userLevelEl.textContent = `${levelInfo.icon} ${levelInfo.name}`;
+        
+        // Calcular progreso hacia el siguiente nivel
+        const levels = Object.entries(REWARDS_CONFIG.userLevels);
+        const currentLevelIndex = levels.findIndex(([name]) => name === levelInfo.name);
+        
+        if (currentLevelIndex < levels.length - 1) {
+          const nextLevel = levels[currentLevelIndex + 1];
+          const pointsNeeded = nextLevel[1].minPoints - totalPoints;
+          userLevelDetailsEl.textContent = `${pointsNeeded} puntos para ${nextLevel[0]}`;
+        } else {
+          userLevelDetailsEl.textContent = '¡Nivel máximo alcanzado!';
         }
       },
 
       updateProgressBar() {
-        if (!this.state.currentUser) return;
+        if (!this.state.userRewards) return;
         
-        const points = this.state.currentUser.points || 0;
-        const rewards = [300, 1000, 1500, 2500, 5000, 10000];
+        const points = this.state.userRewards.points || 0;
+        const rewards = Object.values(REWARDS_CONFIG.rewardCosts).sort((a, b) => a - b);
         
         // Encontrar próxima recompensa
         let nextReward = rewards.find(reward => points < reward);
@@ -1272,16 +1269,16 @@
       },
 
       updateRewardsGrid() {
-        if (!this.state.currentUser) return;
+        if (!this.state.userRewards) return;
         
-        const points = this.state.currentUser.points || 0;
+        const points = this.state.userRewards.points || 0;
         const rewards = [
-          { id: 'bebida', cost: 300 },
-          { id: 'pizza', cost: 1000 },
-          { id: 'calzone', cost: 1500 },
-          { id: 'combo', cost: 2500 },
-          { id: 'camiseta', cost: 5000 },
-          { id: 'cena', cost: 10000 }
+          { id: 'bebida', cost: REWARDS_CONFIG.rewardCosts.bebida },
+          { id: 'pizza', cost: REWARDS_CONFIG.rewardCosts.pizza },
+          { id: 'calzone', cost: REWARDS_CONFIG.rewardCosts.calzone },
+          { id: 'combo', cost: REWARDS_CONFIG.rewardCosts.combo },
+          { id: 'camiseta', cost: REWARDS_CONFIG.rewardCosts.camiseta },
+          { id: 'cena', cost: REWARDS_CONFIG.rewardCosts.cena }
         ];
         
         rewards.forEach(reward => {
@@ -1309,9 +1306,12 @@
       },
 
       async redeemReward(rewardType, cost) {
-        if (!this.state.currentUser) return;
+        if (!this.state.currentUser || !this.state.userRewards) {
+          this.showNotification('Debes estar logueado para canjear recompensas.', 'warning');
+          return;
+        }
         
-        const points = this.state.currentUser.points || 0;
+        const points = this.state.userRewards.points || 0;
         if (points < cost) {
           this.showNotification(
             `No tienes suficientes puntos. Te faltan ${cost - points} puntos.`,
@@ -1330,32 +1330,94 @@
           cena: 'Cena Romántica para 2 ❤️'
         };
         
-        // Efecto visual
-        const card = document.getElementById(`reward-${rewardType}`);
-        card.classList.add('redeeming');
-        
-        // Guardar información de la recompensa seleccionada
-        const selectedReward = {
-          type: rewardType,
-          name: rewardNames[rewardType],
-          cost: cost,
-          userId: this.state.currentUser.uid || this.state.currentUser.email,
-          selectedAt: new Date().toISOString()
-        };
-        
-        localStorage.setItem('fratelli_selected_reward', JSON.stringify(selectedReward));
-        
-        this.showNotification(
-          `¡Recompensa seleccionada!\n\n🎁 ${rewardNames[rewardType]}\n\n🛒 Redirigiendo al carrito...`,
-          'success',
-          '🛒 Ir al Carrito',
-          { duration: 2000 }
+        // Confirmar canje
+        const confirmed = await this.showConfirmation(
+          `¿Quieres canjear ${cost} puntos por:\n\n🎁 ${rewardNames[rewardType]}\n\nEsta acción no se puede deshacer.`,
+          '¿Confirmar canje?',
+          '🎁'
         );
         
-        // Redireccionar inmediatamente
-        setTimeout(() => {
-          window.location.href = 'pedido.html?reward=' + rewardType;
-        }, 1500);
+        if (!confirmed) return;
+        
+        try {
+          // Efecto visual
+          const card = document.getElementById(`reward-${rewardType}`);
+          card.classList.add('redeeming');
+          
+          this.state.isLoading = true;
+          
+          // Procesar canje en Firebase
+          const result = await firebaseService.spendPoints(
+            this.state.currentUser.uid,
+            cost,
+            `Canje de recompensa: ${rewardNames[rewardType]}`,
+            {
+              rewardType: rewardType,
+              rewardName: rewardNames[rewardType],
+              cost: cost,
+              timestamp: new Date().toISOString()
+            }
+          );
+          
+          if (result.success) {
+            // Actualizar estado local
+            this.state.userRewards.points = result.remainingPoints;
+            this.state.userRewards.totalPointsSpent = (this.state.userRewards.totalPointsSpent || 0) + cost;
+            
+            // Guardar información del canje para el carrito
+            const rewardData = {
+              type: rewardType,
+              name: rewardNames[rewardType],
+              cost: cost,
+              userId: this.state.currentUser.uid,
+              selectedAt: new Date().toISOString(),
+              canjeado: true
+            };
+            
+            localStorage.setItem('fratelli_selected_reward', JSON.stringify(rewardData));
+            
+            this.showNotification(
+              `¡Recompensa canjeada exitosamente!\n\n🎁 ${rewardNames[rewardType]}\n💰 Puntos restantes: ${result.remainingPoints}\n\n🛒 Redirigiendo al carrito...`,
+              'success',
+              '✅ ¡Canje Exitoso!',
+              { duration: 3000 }
+            );
+            
+            // Actualizar interfaz
+            this.updateInterface();
+            
+            // Redireccionar al carrito
+            setTimeout(() => {
+              window.location.href = 'pedido.html?reward=' + rewardType;
+            }, 2000);
+            
+          } else {
+            throw new Error(result.error || 'Error procesando el canje');
+          }
+          
+        } catch (error) {
+          console.error('❌ Error canjeando recompensa:', error);
+          this.showNotification(
+            'Error procesando el canje. Inténtalo de nuevo.',
+            'error',
+            'Error en el canje'
+          );
+        } finally {
+          this.state.isLoading = false;
+          const card = document.getElementById(`reward-${rewardType}`);
+          if (card) card.classList.remove('redeeming');
+        }
+      },
+
+      // ========== MÉTODOS DE UI (sin cambios) ==========
+      
+      initHeaderVisibility() {
+        const headerContainer = document.getElementById('headerContainer');
+        if (headerContainer) {
+          if (window.innerWidth > 768) {
+            headerContainer.classList.add('visible');
+          }
+        }
       },
 
       showConfirmation(message, title = '¿Estás seguro?', icon = '🍕') {
@@ -1431,7 +1493,7 @@
             <h4 class="notification-title">${finalTitle}</h4>
           </div>
           <p class="notification-message">${message}</p>
-          <button class="notification-close" onclick="RewardsSystem.closeNotification(${notificationId})">×</button>
+          <button class="notification-close" onclick="EnhancedRewardsSystem.closeNotification(${notificationId})">×</button>
         `;
 
         container.appendChild(notification);
@@ -1465,137 +1527,8 @@
         }, 400);
       },
 
-      // ========== UTILIDADES PARA INTEGRACIÓN CON CARRITO ==========
-      getRewardCartItems(rewardType) {
-        const rewardCartMapping = {
-          bebida: [
-            { 
-              id: 'bebida-gratis',
-              name: 'Bebida Gratis (Recompensa)',
-              type: 'bebida',
-              price: 0,
-              originalPrice: 2.5,
-              quantity: 1,
-              isReward: true
-            }
-          ],
-          pizza: [
-            { 
-              id: 'pizza-gratis',
-              name: 'Pizza Gratis (Recompensa)', 
-              type: 'pizza',
-              price: 0,
-              originalPrice: 12,
-              quantity: 1,
-              isReward: true,
-              note: 'Elige cualquier pizza del menú'
-            }
-          ],
-          calzone: [
-            { 
-              id: 'calzone-gratis',
-              name: 'Calzone Gratis (Recompensa)',
-              type: 'calzone', 
-              price: 0,
-              originalPrice: 12,
-              quantity: 1,
-              isReward: true
-            },
-            { 
-              id: 'bebida-combo',
-              name: 'Bebida Gratis (Combo)',
-              type: 'bebida',
-              price: 0,
-              originalPrice: 2.5,
-              quantity: 1,
-              isReward: true
-            }
-          ],
-          combo: [
-            { 
-              id: 'pizza-combo',
-              name: 'Pizza Gratis (Combo)',
-              type: 'pizza',
-              price: 0,
-              originalPrice: 12,
-              quantity: 1,
-              isReward: true
-            },
-            { 
-              id: 'bebidas-combo',
-              name: 'Bebidas Gratis (Combo)',
-              type: 'bebida',
-              price: 0,
-              originalPrice: 5,
-              quantity: 2,
-              isReward: true
-            },
-            { 
-              id: 'postre-combo',
-              name: 'Postre Gratis (Combo)',
-              type: 'postre',
-              price: 0,
-              originalPrice: 4,
-              quantity: 1,
-              isReward: true
-            }
-          ],
-          camiseta: [
-            { 
-              id: 'camiseta-fratelli',
-              name: 'Camiseta Fratelli Edición Limitada',
-              type: 'merchandise',
-              price: 0,
-              originalPrice: 25,
-              quantity: 1,
-              isReward: true,
-              note: 'Talla a elegir al finalizar pedido'
-            }
-          ],
-          cena: [
-            { 
-              id: 'pizza-cena-1',
-              name: 'Pizza Gratis (Cena Romántica)',
-              type: 'pizza',
-              price: 0,
-              originalPrice: 12,
-              quantity: 1,
-              isReward: true
-            },
-            { 
-              id: 'pizza-cena-2',
-              name: 'Pizza Gratis (Cena Romántica)',
-              type: 'pizza',
-              price: 0,
-              originalPrice: 12,
-              quantity: 1,
-              isReward: true
-            },
-            { 
-              id: 'bebidas-cena',
-              name: 'Bebidas Gratis (Cena Romántica)',
-              type: 'bebida',
-              price: 0,
-              originalPrice: 5,
-              quantity: 2,
-              isReward: true
-            },
-            { 
-              id: 'postre-cena',
-              name: 'Postre Romántico Gratis',
-              type: 'postre',
-              price: 0,
-              originalPrice: 6,
-              quantity: 1,
-              isReward: true
-            }
-          ]
-        };
-        
-        return rewardCartMapping[rewardType] || [];
-      },
-
-      // Función para limpiar recompensas seleccionadas expiradas (1 hora)
+      // ========== UTILIDADES ==========
+      
       cleanupExpiredRewards() {
         const selectedReward = localStorage.getItem('fratelli_selected_reward');
         if (selectedReward) {
@@ -1613,9 +1546,9 @@
 
       setupEventListeners() {
         // Función para añadir puntos de prueba (Ctrl+Alt+P)
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', async (e) => {
           if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'p') {
-            this.addTestPoints();
+            await this.addTestPoints();
           }
         });
       },
@@ -1623,7 +1556,6 @@
       setupScrollEffects() {
         const headerContainer = document.getElementById('headerContainer');
         
-        // Solo efectos de scroll para desktop (cambio de padding)
         window.addEventListener('scroll', () => {
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
           
@@ -1636,7 +1568,6 @@
           }
         }, { passive: true });
 
-        // Configurar el botón flotante para móvil
         this.setupMobileHeaderToggle();
       },
 
@@ -1674,180 +1605,11 @@
           }
         };
 
-        // Event listeners
         toggleBtn.addEventListener('click', toggleHeader);
         overlay.addEventListener('click', closeHeader);
 
-        // Cerrar al hacer click en un enlace del menú en móvil
         const navLinks = headerContainer.querySelectorAll('.nav-main a');
         navLinks.forEach(link => {
           link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
-              setTimeout(closeHeader, 300); // Pequeño delay para mejor UX
-            }
-          });
-        });
-
-        // Cerrar al cambiar a desktop
-        window.addEventListener('resize', () => {
-          if (window.innerWidth > 768) {
-            isHeaderVisible = false;
-            headerContainer.classList.remove('mobile-visible');
-            overlay.classList.remove('show');
-            toggleBtn.innerHTML = '☰';
-          }
-        });
-
-        // Cerrar con tecla Escape
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            closeHeader();
-          }
-        });
-      },
-
-      async addTestPoints(amount = 500) {
-        if (!this.state.currentUser) {
-          this.showNotification(
-            'Debes estar logueado para añadir puntos de prueba.',
-            'warning',
-            'Login requerido'
-          );
-          return;
-        }
-
-        this.state.currentUser.points = (this.state.currentUser.points || 0) + amount;
-
-        // Actualizar en el sistema
-        if (this.state.isFirebaseEnabled && window.firebase.auth.currentUser) {
-          try {
-            await window.firebase.setDoc(
-              window.firebase.doc(window.firebase.db, 'users', window.firebase.auth.currentUser.uid),
-              {
-                points: this.state.currentUser.points,
-                lastTestPointsAdded: new Date().toISOString()
-              },
-              { merge: true }
-            );
-          } catch (error) {
-            console.error('Error actualizando puntos:', error);
-          }
-        } else {
-          localStorage.setItem('fratelli_current_user', JSON.stringify(this.state.currentUser));
-        }
-
-        this.updateInterface();
-        
-        this.showNotification(
-          `¡${amount} puntos añadidos para pruebas!\n\n🏆 Total actual: ${this.state.currentUser.points} puntos\n\n💡 Ahora puedes probar el sistema de recompensas`,
-          'success',
-          '🎯 Puntos de Prueba',
-          { duration: 6000 }
-        );
-      }
-    };
-
-    // Funciones globales
-    window.redeemReward = (type, cost) => RewardsSystem.redeemReward(type, cost);
-    window.RewardsSystem = RewardsSystem;
-
-    // Funciones auxiliares globales para integración con carrito
-    window.getSelectedReward = () => {
-      const reward = localStorage.getItem('fratelli_selected_reward');
-      return reward ? JSON.parse(reward) : null;
-    };
-
-    window.clearSelectedReward = () => {
-      localStorage.removeItem('fratelli_selected_reward');
-    };
-
-    window.getRewardCartItems = (rewardType) => {
-      return RewardsSystem.getRewardCartItems(rewardType);
-    };
-
-    // Función simple para pedido.html - verificar recompensa seleccionada
-    window.checkForSelectedReward = () => {
-      const reward = window.getSelectedReward();
-      if (reward) {
-        console.log('🎁 Recompensa seleccionada:', reward);
-        return {
-          hasReward: true,
-          reward: reward,
-          items: RewardsSystem.getRewardCartItems(reward.type),
-          message: `Aplicando: ${reward.name}`
-        };
-      }
-      return { hasReward: false };
-    };
-
-    // Inicializar cuando DOM esté listo
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => RewardsSystem.init());
-    } else {
-      RewardsSystem.init();
-    }
-
-    console.log(`
-🏆 FRATELLI PAZZI - SISTEMA DE RECOMPENSAS OPTIMIZADO
-====================================================
-
-✨ Sistema completo de recompensas implementado
-📸 Usa imágenes reales en lugar de iconos
-🎨 Diseño consistente con Fratelli Pazzi
-📱 Totalmente responsive con botón flotante móvil
-🛒 INTEGRACIÓN SIMPLE CON CARRITO
-
-📁 ESTRUCTURA DE IMÁGENES ESPERADA:
-images/recompensas/
-├── bebida-gratis.png
-├── pizza-gratis.png  
-├── calzone-combo.png
-├── combo-completo.png
-├── camiseta-fratelli.png
-└── cena-romantica.png
-
-🚀 FLUJO SIMPLIFICADO:
-1. Usuario hace clic en "Canjear"
-2. Verifica que tenga puntos suficientes
-3. Guarda recompensa seleccionada (1h expiración)
-4. Redirecciona inmediatamente a pedido.html
-5. pedido.html maneja el canje de puntos
-
-💾 DATOS GUARDADOS (SIMPLE):
-{
-  type: 'pizza',
-  name: 'Pizza Gratis 🍕',
-  cost: 1000,
-  userId: 'user@email.com',
-  selectedAt: '2025-01-08T...'
-}
-
-🔧 FUNCIONES PARA PEDIDO.HTML:
-• window.checkForSelectedReward() - Verificar recompensa seleccionada
-• window.getSelectedReward() - Obtener recompensa
-• window.getRewardCartItems(type) - Obtener items del carrito  
-• window.clearSelectedReward() - Limpiar después de usar
-
-📱 MÓVIL OPTIMIZADO:
-• Botón flotante ☰ en esquina superior derecha
-• Header oculto por defecto para más espacio
-• Control total del usuario, no molesto
-
-⌨️ COMANDO DE PRUEBA:
-> Ctrl + Alt + P = Añadir 500 puntos de prueba
-
-🔗 CÓDIGO SIMPLE PARA PEDIDO.HTML:
-// Al cargar la página
-const rewardCheck = window.checkForSelectedReward();
-if (rewardCheck.hasReward) {
-  console.log(rewardCheck.message);
-  // Aplicar items al carrito
-  rewardCheck.items.forEach(item => addToCart(item));
-  // El canje de puntos se maneja en pedido.html
-}
-
-🚀 ¡Sistema optimizado y simple!
-    `);
-  </script>
-</body>
-</html>
+              setTimeout(closeHeader, 300);
