@@ -3383,7 +3383,7 @@ try {
         }
         if (freeRewards) {
           const points = this.state.currentUser.points || 0;
-          freeRewards.textContent = Math.floor(points / 100);
+          freeRewards.textContent = Math.floor(points / 1000);
         }
         
         const emailVerificationBadge = !this.state.currentUser.emailVerified ? 
