@@ -43,8 +43,8 @@ const REWARDS_CONFIG = {
   // Niveles de usuario
   userLevels: {
     'Principiante': { minPoints: 0, color: '#80AF7A', icon: '🍕' },
-    'Aficionado': { minPoints: 500, color: '#D5786C', icon: '🍅' },
-    'Experto': { minPoints: 1500, color: '#cdb87c', icon: '👨‍🍳' },
+    'Aficionado':   { minPoints: 500, color: '#D5786C', icon: '🍅' },
+    'Experto':      { minPoints: 1500, color: '#cdb87c', icon: '👨‍🍳' },
     'Maestro Pizzero': { minPoints: 3000, color: '#253732', icon: '👑' }
   }
 };
@@ -56,46 +56,36 @@ class FirebaseService {
     this.db = db;
     this.isInitialized = true;
     this.rewardsConfig = REWARDS_CONFIG;
-    
     console.log('🔥 Firebase Service with Enhanced Rewards System initialized');
   }
 
   // ========== AUTHENTICATION METHODS ==========
-  
   async signIn(email, password) {
     try {
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
       console.log('✅ User signed in:', userCredential.user.email);
-      
-      // Cargar datos de recompensas del usuario
       await this.loadUserRewards(userCredential.user.uid);
-      
       return { success: true, user: userCredential.user };
     } catch (error) {
       console.error('❌ Sign in error:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   async signUp(email, password, userData = {}) {
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-      
-      // Update profile with display name
+
       if (userData.name) {
         try {
-          await updateProfile(userCredential.user, {
-            displayName: userData.name
-          });
+          await updateProfile(userCredential.user, { displayName: userData.name });
         } catch (profileError) {
           console.error('⚠️ Error updating profile:', profileError);
         }
       }
 
-      // Send email verification
       await this.sendEmailVerification(userCredential.user);
 
-      // Save user data to Firestore with rewards
       await this.saveUserData(userCredential.user.uid, {
         name: userData.name,
         email: email,
@@ -123,29 +113,27 @@ class FirebaseService {
         redeemedRewards: []
       });
 
-      console.log('✅ User registered with welcome bonus:', this.rewardsConfig.welcomeBonus);
+      console.log(`✅ User registered with welcome bonus: ${this.rewardsConfig.welcomeBonus}`);
       return { success: true, user: userCredential.user };
     } catch (error) {
       console.error('❌ Sign up error:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   async signOut() {
     try {
       await signOut(this.auth);
-      // Limpiar datos de recompensas del sessionStorage
       sessionStorage.removeItem('userRewards');
       console.log('✅ User signed out');
       return { success: true };
     } catch (error) {
       console.error('❌ Sign out error:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   // ========== REWARDS SYSTEM METHODS ==========
-  
   async loadUserRewards(uid) {
     try {
       const userData = await this.getUserData(uid);
@@ -157,99 +145,81 @@ class FirebaseService {
           totalPointsSpent: userData.data.totalPointsSpent || 0,
           rewardsHistory: userData.data.rewardsHistory || []
         };
-        
-        // Guardar en sessionStorage para acceso rápido
         sessionStorage.setItem('userRewards', JSON.stringify(rewards));
-        
         console.log('🎁 User rewards loaded:', rewards);
         return { success: true, rewards };
       }
       return { success: false, error: 'No user data found' };
     } catch (error) {
       console.error('❌ Error loading user rewards:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   async addPoints(uid, points, reason, orderId = null) {
     try {
       const userRef = doc(this.db, 'users', uid);
-      
-      // Crear entrada en el historial
+
       const historyEntry = {
         type: 'earned',
-        points: points,
-        reason: reason,
+        points,
+        reason,
         date: new Date().toISOString(),
-        orderId: orderId
+        orderId
       };
 
-      // Actualizar puntos y historial
       await updateDoc(userRef, {
         points: increment(points),
         totalPointsEarned: increment(points),
         rewardsHistory: arrayUnion(historyEntry)
       });
 
-      // Verificar si el usuario subió de nivel
       await this.checkLevelUp(uid);
 
-      // Actualizar sessionStorage
       const currentRewards = JSON.parse(sessionStorage.getItem('userRewards') || '{}');
       currentRewards.points = (currentRewards.points || 0) + points;
       currentRewards.totalPointsEarned = (currentRewards.totalPointsEarned || 0) + points;
       sessionStorage.setItem('userRewards', JSON.stringify(currentRewards));
 
-      console.log(🎁 Added ${points} points to user ${uid} for: ${reason});
+      console.log(`🎁 Added ${points} points to user ${uid} for: ${reason}`);
       return { success: true, pointsAdded: points, newTotal: currentRewards.points };
     } catch (error) {
       console.error('❌ Error adding points:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   async spendPoints(uid, pointsToSpend, reason, rewardData = null) {
     try {
       const userData = await this.getUserData(uid);
-      if (!userData.success || !userData.data) {
-        throw new Error('Usuario no encontrado');
-      }
+      if (!userData.success || !userData.data) throw new Error('Usuario no encontrado');
 
       const currentPoints = userData.data.points || 0;
-      
-      if (currentPoints < pointsToSpend) {
-        throw new Error('Puntos insuficientes');
-      }
+      if (currentPoints < pointsToSpend) throw new Error('Puntos insuficientes');
 
       const userRef = doc(this.db, 'users', uid);
-      
-      // Crear entrada en el historial
+
       const historyEntry = {
         type: 'spent',
         points: pointsToSpend,
-        reason: reason,
+        reason,
         date: new Date().toISOString(),
-        rewardData: rewardData
+        rewardData
       };
 
-      // Actualizar datos del usuario
       await updateDoc(userRef, {
-        points: increment(-pointsToSpent),
+        points: increment(-pointsToSpend),
         totalPointsSpent: increment(pointsToSpend),
         rewardsHistory: arrayUnion(historyEntry)
       });
 
-      // Actualizar sessionStorage
       const currentRewards = JSON.parse(sessionStorage.getItem('userRewards') || '{}');
       currentRewards.points = (currentRewards.points || 0) - pointsToSpend;
       currentRewards.totalPointsSpent = (currentRewards.totalPointsSpent || 0) + pointsToSpend;
       sessionStorage.setItem('userRewards', JSON.stringify(currentRewards));
 
-      console.log(💰 User ${uid} spent ${pointsToSpend} points for: ${reason});
-      return { 
-        success: true, 
-        remainingPoints: currentRewards.points
-      };
+      console.log(`💰 User ${uid} spent ${pointsToSpend} points for: ${reason}`);
+      return { success: true, remainingPoints: currentRewards.points };
     } catch (error) {
       console.error('❌ Error spending points:', error);
       return { success: false, error: error.message };
@@ -263,27 +233,19 @@ class FirebaseService {
 
       const totalPoints = userData.data.totalPointsEarned || 0;
       const currentLevel = userData.data.level || 'Principiante';
-      
+
       let newLevel = 'Principiante';
-      
-      // Determinar nuevo nivel basado en puntos totales ganados
       for (const [level, config] of Object.entries(this.rewardsConfig.userLevels)) {
-        if (totalPoints >= config.minPoints) {
-          newLevel = level;
-        }
+        if (totalPoints >= config.minPoints) newLevel = level;
       }
 
-      // Si subió de nivel, actualizar
       if (newLevel !== currentLevel) {
-        await updateDoc(doc(this.db, 'users', uid), {
-          level: newLevel
-        });
+        await updateDoc(doc(this.db, 'users', uid), { level: newLevel });
 
-        // Bonus por subir de nivel
         const levelUpBonus = this.rewardsConfig.levelUpBonus;
-        await this.addPoints(uid, levelUpBonus, ¡Subiste a nivel ${newLevel}!);
+        await this.addPoints(uid, levelUpBonus, `¡Subiste a nivel ${newLevel}!`);
 
-        console.log(🎉 User ${uid} leveled up to: ${newLevel});
+        console.log(`🎉 User ${uid} leveled up to: ${newLevel}`);
         return { leveledUp: true, newLevel, bonus: levelUpBonus };
       }
 
@@ -300,28 +262,22 @@ class FirebaseService {
 
   getAvailableRewards(userPoints) {
     const available = [];
-    
     for (const [type, cost] of Object.entries(this.rewardsConfig.rewardCosts)) {
       available.push({
-        type: type,
+        type,
         pointsCost: cost,
         canAfford: userPoints >= cost,
         pointsNeeded: userPoints < cost ? cost - userPoints : 0
       });
     }
-    
     return available;
   }
 
   getUserLevel(totalPoints) {
     let level = 'Principiante';
-    
     for (const [levelName, config] of Object.entries(this.rewardsConfig.userLevels)) {
-      if (totalPoints >= config.minPoints) {
-        level = levelName;
-      }
+      if (totalPoints >= config.minPoints) level = levelName;
     }
-    
     return {
       name: level,
       ...this.rewardsConfig.userLevels[level]
@@ -329,77 +285,56 @@ class FirebaseService {
   }
 
   // ========== ENHANCED ORDER PROCESSING ==========
-  
   async processOrderWithRewards(uid, orderData) {
     try {
-      // Calcular puntos por la orden
       const pointsEarned = this.calculateOrderPoints(orderData.total);
-      
-      // Crear registro de orden completo
       const order = {
         ...orderData,
         orderId: 'ORD_' + Date.now(),
         userId: uid,
         date: new Date().toISOString(),
-        pointsEarned: pointsEarned,
+        pointsEarned,
         status: 'confirmed'
       };
 
-      // Agregar orden al historial del usuario
       const userRef = doc(this.db, 'users', uid);
-      await updateDoc(userRef, {
-        orders: arrayUnion(order)
-      });
+      await updateDoc(userRef, { orders: arrayUnion(order) });
 
-      // Agregar puntos por la compra
-      await this.addPoints(uid, pointsEarned, Compra - Orden ${order.orderId}, order.orderId);
+      await this.addPoints(uid, pointsEarned, `Compra - Orden ${order.orderId}`, order.orderId);
 
-      console.log(📦 Order processed for user ${uid}: ${pointsEarned} points earned);
-      return { 
-        success: true, 
-        order: order, 
-        pointsEarned: pointsEarned 
-      };
+      console.log(`📦 Order processed for user ${uid}: ${pointsEarned} points earned`);
+      return { success: true, order, pointsEarned };
     } catch (error) {
       console.error('❌ Error processing order:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   // ========== EMAIL VERIFICATION BONUS ==========
-  
   async processEmailVerification(uid) {
     try {
-      await this.addPoints(
-        uid, 
-        this.rewardsConfig.emailVerificationBonus, 
-        'Email verificado'
-      );
-      
+      await this.addPoints(uid, this.rewardsConfig.emailVerificationBonus, 'Email verificado');
       await updateDoc(doc(this.db, 'users', uid), {
         emailVerified: true,
         emailVerifiedAt: new Date().toISOString()
       });
 
-      console.log(📧 Email verification bonus added: ${this.rewardsConfig.emailVerificationBonus} points);
+      console.log(`📧 Email verification bonus added: ${this.rewardsConfig.emailVerificationBonus} points`);
       return { success: true, bonus: this.rewardsConfig.emailVerificationBonus };
     } catch (error) {
       console.error('❌ Error processing email verification:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   // ========== EXISTING METHODS (UPDATED) ==========
-  
   async sendEmailVerification(user = null, actionCodeSettings = null) {
     try {
       const targetUser = user || this.auth.currentUser;
-      if (!targetUser) {
-        throw new Error('No user available for email verification');
-      }
+      if (!targetUser) throw new Error('No user available for email verification');
 
       const defaultSettings = {
-        url: ${window.location.origin}?emailVerified=true,
+        url: `${window.location.origin}?emailVerified=true`,
         handleCodeInApp: false
       };
 
@@ -408,7 +343,7 @@ class FirebaseService {
       return { success: true };
     } catch (error) {
       console.error('❌ Email verification error:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
@@ -419,7 +354,7 @@ class FirebaseService {
       return { success: true };
     } catch (error) {
       console.error('❌ Password reset error:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
@@ -427,30 +362,25 @@ class FirebaseService {
     if (!this.auth.currentUser) {
       return { success: false, error: 'No current user' };
     }
-    
     try {
       await this.auth.currentUser.reload();
-      
       const isNowVerified = this.auth.currentUser.emailVerified;
-      
+
       if (isNowVerified) {
-        // Otorgar bonus por verificación si no se ha dado antes
         const userData = await this.getUserData(this.auth.currentUser.uid);
         if (userData.success && userData.data && !userData.data.emailVerified) {
           await this.processEmailVerification(this.auth.currentUser.uid);
         }
       }
-      
       console.log('🔄 User email status refreshed');
       return { success: true, emailVerified: isNowVerified };
     } catch (error) {
       console.error('❌ Error refreshing email status:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   // ========== FIRESTORE METHODS ==========
-  
   async saveUserData(uid, userData) {
     try {
       await setDoc(doc(this.db, 'users', uid), userData);
@@ -458,7 +388,7 @@ class FirebaseService {
       return { success: true };
     } catch (error) {
       console.error('❌ Error saving user data:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
@@ -469,14 +399,13 @@ class FirebaseService {
       return { success: true };
     } catch (error) {
       console.error('❌ Error updating user data:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   async getUserData(uid) {
     try {
       const userDoc = await getDoc(doc(this.db, 'users', uid));
-      
       if (userDoc.exists()) {
         console.log('✅ User data retrieved from Firestore');
         return { success: true, data: userDoc.data() };
@@ -486,19 +415,16 @@ class FirebaseService {
       }
     } catch (error) {
       console.error('❌ Error getting user data:', error);
-      return { success: false, error: error };
+      return { success: false, error };
     }
   }
 
   // ========== AUTH STATE LISTENER ==========
-  
   onAuthStateChanged(callback) {
     return onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        // Cargar recompensas cuando el usuario se autentica
         this.loadUserRewards(user.uid);
       } else {
-        // Limpiar datos de recompensas cuando no hay usuario
         sessionStorage.removeItem('userRewards');
       }
       callback(user);
@@ -506,7 +432,6 @@ class FirebaseService {
   }
 
   // ========== UTILITY METHODS ==========
-  
   getCurrentUser() {
     return this.auth.currentUser;
   }
@@ -525,7 +450,6 @@ class FirebaseService {
   }
 
   // ========== ERROR HANDLING ==========
-  
   getErrorMessage(error) {
     const errorMessages = {
       'auth/email-already-in-use': 'Ya existe una cuenta con este email',
@@ -538,7 +462,6 @@ class FirebaseService {
       'auth/user-disabled': 'Esta cuenta ha sido deshabilitada',
       'auth/operation-not-allowed': 'Operación no permitida'
     };
-
     return errorMessages[error.code] || error.message || 'Error desconocido';
   }
 }
@@ -546,7 +469,6 @@ class FirebaseService {
 // Create and export Firebase service instance
 const firebaseService = new FirebaseService();
 
-// Export modules
 export {
   firebaseService as default,
   auth,
@@ -565,13 +487,12 @@ window.FratelliFirebaseAPI = {
       const result = await firebaseService.addPoints(
         firebaseService.getCurrentUser().uid,
         points,
-        Compra - Pedido ${orderId || 'nuevo'},
+        `Compra - Pedido ${orderId || 'nuevo'}`,
         orderId
       );
-      
       if (result.success) {
-        console.log(🎁 ${points} puntos otorgados por compra de ${orderTotal}€);
-        return { success: true, points: points };
+        console.log(`🎁 ${points} puntos otorgados por compra de ${orderTotal}€`);
+        return { success: true, points };
       }
     }
     return { success: false, points: 0 };
@@ -591,7 +512,7 @@ window.FratelliFirebaseAPI = {
   }
 };
 
-console.log(
+console.log(`
 🔥 FIREBASE SERVICE WITH ENHANCED REWARDS
 =========================================
 
@@ -621,4 +542,4 @@ console.log(
 • window.FratelliFirebaseAPI.isUserSignedIn()
 
 📱 Ready for Fratelli Pazzi with Enhanced Rewards!
-);
+`);
