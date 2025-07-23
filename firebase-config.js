@@ -237,7 +237,7 @@ class FirebaseService {
 
       // Actualizar datos del usuario
       await updateDoc(userRef, {
-        points: increment(-pointsToSpent),
+        points: increment(-pointsToSpend),
         totalPointsSpent: increment(pointsToSpend),
         rewardsHistory: arrayUnion(historyEntry)
       });
