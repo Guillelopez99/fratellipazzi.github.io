@@ -1,13 +1,29 @@
-// Import Firebase modules
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-         createUserWithEmailAndPassword, sendEmailVerification,
-         sendPasswordResetEmail, signOut, updateProfile } 
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion } 
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// ========== FIREBASE CONFIGURATION & AUTHENTICATION (Corrected) ==========
+// Firebase configuration and authentication module for Fratelli Pazzi with Rewards System
 
-// Firebase configuration
+// ---- Imports ----
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signOut,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  increment,
+  arrayUnion
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ---- Firebase config ----
 const firebaseConfig = {
   apiKey: "AIzaSyDG1xj3HzkxuYXS1pl1mK-jN3xctgSQ4Xs",
   authDomain: "fratelli-pazzi-pizzeria.firebaseapp.com",
@@ -17,20 +33,18 @@ const firebaseConfig = {
   appId: "1:391760015146:web:24a265cabeefbff2187853"
 };
 
-// Initialize Firebase
+// ---- Init Firebase ----
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// REWARDS SYSTEM CONFIGURATION
+// ---- Rewards config ----
 const REWARDS_CONFIG = {
-  pointsPerEuro: 10,           // 10 puntos por cada euro gastado
-  welcomeBonus: 100,           // 100 puntos al registrarse
-  emailVerificationBonus: 50,  // 50 puntos por verificar email
-  reviewBonus: 25,             // 25 puntos por reseña
-  levelUpBonus: 50,            // 50 puntos por subir de nivel
-  
-  // Costos de recompensas
+  pointsPerEuro: 10,
+  welcomeBonus: 100,
+  emailVerificationBonus: 50,
+  reviewBonus: 25,
+  levelUpBonus: 50,
   rewardCosts: {
     bebida: 300,
     pizza: 1000,
@@ -39,27 +53,25 @@ const REWARDS_CONFIG = {
     camiseta: 5000,
     cena: 10000
   },
-  
-  // Niveles de usuario
   userLevels: {
     'Principiante': { minPoints: 0, color: '#80AF7A', icon: '🍕' },
-    'Aficionado':   { minPoints: 500, color: '#D5786C', icon: '🍅' },
-    'Experto':      { minPoints: 1500, color: '#cdb87c', icon: '👨‍🍳' },
+    'Aficionado'  : { minPoints: 500, color: '#D5786C', icon: '🍅' },
+    'Experto'     : { minPoints: 1500, color: '#cdb87c', icon: '👨‍🍳' },
     'Maestro Pizzero': { minPoints: 3000, color: '#253732', icon: '👑' }
   }
 };
 
-// Firebase Service Class with Enhanced Rewards System
+// ---- Service Class ----
 class FirebaseService {
   constructor() {
     this.auth = auth;
     this.db = db;
-    this.isInitialized = true;
     this.rewardsConfig = REWARDS_CONFIG;
+    this.isInitialized = true;
     console.log('🔥 Firebase Service with Enhanced Rewards System initialized');
   }
 
-  // ========== AUTHENTICATION METHODS ==========
+  // ===== AUTHENTICATION =====
   async signIn(email, password) {
     try {
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
@@ -87,15 +99,15 @@ class FirebaseService {
       await this.sendEmailVerification(userCredential.user);
 
       await this.saveUserData(userCredential.user.uid, {
-        name: userData.name,
-        email: email,
+        name: userData.name || null,
+        email,
         phone: userData.phone || null,
         acceptsOffers: userData.acceptsOffers || false,
         registeredAt: new Date().toISOString(),
         emailVerified: false,
         hasUsedWelcomeDiscount: false,
-        
-        // REWARDS DATA
+
+        // Rewards data
         points: this.rewardsConfig.welcomeBonus,
         totalPointsEarned: this.rewardsConfig.welcomeBonus,
         totalPointsSpent: 0,
@@ -113,7 +125,7 @@ class FirebaseService {
         redeemedRewards: []
       });
 
-      console.log(`✅ User registered with welcome bonus: ${this.rewardsConfig.welcomeBonus}`);
+      console.log('✅ User registered with welcome bonus:', this.rewardsConfig.welcomeBonus);
       return { success: true, user: userCredential.user };
     } catch (error) {
       console.error('❌ Sign up error:', error);
@@ -133,7 +145,7 @@ class FirebaseService {
     }
   }
 
-  // ========== REWARDS SYSTEM METHODS ==========
+  // ===== REWARDS =====
   async loadUserRewards(uid) {
     try {
       const userData = await this.getUserData(uid);
@@ -159,7 +171,6 @@ class FirebaseService {
   async addPoints(uid, points, reason, orderId = null) {
     try {
       const userRef = doc(this.db, 'users', uid);
-
       const historyEntry = {
         type: 'earned',
         points,
@@ -198,7 +209,6 @@ class FirebaseService {
       if (currentPoints < pointsToSpend) throw new Error('Puntos insuficientes');
 
       const userRef = doc(this.db, 'users', uid);
-
       const historyEntry = {
         type: 'spent',
         points: pointsToSpend,
@@ -229,14 +239,14 @@ class FirebaseService {
   async checkLevelUp(uid) {
     try {
       const userData = await this.getUserData(uid);
-      if (!userData.success || !userData.data) return;
+      if (!userData.success || !userData.data) return { leveledUp: false };
 
       const totalPoints = userData.data.totalPointsEarned || 0;
       const currentLevel = userData.data.level || 'Principiante';
-
       let newLevel = 'Principiante';
-      for (const [level, config] of Object.entries(this.rewardsConfig.userLevels)) {
-        if (totalPoints >= config.minPoints) newLevel = level;
+
+      for (const [level, cfg] of Object.entries(this.rewardsConfig.userLevels)) {
+        if (totalPoints >= cfg.minPoints) newLevel = level;
       }
 
       if (newLevel !== currentLevel) {
@@ -256,35 +266,28 @@ class FirebaseService {
     }
   }
 
-  calculateOrderPoints(orderTotal) {
-    return Math.floor(orderTotal * this.rewardsConfig.pointsPerEuro);
+  calculateOrderPoints(total) {
+    return Math.floor(total * this.rewardsConfig.pointsPerEuro);
   }
 
   getAvailableRewards(userPoints) {
-    const available = [];
-    for (const [type, cost] of Object.entries(this.rewardsConfig.rewardCosts)) {
-      available.push({
-        type,
-        pointsCost: cost,
-        canAfford: userPoints >= cost,
-        pointsNeeded: userPoints < cost ? cost - userPoints : 0
-      });
-    }
-    return available;
+    return Object.entries(this.rewardsConfig.rewardCosts).map(([type, cost]) => ({
+      type,
+      pointsCost: cost,
+      canAfford: userPoints >= cost,
+      pointsNeeded: userPoints < cost ? cost - userPoints : 0
+    }));
   }
 
   getUserLevel(totalPoints) {
     let level = 'Principiante';
-    for (const [levelName, config] of Object.entries(this.rewardsConfig.userLevels)) {
-      if (totalPoints >= config.minPoints) level = levelName;
+    for (const [name, cfg] of Object.entries(this.rewardsConfig.userLevels)) {
+      if (totalPoints >= cfg.minPoints) level = name;
     }
-    return {
-      name: level,
-      ...this.rewardsConfig.userLevels[level]
-    };
+    return { name: level, ...this.rewardsConfig.userLevels[level] };
   }
 
-  // ========== ENHANCED ORDER PROCESSING ==========
+  // ===== ORDER PROCESSING =====
   async processOrderWithRewards(uid, orderData) {
     try {
       const pointsEarned = this.calculateOrderPoints(orderData.total);
@@ -310,7 +313,7 @@ class FirebaseService {
     }
   }
 
-  // ========== EMAIL VERIFICATION BONUS ==========
+  // ===== EMAIL VERIFICATION BONUS =====
   async processEmailVerification(uid) {
     try {
       await this.addPoints(uid, this.rewardsConfig.emailVerificationBonus, 'Email verificado');
@@ -318,7 +321,6 @@ class FirebaseService {
         emailVerified: true,
         emailVerifiedAt: new Date().toISOString()
       });
-
       console.log(`📧 Email verification bonus added: ${this.rewardsConfig.emailVerificationBonus} points`);
       return { success: true, bonus: this.rewardsConfig.emailVerificationBonus };
     } catch (error) {
@@ -327,7 +329,7 @@ class FirebaseService {
     }
   }
 
-  // ========== EXISTING METHODS (UPDATED) ==========
+  // ===== EXISTING METHODS =====
   async sendEmailVerification(user = null, actionCodeSettings = null) {
     try {
       const targetUser = user || this.auth.currentUser;
@@ -359,9 +361,7 @@ class FirebaseService {
   }
 
   async refreshUserEmailStatus() {
-    if (!this.auth.currentUser) {
-      return { success: false, error: 'No current user' };
-    }
+    if (!this.auth.currentUser) return { success: false, error: 'No current user' };
     try {
       await this.auth.currentUser.reload();
       const isNowVerified = this.auth.currentUser.emailVerified;
@@ -372,6 +372,7 @@ class FirebaseService {
           await this.processEmailVerification(this.auth.currentUser.uid);
         }
       }
+
       console.log('🔄 User email status refreshed');
       return { success: true, emailVerified: isNowVerified };
     } catch (error) {
@@ -380,7 +381,7 @@ class FirebaseService {
     }
   }
 
-  // ========== FIRESTORE METHODS ==========
+  // ===== FIRESTORE =====
   async saveUserData(uid, userData) {
     try {
       await setDoc(doc(this.db, 'users', uid), userData);
@@ -409,17 +410,16 @@ class FirebaseService {
       if (userDoc.exists()) {
         console.log('✅ User data retrieved from Firestore');
         return { success: true, data: userDoc.data() };
-      } else {
-        console.log('⚠️ No user document found');
-        return { success: false, error: 'No user document found' };
       }
+      console.log('⚠️ No user document found');
+      return { success: false, error: 'No user document found' };
     } catch (error) {
       console.error('❌ Error getting user data:', error);
       return { success: false, error };
     }
   }
 
-  // ========== AUTH STATE LISTENER ==========
+  // ===== AUTH STATE LISTENER =====
   onAuthStateChanged(callback) {
     return onAuthStateChanged(this.auth, (user) => {
       if (user) {
@@ -431,7 +431,7 @@ class FirebaseService {
     });
   }
 
-  // ========== UTILITY METHODS ==========
+  // ===== UTILITIES =====
   getCurrentUser() {
     return this.auth.currentUser;
   }
@@ -449,7 +449,7 @@ class FirebaseService {
     return rewards ? JSON.parse(rewards) : null;
   }
 
-  // ========== ERROR HANDLING ==========
+  // ===== ERROR HANDLING =====
   getErrorMessage(error) {
     const errorMessages = {
       'auth/email-already-in-use': 'Ya existe una cuenta con este email',
@@ -466,7 +466,7 @@ class FirebaseService {
   }
 }
 
-// Create and export Firebase service instance
+// ---- Instance & Exports ----
 const firebaseService = new FirebaseService();
 
 export {
@@ -476,10 +476,8 @@ export {
   REWARDS_CONFIG
 };
 
-// Make Firebase service globally available
+// ---- Global helpers ----
 window.firebaseService = firebaseService;
-
-// Simple API for pedido.html
 window.FratelliFirebaseAPI = {
   async addPointsAfterPurchase(orderTotal, orderId = null) {
     if (firebaseService.getCurrentUser()) {
@@ -497,16 +495,13 @@ window.FratelliFirebaseAPI = {
     }
     return { success: false, points: 0 };
   },
-
   getCurrentPoints() {
     const rewards = firebaseService.getCurrentUserRewards();
     return rewards ? rewards.points : 0;
   },
-
   isUserSignedIn() {
     return firebaseService.isUserSignedIn();
   },
-
   getCurrentUser() {
     return firebaseService.getCurrentUser();
   }
