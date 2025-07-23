@@ -1613,3 +1613,35 @@
           link.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
               setTimeout(closeHeader, 300);
+				          }
+          });
+        });
+      }
+    },
+
+    async addTestPoints() {
+      if (!this.state.currentUser) {
+        this.showNotification('Inicia sesión primero', 'warning');
+        return;
+      }
+      const uid = this.state.currentUser.uid;
+      const pts = 50;
+      const res = await firebaseService.addPoints(uid, pts, 'Test (Ctrl+Alt+P)');
+      if (res.success) {
+        await this.loadUserRewards();
+        this.updateInterface();
+        this.showNotification(`+${pts} puntos de prueba añadidos`, 'success', 'Test OK');
+      } else {
+        this.showNotification('No se pudieron añadir puntos de prueba', 'error');
+      }
+    }
+  }; // ← fin del objeto EnhancedRewardsSystem
+
+  // Exponer funciones globales usadas en el HTML
+  window.EnhancedRewardsSystem = EnhancedRewardsSystem;
+  window.redeemReward = (type, cost) => EnhancedRewardsSystem.redeemReward(type, cost);
+
+  // Iniciar el sistema cuando cargue el DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    EnhancedRewardsSystem.init();
+  });
