@@ -21,6 +21,9 @@
 		  --gradient-gold: linear-gradient(135deg, var(--gold) 0%, #ddc589 100%);
 		  --gradient-sage: linear-gradient(135deg, var(--sage) 0%, #8fb584 100%);
 		  --gradient-cream: linear-gradient(135deg, var(--cream) 0%, #f8f5f0 100%);
+		  --reward-gold: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+          --reward-green: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+}
 
 		  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
 		  --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.12);
@@ -61,7 +64,247 @@
 		  min-height: 100vh;
 		  width: 100%;
 		}
+.reward-banner {
+  background: var(--reward-green);
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  display: none;
+  animation: rewardPulse 2s infinite;
+  position: fixed;
+  top: 140px;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  box-shadow: 0 4px 20px rgba(0, 184, 148, 0.3);
+  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+}
 
+.reward-banner.active {
+  display: block;
+}
+
+@keyframes rewardPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.95; }
+}
+		  /* Productos con recompensa disponible */
+.pizza-card.reward-eligible {
+  border: 3px solid #00b894 !important;
+  background: linear-gradient(145deg, rgba(0, 184, 148, 0.1), rgba(30, 33, 34, 0.9)) !important;
+  position: relative;
+  overflow: visible;
+}
+
+.pizza-card.reward-eligible::before {
+  content: '🎁 GRATIS';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--reward-green);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+  animation: rewardBounce 2s infinite;
+  z-index: 10;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes rewardBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-8px) scale(1.05); }
+  60% { transform: translateY(-4px) scale(1.02); }
+}
+
+.pizza-card.reward-eligible .pizza-price {
+  text-decoration: line-through;
+  opacity: 0.7;
+  position: relative;
+}
+
+.pizza-card.reward-eligible .pizza-price::after {
+  content: 'GRATIS';
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  color: #00b894;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  animation: rewardGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes rewardGlow {
+  from { text-shadow: 0 0 5px rgba(0, 184, 148, 0.5); }
+  to { text-shadow: 0 0 15px rgba(0, 184, 148, 0.8); }
+}
+
+/* Items de recompensa en el carrito */
+.carrito-item.reward {
+  background: linear-gradient(135deg, rgba(0, 184, 148, 0.15) 0%, rgba(0, 206, 201, 0.1) 100%);
+  border: 2px solid #00b894;
+  position: relative;
+  animation: rewardShimmer 3s ease-in-out infinite;
+}
+
+@keyframes rewardShimmer {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 184, 148, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 184, 148, 0.5); }
+}
+
+.carrito-item.reward::before {
+  content: '🎁 RECOMPENSA';
+  position: absolute;
+  top: -8px;
+  right: 8px;
+  background: var(--reward-green);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0, 184, 148, 0.4);
+}
+
+.carrito-item.reward .carrito-item-price {
+  color: #00b894 !important;
+  text-decoration: line-through;
+  position: relative;
+}
+
+.carrito-item.reward .carrito-item-price::after {
+  content: 'GRATIS';
+  position: absolute;
+  left: 0;
+  bottom: -18px;
+  color: #00b894;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.carrito-item.reward .quantity-controls,
+.carrito-item.reward .remove-btn {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Selector de productos para recompensas */
+.reward-selector {
+  background: rgba(0, 184, 148, 0.1);
+  border: 2px solid #00b894;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  display: none;
+}
+
+.reward-selector.active {
+  display: block;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reward-selector h3 {
+  color: #00b894;
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.reward-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.reward-option {
+  background: rgba(0, 184, 148, 0.05);
+  border: 2px solid rgba(0, 184, 148, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.reward-option:hover {
+  background: rgba(0, 184, 148, 0.15);
+  border-color: #00b894;
+  transform: translateY(-2px);
+}
+
+.reward-option.selected {
+  background: var(--reward-green);
+  color: white;
+  border-color: #00cec9;
+}
+
+/* Notification especial para recompensas */
+.notification.reward {
+  background: var(--reward-green) !important;
+  color: white !important;
+  border-left: 4px solid #00cec9 !important;
+  box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4) !important;
+  animation: rewardNotification 0.5s ease !important;
+}
+
+@keyframes rewardNotification {
+  0% { transform: translateX(100%) scale(0.8); }
+  50% { transform: translateX(-10px) scale(1.05); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+/* Resumen con descuentos de recompensa */
+.summary-row.reward-discount {
+  color: #00b894 !important;
+  font-weight: 700;
+  background: rgba(0, 184, 148, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  margin: 5px 0;
+}
+
+.summary-row.reward-discount::before {
+  content: '🎁 ';
+  margin-right: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .reward-banner {
+    top: 100px;
+    font-size: 14px;
+    padding: 12px 15px;
+  }
+  
+  .pizza-card.reward-eligible::before {
+    font-size: 10px;
+    padding: 6px 12px;
+    top: -8px;
+    right: -8px;
+  }
+  
+  .reward-options {
+    grid-template-columns: 1fr;
+  }
+}
+		  
 		.header-container {
 		  position: fixed;
 		  top: 0;
@@ -2915,6 +3158,49 @@
 			'VERANO5': { descuento: 5.00, tipo: 'fijo', usado: false }
 		  }
 		};
+		  const REWARD_CONFIG = {
+  types: {
+    'bebida': { 
+      name: 'Bebida Gratis 🥤', 
+      cost: 300, 
+      categories: ['bebidas'],
+      maxPrice: 2.5 
+    },
+    'pizza': { 
+      name: 'Pizza Gratis 🍕', 
+      cost: 1000, 
+      categories: ['pizzas'],
+      maxPrice: 12 
+    },
+    'calzone': { 
+      name: 'Calzone Gratis + Bebida 🥟', 
+      cost: 1500, 
+      categories: ['calzones', 'bebidas'],
+      maxPrice: 12 
+    },
+    'combo': { 
+      name: 'Pizza + 2 Bebidas + Postre 🎉', 
+      cost: 2500, 
+      categories: ['pizzas', 'bebidas', 'helados'],
+      items: { pizzas: 1, bebidas: 2, helados: 1 }
+    },
+    'camiseta': { 
+      name: 'Camiseta Oficial 👕', 
+      cost: 5000, 
+      special: true 
+    },
+    'cena': { 
+      name: 'Cena para 2 🍽️', 
+      cost: 10000, 
+      categories: ['pizzas', 'bebidas', 'helados'],
+      items: { pizzas: 2, bebidas: 2, helados: 1 }
+    }
+  }
+};
+
+// Variables globales para recompensas
+let recompensaActiva = null;
+let productosRecompensaSeleccionados = [];
 
 		const ingredientesDisponibles = {
 	  'tomate san marzano': { nombre: 'Tomate San Marzano', precio: 0, categoria: 'base' },
@@ -3009,19 +3295,24 @@
 		}
 
 		function guardarDatos() {
-		  try {
-			localStorage.setItem('fratelli-pazzi-carrito', JSON.stringify(carrito));
-			localStorage.setItem('fratelli-pazzi-cupones', JSON.stringify(CONFIG.cupones));
-			localStorage.setItem('fratelli-pazzi-cantidades', JSON.stringify(cantidadProductoSeleccionado));
-			localStorage.setItem('fratelli-pazzi-personalizaciones', JSON.stringify(personalizacionActual));
-		  } catch (error) {
-			console.warn('No se pudo guardar los datos:', error);
-		  }
-		}
-
+  try {
+    // 🔥 FIREBASE TODO: Reemplazar localStorage por Firebase
+    localStorage.setItem('fratelli-pazzi-carrito', JSON.stringify(carrito));
+    localStorage.setItem('fratelli-pazzi-cupones', JSON.stringify(CONFIG.cupones));
+    localStorage.setItem('fratelli-pazzi-cantidades', JSON.stringify(cantidadProductoSeleccionado));
+    localStorage.setItem('fratelli-pazzi-personalizaciones', JSON.stringify(personalizacionActual));
+    
+    // NUEVO: Guardar estado de recompensas
+    if (recompensaActiva) {
+      localStorage.setItem('fratelli-reward-state', JSON.stringify(recompensaActiva));
+    }
+  } catch (error) {
+    console.warn('No se pudo guardar los datos:', error);
+  }
+}
 		function cargarDatos() {
   try {
-    // Cargar datos básicos primero
+    // 🔥 FIREBASE TODO: Reemplazar localStorage por Firebase
     const carritoGuardado = localStorage.getItem('fratelli-pazzi-carrito');
     const favoritosGuardados = localStorage.getItem('fratelli-pazzi-favoritos');
     const cuponesGuardados = localStorage.getItem('fratelli-pazzi-cupones');
@@ -3030,7 +3321,6 @@
 
     if (carritoGuardado) carrito = JSON.parse(carritoGuardado);
     
-    // Verificar si hay usuario autenticado para favoritos
     if (window.firebaseService && window.firebaseService.isUserSignedIn()) {
       cargarFavoritosDesdeFirebase();
     } else {
@@ -3041,62 +3331,17 @@
     if (cantidadesGuardadas) cantidadProductoSeleccionado = JSON.parse(cantidadesGuardadas);
     if (personalizacionesGuardadas) personalizacionActual = JSON.parse(personalizacionesGuardadas);
 
-    // NUEVO: Verificar recompensas después de cargar datos básicos
-    verificarYAplicarRecompensas();
+    // NUEVO: Cargar estado de recompensas
+    const rewardState = localStorage.getItem('fratelli-reward-state');
+    if (rewardState) {
+      recompensaActiva = JSON.parse(rewardState);
+    }
 
     actualizarCarrito();
   } catch (error) {
     console.warn('No se pudo cargar los datos:', error);
   }
 }
-		  function verificarYAplicarRecompensas() {
-  // Esperar a que el sistema de recompensas esté disponible
-  const intentarAplicarRecompensas = () => {
-    if (typeof window.FratelliRewardsAPI === 'undefined' || 
-        typeof window.FratelliRewardsAPI.checkForSelectedReward !== 'function') {
-      return false;
-    }
-
-    try {
-      const rewardCheck = window.FratelliRewardsAPI.checkForSelectedReward();
-      if (rewardCheck && rewardCheck.hasReward) {
-        console.log('🎁 Recompensa encontrada:', rewardCheck.reward.name);
-        mostrarNotificacion(`Aplicando: ${rewardCheck.reward.name}`, 'fratelli');
-        
-        // Verificar si ya está aplicada para evitar duplicados
-        const yaAplicada = carrito.some(item => item.isReward && item.rewardType === rewardCheck.reward.type);
-        if (yaAplicada) {
-          console.log('🎁 Recompensa ya aplicada anteriormente');
-          return true;
-        }
-        
-        // Aplicar items gratuitos al carrito
-        rewardCheck.items.forEach(item => {
-          carrito.push({
-            itemId: `reward_${item.id}_${Date.now()}`,
-            id: item.id,
-            nombre: item.name,
-            precio: item.originalPrice || 0,
-            precioFinal: item.price, // Siempre 0 para recompensas
-            cantidad: item.quantity,
-            imagen: item.imagen || 'images/reward-item.png',
-            categoria: item.type,
-            isReward: true,
-            rewardType: rewardCheck.reward.type, // Para evitar duplicados
-            personalizacion: { ingredientesQuitados: [], ingredientesAnadidos: [] }
-          });
-        });
-        
-        actualizarCarrito();
-        guardarDatos();
-        return true;
-      }
-      return true; // No hay recompensa, pero la función funciona
-    } catch (error) {
-      console.error('Error aplicando recompensas:', error);
-      return false;
-    }
-  };
 
   // Intentar inmediatamente
   if (intentarAplicarRecompensas()) {
@@ -3834,140 +4079,178 @@
 		}
 
 		function agregarAlCarrito(productoId, mostrarNotif = true, personalizacion = null) {
-		  try {
-			const producto = productos.find(p => p.id === productoId);
-			if (!producto) {
-			  mostrarNotificacion('Producto no encontrado', 'error');
-			  return;
-			}
+  try {
+    const producto = productos.find(p => p.id === productoId);
+    if (!producto) {
+      mostrarNotificacion('Producto no encontrado', 'error');
+      return;
+    }
 
-			const cantidadSeleccionada = cantidadProductoSeleccionado[productoId] || 1;
+    // NUEVO: Verificar si es un producto elegible para recompensa y no hay recompensa seleccionada
+    if (recompensaActiva && !carrito.some(item => item.isReward)) {
+      const esElegible = obtenerProductosElegiblesParaRecompensa(recompensaActiva.type)
+        .some(p => p.id === productoId);
+      
+      if (esElegible) {
+        mostrarNotificacion('⚠️ Puedes obtener este producto GRATIS con tu recompensa. ¡Úsala primero!', 'warning');
+        return;
+      }
+    }
 
-			const personalizacionFinal = personalizacion || {
-			  ingredientesQuitados: [],
-			  ingredientesAnadidos: []
-			};
+    const cantidadSeleccionada = cantidadProductoSeleccionado[productoId] || 1;
 
-			const precioFinal = calcularPrecioPersonalizado(
-			  producto, 
-			  personalizacionFinal.ingredientesQuitados || [], 
-			  personalizacionFinal.ingredientesAnadidos || []
-			);
+    const personalizacionFinal = personalizacion || {
+      ingredientesQuitados: [],
+      ingredientesAnadidos: []
+    };
 
-			const personalizacionId = JSON.stringify(personalizacionFinal);
-			const itemId = `${productoId}_${btoa(personalizacionId).replace(/[^a-zA-Z0-9]/g, '')}`;
+    const precioFinal = calcularPrecioPersonalizado(
+      producto, 
+      personalizacionFinal.ingredientesQuitados || [], 
+      personalizacionFinal.ingredientesAnadidos || []
+    );
 
-			const existente = carrito.find(item => item.itemId === itemId);
-			if (existente) {
-			  existente.cantidad += cantidadSeleccionada;
-			} else {
-			  const nuevoItem = { 
-				itemId: itemId,
-				id: productoId,
-				nombre: producto.nombre, 
-				precio: producto.precio,
-				precioFinal: precioFinal,
-				cantidad: cantidadSeleccionada,
-				imagen: producto.imagen,
-				categoria: producto.categoria,
-				personalizacion: personalizacionFinal
-			  };
+    const personalizacionId = JSON.stringify(personalizacionFinal);
+    const itemId = `${productoId}_${btoa(personalizacionId).replace(/[^a-zA-Z0-9]/g, '')}`;
 
-			  carrito.push(nuevoItem);
-			}
+    const existente = carrito.find(item => item.itemId === itemId);
+    if (existente) {
+      existente.cantidad += cantidadSeleccionada;
+    } else {
+      const nuevoItem = { 
+        itemId: itemId,
+        id: productoId,
+        nombre: producto.nombre, 
+        precio: producto.precio,
+        precioFinal: precioFinal,
+        cantidad: cantidadSeleccionada,
+        imagen: producto.imagen,
+        categoria: producto.categoria,
+        isReward: false, // NUEVO: Marcar como producto normal
+        personalizacion: personalizacionFinal
+      };
 
-			actualizarCarrito();
-			guardarDatos();
+      carrito.push(nuevoItem);
+    }
 
-			if (mostrarNotif) {
-			  let mensaje = `${producto.nombre} añadido al carrito`;
-			  const textoPersonalizacion = generarTextoPersonalizacion(
-				personalizacionFinal.ingredientesQuitados || [], 
-				personalizacionFinal.ingredientesAnadidos || []
-			  );
-			  if (textoPersonalizacion) {
-				mensaje += ` (${textoPersonalizacion})`;
-			  }
-			  mostrarNotificacion(mensaje, 'success');
-			}
+    actualizarCarrito();
+    guardarDatos();
 
-			const button = event?.target || document.querySelector(`[onclick*="agregarAlCarrito(${productoId})"]`);
-			if (button) {
-			  button.classList.add('adding');
-			  setTimeout(() => {
-				button.classList.remove('adding');
-			  }, 600);
-			}
+    if (mostrarNotif) {
+      let mensaje = `${producto.nombre} añadido al carrito`;
+      const textoPersonalizacion = generarTextoPersonalizacion(
+        personalizacionFinal.ingredientesQuitados || [], 
+        personalizacionFinal.ingredientesAnadidos || []
+      );
+      if (textoPersonalizacion) {
+        mensaje += ` (${textoPersonalizacion})`;
+      }
+      mostrarNotificacion(mensaje, 'success');
+    }
 
-		  } catch (error) {
-			manejarError(error, 'Error al añadir producto al carrito');
-		  }
-		}
+    const button = event?.target || document.querySelector(`[onclick*="agregarAlCarrito(${productoId})"]`);
+    if (button) {
+      button.classList.add('adding');
+      setTimeout(() => {
+        button.classList.remove('adding');
+      }, 600);
+    }
+
+  } catch (error) {
+    manejarError(error, 'Error al añadir producto al carrito');
+  }
+}
 
 		function eliminarDelCarrito(itemId) {
-		  try {
-			const index = carrito.findIndex(item => item.itemId === itemId);
-			if (index > -1) {
-			  const nombreProducto = carrito[index].nombre;
-			  carrito.splice(index, 1);
-			  actualizarCarrito();
-			  guardarDatos();
-			  mostrarNotificacion(`${nombreProducto} eliminado del carrito`, 'warning');
-			}
-		  } catch (error) {
-			manejarError(error, 'Error al eliminar producto');
-		  }
-		}
+  try {
+    const index = carrito.findIndex(item => item.itemId === itemId);
+    if (index > -1) {
+      const item = carrito[index];
+      
+      // NUEVO: No permitir eliminar items de recompensa
+      if (item.isReward) {
+        mostrarNotificacion('⚠️ No puedes eliminar productos de recompensa', 'warning');
+        return;
+      }
+      
+      const nombreProducto = item.nombre;
+      carrito.splice(index, 1);
+      actualizarCarrito();
+      guardarDatos();
+      mostrarNotificacion(`${nombreProducto} eliminado del carrito`, 'warning');
+    }
+  } catch (error) {
+    manejarError(error, 'Error al eliminar producto');
+  }
+}
 
 		function cambiarCantidad(itemId, cambio) {
-		  try {
-			const item = carrito.find(item => item.itemId === itemId);
-			if (item) {
-			  item.cantidad += cambio;
-			  if (item.cantidad <= 0) {
-				eliminarDelCarrito(itemId);
-			  } else {
-				actualizarCarrito();
-				guardarDatos();
-			  }
-			}
-		  } catch (error) {
-			manejarError(error, 'Error al cambiar cantidad');
-		  }
-		}
+  try {
+    const item = carrito.find(item => item.itemId === itemId);
+    if (item) {
+      // NUEVO: No permitir cambiar cantidad de items de recompensa
+      if (item.isReward) {
+        mostrarNotificacion('⚠️ No puedes cambiar la cantidad de productos de recompensa', 'warning');
+        return;
+      }
+      
+      item.cantidad += cambio;
+      if (item.cantidad <= 0) {
+        eliminarDelCarrito(itemId);
+      } else {
+        actualizarCarrito();
+        guardarDatos();
+      }
+    }
+  } catch (error) {
+    manejarError(error, 'Error al cambiar cantidad');
+  }
+}
 
 		function calcularTotales() {
-		  let subtotal = 0;
-		  let totalItems = 0;
+  let subtotal = 0;
+  let totalItems = 0;
+  let descuentoRecompensa = 0;
 
-		  carrito.forEach(item => {
-			const precioUnitario = item.precioFinal || item.precio;
-			subtotal += precioUnitario * item.cantidad;
-			totalItems += item.cantidad;
-		  });
+  carrito.forEach(item => {
+    const precioUnitario = item.precioFinal || item.precio;
+    subtotal += precioUnitario * item.cantidad;
+    totalItems += item.cantidad;
 
-		  let descuento = 0;
-		  if (cuponAplicado) {
-			const cupon = CONFIG.cupones[cuponAplicado];
-			if (cupon.tipo === 'porcentaje') {
-			  descuento = subtotal * cupon.descuento;
-			} else {
-			  descuento = cupon.descuento;
-			}
-		  }
+    // NUEVO: Calcular descuento por recompensas
+    if (item.isReward) {
+      descuentoRecompensa += item.precio * item.cantidad; // Precio original
+    }
+  });
 
-		  const subtotalConDescuento = subtotal - descuento;
-		  const envio = carrito.length > 0 ? (subtotalConDescuento >= CONFIG.envioGratis ? 0 : CONFIG.envio) : 0;
-		  const totalFinal = subtotalConDescuento + envio;
+  let descuento = 0;
+  if (cuponAplicado) {
+    const cupon = CONFIG.cupones[cuponAplicado];
+    if (cupon.tipo === 'porcentaje') {
+      descuento = subtotal * cupon.descuento;
+    } else {
+      descuento = cupon.descuento;
+    }
+  }
 
-		  return { subtotal, totalItems, envio, totalFinal, descuento };
-		}
+  const subtotalConDescuento = subtotal - descuento;
+  const envio = carrito.length > 0 ? (subtotalConDescuento >= CONFIG.envioGratis ? 0 : CONFIG.envio) : 0;
+  const totalFinal = subtotalConDescuento + envio;
+
+  return { 
+    subtotal, 
+    totalItems, 
+    envio, 
+    totalFinal, 
+    descuento, 
+    descuentoRecompensa 
+  };
+}
 
 		function actualizarCarrito() {
 		  try {
-			const { subtotal, totalItems, envio, totalFinal, descuento } = calcularTotales();
-
-			const badge = document.getElementById('carrito-badge');
+			const { subtotal, totalItems, envio, totalFinal, descuento, descuentoRecompensa } = calcularTotales();
+		    const badge = document.getElementById('carrito-badge');
 			const total = document.getElementById('total-carrito');
 			const itemsCount = document.getElementById('carrito-items-count');
 			const subtotalEl = document.getElementById('subtotal');
@@ -3977,6 +4260,8 @@
 			const discountAmount = document.getElementById('discount-amount');
 			const carritoItems = document.getElementById('carrito-items');
 			const btnPagar = document.getElementById('btn-pagar');
+			const rewardDiscountRow = document.getElementById('reward-discount-row');
+			const rewardDiscountAmount = document.getElementById('reward-discount-amount');
 
 			if (totalItems > 0) {
 			  badge.style.display = 'flex';
@@ -3991,12 +4276,12 @@
 			envioEl.textContent = envio === 0 ? 'Gratis' : formatearPrecio(envio);
 			totalFinalEl.textContent = formatearPrecio(totalFinal);
 
-			if (descuento > 0) {
-			  discountRow.classList.remove('hidden');
-			  discountAmount.textContent = '-' + formatearPrecio(descuento);
-			} else {
-			  discountRow.classList.add('hidden');
-			}
+			if (descuentoRecompensa > 0) {
+	rewardDiscountRow.classList.remove('hidden');
+	rewardDiscountAmount.textContent = '-' + formatearPrecio(descuentoRecompensa);
+	} else {
+	rewardDiscountRow.classList.add('hidden');
+}
 
 			btnPagar.disabled = carrito.length === 0;
 
@@ -4015,21 +4300,49 @@
 			  `;
 			} else {
 			  carritoItems.innerHTML = carrito.map(item => {
-				const precioUnitario = item.precioFinal || item.precio;
-				const precioTotal = precioUnitario * item.cantidad;
+  const precioUnitario = item.precioFinal || item.precio;
+  const precioTotal = precioUnitario * item.cantidad;
+  const esRecompensa = item.isReward;
 
-				let personalizacionTexto = '';
-				if (item.personalizacion) {
-				  const textoPersonalizacion = generarTextoPersonalizacion(
-					item.personalizacion.ingredientesQuitados || [], 
-					item.personalizacion.ingredientesAnadidos || []
-				  );
-				  if (textoPersonalizacion) {
-					personalizacionTexto = `<div class="carrito-item-customization">${textoPersonalizacion}</div>`;
-				  }
-				}
+  let personalizacionTexto = '';
+  if (item.personalizacion) {
+    const textoPersonalizacion = generarTextoPersonalizacion(
+      item.personalizacion.ingredientesQuitados || [], 
+      item.personalizacion.ingredientesAnadidos || []
+    );
+    if (textoPersonalizacion) {
+      personalizacionTexto = `<div class="carrito-item-customization">${textoPersonalizacion}</div>`;
+    }
+  }
 
-				return `
+  return `
+    <div class="carrito-item ${esRecompensa ? 'reward' : ''}" role="listitem">
+      <img src="${item.imagen}" alt="${item.nombre}" class="carrito-item-image">
+      <div class="carrito-item-info">
+        <h4>${item.nombre}</h4>
+        <div class="carrito-item-price">${formatearPrecio(esRecompensa ? item.precio : precioTotal)}</div>
+        <div class="carrito-item-details">${formatearPrecio(precioUnitario)} × ${item.cantidad}</div>
+        ${personalizacionTexto}
+      </div>
+      <div class="quantity-controls">
+        <button class="quantity-btn" 
+                onclick="cambiarCantidad('${item.itemId}', -1)"
+                aria-label="Disminuir cantidad de ${item.nombre}"
+                ${esRecompensa ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>-</button>
+        <span class="quantity-display" aria-label="Cantidad: ${item.cantidad}">${item.cantidad}</span>
+        <button class="quantity-btn" 
+                onclick="cambiarCantidad('${item.itemId}', 1)"
+                aria-label="Aumentar cantidad de ${item.nombre}"
+                ${esRecompensa ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>+</button>
+      </div>
+      <button class="remove-btn" 
+              onclick="eliminarDelCarrito('${item.itemId}')"
+              aria-label="Eliminar ${item.nombre} del carrito"
+              ${esRecompensa ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>🗑️</button>
+    </div>
+  `;
+}).join('');
+
   <div class="carrito-item ${item.isReward ? 'reward' : ''}" role="listitem">
     <img src="${item.imagen}" alt="${item.nombre}" class="carrito-item-image">
     <div class="carrito-item-info">
@@ -4144,13 +4457,68 @@
       return;
     }
 
-    const { totalFinal } = calcularTotales();
-    const mensaje = `¿Proceder al pago de ${formatearPrecio(totalFinal)}?`;
+    const { totalFinal, descuentoRecompensa } = calcularTotales();
+    let mensaje = `¿Proceder al pago de ${formatearPrecio(totalFinal)}?`;
+    
+    // NUEVO: Mostrar ahorro por recompensas
+    if (descuentoRecompensa > 0) {
+      mensaje += `\n\n🎁 Ahorro por recompensas: ${formatearPrecio(descuentoRecompensa)}`;
+    }
 
     if (confirm(mensaje)) {
       const btnPagar = document.getElementById('btn-pagar');
       btnPagar.classList.add('loading');
       btnPagar.disabled = true;
+
+      // Simular procesamiento
+      setTimeout(async () => {
+        // NUEVO: Marcar recompensa como canjeada si se usó
+        if (recompensaActiva && carrito.some(item => item.isReward)) {
+          marcarRecompensaComoCanjeada(recompensaActiva.type);
+        }
+
+        // Mensaje de éxito
+        let mensajeExito = '¡Pago procesado con éxito! Tu pedido llegará en 30-45 minutos.';
+        if (descuentoRecompensa > 0) {
+          mensajeExito += `\n\n🎁 ¡Has ahorrado ${formatearPrecio(descuentoRecompensa)} con tu recompensa!`;
+        }
+        
+        mostrarNotificacion(mensajeExito, 'success');
+
+        // Limpiar datos
+        carrito = [];
+        cuponAplicado = null;
+        cantidadProductoSeleccionado = {};
+        personalizacionActual = {};
+        
+        // NUEVO: Limpiar estado de recompensas
+        recompensaActiva = null;
+        productosRecompensaSeleccionados = [];
+        limpiarRecompensaUsada();
+
+        // Resetear cupones
+        Object.keys(CONFIG.cupones).forEach(codigo => {
+          CONFIG.cupones[codigo].usado = false;
+        });
+
+        actualizarCarrito();
+        guardarDatos();
+        cerrarCarrito();
+
+        setTimeout(() => {
+          btnPagar.classList.remove('loading');
+          btnPagar.disabled = false;
+        }, 2000);
+      }, 2000);
+    }
+  } catch (error) {
+    manejarError(error, 'Error al procesar el pago');
+    
+    const btnPagar = document.getElementById('btn-pagar');
+    btnPagar.classList.remove('loading');
+    btnPagar.disabled = false;
+  }
+}
 
       // NUEVO: Procesar orden con sistema de recompensas
       if (window.FratelliRewardsAPI?.isUserSignedIn()) {
@@ -4229,7 +4597,8 @@
       error: { icon: '❌', color: 'linear-gradient(135deg, #dc3545 0%, #e74c3c 100%)' },
       warning: { icon: '⚠️', color: 'var(--gradient-gold)' },
       info: { icon: 'ℹ️', color: 'var(--gradient-primary)' },
-      fratelli: { icon: '🍕', color: 'var(--gradient-accent)' }
+      ffratelli: { icon: '🍕', color: 'var(--gradient-accent)' },
+reward: { icon: '🎁', color: 'var(--reward-green)' }
     };
     
     const config = tiposConfig[tipo] || tiposConfig.success;
@@ -4586,7 +4955,264 @@
 	  }
 	}, 1000);
 
+// =============================================================================
+// FUNCIONES DEL SISTEMA DE RECOMPENSAS
+// =============================================================================
 
+/**
+ * 🔥 FIREBASE ADAPTER: Detectar recompensa seleccionada
+ * CAMBIAR: localStorage por Firebase cuando migres
+ */
+function detectarRecompensaDesdeURL() {
+  // 1️⃣ Verificar URL parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const rewardParam = urlParams.get('reward');
+  
+  if (rewardParam && REWARD_CONFIG.types[rewardParam]) {
+    console.log('🎁 Recompensa detectada desde URL:', rewardParam);
+    return { type: rewardParam, source: 'url' };
+  }
+
+  // 2️⃣ FIREBASE ADAPTER: Leer desde localStorage (cambiar por Firebase)
+  try {
+    const storedReward = localStorage.getItem('fratelli_selected_reward');
+    if (storedReward) {
+      const rewardData = JSON.parse(storedReward);
+      console.log('🎁 Recompensa detectada desde localStorage:', rewardData);
+      
+      if (rewardData.type && REWARD_CONFIG.types[rewardData.type]) {
+        return { 
+          type: rewardData.type, 
+          source: 'storage',
+          data: rewardData 
+        };
+      }
+    }
+  } catch (error) {
+    console.warn('Error leyendo recompensa desde localStorage:', error);
+  }
+
+  return null;
+}
+
+/**
+ * 🔥 FIREBASE ADAPTER: Marcar recompensa como canjeada
+ * CAMBIAR: localStorage por Firebase cuando migres
+ */
+function marcarRecompensaComoCanjeada(rewardType) {
+  try {
+    // FIREBASE TODO: Actualizar estado en Firebase
+    const rewardData = {
+      type: rewardType,
+      name: REWARD_CONFIG.types[rewardType].name,
+      canjeado: true,
+      canjeadoAt: new Date().toISOString(),
+      userId: "mock-user-123" // FIREBASE TODO: Usar user.uid real
+    };
+    
+    localStorage.setItem('fratelli_selected_reward', JSON.stringify(rewardData));
+    console.log('✅ Recompensa marcada como canjeada:', rewardType);
+  } catch (error) {
+    console.error('Error marcando recompensa como canjeada:', error);
+  }
+}
+
+/**
+ * 🔥 FIREBASE ADAPTER: Limpiar recompensa después del pago
+ * CAMBIAR: localStorage por Firebase cuando migres
+ */
+function limpiarRecompensaUsada() {
+  try {
+    // FIREBASE TODO: Eliminar de Firebase
+    localStorage.removeItem('fratelli_selected_reward');
+    console.log('🧹 Recompensa limpiada después del pago');
+  } catch (error) {
+    console.error('Error limpiando recompensa:', error);
+  }
+}
+
+/**
+ * Inicializar sistema de recompensas
+ */
+function inicializarSistemaRecompensas() {
+  const recompensaDetectada = detectarRecompensaDesdeURL();
+  
+  if (recompensaDetectada) {
+    recompensaActiva = recompensaDetectada;
+    mostrarBannerRecompensa(recompensaDetectada.type);
+    mostrarSelectorRecompensas(recompensaDetectada.type);
+    marcarProductosElegiblesParaRecompensa(recompensaDetectada.type);
+    
+    // Notification de bienvenida
+    setTimeout(() => {
+      mostrarNotificacion(`🎁 ¡Tienes ${REWARD_CONFIG.types[recompensaDetectada.type].name}!`, 'reward');
+    }, 1000);
+  }
+}
+
+/**
+ * Mostrar banner de recompensa activa
+ */
+function mostrarBannerRecompensa(rewardType) {
+  const banner = document.getElementById('reward-banner');
+  const rewardName = REWARD_CONFIG.types[rewardType].name;
+  
+  banner.innerHTML = `🎁 ¡Tienes activa: ${rewardName}! Selecciona tu producto gratis`;
+  banner.classList.add('active');
+}
+
+/**
+ * Mostrar selector de productos para la recompensa
+ */
+function mostrarSelectorRecompensas(rewardType) {
+  const selector = document.getElementById('reward-selector');
+  const options = document.getElementById('reward-options');
+  const config = REWARD_CONFIG.types[rewardType];
+  
+  if (config.special) {
+    // Casos especiales como camiseta
+    options.innerHTML = `
+      <div class="reward-option selected" onclick="seleccionarRecompensaEspecial('${rewardType}')">
+        <h4>🎁 ${config.name}</h4>
+        <p>¡Producto especial incluido!</p>
+      </div>
+    `;
+  } else {
+    // Productos normales elegibles
+    const productosElegibles = obtenerProductosElegiblesParaRecompensa(rewardType);
+    
+    options.innerHTML = productosElegibles.map(producto => `
+      <div class="reward-option" onclick="seleccionarProductoRecompensa(${producto.id}, '${rewardType}')">
+        <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 60px; height: 60px; border-radius: 8px; margin-bottom: 10px;">
+        <h4>${producto.nombre}</h4>
+        <p>Precio: <span style="text-decoration: line-through;">${formatearPrecio(producto.precio)}</span> <strong style="color: #00b894;">GRATIS</strong></p>
+      </div>
+    `).join('');
+  }
+  
+  selector.classList.add('active');
+}
+
+/**
+ * Obtener productos elegibles para una recompensa
+ */
+function obtenerProductosElegiblesParaRecompensa(rewardType) {
+  const config = REWARD_CONFIG.types[rewardType];
+  
+  return productos.filter(producto => {
+    // Verificar categoría
+    if (!config.categories?.includes(producto.categoria)) return false;
+    
+    // Verificar precio máximo si aplica
+    if (config.maxPrice && producto.precio > config.maxPrice) return false;
+    
+    return true;
+  });
+}
+
+/**
+ * Marcar productos como elegibles visualmente
+ */
+function marcarProductosElegiblesParaRecompensa(rewardType) {
+  const productosElegibles = obtenerProductosElegiblesParaRecompensa(rewardType);
+  
+  productosElegibles.forEach(producto => {
+    const card = document.querySelector(`[data-producto-id="${producto.id}"]`);
+    if (card) {
+      card.classList.add('reward-eligible');
+    }
+  });
+}
+
+/**
+ * Seleccionar producto específico para recompensa
+ */
+function seleccionarProductoRecompensa(productoId, rewardType) {
+  const producto = productos.find(p => p.id === productoId);
+  if (!producto) return;
+
+  // Limpiar selecciones previas
+  document.querySelectorAll('.reward-option').forEach(option => {
+    option.classList.remove('selected');
+  });
+
+  // Marcar como seleccionado
+  event.target.closest('.reward-option').classList.add('selected');
+
+  // Agregar al carrito como item gratis
+  agregarProductoRecompensaAlCarrito(producto, rewardType);
+  
+  mostrarNotificacion(`✅ ${producto.nombre} añadido como recompensa`, 'reward');
+  
+  // Ocultar selector después de seleccionar
+  setTimeout(() => {
+    document.getElementById('reward-selector').classList.remove('active');
+  }, 1500);
+}
+
+/**
+ * Seleccionar recompensa especial (camiseta, etc.)
+ */
+function seleccionarRecompensaEspecial(rewardType) {
+  const config = REWARD_CONFIG.types[rewardType];
+  
+  const itemEspecial = {
+    itemId: `reward_special_${rewardType}_${Date.now()}`,
+    id: 9999, // ID especial
+    nombre: config.name.replace(/🎁|👕|🍽️/g, '').trim(),
+    precio: 0,
+    precioFinal: 0,
+    cantidad: 1,
+    imagen: 'images/reward-special.png',
+    categoria: 'especial',
+    isReward: true,
+    rewardType: rewardType
+  };
+
+  carrito.push(itemEspecial);
+  actualizarCarrito();
+  guardarDatos();
+  
+  mostrarNotificacion(`✅ ${config.name} añadido como recompensa`, 'reward');
+  
+  setTimeout(() => {
+    document.getElementById('reward-selector').classList.remove('active');
+  }, 1500);
+}
+
+/**
+ * Agregar producto de recompensa al carrito
+ */
+function agregarProductoRecompensaAlCarrito(producto, rewardType) {
+  const itemId = `reward_${producto.id}_${Date.now()}`;
+  
+  const itemRecompensa = {
+    itemId: itemId,
+    id: producto.id,
+    nombre: producto.nombre,
+    precio: producto.precio, // Precio original para referencia
+    precioFinal: 0, // Precio final = 0 (gratis)
+    cantidad: 1,
+    imagen: producto.imagen,
+    categoria: producto.categoria,
+    isReward: true,
+    rewardType: rewardType,
+    personalizacion: { ingredientesQuitados: [], ingredientesAnadidos: [] }
+  };
+
+  // Verificar si ya existe una recompensa de este tipo
+  const recompensaExistente = carrito.find(item => item.isReward && item.rewardType === rewardType);
+  if (recompensaExistente) {
+    // Reemplazar recompensa anterior
+    const index = carrito.findIndex(item => item.itemId === recompensaExistente.itemId);
+    carrito[index] = itemRecompensa;
+  } else {
+    carrito.push(itemRecompensa);
+  }
+
+  actualizarCarrito();
+  guardarDatos();
+}
 		document.addEventListener('DOMContentLoaded', function() {
 		  try {
 			const isMobile = window.innerWidth <= 768;
@@ -4688,11 +5314,15 @@ cargarDatos();
 			});
 
 			setTimeout(() => {
-			  const mensaje = isMobile ? 
-				'¡Bienvenido a Fratelli Pazzi! Personaliza tu pizza ideal 🎨🍕' : 
-				'¡Bienvenido a Fratelli Pazzi! Personaliza tu pizza ideal o quita ingredientes de nuestras especialidades 🎨🌟🍕';
-			  mostrarNotificacion(mensaje, 'success');
-			}, 1000);
+  if (recompensaActiva) {
+    mostrarNotificacion(`🎁 ¡Bienvenido! Tienes una recompensa activa: ${REWARD_CONFIG.types[recompensaActiva.type].name}`, 'reward');
+  } else {
+    const mensaje = isMobile ? 
+      '¡Bienvenido a Fratelli Pazzi! Personaliza tu pizza ideal 🎨🍕' : 
+      '¡Bienvenido a Fratelli Pazzi! Personaliza tu pizza ideal o quita ingredientes de nuestras especialidades 🎨🌟🍕';
+    mostrarNotificacion(mensaje, 'success');
+  }
+}, 1000);
 
 		  } catch (error) {
 			manejarError(error, 'Error durante la inicialización');
