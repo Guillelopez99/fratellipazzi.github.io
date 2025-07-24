@@ -1,4 +1,1083 @@
-<!DOCTYPE html>
+</style>
+</head>
+<body>
+  <!-- NOTIFICACIONES -->
+  <div class="notification-container" id="notificationContainer"></div>
+
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div class="confirmation-modal" id="confirmationModal">
+    <div class="confirmation-content">
+      <div class="confirmation-icon" id="confirmationIcon">🍕</div>
+      <h3 class="confirmation-title" id="confirmationTitle">¿Estás seguro?</h3>
+      <p class="confirmation-message" id="confirmationMessage">Esta acción no se puede deshacer.</p>
+      <div style="display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl);">
+        <button class="btn btn-outline" id="confirmationCancel">Cancelar</button>
+        <button class="btn btn-primary" id="confirmationConfirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE PARA MÓVIL -->
+  <button class="mobile-header-toggle" id="mobileHeaderToggle" aria-label="Abrir/Cerrar menú">
+    ☰
+  </button>
+
+  <!-- OVERLAY PARA CERRAR HEADER EN MÓVIL -->
+  <div class="mobile-header-overlay" id="mobileHeaderOverlay"></div>
+
+  <!-- ESTADO SIN CONEXIÓN -->
+  <div class="offline-indicator" id="offlineIndicator">
+    🔴 Sin conexión - Los cambios se guardarán cuando se restaure la conexión
+  </div>
+
+  <!-- HEADER FLOTANTE -->
+  <div class="header-container" id="headerContainer">
+    <header>
+      <div class="header-content">
+        <a href="index.html" class="logo">Fratelli Pazzi</a>
+        <nav class="nav-main">
+          <a href="index.html#ofertas">Ofertas</a>
+          <a href="index.html#nuestras-pizzas">Pizzas</a>
+          <a href="index.html#calzones">Calzones</a>
+          <a href="pedido.html">Pedido</a>
+          <a href="puntos.html" class="active">Recompensas</a>
+          <a href="index.html#contacto">Contacto</a>
+        </nav>
+        <div class="user-menu" id="userMenu">
+          <div class="user-welcome">
+            <div class="user-avatar">?</div>
+            <span>Cargando...</span>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <!-- HEADER DE LA PÁGINA -->
+    <div class="page-header">
+      <h1 class="page-title">🏆 Mis Recompensas</h1>
+      <p class="page-subtitle">
+        Canjea tus puntos por increíbles recompensas. Cada euro que gastas te da 10 puntos.
+      </p>
+    </div>
+
+    <!-- SECCIÓN DE PUNTOS ACTUALES -->
+    <div class="current-points-section">
+      <div class="points-display">
+        <span class="points-number" id="currentPoints">0</span>
+        <span class="points-label">Puntos Disponibles</span>
+      </div>
+      <p class="points-info">💡 <strong>Ganas 10 puntos por cada € gastado</strong></p>
+      
+      <div class="user-level-info" id="userLevelInfo">
+        <div class="user-level" id="userLevel">🍕 Principiante</div>
+        <div class="user-level-details" id="userLevelDetails">¡Sigue pidiendo para subir de nivel!</div>
+      </div>
+      
+      <div class="progress-section" id="progressSection">
+        <div class="next-reward" id="nextRewardText">Calculando próxima recompensa...</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 300 puntos</div>
+      </div>
+    </div>
+
+    <!-- GRID DE RECOMPENSAS -->
+    <div class="rewards-grid" id="rewardsGrid">
+      <div class="reward-card locked" id="reward-bebida">
+        <div class="reward-image">🥤</div>
+        <h3 class="reward-name">Bebida Gratis</h3>
+        <p class="reward-description">Coca-Cola, Fanta o Agua</p>
+        <div class="reward-cost">300 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="RewardsSystem.redeemReward('bebida', 300)" disabled>
+          Faltan 300 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-pizza">
+        <div class="reward-image">🍕</div>
+        <h3 class="reward-name">Pizza Gratis</h3>
+        <p class="reward-description">Cualquier pizza de nuestro menú</p>
+        <div class="reward-cost">1000 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="RewardsSystem.redeemReward('pizza', 1000)" disabled>
+          Faltan 1000 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-calzone">
+        <div class="reward-image">🍝</div>
+        <h3 class="reward-name">Calzone Gratis</h3>
+        <p class="reward-description">Cualquier calzone + bebida</p>
+        <div class="reward-cost">1500 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="RewardsSystem.redeemReward('calzone', 1500)" disabled>
+          Faltan 1500 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-combo">
+        <div class="reward-image">🍽️</div>
+        <h3 class="reward-name">Combo Completo</h3>
+        <p class="reward-description">Pizza + 2 bebidas + postre</p>
+        <div class="reward-cost">2500 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="RewardsSystem.redeemReward('combo', 2500)" disabled>
+          Faltan 2500 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-camiseta">
+        <div class="reward-image">👕</div>
+        <h3 class="reward-name">Camiseta Fratelli</h3>
+        <p class="reward-description">Camiseta oficial edición limitada</p>
+        <div class="reward-cost">5000 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="RewardsSystem.redeemReward('camiseta', 5000)" disabled>
+          Faltan 5000 puntos
+        </button>
+      </div>
+      
+      <div class="reward-card locked" id="reward-cena">
+        <div class="reward-image">❤️</div>
+        <h3 class="reward-name">Cena Romántica</h3>
+        <p class="reward-description">2 pizzas + 2 bebidas + postre para 2</p>
+        <div class="reward-cost">10000 puntos</div>
+        <button class="btn reward-btn btn-disabled" onclick="RewardsSystem.redeemReward('cena', 10000)" disabled>
+          Faltan 10000 puntos
+        </button>
+      </div>
+    </div>
+
+    <!-- SECCIÓN INFORMATIVA -->
+    <div class="info-section">
+      <h3>🎯 ¡Sigue pidiendo y acumula más puntos!</h3>
+      <p><strong>Los puntos no caducan</strong> y se acumulan automáticamente con cada pedido.</p>
+      <p>Una vez canjeada una recompensa, contacta con nosotros para reclamar tu premio.</p>
+      <p>📞 Teléfono: 660 668 812 | 💬 WhatsApp disponible</p>
+      <p><small>🔧 Modo desarrollador: Presiona Ctrl+Alt+P para añadir 50 puntos de prueba</small></p>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Sistema de Recompensas v2.0</p>
+  </footer>
+
+  <!-- JAVASCRIPT DEL SISTEMA DE RECOMPENSAS OPTIMIZADO -->
+  <script type="module">
+    // ========== MOCK FIREBASE SERVICE (Para desarrollo/pruebas) ==========
+    class MockFirebaseService {
+      constructor() {
+        this.isInitialized = true;
+        this.mockUser = {
+          uid: 'mock-user-123',
+          email: 'usuario@example.com',
+          displayName: 'Usuario Demo'
+        };
+        this.rewardsConfig = {
+          pointsPerEuro: 10,
+          welcomeBonus: 100,
+          emailVerificationBonus: 50,
+          reviewBonus: 25,
+          levelUpBonus: 50,
+          rewardCosts: {
+            bebida: 300,
+            pizza: 1000,
+            calzone: 1500,
+            combo: 2500,
+            camiseta: 5000,
+            cena: 10000
+          },
+          userLevels: {
+            'Principiante': { minPoints: 0, color: '#80AF7A', icon: '🍕' },
+            'Aficionado': { minPoints: 500, color: '#D5786C', icon: '🍅' },
+            'Experto': { minPoints: 1500, color: '#cdb87c', icon: '👨‍🍳' },
+            'Maestro Pizzero': { minPoints: 3000, color: '#253732', icon: '👑' }
+          }
+        };
+        console.log('🔧 Mock Firebase Service inicializado para desarrollo');
+      }
+
+      // Simular datos locales del usuario
+      getUserData() {
+        const saved = localStorage.getItem('fratelli_mock_user_data');
+        if (saved) {
+          return JSON.parse(saved);
+        }
+        
+        // Datos iniciales del usuario demo
+        const initialData = {
+          points: 450, // Datos de ejemplo para testing
+          level: 'Principiante',
+          totalPointsEarned: 450,
+          totalPointsSpent: 0,
+          rewardsHistory: [
+            {
+              type: 'earned',
+              points: 100,
+              reason: 'Bonus de bienvenida',
+              date: new Date().toISOString()
+            },
+            {
+              type: 'earned',
+              points: 350,
+              reason: 'Compras anteriores',
+              date: new Date().toISOString()
+            }
+          ]
+        };
+        
+        this.saveUserData(initialData);
+        return initialData;
+      }
+
+      saveUserData(data) {
+        localStorage.setItem('fratelli_mock_user_data', JSON.stringify(data));
+      }
+
+      async loadUserRewards(uid) {
+        const userData = this.getUserData();
+        return {
+          success: true,
+          rewards: userData
+        };
+      }
+
+      async addPoints(uid, points, reason, orderId = null) {
+        const userData = this.getUserData();
+        userData.points += points;
+        userData.totalPointsEarned += points;
+        userData.rewardsHistory.push({
+          type: 'earned',
+          points,
+          reason,
+          date: new Date().toISOString(),
+          orderId
+        });
+        
+        this.saveUserData(userData);
+        console.log(`🎁 +${points} puntos añadidos: ${reason}`);
+        return { 
+          success: true, 
+          pointsAdded: points, 
+          newTotal: userData.points 
+        };
+      }
+
+      async spendPoints(uid, pointsToSpend, reason, rewardData = null) {
+        const userData = this.getUserData();
+        
+        if (userData.points < pointsToSpend) {
+          return { 
+            success: false, 
+            error: 'Puntos insuficientes' 
+          };
+        }
+        
+        userData.points -= pointsToSpend;
+        userData.totalPointsSpent += pointsToSpend;
+        userData.rewardsHistory.push({
+          type: 'spent',
+          points: pointsToSpend,
+          reason,
+          date: new Date().toISOString(),
+          rewardData
+        });
+        
+        this.saveUserData(userData);
+        console.log(`💰 -${pointsToSpend} puntos gastados: ${reason}`);
+        return { 
+          success: true, 
+          remainingPoints: userData.points 
+        };
+      }
+
+      getUserLevel(totalPoints) {
+        let level = 'Principiante';
+        for (const [name, cfg] of Object.entries(this.rewardsConfig.userLevels)) {
+          if (totalPoints >= cfg.minPoints) level = name;
+        }
+        return { name: level, ...this.rewardsConfig.userLevels[level] };
+      }
+
+      onAuthStateChanged(callback) {
+        // Simular usuario autenticado inmediatamente
+        setTimeout(() => {
+          callback(this.mockUser);
+        }, 100);
+      }
+
+      getCurrentUser() {
+        return this.mockUser;
+      }
+
+      isUserSignedIn() {
+        return true;
+      }
+    }
+
+    // ========== SISTEMA DE RECOMPENSAS MEJORADO ==========
+    const RewardsSystem = {
+      state: {
+        currentUser: null,
+        userRewards: null,
+        isFirebaseEnabled: false, // Cambiar a true cuando Firebase esté listo
+        notifications: new Map(),
+        notificationId: 0,
+        isLoading: false,
+        isOnline: navigator.onLine
+      },
+
+      // Usar mock service por defecto, cambiar por firebaseService cuando esté disponible
+      firebaseService: new MockFirebaseService(),
+
+      async init() {
+        console.log('🏆 Inicializando Sistema de Recompensas...');
+        
+        this.setupEventListeners();
+        this.setupScrollEffects();
+        this.initHeaderVisibility();
+        this.cleanupExpiredRewards();
+        this.setupOfflineDetection();
+        
+        // Configurar listener de autenticación
+        this.firebaseService.onAuthStateChanged((user) => {
+          this.handleAuthStateChange(user);
+        });
+
+        // Mostrar información de desarrollo
+        this.showNotification(
+          'Modo de desarrollo activo\nUsando datos simulados para pruebas',
+          'info',
+          '🔧 Desarrollo',
+          { duration: 3000 }
+        );
+        
+        console.log('✅ Sistema de Recompensas inicializado');
+      },
+
+      async handleAuthStateChange(user) {
+        if (user) {
+          console.log('👤 Usuario autenticado:', user.email || user.uid);
+          this.state.currentUser = user;
+          
+          await this.loadUserRewards();
+          this.updateInterface();
+          
+        } else {
+          console.log('👤 Usuario no autenticado');
+          this.handleNoAuth();
+        }
+      },
+
+      handleNoAuth() {
+        // En modo desarrollo, no redirigir
+        if (!this.state.isFirebaseEnabled) {
+          this.showNotification(
+            'Modo demo - No se requiere autenticación',
+            'info',
+            'Demo',
+            { duration: 2000 }
+          );
+          return;
+        }
+
+        this.showNotification(
+          'Necesitas iniciar sesión para ver tus recompensas.\n\nTe redirigiremos a la página principal.',
+          'warning',
+          'Login requerido',
+          { duration: 3000 }
+        );
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 3000);
+      },
+
+      async loadUserRewards() {
+        if (!this.state.currentUser) return;
+
+        try {
+          this.state.isLoading = true;
+          this.setLoadingState(true);
+          
+          const result = await this.firebaseService.loadUserRewards(this.state.currentUser.uid);
+          
+          if (result.success) {
+            this.state.userRewards = result.rewards;
+            console.log('🎁 Recompensas cargadas:', this.state.userRewards);
+          } else {
+            console.warn('⚠️ No se pudieron cargar las recompensas');
+            // Crear datos por defecto
+            this.state.userRewards = {
+              points: 0,
+              level: 'Principiante',
+              totalPointsEarned: 0,
+              totalPointsSpent: 0,
+              rewardsHistory: []
+            };
+          }
+          
+        } catch (error) {
+          console.error('❌ Error cargando recompensas:', error);
+          this.showNotification(
+            'Error cargando recompensas. Reintentando...',
+            'error',
+            'Error de conexión'
+          );
+        } finally {
+          this.state.isLoading = false;
+          this.setLoadingState(false);
+        }
+      },
+
+      updateInterface() {
+        if (!this.state.currentUser || !this.state.userRewards) return;
+        
+        this.updateUserMenu();
+        this.updatePointsDisplay();
+        this.updateUserLevel();
+        this.updateRewardsGrid();
+        this.updateProgressBar();
+      },
+
+      updateUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        if (!userMenu || !this.state.currentUser) return;
+        
+        const displayName = this.state.currentUser.displayName || 
+                           this.state.currentUser.email?.split('@')[0] || 
+                           'Usuario';
+        
+        userMenu.innerHTML = `
+          <div class="user-welcome">
+            <div class="user-avatar">${displayName.charAt(0).toUpperCase()}</div>
+            <span>Hola, ${displayName.split(' ')[0]}</span>
+          </div>
+        `;
+      },
+
+      updatePointsDisplay() {
+        const currentPointsEl = document.getElementById('currentPoints');
+        if (currentPointsEl && this.state.userRewards) {
+          const points = this.state.userRewards.points || 0;
+          
+          // Animación suave del contador
+          const currentValue = parseInt(currentPointsEl.textContent) || 0;
+          if (currentValue !== points) {
+            this.animateNumber(currentPointsEl, currentValue, points);
+          }
+        }
+      },
+
+      animateNumber(element, start, end, duration = 1000) {
+        const diff = end - start;
+        const increment = diff / (duration / 16); // 60fps
+        let current = start;
+        
+        const timer = setInterval(() => {
+          current += increment;
+          
+          if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            element.textContent = end;
+            clearInterval(timer);
+          } else {
+            element.textContent = Math.floor(current);
+          }
+        }, 16);
+      },
+
+      updateUserLevel() {
+        const userLevelEl = document.getElementById('userLevel');
+        const userLevelDetailsEl = document.getElementById('userLevelDetails');
+        
+        if (!userLevelEl || !this.state.userRewards) return;
+
+        const totalPoints = this.state.userRewards.totalPointsEarned || 0;
+        const levelInfo = this.firebaseService.getUserLevel(totalPoints);
+        
+        userLevelEl.textContent = `${levelInfo.icon} ${levelInfo.name}`;
+        
+        // Calcular progreso hacia el siguiente nivel
+        const levels = Object.entries(this.firebaseService.rewardsConfig.userLevels);
+        const currentLevelIndex = levels.findIndex(([name]) => name === levelInfo.name);
+        
+        if (currentLevelIndex < levels.length - 1) {
+          const nextLevel = levels[currentLevelIndex + 1];
+          const pointsNeeded = nextLevel[1].minPoints - totalPoints;
+          userLevelDetailsEl.textContent = `${pointsNeeded} puntos para ${nextLevel[0]}`;
+        } else {
+          userLevelDetailsEl.textContent = '¡Nivel máximo alcanzado! 🎉';
+        }
+      },
+
+      updateProgressBar() {
+        if (!this.state.userRewards) return;
+        
+        const points = this.state.userRewards.points || 0;
+        const rewards = Object.values(this.firebaseService.rewardsConfig.rewardCosts).sort((a, b) => a - b);
+        
+        // Encontrar próxima recompensa
+        let nextReward = rewards.find(reward => points < reward);
+        
+        const nextRewardText = document.getElementById('nextRewardText');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        if (!nextReward) {
+          // Usuario tiene todos los puntos
+          nextRewardText.textContent = '🎉 ¡Has desbloqueado todas las recompensas!';
+          progressFill.style.width = '100%';
+          progressText.textContent = `${points} puntos - ¡Máximo nivel!`;
+          return;
+        }
+        
+        // Calcular progreso
+        const previousReward = rewards[rewards.indexOf(nextReward) - 1] || 0;
+        const progressPoints = points - previousReward;
+        const neededPoints = nextReward - previousReward;
+        const progressPercent = Math.min((progressPoints / neededPoints) * 100, 100);
+        
+        // Actualizar interfaz con animación
+        nextRewardText.textContent = `Te faltan ${nextReward - points} puntos para tu próxima recompensa`;
+        
+        setTimeout(() => {
+          progressFill.style.width = `${progressPercent}%`;
+        }, 100);
+        
+        progressText.textContent = `${progressPoints} / ${neededPoints} puntos hasta la próxima recompensa`;
+      },
+
+      updateRewardsGrid() {
+        if (!this.state.userRewards) return;
+        
+        const points = this.state.userRewards.points || 0;
+        const rewards = [
+          { id: 'bebida', cost: this.firebaseService.rewardsConfig.rewardCosts.bebida },
+          { id: 'pizza', cost: this.firebaseService.rewardsConfig.rewardCosts.pizza },
+          { id: 'calzone', cost: this.firebaseService.rewardsConfig.rewardCosts.calzone },
+          { id: 'combo', cost: this.firebaseService.rewardsConfig.rewardCosts.combo },
+          { id: 'camiseta', cost: this.firebaseService.rewardsConfig.rewardCosts.camiseta },
+          { id: 'cena', cost: this.firebaseService.rewardsConfig.rewardCosts.cena }
+        ];
+        
+        rewards.forEach(reward => {
+          const card = document.getElementById(`reward-${reward.id}`);
+          const button = card?.querySelector('.reward-btn');
+          
+          if (!card || !button) return;
+          
+          if (points >= reward.cost) {
+            // Recompensa disponible
+            card.classList.remove('locked');
+            card.classList.add('available');
+            button.classList.remove('btn-disabled');
+            button.classList.add('btn-primary');
+            button.disabled = false;
+            button.textContent = '🎁 Canjear';
+          } else {
+            // Recompensa bloqueada
+            card.classList.remove('available');
+            card.classList.add('locked');
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-disabled');
+            button.disabled = true;
+            button.textContent = `Faltan ${reward.cost - points} puntos`;
+          }
+        });
+      },
+
+      async redeemReward(rewardType, cost) {
+        if (!this.state.currentUser || !this.state.userRewards) {
+          this.showNotification('Debes estar logueado para canjear recompensas.', 'warning');
+          return;
+        }
+        
+        if (this.state.isLoading) {
+          this.showNotification('Espera un momento...', 'warning');
+          return;
+        }
+        
+        const points = this.state.userRewards.points || 0;
+        if (points < cost) {
+          this.showNotification(
+            `No tienes suficientes puntos.\nTe faltan ${cost - points} puntos.`,
+            'warning',
+            'Puntos insuficientes'
+          );
+          return;
+        }
+        
+        const rewardNames = {
+          bebida: 'Bebida Gratis 🥤',
+          pizza: 'Pizza Gratis 🍕',
+          calzone: 'Calzone Gratis + Bebida 🍝',
+          combo: 'Combo Completo 🍽️',
+          camiseta: 'Camiseta Fratelli 👕',
+          cena: 'Cena Romántica para 2 ❤️'
+        };
+        
+        // Confirmar canje
+        const confirmed = await this.showConfirmation(
+          `¿Quieres canjear ${cost} puntos por:\n\n🎁 ${rewardNames[rewardType]}\n\nEsta acción no se puede deshacer.`,
+          '¿Confirmar canje?',
+          '🎁'
+        );
+        
+        if (!confirmed) return;
+        
+        try {
+          // Efecto visual
+          const card = document.getElementById(`reward-${rewardType}`);
+          if (card) card.classList.add('redeeming');
+          
+          this.state.isLoading = true;
+          this.setLoadingState(true);
+          
+          // Procesar canje
+          const result = await this.firebaseService.spendPoints(
+            this.state.currentUser.uid,
+            cost,
+            `Canje de recompensa: ${rewardNames[rewardType]}`,
+            {
+              rewardType: rewardType,
+              rewardName: rewardNames[rewardType],
+              cost: cost,
+              timestamp: new Date().toISOString()
+            }
+          );
+          
+          if (result.success) {
+            // Actualizar estado local
+            this.state.userRewards.points = result.remainingPoints;
+            this.state.userRewards.totalPointsSpent = (this.state.userRewards.totalPointsSpent || 0) + cost;
+            
+            // Guardar información del canje para el carrito
+            const rewardData = {
+              type: rewardType,
+              name: rewardNames[rewardType],
+              cost: cost,
+              userId: this.state.currentUser.uid,
+              selectedAt: new Date().toISOString(),
+              canjeado: true
+            };
+            
+            localStorage.setItem('fratelli_selected_reward', JSON.stringify(rewardData));
+            
+            this.showNotification(
+              `¡Recompensa canjeada exitosamente!\n\n🎁 ${rewardNames[rewardType]}\n💰 Puntos restantes: ${result.remainingPoints}\n\n🛒 Redirigiendo al carrito...`,
+              'success',
+              '✅ ¡Canje Exitoso!',
+              { duration: 4000 }
+            );
+            
+            // Actualizar interfaz
+            this.updateInterface();
+            
+            // Redireccionar al carrito
+            setTimeout(() => {
+              window.location.href = 'pedido.html?reward=' + rewardType;
+            }, 2000);
+            
+          } else {
+            throw new Error(result.error || 'Error procesando el canje');
+          }
+          
+        } catch (error) {
+          console.error('❌ Error canjeando recompensa:', error);
+          this.showNotification(
+            'Error procesando el canje. Inténtalo de nuevo.',
+            'error',
+            'Error en el canje'
+          );
+        } finally {
+          this.state.isLoading = false;
+          this.setLoadingState(false);
+          const card = document.getElementById(`reward-${rewardType}`);
+          if (card) card.classList.remove('redeeming');
+        }
+      },
+
+      // ========== MÉTODOS DE UI ==========
+      
+      setLoadingState(loading) {
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+          if (loading) {
+            mainContent.classList.add('loading');
+          } else {
+            mainContent.classList.remove('loading');
+          }
+        }
+      },
+
+      initHeaderVisibility() {
+        const headerContainer = document.getElementById('headerContainer');
+        if (headerContainer && window.innerWidth > 768) {
+          headerContainer.classList.add('visible');
+        }
+      },
+
+      showConfirmation(message, title = '¿Estás seguro?', icon = '🍕') {
+        return new Promise((resolve) => {
+          const modal = document.getElementById('confirmationModal');
+          const titleEl = document.getElementById('confirmationTitle');
+          const messageEl = document.getElementById('confirmationMessage');
+          const iconEl = document.getElementById('confirmationIcon');
+          const confirmBtn = document.getElementById('confirmationConfirm');
+          const cancelBtn = document.getElementById('confirmationCancel');
+
+          if (!modal) {
+            resolve(false);
+            return;
+          }
+
+          titleEl.textContent = title;
+          messageEl.textContent = message;
+          iconEl.textContent = icon;
+
+          // Limpiar event listeners anteriores
+          const newConfirmBtn = confirmBtn.cloneNode(true);
+          const newCancelBtn = cancelBtn.cloneNode(true);
+          confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+          cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+          newConfirmBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+            resolve(true);
+          });
+
+          newCancelBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+            resolve(false);
+          });
+
+          // Cerrar con Escape
+          const escapeHandler = (e) => {
+            if (e.key === 'Escape') {
+              modal.classList.remove('show');
+              document.removeEventListener('keydown', escapeHandler);
+              resolve(false);
+            }
+          };
+          document.addEventListener('keydown', escapeHandler);
+
+          modal.classList.add('show');
+        });
+      },
+
+      showNotification(message, type = 'info', title = '', options = {}) {
+        const container = document.getElementById('notificationContainer');
+        if (!container) return;
+
+        const notificationId = ++this.state.notificationId;
+        
+        const config = {
+          success: { icon: '✅', title: title || '¡Éxito!' },
+          error: { icon: '❌', title: title || '¡Oops!' },
+          warning: { icon: '⚠️', title: title || '¡Atención!' },
+          info: { icon: 'ℹ️', title: title || 'Información' },
+          fratelli: { icon: '🍕', title: title || 'Fratelli Pazzi' }
+        };
+
+        const { icon, title: defaultTitle } = config[type] || config.info;
+        const finalTitle = title || defaultTitle;
+
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.setAttribute('data-id', notificationId);
+        
+        notification.innerHTML = `
+          <div class="notification-header">
+            <div class="notification-icon">${icon}</div>
+            <h4 class="notification-title">${finalTitle}</h4>
+          </div>
+          <p class="notification-message">${message}</p>
+          <button class="notification-close" onclick="RewardsSystem.closeNotification(${notificationId})">×</button>
+        `;
+
+        container.appendChild(notification);
+        this.state.notifications.set(notificationId, notification);
+
+        // Mostrar con animación
+        setTimeout(() => {
+          notification.classList.add('show');
+        }, 10);
+
+        // Auto-cerrar
+        if (options.autoClose !== false) {
+          const duration = options.duration || 5000;
+          setTimeout(() => {
+            this.closeNotification(notificationId);
+          }, duration);
+        }
+
+        return notificationId;
+      },
+
+      closeNotification(notificationId) {
+        const notification = this.state.notifications.get(notificationId);
+        if (!notification) return;
+
+        notification.classList.remove('show');
+        
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+          this.state.notifications.delete(notificationId);
+        }, 400);
+      },
+
+      // ========== UTILIDADES ==========
+      
+      cleanupExpiredRewards() {
+        const selectedReward = localStorage.getItem('fratelli_selected_reward');
+        if (selectedReward) {
+          try {
+            const reward = JSON.parse(selectedReward);
+            const rewardTime = new Date(reward.selectedAt).getTime();
+            const now = new Date().getTime();
+            const hoursPassed = (now - rewardTime) / (1000 * 60 * 60);
+            
+            if (hoursPassed > 1) {
+              localStorage.removeItem('fratelli_selected_reward');
+              console.log('🧹 Recompensa seleccionada expirada limpiada');
+            }
+          } catch (e) {
+            localStorage.removeItem('fratelli_selected_reward');
+            console.log('🧹 Datos de recompensa corruptos limpiados');
+          }
+        }
+      },
+
+      setupOfflineDetection() {
+        const offlineIndicator = document.getElementById('offlineIndicator');
+        
+        const updateOnlineStatus = () => {
+          this.state.isOnline = navigator.onLine;
+          
+          if (offlineIndicator) {
+            if (this.state.isOnline) {
+              offlineIndicator.classList.remove('show');
+            } else {
+              offlineIndicator.classList.add('show');
+            }
+          }
+        };
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        updateOnlineStatus(); // Verificar estado inicial
+      },
+
+      setupEventListeners() {
+        // Función para añadir puntos de prueba (Ctrl+Alt+P)
+        document.addEventListener('keydown', async (e) => {
+          if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'p') {
+            e.preventDefault();
+            await this.addTestPoints();
+          }
+        });
+
+        // Limpiar notificaciones con Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            this.state.notifications.forEach((_, id) => {
+              this.closeNotification(id);
+            });
+          }
+        });
+      },
+
+      setupScrollEffects() {
+        const headerContainer = document.getElementById('headerContainer');
+        
+        let ticking = false;
+        const updateHeader = () => {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (headerContainer) {
+            if (scrollTop > 100) {
+              headerContainer.classList.add('scrolled');
+            } else {
+              headerContainer.classList.remove('scrolled');
+            }
+          }
+          
+          ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+          }
+        }, { passive: true });
+
+        this.setupMobileHeaderToggle();
+      },
+
+      setupMobileHeaderToggle() {
+        const headerContainer = document.getElementById('headerContainer');
+        const toggleBtn = document.getElementById('mobileHeaderToggle');
+        const overlay = document.getElementById('mobileHeaderOverlay');
+        
+        if (!toggleBtn || !headerContainer || !overlay) return;
+
+        let isHeaderVisible = false;
+
+        const toggleHeader = () => {
+          if (window.innerWidth <= 768) {
+            isHeaderVisible = !isHeaderVisible;
+            
+            if (isHeaderVisible) {
+              headerContainer.classList.add('mobile-visible');
+              overlay.classList.add('show');
+              toggleBtn.innerHTML = '✕';
+            } else {
+              headerContainer.classList.remove('mobile-visible');
+              overlay.classList.remove('show');
+              toggleBtn.innerHTML = '☰';
+            }
+          }
+        };
+
+        const closeHeader = () => {
+          if (window.innerWidth <= 768 && isHeaderVisible) {
+            isHeaderVisible = false;
+            headerContainer.classList.remove('mobile-visible');
+            overlay.classList.remove('show');
+            toggleBtn.innerHTML = '☰';
+          }
+        };
+
+        toggleBtn.addEventListener('click', toggleHeader);
+        overlay.addEventListener('click', closeHeader);
+
+        // Cerrar header al hacer clic en enlaces
+        const navLinks = headerContainer.querySelectorAll('.nav-main a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              setTimeout(closeHeader, 300);
+            }
+          });
+        });
+
+        // Cerrar header al cambiar tamaño de ventana
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768) {
+            closeHeader();
+          }
+        });
+      },
+
+      // ========== FUNCIONES DE DESARROLLO ==========
+      
+      async addTestPoints() {
+        if (!this.state.currentUser) {
+          this.showNotification('Usuario no disponible', 'warning');
+          return;
+        }
+
+        try {
+          const pointsToAdd = 50;
+          const result = await this.firebaseService.addPoints(
+            this.state.currentUser.uid, 
+            pointsToAdd, 
+            'Puntos de prueba (Ctrl+Alt+P)'
+          );
+
+          if (result.success) {
+            // Actualizar estado local
+            if (this.state.userRewards) {
+              this.state.userRewards.points = result.newTotal;
+              this.state.userRewards.totalPointsEarned += pointsToAdd;
+            }
+            
+            this.updateInterface();
+            this.showNotification(
+              `+${pointsToAdd} puntos de prueba añadidos\nTotal: ${result.newTotal} puntos`,
+              'success',
+              '🔧 Test Points'
+            );
+          } else {
+            this.showNotification('Error añadiendo puntos de prueba', 'error');
+          }
+        } catch (error) {
+          console.error('Error en addTestPoints:', error);
+          this.showNotification('Error técnico añadiendo puntos', 'error');
+        }
+      },
+
+      // ========== MÉTODOS PÚBLICOS PARA DEBUG ==========
+      
+      getState() {
+        return this.state;
+      },
+
+      getUserRewards() {
+        return this.state.userRewards;
+      },
+
+      // Reset para desarrollo
+      resetUserData() {
+        if (confirm('¿Resetear todos los datos del usuario? Esta acción no se puede deshacer.')) {
+          localStorage.removeItem('fratelli_mock_user_data');
+          localStorage.removeItem('fratelli_selected_reward');
+          location.reload();
+        }
+      }
+    };
+
+    // ========== EXPONER SISTEMA GLOBALMENTE ==========
+    window.RewardsSystem = RewardsSystem;
+
+    // ========== INICIALIZACIÓN ==========
+    document.addEventListener('DOMContentLoaded', () => {
+      RewardsSystem.init();
+    });
+
+    // ========== LOG DE DESARROLLO ==========
+    console.log(`
+🏆 SISTEMA DE RECOMPENSAS FRATELLI PAZZI v2.0
+==============================================
+
+✅ Sistema inicializado en modo desarrollo
+✅ Mock Firebase Service activo
+✅ Interfaz responsive optimizada
+✅ Notificaciones mejoradas
+✅ Detección de conexión
+✅ Animaciones suaves
+
+🔧 COMANDOS DE DESARROLLO:
+• Ctrl+Alt+P: Añadir 50 puntos de prueba
+• Escape: Cerrar todas las notificaciones
+• RewardsSystem.resetUserData(): Reset completo
+• RewardsSystem.getState(): Ver estado actual
+• RewardsSystem.getUserRewards(): Ver recompensas del usuario
+
+📱 CARACTERÍSTICAS:
+• Interfaz mobile-first con header oculto por defecto
+• Animaciones de números y barras de progreso
+• Sistema de notificaciones toast mejorado
+• Confirmaciones modales elegantes
+• Estados de carga visual
+• Detección automática de conexión
+
+🎯 PRÓXIMOS PASOS:
+1. Integrar con Firebase real (cambiar isFirebaseEnabled a true)
+2. Conectar con sistema de pedidos
+3. Añadir historial de recompensas
+4. Implementar niveles de usuario avanzados
+
+🚀 ¡Listo para Fratelli Pazzi!
+    `);
+  </script>
+</body>
+</html><!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -66,7 +1145,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
-      padding-top: 120px; /* Aumentado para evitar que el header pise el contenido */
+      padding-top: 120px;
     }
 
     /* HEADER FLOTANTE MODERNO CON CONTROL MANUAL EN MÓVIL */
@@ -507,10 +1586,15 @@
     .reward-image {
       width: 100%;
       height: 200px;
-      object-fit: cover;
+      background: var(--gradient-sage);
       border-radius: var(--radius-md);
       margin-bottom: var(--space-lg);
       transition: transform 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: white;
     }
 
     .reward-card:hover.available .reward-image {
@@ -813,6 +1897,42 @@
       font-size: 0.875rem;
     }
 
+    /* ESTADO DE CARGA */
+    .loading {
+      position: relative;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(30, 33, 34, 0.7);
+      border-radius: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading::before {
+      content: '⏳';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      z-index: 1;
+      animation: loading-spin 1s ease-in-out infinite;
+    }
+
+    @keyframes loading-spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
     /* FOOTER */
     footer {
       background: var(--rich-black);
@@ -826,7 +1946,7 @@
     /* RESPONSIVE DESIGN */
     @media (max-width: 768px) {
       body {
-        padding-top: var(--space-xl); /* Menos espacio ya que el header está oculto por defecto */
+        padding-top: var(--space-xl);
       }
 
       .header-content {
@@ -882,7 +2002,7 @@
 
     @media (max-width: 480px) {
       body {
-        padding-top: var(--space-lg); /* Menos espacio en pantallas muy pequeñas */
+        padding-top: var(--space-lg);
       }
 
       .page-title {
@@ -908,17 +2028,6 @@
       }
     }
 
-    /* ESTADOS DE CARGA */
-    .loading {
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .loading .reward-btn {
-      background: rgba(251, 244, 232, 0.1);
-      color: rgba(251, 244, 232, 0.5);
-    }
-
     /* EFECTOS ESPECIALES */
     .reward-card.redeeming {
       animation: redeemPulse 0.6s ease-in-out;
@@ -928,720 +2037,25 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
-  </style>
-</head>
-<body>
-  <!-- NOTIFICACIONES -->
-  <div class="notification-container" id="notificationContainer"></div>
 
-  <!-- MODAL DE CONFIRMACIÓN -->
-  <div class="confirmation-modal" id="confirmationModal">
-    <div class="confirmation-content">
-      <div class="confirmation-icon" id="confirmationIcon">🍕</div>
-      <h3 class="confirmation-title" id="confirmationTitle">¿Estás seguro?</h3>
-      <p class="confirmation-message" id="confirmationMessage">Esta acción no se puede deshacer.</p>
-      <div style="display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl);">
-        <button class="btn btn-outline" id="confirmationCancel">Cancelar</button>
-        <button class="btn btn-primary" id="confirmationConfirm">Confirmar</button>
-      </div>
-    </div>
-  </div>
+    /* ESTADO SIN CONEXIÓN */
+    .offline-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(220, 53, 69, 0.9);
+      color: white;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
 
-  <!-- BOTÓN FLOTANTE PARA MÓVIL -->
-  <button class="mobile-header-toggle" id="mobileHeaderToggle" aria-label="Abrir/Cerrar menú">
-    ☰
-  </button>
-
-  <!-- OVERLAY PARA CERRAR HEADER EN MÓVIL -->
-  <div class="mobile-header-overlay" id="mobileHeaderOverlay"></div>
-
-  <!-- HEADER FLOTANTE -->
-  <div class="header-container" id="headerContainer">
-    <header>
-      <div class="header-content">
-        <a href="index.html" class="logo">Fratelli Pazzi</a>
-        <nav class="nav-main">
-          <a href="index.html#ofertas">Ofertas</a>
-          <a href="index.html#nuestras-pizzas">Pizzas</a>
-          <a href="index.html#calzones">Calzones</a>
-          <a href="pedido.html">Pedido</a>
-          <a href="puntos.html" class="active">Recompensas</a>
-          <a href="index.html#contacto">Contacto</a>
-        </nav>
-        <div class="user-menu" id="userMenu">
-          <!-- Se llenará dinámicamente -->
-        </div>
-      </div>
-    </header>
-  </div>
-
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="main-content">
-    <!-- HEADER DE LA PÁGINA -->
-    <div class="page-header">
-      <h1 class="page-title">🏆 Mis Recompensas</h1>
-      <p class="page-subtitle">
-        Canjea tus puntos por increíbles recompensas. Cada euro que gastas te da 10 puntos.
-      </p>
-    </div>
-
-    <!-- SECCIÓN DE PUNTOS ACTUALES -->
-    <div class="current-points-section">
-      <div class="points-display">
-        <span class="points-number" id="currentPoints">0</span>
-        <span class="points-label">Puntos Disponibles</span>
-      </div>
-      <p class="points-info">💡 <strong>Ganas 10 puntos por cada € gastado</strong></p>
-      
-      <div class="user-level-info" id="userLevelInfo">
-        <div class="user-level" id="userLevel">🍕 Principiante</div>
-        <div class="user-level-details" id="userLevelDetails">¡Sigue pidiendo para subir de nivel!</div>
-      </div>
-      
-      <div class="progress-section" id="progressSection">
-        <div class="next-reward" id="nextRewardText">Te faltan 300 puntos para tu próxima recompensa</div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-        </div>
-        <div class="progress-text" id="progressText">0 / 300 puntos</div>
-      </div>
-    </div>
-
-    <!-- GRID DE RECOMPENSAS -->
-    <div class="rewards-grid" id="rewardsGrid">
-      <div class="reward-card locked" id="reward-bebida">
-        <img src="images/recompensas/bebida-gratis.png" alt="Bebida Gratis - Coca-Cola, Fanta o Agua" class="reward-image" loading="lazy">
-        <h3 class="reward-name">Bebida Gratis</h3>
-        <p class="reward-description">Coca-Cola, Fanta o Agua</p>
-        <div class="reward-cost">300 puntos</div>
-        <button class="btn reward-btn btn-disabled" onclick="redeemReward('bebida', 300)" disabled>
-          Faltan 300 puntos
-        </button>
-      </div>
-      
-      <div class="reward-card locked" id="reward-pizza">
-        <img src="images/recompensas/pizza-gratis.png" alt="Pizza Gratis - Cualquier pizza de nuestro menú" class="reward-image" loading="lazy">
-        <h3 class="reward-name">Pizza Gratis</h3>
-        <p class="reward-description">Cualquier pizza de nuestro menú</p>
-        <div class="reward-cost">1000 puntos</div>
-        <button class="btn reward-btn btn-disabled" onclick="redeemReward('pizza', 1000)" disabled>
-          Faltan 1000 puntos
-        </button>
-      </div>
-      
-      <div class="reward-card locked" id="reward-calzone">
-        <img src="images/recompensas/calzone-combo.png" alt="Calzone Gratis + Bebida" class="reward-image" loading="lazy">
-        <h3 class="reward-name">Calzone Gratis</h3>
-        <p class="reward-description">Cualquier calzone + bebida</p>
-        <div class="reward-cost">1500 puntos</div>
-        <button class="btn reward-btn btn-disabled" onclick="redeemReward('calzone', 1500)" disabled>
-          Faltan 1500 puntos
-        </button>
-      </div>
-      
-      <div class="reward-card locked" id="reward-combo">
-        <img src="images/recompensas/combo-completo.png" alt="Combo Completo - Pizza + 2 bebidas + postre" class="reward-image" loading="lazy">
-        <h3 class="reward-name">Combo Completo</h3>
-        <p class="reward-description">Pizza + 2 bebidas + postre</p>
-        <div class="reward-cost">2500 puntos</div>
-        <button class="btn reward-btn btn-disabled" onclick="redeemReward('combo', 2500)" disabled>
-          Faltan 2500 puntos
-        </button>
-      </div>
-      
-      <div class="reward-card locked" id="reward-camiseta">
-        <img src="images/recompensas/camiseta-fratelli.png" alt="Camiseta Fratelli - Edición limitada oficial" class="reward-image" loading="lazy">
-        <h3 class="reward-name">Camiseta Fratelli</h3>
-        <p class="reward-description">Camiseta oficial edición limitada</p>
-        <div class="reward-cost">5000 puntos</div>
-        <button class="btn reward-btn btn-disabled" onclick="redeemReward('camiseta', 5000)" disabled>
-          Faltan 5000 puntos
-        </button>
-      </div>
-      
-      <div class="reward-card locked" id="reward-cena">
-        <img src="images/recompensas/cena-romantica.png" alt="Cena Romántica para 2 - 2 pizzas + 2 bebidas + postre" class="reward-image" loading="lazy">
-        <h3 class="reward-name">Cena Romántica</h3>
-        <p class="reward-description">2 pizzas + 2 bebidas + postre para 2</p>
-        <div class="reward-cost">10000 puntos</div>
-        <button class="btn reward-btn btn-disabled" onclick="redeemReward('cena', 10000)" disabled>
-          Faltan 10000 puntos
-        </button>
-      </div>
-    </div>
-
-    <!-- SECCIÓN INFORMATIVA -->
-    <div class="info-section">
-      <h3>🎯 ¡Sigue pidiendo y acumula más puntos!</h3>
-      <p><strong>Los puntos no caducan</strong> y se acumulan automáticamente con cada pedido.</p>
-      <p>Una vez canjeada una recompensa, contacta con nosotros para reclamar tu premio.</p>
-      <p>📞 Teléfono: 660 668 812 | 💬 WhatsApp disponible</p>
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Fratelli Pazzi. Todos los derechos reservados. | Sistema de Recompensas</p>
-  </footer>
-
-  <!-- FIREBASE CONFIG SCRIPT -->
-  <script type="module" src="firebase-config.js"></script>
-
-  <!-- JAVASCRIPT DEL SISTEMA DE RECOMPENSAS -->
-  <script type="module">
-    // Importar Firebase Service
-    import firebaseService, { REWARDS_CONFIG } from './firebase-config.js';
-
-    // ========== SISTEMA DE RECOMPENSAS CON FIREBASE ==========
-    const EnhancedRewardsSystem = {
-      state: {
-        currentUser: null,
-        userRewards: null,
-        isFirebaseEnabled: true,
-        notifications: new Map(),
-        notificationId: 0,
-        isLoading: false
-      },
-
-      async init() {
-        console.log('🏆 Inicializando Sistema de Recompensas Firebase...');
-        
-        this.setupEventListeners();
-        this.setupScrollEffects();
-        this.initHeaderVisibility();
-        this.cleanupExpiredRewards();
-        
-        // Configurar listener de autenticación Firebase
-        if (firebaseService && firebaseService.onAuthStateChanged) {
-          firebaseService.onAuthStateChanged((user) => {
-            this.handleAuthStateChange(user);
-          });
-        } else {
-          console.warn('⚠️ Firebase Service no disponible');
-          this.handleNoAuth();
-        }
-        
-        console.log('✅ Sistema de Recompensas Firebase inicializado');
-      },
-
-      async handleAuthStateChange(user) {
-        if (user) {
-          console.log('👤 Usuario autenticado:', user.email);
-          this.state.currentUser = user;
-          
-          // Cargar datos de recompensas
-          await this.loadUserRewards();
-          this.updateInterface();
-          
-        } else {
-          console.log('👤 Usuario no autenticado');
-          this.handleNoAuth();
-        }
-      },
-
-      handleNoAuth() {
-        this.showNotification(
-          'Necesitas iniciar sesión para ver tus recompensas.\n\nTe redirigiremos a la página principal.',
-          'warning',
-          'Login requerido',
-          { duration: 3000 }
-        );
-        
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 3000);
-      },
-
-      async loadUserRewards() {
-        if (!this.state.currentUser) return;
-
-        try {
-          this.state.isLoading = true;
-          
-          const result = await firebaseService.loadUserRewards(this.state.currentUser.uid);
-          
-          if (result.success) {
-            this.state.userRewards = result.rewards;
-            console.log('🎁 Recompensas cargadas:', this.state.userRewards);
-          } else {
-            console.warn('⚠️ No se pudieron cargar las recompensas');
-            this.state.userRewards = {
-              points: 0,
-              level: 'Principiante',
-              totalPointsEarned: 0,
-              totalPointsSpent: 0,
-              rewardsHistory: []
-            };
-          }
-          
-        } catch (error) {
-          console.error('❌ Error cargando recompensas:', error);
-        } finally {
-          this.state.isLoading = false;
-        }
-      },
-
-      updateInterface() {
-        if (!this.state.currentUser || !this.state.userRewards) return;
-        
-        this.updateUserMenu();
-        this.updatePointsDisplay();
-        this.updateUserLevel();
-        this.updateRewardsGrid();
-        this.updateProgressBar();
-      },
-
-      updateUserMenu() {
-        const userMenu = document.getElementById('userMenu');
-        if (!userMenu || !this.state.currentUser) return;
-        
-        const displayName = this.state.currentUser.displayName || 
-                           this.state.currentUser.email.split('@')[0];
-        
-        userMenu.innerHTML = `
-          <div class="user-welcome">
-            <div class="user-avatar">${displayName.charAt(0).toUpperCase()}</div>
-            <span>Hola, ${displayName.split(' ')[0]}</span>
-          </div>
-        `;
-      },
-
-      updatePointsDisplay() {
-        const currentPointsEl = document.getElementById('currentPoints');
-        if (currentPointsEl && this.state.userRewards) {
-          currentPointsEl.textContent = this.state.userRewards.points || 0;
-        }
-      },
-
-      updateUserLevel() {
-        const userLevelEl = document.getElementById('userLevel');
-        const userLevelDetailsEl = document.getElementById('userLevelDetails');
-        
-        if (!userLevelEl || !this.state.userRewards) return;
-
-        const totalPoints = this.state.userRewards.totalPointsEarned || 0;
-        const levelInfo = firebaseService.getUserLevel(totalPoints);
-        
-        userLevelEl.textContent = `${levelInfo.icon} ${levelInfo.name}`;
-        
-        // Calcular progreso hacia el siguiente nivel
-        const levels = Object.entries(REWARDS_CONFIG.userLevels);
-        const currentLevelIndex = levels.findIndex(([name]) => name === levelInfo.name);
-        
-        if (currentLevelIndex < levels.length - 1) {
-          const nextLevel = levels[currentLevelIndex + 1];
-          const pointsNeeded = nextLevel[1].minPoints - totalPoints;
-          userLevelDetailsEl.textContent = `${pointsNeeded} puntos para ${nextLevel[0]}`;
-        } else {
-          userLevelDetailsEl.textContent = '¡Nivel máximo alcanzado!';
-        }
-      },
-
-      updateProgressBar() {
-        if (!this.state.userRewards) return;
-        
-        const points = this.state.userRewards.points || 0;
-        const rewards = Object.values(REWARDS_CONFIG.rewardCosts).sort((a, b) => a - b);
-        
-        // Encontrar próxima recompensa
-        let nextReward = rewards.find(reward => points < reward);
-        
-        if (!nextReward) {
-          // Usuario tiene todos los puntos
-          document.getElementById('nextRewardText').textContent = '¡Has desbloqueado todas las recompensas!';
-          document.getElementById('progressFill').style.width = '100%';
-          document.getElementById('progressText').textContent = `${points} puntos - ¡Máximo nivel!`;
-          return;
-        }
-        
-        // Calcular progreso
-        const previousReward = rewards[rewards.indexOf(nextReward) - 1] || 0;
-        const progressPoints = points - previousReward;
-        const neededPoints = nextReward - previousReward;
-        const progressPercent = Math.min((progressPoints / neededPoints) * 100, 100);
-        
-        // Actualizar interfaz
-        document.getElementById('nextRewardText').textContent = 
-          `Te faltan ${nextReward - points} puntos para tu próxima recompensa`;
-        document.getElementById('progressFill').style.width = `${progressPercent}%`;
-        document.getElementById('progressText').textContent = 
-          `${progressPoints} / ${neededPoints} puntos hasta la próxima recompensa`;
-      },
-
-      updateRewardsGrid() {
-        if (!this.state.userRewards) return;
-        
-        const points = this.state.userRewards.points || 0;
-        const rewards = [
-          { id: 'bebida', cost: REWARDS_CONFIG.rewardCosts.bebida },
-          { id: 'pizza', cost: REWARDS_CONFIG.rewardCosts.pizza },
-          { id: 'calzone', cost: REWARDS_CONFIG.rewardCosts.calzone },
-          { id: 'combo', cost: REWARDS_CONFIG.rewardCosts.combo },
-          { id: 'camiseta', cost: REWARDS_CONFIG.rewardCosts.camiseta },
-          { id: 'cena', cost: REWARDS_CONFIG.rewardCosts.cena }
-        ];
-        
-        rewards.forEach(reward => {
-          const card = document.getElementById(`reward-${reward.id}`);
-          const button = card.querySelector('.reward-btn');
-          
-          if (points >= reward.cost) {
-            // Recompensa disponible
-            card.classList.remove('locked');
-            card.classList.add('available');
-            button.classList.remove('btn-disabled');
-            button.classList.add('btn-primary');
-            button.disabled = false;
-            button.textContent = 'Canjear';
-          } else {
-            // Recompensa bloqueada
-            card.classList.remove('available');
-            card.classList.add('locked');
-            button.classList.remove('btn-primary');
-            button.classList.add('btn-disabled');
-            button.disabled = true;
-            button.textContent = `Faltan ${reward.cost - points} puntos`;
-          }
-        });
-      },
-
-      async redeemReward(rewardType, cost) {
-        if (!this.state.currentUser || !this.state.userRewards) {
-          this.showNotification('Debes estar logueado para canjear recompensas.', 'warning');
-          return;
-        }
-        
-        const points = this.state.userRewards.points || 0;
-        if (points < cost) {
-          this.showNotification(
-            `No tienes suficientes puntos. Te faltan ${cost - points} puntos.`,
-            'warning',
-            'Puntos insuficientes'
-          );
-          return;
-        }
-        
-        const rewardNames = {
-          bebida: 'Bebida Gratis 🥤',
-          pizza: 'Pizza Gratis 🍕',
-          calzone: 'Calzone Gratis + Bebida 🍝',
-          combo: 'Combo Completo 🍕🥤',
-          camiseta: 'Camiseta Fratelli 👕',
-          cena: 'Cena Romántica para 2 ❤️'
-        };
-        
-        // Confirmar canje
-        const confirmed = await this.showConfirmation(
-          `¿Quieres canjear ${cost} puntos por:\n\n🎁 ${rewardNames[rewardType]}\n\nEsta acción no se puede deshacer.`,
-          '¿Confirmar canje?',
-          '🎁'
-        );
-        
-        if (!confirmed) return;
-        
-        try {
-          // Efecto visual
-          const card = document.getElementById(`reward-${rewardType}`);
-          card.classList.add('redeeming');
-          
-          this.state.isLoading = true;
-          
-          // Procesar canje en Firebase
-          const result = await firebaseService.spendPoints(
-            this.state.currentUser.uid,
-            cost,
-            `Canje de recompensa: ${rewardNames[rewardType]}`,
-            {
-              rewardType: rewardType,
-              rewardName: rewardNames[rewardType],
-              cost: cost,
-              timestamp: new Date().toISOString()
-            }
-          );
-          
-          if (result.success) {
-            // Actualizar estado local
-            this.state.userRewards.points = result.remainingPoints;
-            this.state.userRewards.totalPointsSpent = (this.state.userRewards.totalPointsSpent || 0) + cost;
-            
-            // Guardar información del canje para el carrito
-            const rewardData = {
-              type: rewardType,
-              name: rewardNames[rewardType],
-              cost: cost,
-              userId: this.state.currentUser.uid,
-              selectedAt: new Date().toISOString(),
-              canjeado: true
-            };
-            
-            localStorage.setItem('fratelli_selected_reward', JSON.stringify(rewardData));
-            
-            this.showNotification(
-              `¡Recompensa canjeada exitosamente!\n\n🎁 ${rewardNames[rewardType]}\n💰 Puntos restantes: ${result.remainingPoints}\n\n🛒 Redirigiendo al carrito...`,
-              'success',
-              '✅ ¡Canje Exitoso!',
-              { duration: 3000 }
-            );
-            
-            // Actualizar interfaz
-            this.updateInterface();
-            
-            // Redireccionar al carrito
-            setTimeout(() => {
-              window.location.href = 'pedido.html?reward=' + rewardType;
-            }, 2000);
-            
-          } else {
-            throw new Error(result.error || 'Error procesando el canje');
-          }
-          
-        } catch (error) {
-          console.error('❌ Error canjeando recompensa:', error);
-          this.showNotification(
-            'Error procesando el canje. Inténtalo de nuevo.',
-            'error',
-            'Error en el canje'
-          );
-        } finally {
-          this.state.isLoading = false;
-          const card = document.getElementById(`reward-${rewardType}`);
-          if (card) card.classList.remove('redeeming');
-        }
-      },
-
-      // ========== MÉTODOS DE UI (sin cambios) ==========
-      
-      initHeaderVisibility() {
-        const headerContainer = document.getElementById('headerContainer');
-        if (headerContainer) {
-          if (window.innerWidth > 768) {
-            headerContainer.classList.add('visible');
-          }
-        }
-      },
-
-      showConfirmation(message, title = '¿Estás seguro?', icon = '🍕') {
-        return new Promise((resolve) => {
-          const modal = document.getElementById('confirmationModal');
-          const titleEl = document.getElementById('confirmationTitle');
-          const messageEl = document.getElementById('confirmationMessage');
-          const iconEl = document.getElementById('confirmationIcon');
-          const confirmBtn = document.getElementById('confirmationConfirm');
-          const cancelBtn = document.getElementById('confirmationCancel');
-
-          if (!modal) {
-            resolve(false);
-            return;
-          }
-
-          titleEl.textContent = title;
-          messageEl.textContent = message;
-          iconEl.textContent = icon;
-
-          const newConfirmBtn = confirmBtn.cloneNode(true);
-          const newCancelBtn = cancelBtn.cloneNode(true);
-          confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-          cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
-
-          newConfirmBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
-            resolve(true);
-          });
-
-          newCancelBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
-            resolve(false);
-          });
-
-          const escapeHandler = (e) => {
-            if (e.key === 'Escape') {
-              modal.classList.remove('show');
-              document.removeEventListener('keydown', escapeHandler);
-              resolve(false);
-            }
-          };
-          document.addEventListener('keydown', escapeHandler);
-
-          modal.classList.add('show');
-        });
-      },
-
-      showNotification(message, type = 'info', title = '', options = {}) {
-        const container = document.getElementById('notificationContainer');
-        if (!container) return;
-
-        const notificationId = ++this.state.notificationId;
-        
-        const config = {
-          success: { icon: '✅', title: title || '¡Éxito!' },
-          error: { icon: '❌', title: title || '¡Oops!' },
-          warning: { icon: '⚠️', title: title || '¡Atención!' },
-          info: { icon: 'ℹ️', title: title || 'Información' },
-          fratelli: { icon: '🍕', title: title || 'Fratelli Pazzi' }
-        };
-
-        const { icon, title: defaultTitle } = config[type] || config.info;
-        const finalTitle = title || defaultTitle;
-
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.setAttribute('data-id', notificationId);
-        
-        notification.innerHTML = `
-          <div class="notification-header">
-            <div class="notification-icon">${icon}</div>
-            <h4 class="notification-title">${finalTitle}</h4>
-          </div>
-          <p class="notification-message">${message}</p>
-          <button class="notification-close" onclick="EnhancedRewardsSystem.closeNotification(${notificationId})">×</button>
-        `;
-
-        container.appendChild(notification);
-        this.state.notifications.set(notificationId, notification);
-
-        setTimeout(() => {
-          notification.classList.add('show');
-        }, 10);
-
-        if (options.autoClose !== false) {
-          const duration = options.duration || 5000;
-          setTimeout(() => {
-            this.closeNotification(notificationId);
-          }, duration);
-        }
-
-        return notificationId;
-      },
-
-      closeNotification(notificationId) {
-        const notification = this.state.notifications.get(notificationId);
-        if (!notification) return;
-
-        notification.classList.remove('show');
-        
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-          }
-          this.state.notifications.delete(notificationId);
-        }, 400);
-      },
-
-      // ========== UTILIDADES ==========
-      
-      cleanupExpiredRewards() {
-        const selectedReward = localStorage.getItem('fratelli_selected_reward');
-        if (selectedReward) {
-          const reward = JSON.parse(selectedReward);
-          const rewardTime = new Date(reward.selectedAt).getTime();
-          const now = new Date().getTime();
-          const hoursPassed = (now - rewardTime) / (1000 * 60 * 60);
-          
-          if (hoursPassed > 1) {
-            localStorage.removeItem('fratelli_selected_reward');
-            console.log('🧹 Recompensa seleccionada expirada limpiada');
-          }
-        }
-      },
-
-      setupEventListeners() {
-        // Función para añadir puntos de prueba (Ctrl+Alt+P)
-        document.addEventListener('keydown', async (e) => {
-          if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'p') {
-            await this.addTestPoints();
-          }
-        });
-      },
-
-      setupScrollEffects() {
-        const headerContainer = document.getElementById('headerContainer');
-        
-        window.addEventListener('scroll', () => {
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          
-          if (headerContainer) {
-            if (scrollTop > 100) {
-              headerContainer.classList.add('scrolled');
-            } else {
-              headerContainer.classList.remove('scrolled');
-            }
-          }
-        }, { passive: true });
-
-        this.setupMobileHeaderToggle();
-      },
-
-            setupMobileHeaderToggle() {
-        const headerContainer = document.getElementById('headerContainer');
-        const toggleBtn = document.getElementById('mobileHeaderToggle');
-        const overlay = document.getElementById('mobileHeaderOverlay');
-        
-        if (!toggleBtn || !headerContainer || !overlay) return;
-
-        let isHeaderVisible = false;
-
-        const toggleHeader = () => {
-          if (window.innerWidth <= 768) {
-            isHeaderVisible = !isHeaderVisible;
-            
-            if (isHeaderVisible) {
-              headerContainer.classList.add('mobile-visible');
-              overlay.classList.add('show');
-              toggleBtn.innerHTML = '✕';
-            } else {
-              headerContainer.classList.remove('mobile-visible');
-              overlay.classList.remove('show');
-              toggleBtn.innerHTML = '☰';
-            }
-          }
-        };
-
-        const closeHeader = () => {
-          if (window.innerWidth <= 768 && isHeaderVisible) {
-            isHeaderVisible = false;
-            headerContainer.classList.remove('mobile-visible');
-            overlay.classList.remove('show');
-            toggleBtn.innerHTML = '☰';
-          }
-        };
-
-        toggleBtn.addEventListener('click', toggleHeader);
-        overlay.addEventListener('click', closeHeader);
-
-        const navLinks = headerContainer.querySelectorAll('.nav-main a');
-        navLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-              setTimeout(closeHeader, 300);
-            }
-          });
-        });
-      },
-
-      // ------------ AÑADE AQUÍ EL MÉTODO DE PUNTOS DE PRUEBA ------------
-      async addTestPoints() {
-        if (!this.state.currentUser) {
-          this.showNotification('Inicia sesión primero', 'warning');
-          return;
-        }
-        const uid = this.state.currentUser.uid;
-        const pts = 50;
-        const res = await firebaseService.addPoints(uid, pts, 'Test (Ctrl+Alt+P)');
-        if (res.success) {
-          await this.loadUserRewards();
-          this.updateInterface();
-          this.showNotification(`+${pts} puntos de prueba añadidos`, 'success', 'Test OK');
-        } else {
-          this.showNotification('No se pudieron añadir puntos de prueba', 'error');
-        }
-      }
-    }; // ← FIN del objeto EnhancedRewardsSystem
-
-    // Exponer funciones globales usadas en el HTML
-    window.EnhancedRewardsSystem = EnhancedRewardsSystem;
-    window.redeemReward = (type, cost) => EnhancedRewardsSystem.redeemReward(type, cost);
-
-    // Iniciar el sistema cuando cargue el DOM
-    document.addEventListener('DOMContentLoaded', () => {
-      EnhancedRewardsSystem.init();
-    });
+    .offline-indicator.show {
+      opacity: 1;
+      visibility: visible;
+    }
