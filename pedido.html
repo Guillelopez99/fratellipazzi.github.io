@@ -3343,27 +3343,6 @@ let productosRecompensaSeleccionados = [];
   }
 }
 
-  // Intentar inmediatamente
-  if (intentarAplicarRecompensas()) {
-    return;
-  }
-
-  // Si no funciona, reintentar cada 500ms hasta 5 segundos
-  let intentos = 0;
-  const maxIntentos = 10; // 5 segundos
-  
-  const intervalo = setInterval(() => {
-    intentos++;
-    
-    if (intentarAplicarRecompensas() || intentos >= maxIntentos) {
-      clearInterval(intervalo);
-      if (intentos >= maxIntentos) {
-        console.warn('⚠️ Sistema de recompensas no disponible después de 5 segundos');
-      }
-    }
-  }, 500);
-}
-
 		function calcularPrecioPersonalizado(producto, ingredientesQuitados = [], ingredientesAnadidos = []) {
 		  let precioBase = producto.precio;
 
