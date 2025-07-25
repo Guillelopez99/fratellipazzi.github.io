@@ -4327,15 +4327,6 @@ let productosRecompensaSeleccionados = [];
     </div>
   `;
 }).join('');
-
-  <div class="carrito-item ${item.isReward ? 'reward' : ''}" role="listitem">
-    <img src="${item.imagen}" alt="${item.nombre}" class="carrito-item-image">
-    <div class="carrito-item-info">
-      <h4>${item.nombre}</h4>
-      <div class="carrito-item-price">${formatearPrecio(precioTotal)}</div>
-      <div class="carrito-item-details">${formatearPrecio(precioUnitario)} × ${item.cantidad}</div>
-      ${personalizacionTexto}
-    </div>
     <div class="quantity-controls">
       <button class="quantity-btn" 
               onclick="cambiarCantidad('${item.itemId}', -1)"
