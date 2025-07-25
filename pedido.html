@@ -2999,6 +2999,11 @@
 	  </style>
 	</head>
 	<body>
+	<div id="reward-banner" class="reward-banner"></div>
+		<div id="reward-selector" class="reward-selector">
+			<h3>Selecciona tu recompensa</h3>
+			<div id="reward-options" class="reward-options"></div>
+			</div>
 	  <div class="header-container" id="headerContainer">
 		<header>
 		  <div class="header-content">
@@ -3101,10 +3106,10 @@
 				<span>Productos</span>
 				<span id="subtotal">0,00€</span>
 			  </div>
-			  <div class="summary-row discount hidden" id="discount-row">
-				<span>Descuento</span>
-				<span id="discount-amount">-0,00€</span>
-			  </div>
+			  <div class="summary-row reward-discount hidden" id="reward-discount-row">
+  <span>Recompensa</span>
+  <span id="reward-discount-amount">-0,00€</span>
+</div>
 			  <div class="summary-row">
 				<span>Envío</span>
 				<span id="envio">1,99€</span>
@@ -3342,6 +3347,7 @@ let productosRecompensaSeleccionados = [];
     console.warn('No se pudo cargar los datos:', error);
   }
 }
+
 
 		function calcularPrecioPersonalizado(producto, ingredientesQuitados = [], ingredientesAnadidos = []) {
 		  let precioBase = producto.precio;
@@ -4254,12 +4260,13 @@ let productosRecompensaSeleccionados = [];
 			subtotalEl.textContent = formatearPrecio(subtotal);
 			envioEl.textContent = envio === 0 ? 'Gratis' : formatearPrecio(envio);
 			totalFinalEl.textContent = formatearPrecio(totalFinal);
-
+	if (rewardDiscountRow && rewardDiscountAmount) {
 			if (descuentoRecompensa > 0) {
 	rewardDiscountRow.classList.remove('hidden');
 	rewardDiscountAmount.textContent = '-' + formatearPrecio(descuentoRecompensa);
 	} else {
 	rewardDiscountRow.classList.add('hidden');
+}
 }
 
 			btnPagar.disabled = carrito.length === 0;
@@ -5224,7 +5231,7 @@ if (rewardParam) {
   console.log('🎁 Parámetro de recompensa detectado:', rewardParam);
   mostrarNotificacion('Cargando tu recompensa...', 'info');
 }
-
+inicializarSistemaRecompensas();
 cargarDatos();
 
 			initNavegacion();
