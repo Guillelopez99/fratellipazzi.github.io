@@ -2653,14 +2653,87 @@
     let puntosDisponibles = 0;
     let recompensaAplicada = null;
 
-    // SISTEMA DE PUNTOS Y RECOMPENSAS
-    const PUNTOS_POR_EURO = 10; // 10 puntos por cada euro gastado
-    const RECOMPENSAS = [
-      { id: 1, nombre: 'Bebida Gratis', puntos: 200, valor: 2.00 },
-      { id: 2, nombre: 'Postre Gratis', puntos: 500, valor: 5.00 },
-      { id: 3, nombre: 'Pizza Gratis', puntos: 1000, valor: 12.00 },
-      { id: 4, nombre: 'Envío Gratis', puntos: 100, valor: 1.99 }
-    ];
+    // Sistema de puntos y recompensas usando Firebase
+    const PUNTOS_POR_EURO = window.FratelliFirebaseAPI ? undefined : 10; // Usar configuración de Firebase
+    
+    // Función para cargar puntos desde Firebase
+    async function cargarPuntos() {
+      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
+        console.warn('Usuario no autenticado en Firebase');
+        return;
+      }
+      
+      try {
+        // Obtener puntos actuales de Firebase
+        puntosDisponibles = window.FratelliFirebaseAPI.getCurrentPoints();
+        
+        // Obtener recompensas de Firebase Config
+        if (window.REWARDS_CONFIG) {
+          RECOMPENSAS = Object.entries(window.REWARDS_CONFIG.rewardCosts).map(([tipo, costo], index) => ({
+            id: index + 1,
+            nombre: tipo.charAt(0).toUpperCase() + tipo.slice(1),
+            puntos: costo,
+            valor: tipo === 'bebida' ? 2.00 : 
+                   tipo === 'pizza' ? 12.00 :
+                   tipo === 'calzone' ? 12.00 :
+                   tipo === 'combo' ? 15.00 : 5.00
+          }));
+        }
+        
+        actualizarPuntosVisibles();
+      } catch (error) {
+        console.error('Error al cargar puntos desde Firebase:', error);
+      }
+    }
+
+    // Función para guardar puntos en Firebase
+    async function guardarPuntos() {
+      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
+        console.warn('Usuario no autenticado en Firebase');
+        return;
+      }
+      
+      if (recompensaAplicada) {
+        // La gestión de recompensas se maneja a través de Firebase
+        await window.firebaseService.spendPoints(
+          window.FratelliFirebaseAPI.getCurrentUser().uid,
+          recompensaAplicada.puntos,
+          `Recompensa aplicada: ${recompensaAplicada.nombre}`,
+          { tipo: recompensaAplicada.nombre, valor: recompensaAplicada.valor }
+        );
+      }
+    }
+
+    // Función para actualizar la visualización de puntos
+    function actualizarPuntosVisibles() {
+      const puntosElement = document.getElementById('available-points');
+      if (puntosElement) {
+        puntosElement.textContent = puntosDisponibles;
+      }
+      actualizarRecompensasDisponibles();
+    }
+
+    // Función para actualizar las recompensas disponibles
+    function actualizarRecompensasDisponibles() {
+      const rewardsContainer = document.getElementById('available-rewards');
+      if (rewardsContainer) {
+        rewardsContainer.innerHTML = '';
+        RECOMPENSAS.forEach(recompensa => {
+          if (puntosDisponibles >= recompensa.puntos) {
+            const chip = document.createElement('button');
+            chip.className = 'reward-chip';
+            if (recompensaAplicada && recompensaAplicada.id === recompensa.id) {
+              chip.classList.add('selected');
+            }
+            chip.textContent = `${recompensa.nombre} (-${formatearPrecio(recompensa.valor)})`;
+            chip.onclick = () => aplicarRecompensa(recompensa);
+            rewardsContainer.appendChild(chip);
+          }
+        });
+      }
+    }
+    // Variables globales para el sistema de recompensas
+    let RECOMPENSAS = []; // Se llenará desde Firebase Config
 
     // UTILIDADES
     function formatearPrecio(precio) {
@@ -2739,61 +2812,106 @@
       }
     }
 
-    // FUNCIONES DE PUNTOS Y RECOMPENSAS
+    // FUNCIONES DE PUNTOS Y RECOMPENSAS CON FIREBASE
     function calcularPuntosCompra(total) {
-      return Math.floor(total * PUNTOS_POR_EURO);
+      if (window.FratelliFirebaseAPI) {
+        return window.firebaseService.calculateOrderPoints(total);
+      }
+      return 0; // Si no hay Firebase, no se acumulan puntos
     }
 
-    function actualizarPuntosYRecompensas() {
+    async function actualizarPuntosYRecompensas() {
+      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
+        // Ocultar elementos de recompensas si no hay usuario
+        document.getElementById('rewards-section')?.classList.add('hidden');
+        return;
+      }
+
+      // Mostrar sección de recompensas
+      document.getElementById('rewards-section')?.classList.remove('hidden');
+
       // Actualizar puntos disponibles
       const puntosElement = document.getElementById('available-points');
       if (puntosElement) {
-        puntosElement.textContent = puntosDisponibles;
+        puntosElement.textContent = window.FratelliFirebaseAPI.getCurrentPoints();
       }
 
       // Actualizar recompensas disponibles
       const rewardsContainer = document.getElementById('available-rewards');
-      if (rewardsContainer) {
-        rewardsContainer.innerHTML = '';
+      if (rewardsContainer && window.firebaseService) {
+        const userPoints = window.FratelliFirebaseAPI.getCurrentPoints();
+        const availableRewards = window.firebaseService.getAvailableRewards(userPoints);
         
-        RECOMPENSAS.forEach(recompensa => {
-          if (puntosDisponibles >= recompensa.puntos) {
+        rewardsContainer.innerHTML = '';
+        availableRewards.forEach(reward => {
+          if (reward.canAfford) {
             const chip = document.createElement('button');
             chip.className = 'reward-chip';
-            if (recompensaAplicada && recompensaAplicada.id === recompensa.id) {
+            if (recompensaAplicada && recompensaAplicada.type === reward.type) {
               chip.classList.add('selected');
             }
-            chip.textContent = `${recompensa.nombre} (-${formatearPrecio(recompensa.valor)})`;
-            chip.onclick = () => aplicarRecompensa(recompensa);
+            const valor = getRewardValue(reward.type);
+            chip.textContent = `${reward.type} (-${formatearPrecio(valor)})`;
+            chip.onclick = () => aplicarRecompensa({
+              type: reward.type,
+              puntos: reward.pointsCost,
+              valor: valor
+            });
             rewardsContainer.appendChild(chip);
           }
         });
       }
-
-      guardarDatos();
     }
 
-    function aplicarRecompensa(recompensa) {
-      if (recompensaAplicada && recompensaAplicada.id === recompensa.id) {
-        // Desaplicar la recompensa
-        recompensaAplicada = null;
-        document.getElementById('rewards-row').classList.add('hidden');
-      } else {
-        // Aplicar la nueva recompensa
-        recompensaAplicada = recompensa;
-        const rewardsRow = document.getElementById('rewards-row');
-        rewardsRow.classList.remove('hidden');
-        document.getElementById('rewards-amount').textContent = '-' + formatearPrecio(recompensa.valor);
+    async function aplicarRecompensa(recompensa) {
+      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
+        mostrarNotificacion('Debes iniciar sesión para usar recompensas', 'error');
+        return;
       }
 
-      actualizarPuntosYRecompensas();
-      actualizarTotalCarrito();
+      try {
+        if (recompensaAplicada && recompensaAplicada.id === recompensa.id) {
+          // Desaplicar la recompensa
+          recompensaAplicada = null;
+          document.getElementById('rewards-row').classList.add('hidden');
+        } else {
+          // Validar puntos disponibles
+          const puntosActuales = window.FratelliFirebaseAPI.getCurrentPoints();
+          if (puntosActuales < recompensa.puntos) {
+            mostrarNotificacion('No tienes suficientes puntos para esta recompensa', 'error');
+            return;
+          }
+
+          // Aplicar la nueva recompensa
+          recompensaAplicada = recompensa;
+          const rewardsRow = document.getElementById('rewards-row');
+          rewardsRow.classList.remove('hidden');
+          document.getElementById('rewards-amount').textContent = '-' + formatearPrecio(recompensa.valor);
+        }
+
+        await actualizarPuntosYRecompensas();
+        actualizarTotalCarrito();
+      } catch (error) {
+        console.error('Error al aplicar recompensa:', error);
+        mostrarNotificacion('Error al aplicar la recompensa', 'error');
+      }
     }
 
-    function agregarPuntos(puntos) {
-      puntosDisponibles += puntos;
-      localStorage.setItem('fratelli-pazzi-puntos', puntosDisponibles.toString());
-      actualizarPuntosYRecompensas();
+    async function agregarPuntos(puntos, razon = 'Compra') {
+      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
+        console.warn('Usuario no autenticado, no se pueden agregar puntos');
+        return;
+      }
+
+      try {
+        const user = window.FratelliFirebaseAPI.getCurrentUser();
+        await window.firebaseService.addPoints(user.uid, puntos, razon);
+        await actualizarPuntosYRecompensas();
+        mostrarNotificacion(`¡Has ganado ${puntos} puntos!`, 'success');
+      } catch (error) {
+        console.error('Error al agregar puntos:', error);
+        mostrarNotificacion('Error al agregar puntos', 'error');
+      }
     }
 
     // CREAR PRODUCTOS
@@ -3354,6 +3472,9 @@
       try {
         const { subtotal, totalItems, envio, totalFinal, descuento } = calcularTotales();
         
+        // Calcular puntos a ganar
+        const puntosAGanar = window.FratelliFirebaseAPI ? window.firebaseService.calculateOrderPoints(totalFinal) : 0;
+        
         // Actualizar elementos del DOM
         const badge = document.getElementById('carrito-badge');
         const total = document.getElementById('total-carrito');
@@ -3365,6 +3486,51 @@
         const discountAmount = document.getElementById('discount-amount');
         const carritoItems = document.getElementById('carrito-items');
         const btnPagar = document.getElementById('btn-pagar');
+        
+        // Actualizar puntos actuales en el carrito
+        const pointsInfo = document.querySelector('.points-info');
+        if (pointsInfo) {
+          const pointsAmount = document.getElementById('available-points');
+          if (pointsAmount) {
+            pointsAmount.textContent = puntosDisponibles;
+          }
+          
+          const pointsToEarn = document.querySelector('.points-to-earn');
+          if (totalItems > 0) {
+            if (!pointsToEarn) {
+              const earnText = document.createElement('div');
+              earnText.className = 'points-to-earn';
+              earnText.style.fontSize = '0.8em';
+              earnText.style.marginTop = '0.5em';
+              earnText.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
+              pointsInfo.appendChild(earnText);
+            } else {
+              pointsToEarn.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
+            }
+          } else if (pointsToEarn) {
+            pointsToEarn.remove();
+          }
+        }
+
+        // Actualizar información de puntos
+        const pointsToEarn = document.querySelector('.points-to-earn');
+        if (totalItems > 0) {
+          if (!pointsToEarn) {
+            const pointsInfo = document.querySelector('.points-info');
+            if (pointsInfo) {
+              const earnText = document.createElement('div');
+              earnText.className = 'points-to-earn';
+              earnText.style.fontSize = '0.8em';
+              earnText.style.marginTop = '0.5em';
+              earnText.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
+              pointsInfo.appendChild(earnText);
+            }
+          } else {
+            pointsToEarn.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
+          }
+        } else if (pointsToEarn) {
+          pointsToEarn.remove();
+        }
         
         // Actualizar badge
         if (totalItems > 0) {
