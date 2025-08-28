@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Fratelli Pazzi - Pedido Mejorado</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
@@ -56,6 +56,10 @@
       scroll-behavior: smooth;
       width: 100%;
       overflow-x: hidden;
+      text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      font-size: 16px;
     }
     
     body { 
@@ -68,6 +72,8 @@
       -moz-osx-font-smoothing: grayscale;
       padding-top: 140px;
       min-height: 100vh;
+      text-rendering: optimizeLegibility;
+      -webkit-tap-highlight-color: transparent;
       width: 100%;
     }
     
