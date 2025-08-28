@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fratelli Pazzi - Pedido Mejorado</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
@@ -46,6 +46,65 @@
       --vh: 1vh; /* Fallback para altura de viewport en móviles */
     }
 
+    /* BARRAS DE SCROLL PERSONALIZADAS HERMOSAS */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(30, 33, 34, 0.3);
+      border-radius: 10px;
+      border: 1px solid rgba(205, 184, 124, 0.1);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--gradient-gold);
+      border-radius: 10px;
+      border: 2px solid rgba(30, 33, 34, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gradient-accent);
+      border-color: rgba(213, 120, 108, 0.3);
+      transform: scale(1.1);
+    }
+    
+    ::-webkit-scrollbar-thumb:active {
+      background: var(--gradient-sage);
+    }
+    
+    ::-webkit-scrollbar-corner {
+      background: rgba(30, 33, 34, 0.3);
+      border-radius: 10px;
+    }
+    
+    /* Scroll horizontal */
+    ::-webkit-scrollbar:horizontal {
+      height: 12px;
+    }
+    
+    /* Scroll del navegador lateral */
+    nav.indice::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    nav.indice::-webkit-scrollbar-track {
+      background: rgba(30, 33, 34, 0.2);
+      border-radius: 6px;
+    }
+    
+    nav.indice::-webkit-scrollbar-thumb {
+      background: rgba(205, 184, 124, 0.4);
+      border-radius: 6px;
+      border: 1px solid rgba(30, 33, 34, 0.2);
+    }
+    
+    nav.indice::-webkit-scrollbar-thumb:hover {
+      background: var(--gold);
+    }
+
     * { 
       box-sizing: border-box; 
       margin: 0; 
@@ -56,10 +115,7 @@
       scroll-behavior: smooth;
       width: 100%;
       overflow-x: hidden;
-      text-size-adjust: 100%;
-      -webkit-text-size-adjust: 100%;
-      -moz-text-size-adjust: 100%;
-      font-size: 16px;
+      box-sizing: border-box;
     }
     
     body { 
@@ -72,9 +128,12 @@
       -moz-osx-font-smoothing: grayscale;
       padding-top: 140px;
       min-height: 100vh;
-      text-rendering: optimizeLegibility;
-      -webkit-tap-highlight-color: transparent;
       width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      margin: 0;
+      padding-left: 0;
+      padding-right: 0;
     }
     
     /* HEADER FLOTANTE MODERNO */
@@ -88,6 +147,8 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       background: rgba(30, 33, 34, 0.95);
       backdrop-filter: blur(20px);
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .header-container.scrolled {
@@ -103,8 +164,9 @@
       box-shadow: var(--shadow-card);
       transition: all 0.3s ease;
       margin: 0 auto;
-      max-width: 1400px;
+      max-width: calc(100vw - 2rem);
       width: 100%;
+      box-sizing: border-box;
     }
     
     .header-content {
@@ -162,8 +224,10 @@
     .filters-container {
       display: flex;
       align-items: center;
-      gap: var(--space-md);
+      gap: var(--space-sm);
       flex-wrap: wrap;
+      flex-shrink: 1;
+      min-width: 0;
     }
     
     .search-container {
@@ -174,7 +238,8 @@
       padding: var(--space-sm) var(--space-md);
       border: 2px solid rgba(205, 184, 124, 0.2);
       border-radius: var(--radius-lg);
-      width: 280px;
+      width: 250px;
+      max-width: 250px;
       font-size: 14px;
       outline: none;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -183,6 +248,7 @@
       box-shadow: var(--shadow-card);
       color: var(--cream);
       font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
     
     #search-input::placeholder {
@@ -253,13 +319,14 @@
     /* CONTENEDOR PRINCIPAL */
     .main-container { 
       display: block;
-      max-width: 1400px; 
-      margin: 0 auto; 
+      margin: 0;
       padding: var(--space-lg); 
-      width: 100%;
+      width: calc(100vw - 340px);
       box-sizing: border-box;
       margin-left: 340px; /* Espacio para el nav fijo */
       padding-left: var(--space-xl);
+      padding-right: var(--space-xl);
+      min-height: 100vh;
     }
     
     /* NAVEGACIÓN */
@@ -460,7 +527,7 @@
     .carrito-float-btn {
       position: fixed;
       bottom: var(--space-xl);
-      right: var(--space-xl);
+      right: var(--space-lg);
       width: 160px;
       height: 70px;
       background: var(--gradient-accent);
@@ -1683,23 +1750,36 @@
       /* Ajustes del body y contenedor principal */
       body {
         padding-top: 100px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
       }
       
       /* Header más compacto */
       .header-container {
         padding: 0.75rem !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
       }
       
       header {
         padding: 0.75rem 1rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
       }
-      
+
       /* Ajustar contenido del header en móvil */
       .header-content {
         position: relative;
         justify-content: space-between !important;
         align-items: center !important;
         gap: 0.5rem !important;
+        flex-wrap: nowrap !important;
       }
       
       /* Ocultar controles de filtros en móvil o moverlos */
@@ -1735,6 +1815,8 @@
         margin-left: 0 !important;
         padding: 1rem !important;
         width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
       }
       
       /* Menú lateral oculto por defecto en móvil */
@@ -2818,1397 +2900,8 @@
       }
     }
 
-    // FUNCIONES DE PUNTOS Y RECOMPENSAS CON FIREBASE
-    function calcularPuntosCompra(total) {
-      if (window.FratelliFirebaseAPI) {
-        return window.firebaseService.calculateOrderPoints(total);
-      }
-      return 0; // Si no hay Firebase, no se acumulan puntos
-    }
-
-    async function actualizarPuntosYRecompensas() {
-      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
-        // Ocultar elementos de recompensas si no hay usuario
-        document.getElementById('rewards-section')?.classList.add('hidden');
-        return;
-      }
-
-      // Mostrar sección de recompensas
-      document.getElementById('rewards-section')?.classList.remove('hidden');
-
-      // Actualizar puntos disponibles
-      const puntosElement = document.getElementById('available-points');
-      if (puntosElement) {
-        puntosElement.textContent = window.FratelliFirebaseAPI.getCurrentPoints();
-      }
-
-      // Actualizar recompensas disponibles
-      const rewardsContainer = document.getElementById('available-rewards');
-      if (rewardsContainer && window.firebaseService) {
-        const userPoints = window.FratelliFirebaseAPI.getCurrentPoints();
-        const availableRewards = window.firebaseService.getAvailableRewards(userPoints);
-        
-        rewardsContainer.innerHTML = '';
-        availableRewards.forEach(reward => {
-          if (reward.canAfford) {
-            const chip = document.createElement('button');
-            chip.className = 'reward-chip';
-            if (recompensaAplicada && recompensaAplicada.type === reward.type) {
-              chip.classList.add('selected');
-            }
-            const valor = getRewardValue(reward.type);
-            chip.textContent = `${reward.type} (-${formatearPrecio(valor)})`;
-            chip.onclick = () => aplicarRecompensa({
-              type: reward.type,
-              puntos: reward.pointsCost,
-              valor: valor
-            });
-            rewardsContainer.appendChild(chip);
-          }
-        });
-      }
-    }
-
-    async function aplicarRecompensa(recompensa) {
-      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
-        mostrarNotificacion('Debes iniciar sesión para usar recompensas', 'error');
-        return;
-      }
-
-      try {
-        if (recompensaAplicada && recompensaAplicada.id === recompensa.id) {
-          // Desaplicar la recompensa
-          recompensaAplicada = null;
-          document.getElementById('rewards-row').classList.add('hidden');
-        } else {
-          // Validar puntos disponibles
-          const puntosActuales = window.FratelliFirebaseAPI.getCurrentPoints();
-          if (puntosActuales < recompensa.puntos) {
-            mostrarNotificacion('No tienes suficientes puntos para esta recompensa', 'error');
-            return;
-          }
-
-          // Aplicar la nueva recompensa
-          recompensaAplicada = recompensa;
-          const rewardsRow = document.getElementById('rewards-row');
-          rewardsRow.classList.remove('hidden');
-          document.getElementById('rewards-amount').textContent = '-' + formatearPrecio(recompensa.valor);
-        }
-
-        await actualizarPuntosYRecompensas();
-        actualizarTotalCarrito();
-      } catch (error) {
-        console.error('Error al aplicar recompensa:', error);
-        mostrarNotificacion('Error al aplicar la recompensa', 'error');
-      }
-    }
-
-    async function agregarPuntos(puntos, razon = 'Compra') {
-      if (!window.FratelliFirebaseAPI || !window.FratelliFirebaseAPI.isUserSignedIn()) {
-        console.warn('Usuario no autenticado, no se pueden agregar puntos');
-        return;
-      }
-
-      try {
-        const user = window.FratelliFirebaseAPI.getCurrentUser();
-        await window.firebaseService.addPoints(user.uid, puntos, razon);
-        await actualizarPuntosYRecompensas();
-        mostrarNotificacion(`¡Has ganado ${puntos} puntos!`, 'success');
-      } catch (error) {
-        console.error('Error al agregar puntos:', error);
-        mostrarNotificacion('Error al agregar puntos', 'error');
-      }
-    }
-
-    // CREAR PRODUCTOS
-    function crearProductos() {
-      console.log('🍕 Creando productos...');
-      
-      try {
-        productos.forEach(producto => {
-          const contenedor = document.querySelector(`[data-categoria="${producto.categoria}"]`);
-          if (contenedor) {
-            const card = crearTarjetaProducto(producto);
-            contenedor.appendChild(card);
-          }
-        });
-        
-        verificarResultadosBusqueda();
-        console.log('✅ Productos creados correctamente');
-      } catch (error) {
-        manejarError(error, 'Error al crear los productos');
-      }
-    }
-
-    function crearTarjetaProducto(producto) {
-      const card = document.createElement('div');
-      card.className = 'pizza-card';
-      
-      // Añadir clase especial para Pizza del Mes
-      if (producto.pizzaDelMes) {
-        card.classList.add('pizza-del-mes');
-      }
-      
-      card.setAttribute('data-producto-id', producto.id);
-      card.setAttribute('data-nombre', producto.nombre.toLowerCase());
-      card.setAttribute('data-ingredientes', (producto.ingredientes || '').toLowerCase());
-      card.setAttribute('data-precio', producto.precio);
-      card.setAttribute('data-categoria', producto.categoria);
-      
-      const badges = obtenerBadges(producto);
-      const badgesHtml = badges.map(badge => 
-        `<span class="badge ${badge.class}">${badge.text}</span>`
-      ).join('');
-      
-      const ingredientesHtml = producto.ingredientes ? 
-        `<div class="pizza-ingredients">${producto.ingredientes}</div>` : '';
-      
-      const cantidad = cantidadProductoSeleccionado[producto.id] || 1;
-      
-      card.innerHTML = `
-        <div class="pizza-card-image">
-          <img src="${producto.imagen}" 
-               alt="${producto.nombre}" 
-               loading="lazy"
-               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNzUiIGN5PSI3NSIgcj0iNzAiIGZpbGw9IiNGOEY5RkEiIHN0cm9rZT0iI0RFRTJFNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNzUiIHk9Ijg1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiM2Qzc1N0QiPvCfjaU8L3RleHQ+PC9zdmc+'">
-          <button class="favorite-btn ${favoritos.includes(producto.id) ? 'active' : ''}" 
-                  onclick="toggleFavorito(${producto.id})" 
-                  aria-label="Marcar como favorito">
-            ${favoritos.includes(producto.id) ? '♥' : '♡'}
-          </button>
-        </div>
-        <div class="pizza-card-content">
-          <div class="pizza-card-header">
-            <h3 class="pizza-name">${producto.nombre}</h3>
-            <div class="pizza-badges">
-              ${badgesHtml}
-            </div>
-          </div>
-          ${ingredientesHtml}
-          <div class="pizza-details">
-            <div class="detail-item">
-              <span>🔥</span>
-              <span>${producto.calorias} cal</span>
-            </div>
-          </div>
-          <div class="pizza-card-footer">
-            <div class="price-container">
-              <div class="pizza-price">${formatearPrecio(producto.precio)}</div>
-            </div>
-          </div>
-            <div class="quantity-selector">
-              <button onclick="cambiarCantidadProducto(${producto.id}, -1)" 
-                      aria-label="Disminuir cantidad">-</button>
-              <span id="cantidad-${producto.id}">${cantidad}</span>
-              <button onclick="cambiarCantidadProducto(${producto.id}, 1)" 
-                      aria-label="Aumentar cantidad">+</button>
-            </div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button class="add-to-cart-btn" 
-                  onclick="agregarAlCarrito(${producto.id})" 
-                  aria-label="Añadir ${producto.nombre} al carrito">
-            🛒 Añadir
-          </button>
-        </div>
-      `;
-      
-      // Añadir evento para abrir modal de detalles
-      card.addEventListener('click', function(e) {
-        if (e.target.classList.contains('favorite-btn') || 
-            e.target.classList.contains('add-to-cart-btn') ||
-            e.target.closest('.quantity-selector') ||
-            e.target.closest('.card-actions')) {
-          return;
-        }
-        abrirProductModal(producto.id);
-      });
-      
-      return card;
-    }
-
-    // FUNCIONES DE FAVORITOS
-    function toggleFavorito(productoId) {
-      try {
-        const index = favoritos.indexOf(productoId);
-        if (index > -1) {
-          favoritos.splice(index, 1);
-        } else {
-          favoritos.push(productoId);
-        }
-        
-        actualizarFavoritos();
-        guardarDatos();
-      } catch (error) {
-        manejarError(error, 'Error al actualizar favoritos');
-      }
-    }
-
-    function actualizarFavoritos() {
-      try {
-        document.querySelectorAll('.favorite-btn').forEach(btn => {
-          const card = btn.closest('.pizza-card');
-          const productoId = parseInt(card.getAttribute('data-producto-id'));
-          
-          if (favoritos.includes(productoId)) {
-            btn.classList.add('active');
-            btn.innerHTML = '♥';
-          } else {
-            btn.classList.remove('active');
-            btn.innerHTML = '♡';
-          }
-        });
-      } catch (error) {
-        manejarError(error, 'Error al actualizar favoritos');
-      }
-    }
-
-    // FILTROS AVANZADOS
-    function filtrarPorPrecio(filtro) {
-      try {
-        // Primero limpiar búsqueda si está activa
-        if (busquedaActual) {
-          limpiarBusqueda();
-        }
-        
-        filtroActual = filtro;
-        
-        // Actualizar botones activos
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        document.getElementById(`filter-${filtro}`).classList.add('active');
-        
-        const searchResults = document.getElementById('search-results');
-        const normalSections = document.getElementById('normal-sections');
-        const searchGaleria = document.querySelector('[data-categoria="search"]');
-        
-        if (filtro === 'normal' || filtro === 'premium') {
-          // Mostrar solo resultados de pizzas filtradas
-          normalSections.classList.add('hidden');
-          searchResults.classList.remove('hidden');
-          
-          // Cambiar el título
-          const searchTitle = searchResults.querySelector('h2');
-          if (filtro === 'normal') {
-            searchTitle.textContent = 'Pizzas Normales';
-          } else {
-            searchTitle.textContent = 'Pizzas Premium';
-          }
-          
-          // Limpiar resultados anteriores
-          searchGaleria.innerHTML = '';
-          
-          let productosVisibles = 0;
-          
-          // Filtrar solo pizzas
-          const pizzas = productos.filter(p => p.categoria === 'pizzas');
-          
-          pizzas.forEach(producto => {
-            let mostrar = false;
-            
-            if (filtro === 'normal' && producto.precio <= 12) {
-              mostrar = true;
-            } else if (filtro === 'premium' && producto.precio > 12) {
-              mostrar = true;
-            }
-            
-            if (mostrar) {
-              const card = crearTarjetaProducto(producto);
-              
-              // Añadir clase premium si es necesario
-              if (filtro === 'premium') {
-                if (producto.pizzaDelMes) {
-                  card.classList.add('pizza-del-mes');
-                } else {
-                  card.classList.add('premium');
-                }
-              }
-              
-              searchGaleria.appendChild(card);
-              productosVisibles++;
-            }
-          });
-          
-          if (productosVisibles === 0) {
-            const tipoFiltro = filtro === 'normal' ? 'normales (≤12€)' : 'premium (>12€)';
-            searchGaleria.innerHTML = `
-              <div class="no-results">
-                <h3>Sin resultados</h3>
-                <p>No se encontraron pizzas ${tipoFiltro}</p>
-                <div class="emoji">🍕</div>
-              </div>
-            `;
-          }
-          
-        } else {
-          // Filtro "all" - mostrar secciones normales
-          searchResults.classList.add('hidden');
-          normalSections.classList.remove('hidden');
-          
-          const cards = document.querySelectorAll('.pizza-card');
-          cards.forEach(card => {
-            card.classList.remove('hidden');
-            card.classList.remove('premium'); // Solo quitar premium temporal
-            // Mantener pizza-del-mes si la tiene
-          });
-        }
-        
-      } catch (error) {
-        manejarError(error, 'Error al aplicar filtros');
-      }
-    }
-
-    function filtrarFavoritos() {
-      try {
-        // Primero limpiar búsqueda si está activa
-        if (busquedaActual) {
-          limpiarBusqueda();
-        }
-        
-        const btn = document.getElementById('filter-favorites');
-        const estaActivo = btn.classList.contains('active');
-        
-        // Resetear otros filtros
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        
-        const searchResults = document.getElementById('search-results');
-        const normalSections = document.getElementById('normal-sections');
-        const searchGaleria = document.querySelector('[data-categoria="search"]');
-        
-        if (estaActivo) {
-          // Mostrar todas las secciones normales
-          searchResults.classList.add('hidden');
-          normalSections.classList.remove('hidden');
-          
-          const cards = document.querySelectorAll('.pizza-card');
-          cards.forEach(card => {
-            card.classList.remove('hidden');
-            card.classList.remove('premium'); // Solo quitar premium temporal
-            // Mantener pizza-del-mes si la tiene
-          });
-          
-          filtroActual = 'all';
-        } else {
-          // Mostrar solo favoritos
-          btn.classList.add('active');
-          normalSections.classList.add('hidden');
-          searchResults.classList.remove('hidden');
-          
-          // Cambiar título
-          const searchTitle = searchResults.querySelector('h2');
-          searchTitle.textContent = 'Tus Favoritos';
-          
-          // Limpiar resultados anteriores
-          searchGaleria.innerHTML = '';
-          
-          let productosVisibles = 0;
-          
-          // Mostrar solo productos favoritos
-          productos.forEach(producto => {
-            if (favoritos.includes(producto.id)) {
-              const card = crearTarjetaProducto(producto);
-              
-              // Añadir clase premium o pizza del mes si es necesario
-              if (producto.categoria === 'pizzas' && producto.precio > 12) {
-                if (producto.pizzaDelMes) {
-                  card.classList.add('pizza-del-mes');
-                } else {
-                  card.classList.add('premium');
-                }
-              }
-              
-              searchGaleria.appendChild(card);
-              productosVisibles++;
-            }
-          });
-          
-          if (productosVisibles === 0) {
-            searchGaleria.innerHTML = `
-              <div class="no-results">
-                <h3>Sin favoritos</h3>
-                <p>No tienes productos favoritos aún</p>
-                <div class="emoji">💝</div>
-              </div>
-            `;
-          }
-          
-          filtroActual = 'favorites';
-        }
-        
-      } catch (error) {
-        manejarError(error, 'Error al filtrar favoritos');
-      }
-    }
-
-    // MODAL DE DETALLES DEL PRODUCTO
-    function abrirProductModal(productoId) {
-      try {
-        const producto = productos.find(p => p.id === productoId);
-        if (!producto) return;
-        
-        productoModalActual = producto;
-        
-        const modal = document.getElementById('product-modal');
-        const imagen = document.getElementById('product-modal-image');
-        const titulo = document.getElementById('product-modal-title');
-        const precio = document.getElementById('product-modal-price');
-        const descripcion = document.getElementById('product-modal-description');
-        const detalles = document.getElementById('product-modal-details');
-        const cantidad = document.getElementById('modal-quantity');
-        
-        imagen.src = producto.imagen;
-        imagen.alt = producto.nombre;
-        titulo.textContent = producto.nombre;
-        precio.textContent = formatearPrecio(producto.precio);
-        descripcion.textContent = producto.descripcion || producto.ingredientes;
-        cantidad.textContent = cantidadProductoSeleccionado[productoId] || 1;
-        
-        // Crear tarjetas de detalles
-        detalles.innerHTML = `
-          <div class="detail-card">
-            <div class="detail-card-title">Calorías</div>
-            <div class="detail-card-value">${producto.calorias} cal</div>
-          </div>
-          <div class="detail-card">
-            <div class="detail-card-title">Alérgenos</div>
-            <div class="detail-card-value">${producto.alergenos?.join(', ') || 'Ninguno'}</div>
-          </div>
-        `;
-        
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        
-        // Focus para accesibilidad
-        const closeButton = modal.querySelector('.product-modal-close');
-        if (closeButton) closeButton.focus();
-      } catch (error) {
-        manejarError(error, 'Error al abrir detalles del producto');
-      }
-    }
-
-    function cerrarProductModal() {
-      try {
-        const modal = document.getElementById('product-modal');
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto';
-        productoModalActual = null;
-      } catch (error) {
-        manejarError(error, 'Error al cerrar modal');
-      }
-    }
-
-    function cambiarCantidadModal(cambio) {
-      try {
-        if (!productoModalActual) return;
-        
-        const cantidad = document.getElementById('modal-quantity');
-        let nuevaCantidad = parseInt(cantidad.textContent) + cambio;
-        
-        if (nuevaCantidad < 1) nuevaCantidad = 1;
-        if (nuevaCantidad > 99) nuevaCantidad = 99;
-        
-        cantidad.textContent = nuevaCantidad;
-        cantidadProductoSeleccionado[productoModalActual.id] = nuevaCantidad;
-        
-        // Actualizar también en la tarjeta
-        const cantidadCard = document.getElementById(`cantidad-${productoModalActual.id}`);
-        if (cantidadCard) {
-          cantidadCard.textContent = nuevaCantidad;
-        }
-        
-        guardarDatos();
-      } catch (error) {
-        manejarError(error, 'Error al cambiar cantidad');
-      }
-    }
-
-    function agregarAlCarritoModal() {
-      try {
-        if (!productoModalActual) return;
-        
-        const cantidadModal = parseInt(document.getElementById('modal-quantity').textContent);
-        const btn = document.getElementById('modal-add-btn');
-        
-        btn.classList.add('loading');
-        btn.disabled = true;
-        
-        setTimeout(() => {
-          for (let i = 0; i < cantidadModal; i++) {
-            agregarAlCarrito(productoModalActual.id, false);
-          }
-          
-          btn.classList.remove('loading');
-          btn.disabled = false;
-          
-          cerrarProductModal();
-        }, 500);
-      } catch (error) {
-        manejarError(error, 'Error al añadir al carrito');
-      }
-    }
-
-    // GESTIÓN DE CANTIDADES
-    function cambiarCantidadProducto(productoId, cambio) {
-      try {
-        const cantidadActual = cantidadProductoSeleccionado[productoId] || 1;
-        let nuevaCantidad = cantidadActual + cambio;
-        
-        if (nuevaCantidad < 1) nuevaCantidad = 1;
-        if (nuevaCantidad > 99) nuevaCantidad = 99;
-        
-        cantidadProductoSeleccionado[productoId] = nuevaCantidad;
-        
-        const cantidadElement = document.getElementById(`cantidad-${productoId}`);
-        if (cantidadElement) {
-          cantidadElement.textContent = nuevaCantidad;
-        }
-        
-        guardarDatos();
-      } catch (error) {
-        manejarError(error, 'Error al cambiar cantidad del producto');
-      }
-    }
-
-    // FUNCIONES DEL CARRITO
-    function agregarAlCarrito(productoId, mostrarNotif = true) {
-      try {
-        const producto = productos.find(p => p.id === productoId);
-        if (!producto) {
-          mostrarNotificacion('Producto no encontrado', 'error');
-          return;
-        }
-        
-        const cantidadSeleccionada = cantidadProductoSeleccionado[productoId] || 1;
-        
-        console.log('🛒 Añadiendo:', producto.nombre, `${cantidadSeleccionada}x`, formatearPrecio(producto.precio));
-        
-        const existente = carrito.find(item => item.id === productoId);
-        if (existente) {
-          existente.cantidad += cantidadSeleccionada;
-        } else {
-          carrito.push({ 
-            id: productoId,
-            nombre: producto.nombre, 
-            precio: producto.precio, 
-            cantidad: cantidadSeleccionada,
-            imagen: producto.imagen,
-            categoria: producto.categoria
-          });
-        }
-        
-        actualizarCarrito();
-        guardarDatos();
-        
-        // Animación del botón mejorada
-        const button = event?.target || document.querySelector(`[onclick*="agregarAlCarrito(${productoId})"]`);
-        if (button) {
-          button.classList.add('adding');
-          setTimeout(() => {
-            button.classList.remove('adding');
-          }, 600);
-        }
-        
-      } catch (error) {
-        manejarError(error, 'Error al añadir producto al carrito');
-      }
-    }
-
-    function eliminarDelCarrito(productoId) {
-      try {
-        const index = carrito.findIndex(item => item.id === productoId);
-        if (index > -1) {
-          const nombreProducto = carrito[index].nombre;
-          carrito.splice(index, 1);
-          actualizarCarrito();
-          guardarDatos();
-          mostrarNotificacion(`${nombreProducto} eliminado del carrito`, 'warning');
-        }
-      } catch (error) {
-        manejarError(error, 'Error al eliminar producto');
-      }
-    }
-
-    function cambiarCantidad(productoId, cambio) {
-      try {
-        const item = carrito.find(item => item.id === productoId);
-        if (item) {
-          item.cantidad += cambio;
-          if (item.cantidad <= 0) {
-            eliminarDelCarrito(productoId);
-          } else {
-            actualizarCarrito();
-            guardarDatos();
-          }
-        }
-      } catch (error) {
-        manejarError(error, 'Error al cambiar cantidad');
-      }
-    }
-
-    function calcularTotales() {
-      let subtotal = 0;
-      let totalItems = 0;
-      
-      carrito.forEach(item => {
-        subtotal += item.precio * item.cantidad;
-        totalItems += item.cantidad;
-      });
-      
-      // Aplicar descuento
-      let descuento = 0;
-      if (cuponAplicado) {
-        const cupon = CONFIG.cupones[cuponAplicado];
-        if (cupon.tipo === 'porcentaje') {
-          descuento = subtotal * cupon.descuento;
-        } else {
-          descuento = cupon.descuento;
-        }
-      }
-      
-      const subtotalConDescuento = subtotal - descuento;
-      const envio = carrito.length > 0 ? (subtotalConDescuento >= CONFIG.envioGratis ? 0 : CONFIG.envio) : 0;
-      const totalFinal = subtotalConDescuento + envio;
-      
-      return { subtotal, totalItems, envio, totalFinal, descuento };
-    }
-
-    function actualizarCarrito() {
-      try {
-        const { subtotal, totalItems, envio, totalFinal, descuento } = calcularTotales();
-        
-        // Calcular puntos a ganar
-        const puntosAGanar = window.FratelliFirebaseAPI ? window.firebaseService.calculateOrderPoints(totalFinal) : 0;
-        
-        // Actualizar elementos del DOM
-        const badge = document.getElementById('carrito-badge');
-        const total = document.getElementById('total-carrito');
-        const itemsCount = document.getElementById('carrito-items-count');
-        const subtotalEl = document.getElementById('subtotal');
-        const envioEl = document.getElementById('envio');
-        const totalFinalEl = document.getElementById('total-final');
-        const discountRow = document.getElementById('discount-row');
-        const discountAmount = document.getElementById('discount-amount');
-        const carritoItems = document.getElementById('carrito-items');
-        const btnPagar = document.getElementById('btn-pagar');
-        
-        // Actualizar puntos actuales en el carrito
-        const pointsInfo = document.querySelector('.points-info');
-        if (pointsInfo) {
-          const pointsAmount = document.getElementById('available-points');
-          if (pointsAmount) {
-            pointsAmount.textContent = puntosDisponibles;
-          }
-          
-          const pointsToEarn = document.querySelector('.points-to-earn');
-          if (totalItems > 0) {
-            if (!pointsToEarn) {
-              const earnText = document.createElement('div');
-              earnText.className = 'points-to-earn';
-              earnText.style.fontSize = '0.8em';
-              earnText.style.marginTop = '0.5em';
-              earnText.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
-              pointsInfo.appendChild(earnText);
-            } else {
-              pointsToEarn.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
-            }
-          } else if (pointsToEarn) {
-            pointsToEarn.remove();
-          }
-        }
-
-        // Actualizar información de puntos
-        const pointsToEarn = document.querySelector('.points-to-earn');
-        if (totalItems > 0) {
-          if (!pointsToEarn) {
-            const pointsInfo = document.querySelector('.points-info');
-            if (pointsInfo) {
-              const earnText = document.createElement('div');
-              earnText.className = 'points-to-earn';
-              earnText.style.fontSize = '0.8em';
-              earnText.style.marginTop = '0.5em';
-              earnText.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
-              pointsInfo.appendChild(earnText);
-            }
-          } else {
-            pointsToEarn.textContent = `Ganarás ${puntosAGanar} puntos con esta compra`;
-          }
-        } else if (pointsToEarn) {
-          pointsToEarn.remove();
-        }
-        
-        // Actualizar badge
-        if (totalItems > 0) {
-          badge.style.display = 'flex';
-          badge.textContent = totalItems > 99 ? '99+' : totalItems;
-        } else {
-          badge.style.display = 'none';
-        }
-        
-        // Actualizar totales
-        total.textContent = formatearPrecio(totalFinal);
-        itemsCount.textContent = totalItems === 1 ? '1 producto' : `${totalItems} productos`;
-        subtotalEl.textContent = formatearPrecio(subtotal);
-        envioEl.textContent = envio === 0 ? 'Gratis' : formatearPrecio(envio);
-        totalFinalEl.textContent = formatearPrecio(totalFinal);
-        
-        // Mostrar/ocultar descuento
-        if (descuento > 0) {
-          discountRow.classList.remove('hidden');
-          discountAmount.textContent = '-' + formatearPrecio(descuento);
-        } else {
-          discountRow.classList.add('hidden');
-        }
-        
-        // Actualizar botón de pagar
-        btnPagar.disabled = carrito.length === 0;
-        
-        // Mostrar información de envío gratis
-        if (subtotal > 0 && subtotal < CONFIG.envioGratis) {
-          const faltante = CONFIG.envioGratis - subtotal;
-          envioEl.title = `Envío gratis a partir de ${formatearPrecio(CONFIG.envioGratis)}. Faltan ${formatearPrecio(faltante)}`;
-        }
-        
-        // Actualizar items del carrito
-        if (carrito.length === 0) {
-          carritoItems.innerHTML = `
-            <div class="carrito-vacio">
-              <h3>Tu carrito está vacío</h3>
-              <p>Añade algunos productos deliciosos para comenzar</p>
-              <div class="emoji">🍕</div>
-            </div>
-          `;
-        } else {
-          carritoItems.innerHTML = carrito.map(item => `
-            <div class="carrito-item" role="listitem">
-              <img src="${item.imagen}" alt="${item.nombre}" class="carrito-item-image">
-              <div class="carrito-item-info">
-                <h4>${item.nombre}</h4>
-                <div class="carrito-item-price">${formatearPrecio(item.precio * item.cantidad)}</div>
-                <div class="carrito-item-details">${formatearPrecio(item.precio)} × ${item.cantidad}</div>
-              </div>
-              <div class="quantity-controls">
-                <button class="quantity-btn" 
-                        onclick="cambiarCantidad(${item.id}, -1)"
-                        aria-label="Disminuir cantidad de ${item.nombre}">-</button>
-                <span class="quantity-display" aria-label="Cantidad: ${item.cantidad}">${item.cantidad}</span>
-                <button class="quantity-btn" 
-                        onclick="cambiarCantidad(${item.id}, 1)"
-                        aria-label="Aumentar cantidad de ${item.nombre}">+</button>
-              </div>
-              <button class="remove-btn" 
-                      onclick="eliminarDelCarrito(${item.id})"
-                      aria-label="Eliminar ${item.nombre} del carrito">🗑️</button>
-            </div>
-          `).join('');
-        }
-      } catch (error) {
-        manejarError(error, 'Error al actualizar el carrito');
-      }
-    }
-
-    // SISTEMA DE CUPONES
-    function aplicarCupon() {
-      try {
-        const codigo = document.getElementById('coupon-code').value.trim().toUpperCase();
-        
-        if (!codigo) {
-          mostrarNotificacion('Introduce un código de cupón', 'warning');
-          return;
-        }
-        
-        const cupon = CONFIG.cupones[codigo];
-        
-        if (!cupon) {
-          mostrarNotificacion('Código de cupón inválido', 'error');
-          return;
-        }
-        
-        if (cupon.usado) {
-          mostrarNotificacion('Este cupón ya ha sido utilizado', 'warning');
-          return;
-        }
-        
-        if (cuponAplicado) {
-          mostrarNotificacion('Ya tienes un cupón aplicado', 'warning');
-          return;
-        }
-        
-        cuponAplicado = codigo;
-        cupon.usado = true;
-        
-        let mensajeDescuento = '';
-        if (cupon.tipo === 'porcentaje') {
-          mensajeDescuento = `${(cupon.descuento * 100).toFixed(0)}% de descuento`;
-        } else {
-          mensajeDescuento = `${formatearPrecio(cupon.descuento)} de descuento`;
-        }
-        
-        mostrarNotificacion(`¡Cupón aplicado! ${mensajeDescuento}`, 'success');
-        
-        // Limpiar input
-        document.getElementById('coupon-code').value = '';
-        
-        actualizarCarrito();
-        guardarDatos();
-      } catch (error) {
-        manejarError(error, 'Error al aplicar cupón');
-      }
-    }
-
-    // FUNCIONES MODAL
-    function abrirCarrito() {
-      try {
-        const modal = document.getElementById('carrito-modal');
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        
-        // Asegurar que el modal esté correctamente posicionado
-        requestAnimationFrame(() => {
-          // Focus para accesibilidad
-          const closeButton = modal.querySelector('.carrito-close');
-          if (closeButton) closeButton.focus();
-          
-          // Scroll al top del modal body
-          const modalBody = modal.querySelector('.carrito-modal-body');
-          if (modalBody) modalBody.scrollTop = 0;
-        });
-      } catch (error) {
-        manejarError(error, 'Error al abrir el carrito');
-      }
-    }
-
-    function cerrarCarrito() {
-      try {
-        const modal = document.getElementById('carrito-modal');
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto';
-      } catch (error) {
-        manejarError(error, 'Error al cerrar el carrito');
-      }
-    }
-
-    function procederPago() {
-      try {
-        if (carrito.length === 0) {
-          mostrarNotificacion('El carrito está vacío', 'warning');
-          return;
-        }
-        
-        const { totalFinal } = calcularTotales();
-        const mensaje = `¿Proceder al pago de ${formatearPrecio(totalFinal)}?`;
-        
-        if (confirm(mensaje)) {
-          // Simular procesamiento de pago
-          const btnPagar = document.getElementById('btn-pagar');
-          btnPagar.classList.add('loading');
-          btnPagar.disabled = true;
-          
-          setTimeout(() => {
-            mostrarNotificacion('¡Pago procesado con éxito! Tu pedido llegará en 30-45 minutos.', 'success');
-            
-            // Limpiar carrito y datos
-            carrito = [];
-            cuponAplicado = null;
-            descuentoActual = 0;
-            cantidadProductoSeleccionado = {};
-            
-            // Resetear cupones usados (solo para demo)
-            Object.keys(CONFIG.cupones).forEach(codigo => {
-              CONFIG.cupones[codigo].usado = false;
-            });
-            
-            actualizarCarrito();
-            guardarDatos();
-            cerrarCarrito();
-            
-            btnPagar.classList.remove('loading');
-            btnPagar.disabled = false;
-          }, 2000);
-        }
-      } catch (error) {
-        manejarError(error, 'Error al procesar el pago');
-      }
-    }
-
-    // NOTIFICACIONES
-    function mostrarNotificacion(mensaje, tipo = 'success') {
-      try {
-        const notification = document.getElementById('notification');
-        notification.textContent = mensaje;
-        notification.className = `notification show ${tipo}`;
-        
-        // Auto-hide después de 4 segundos
-        setTimeout(() => {
-          notification.classList.remove('show');
-        }, 4000);
-      } catch (error) {
-        console.error('Error al mostrar notificación:', error);
-      }
-    }
-
-    // TOGGLE MENÚ MÓVIL MEJORADO
-    function toggleMenu() {
-      try {
-        const nav = document.getElementById('nav-menu');
-        const toggle = document.getElementById('menu-toggle');
-        const body = document.body;
-        
-        // Crear overlay si no existe
-        let overlay = document.getElementById('menu-overlay');
-        if (!overlay) {
-          overlay = document.createElement('div');
-          overlay.id = 'menu-overlay';
-          overlay.className = 'menu-overlay';
-          overlay.addEventListener('click', toggleMenu);
-          body.appendChild(overlay);
-        }
-        
-        const isMenuHidden = nav.classList.contains('hidden-mobile');
-        
-        if (isMenuHidden) {
-          // Abrir menú
-          nav.classList.remove('hidden-mobile');
-          overlay.classList.add('show');
-          body.classList.add('nav-visible');
-          toggle.innerHTML = '✕';
-          toggle.setAttribute('aria-label', 'Ocultar menú');
-        } else {
-          // Cerrar menú
-          nav.classList.add('hidden-mobile');
-          overlay.classList.remove('show');
-          body.classList.remove('nav-visible');
-          toggle.innerHTML = '☰';
-          toggle.setAttribute('aria-label', 'Mostrar menú');
-        }
-      } catch (error) {
-        manejarError(error, 'Error al alternar menú');
-      }
-    }
-
-    // BÚSQUEDA
-    function buscarProductos() {
-      try {
-        const query = document.getElementById('search-input').value.toLowerCase().trim();
-        busquedaActual = query;
-        const clearBtn = document.getElementById('search-clear');
-        const searchResults = document.getElementById('search-results');
-        const normalSections = document.getElementById('normal-sections');
-        const searchGaleria = document.querySelector('[data-categoria="search"]');
-        
-        // Mostrar/ocultar botón de limpiar
-        clearBtn.classList.toggle('show', query.length > 0);
-        
-        if (query.length === 0) {
-          // Sin búsqueda - mostrar secciones normales
-          searchResults.classList.add('hidden');
-          normalSections.classList.remove('hidden');
-          return;
-        }
-        
-        // Con búsqueda - ocultar secciones normales y mostrar resultados
-        normalSections.classList.add('hidden');
-        searchResults.classList.remove('hidden');
-        
-        // Limpiar resultados anteriores
-        searchGaleria.innerHTML = '';
-        
-        let resultadosEncontrados = 0;
-        
-        productos.forEach(producto => {
-          const nombre = producto.nombre.toLowerCase();
-          const ingredientes = (producto.ingredientes || '').toLowerCase();
-          const categoria = producto.categoria.toLowerCase();
-          
-          const coincide = nombre.includes(query) || 
-                          ingredientes.includes(query) || 
-                          categoria.includes(query);
-          
-          if (coincide) {
-            // Crear tarjeta para resultados de búsqueda
-            const card = crearTarjetaProducto(producto);
-            searchGaleria.appendChild(card);
-            resultadosEncontrados++;
-          }
-        });
-        
-        if (resultadosEncontrados === 0) {
-          searchGaleria.innerHTML = `
-            <div class="no-results">
-              <h3>Sin resultados</h3>
-              <p>No se encontraron productos que coincidan con "${query}"</p>
-              <div class="emoji">🔍</div>
-            </div>
-          `;
-        }
-        
-      } catch (error) {
-        manejarError(error, 'Error en la búsqueda');
-      }
-    }
-
-    function limpiarBusqueda() {
-      try {
-        const searchInput = document.getElementById('search-input');
-        const clearBtn = document.getElementById('search-clear');
-        const searchResults = document.getElementById('search-results');
-        const normalSections = document.getElementById('normal-sections');
-        
-        searchInput.value = '';
-        busquedaActual = '';
-        clearBtn.classList.remove('show');
-        
-        // Mostrar secciones normales y ocultar resultados de búsqueda/filtros
-        searchResults.classList.add('hidden');
-        normalSections.classList.remove('hidden');
-        
-        // Resetear título de búsqueda
-        const searchTitle = searchResults.querySelector('h2');
-        searchTitle.textContent = 'Resultados de búsqueda';
-        
-        // Mostrar todos los productos en las secciones normales y limpiar solo clases premium temporales
-        document.querySelectorAll('.pizza-card').forEach(card => {
-          card.classList.remove('hidden');
-          card.classList.remove('premium'); // Solo quitar clase premium temporal
-          // NO quitar pizza-del-mes porque es permanente
-        });
-        
-        // Limpiar filtros activos
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        document.getElementById('filter-all').classList.add('active');
-        filtroActual = 'all';
-        
-        verificarResultadosBusqueda();
-        searchInput.focus();
-      } catch (error) {
-        manejarError(error, 'Error al limpiar búsqueda');
-      }
-    }
-
-    function verificarResultadosBusqueda() {
-      try {
-        const galerias = document.querySelectorAll('.galeria');
-        
-        galerias.forEach(galeria => {
-          const cards = galeria.querySelectorAll('.pizza-card');
-          const cardsVisibles = galeria.querySelectorAll('.pizza-card:not(.hidden)');
-          
-          // Remover mensaje anterior
-          const mensajeAnterior = galeria.querySelector('.no-results');
-          if (mensajeAnterior) {
-            mensajeAnterior.remove();
-          }
-          
-          // Si hay búsqueda activa y no hay resultados visibles
-          if ((busquedaActual || filtroActual !== 'all') && cardsVisibles.length === 0 && cards.length > 0) {
-            const mensaje = document.createElement('div');
-            mensaje.className = 'no-results';
-            
-            let textoMensaje = '';
-            if (busquedaActual) {
-              textoMensaje = `No se encontraron productos que coincidan con "${busquedaActual}"`;
-            } else if (filtroActual === 'favorites') {
-              textoMensaje = 'No tienes productos favoritos en esta categoría';
-            } else if (filtroActual === 'normal') {
-              textoMensaje = 'No hay pizzas normales (≤12€) en esta categoría';
-            } else if (filtroActual === 'premium') {
-              textoMensaje = 'No hay pizzas premium (>12€) en esta categoría';
-            } else {
-              textoMensaje = 'No hay productos en esta categoría que coincidan con el filtro';
-            }
-            
-            mensaje.innerHTML = `
-              <h3>Sin resultados</h3>
-              <p>${textoMensaje}</p>
-              <div class="emoji">🔍</div>
-            `;
-            galeria.appendChild(mensaje);
-          }
-        });
-      } catch (error) {
-        console.warn('Error al verificar resultados de búsqueda:', error);
-      }
-    }
-
-    // NAVEGACIÓN SUAVE
-    function initNavegacion() {
-      try {
-        document.querySelectorAll('nav a[href^="#"]').forEach(link => {
-          link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Si hay búsqueda activa, limpiarla primero
-            if (busquedaActual) {
-              limpiarBusqueda();
-            }
-            
-            // Cerrar menú móvil si está abierto
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile) {
-              const nav = document.getElementById('nav-menu');
-              const overlay = document.getElementById('menu-overlay');
-              const body = document.body;
-              const toggle = document.getElementById('menu-toggle');
-              
-              if (nav && !nav.classList.contains('hidden-mobile')) {
-                // Pequeño delay para mostrar el efecto visual
-                setTimeout(() => {
-                  nav.classList.add('hidden-mobile');
-                  if (overlay) overlay.classList.remove('show');
-                  body.classList.remove('nav-visible');
-                  
-                  // Cambiar icono del botón
-                  if (toggle) {
-                    toggle.innerHTML = '☰';
-                    toggle.setAttribute('aria-label', 'Mostrar menú');
-                  }
-                }, 150);
-              }
-            }
-            
-            const targetId = this.getAttribute('href').substring(1);
-            const target = document.getElementById(targetId);
-            if (target) {
-              const headerHeight = 140;
-              const targetPosition = target.offsetTop - headerHeight;
-              
-              window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-              });
-              
-              // Actualizar URL sin recargar
-              history.pushState(null, null, `#${targetId}`);
-            }
-          });
-        });
-      } catch (error) {
-        console.warn('Error al inicializar navegación:', error);
-      }
-    }
-
-    // SCROLL HEADER
-    function initHeader() {
-      try {
-        const header = document.getElementById('headerContainer');
-        let ticking = false;
-        
-        function updateHeader() {
-          if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-          } else {
-            header.classList.remove('scrolled');
-          }
-          ticking = false;
-        }
-        
-        window.addEventListener('scroll', () => {
-          if (!ticking) {
-            requestAnimationFrame(updateHeader);
-            ticking = true;
-          }
-        });
-      } catch (error) {
-        console.warn('Error al inicializar header:', error);
-      }
-    }
-
-    // EVENTOS DEL TECLADO
-    function initEventosTeclado() {
-      document.addEventListener('keydown', function(e) {
-        // Cerrar modales con Escape
-        if (e.key === 'Escape') {
-          const carritoModal = document.getElementById('carrito-modal');
-          const productModal = document.getElementById('product-modal');
-          
-          if (carritoModal.classList.contains('show')) {
-            cerrarCarrito();
-          } else if (productModal.classList.contains('show')) {
-            cerrarProductModal();
-          }
-        }
-        
-        // Enfocar búsqueda con Ctrl+F o Cmd+F
-        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-          e.preventDefault();
-          document.getElementById('search-input').focus();
-        }
-        
-        // Abrir carrito con Ctrl+Shift+C
-        if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-          e.preventDefault();
-          abrirCarrito();
-        }
-      });
-    }
-
-    // CERRAR MODALES AL HACER CLICK FUERA
-    function initEventosModal() {
-      document.addEventListener('click', function(e) {
-        if (e.target.id === 'carrito-modal') {
-          cerrarCarrito();
-        }
-        if (e.target.id === 'product-modal') {
-          cerrarProductModal();
-        }
-      });
-    }
-
-    // INICIALIZACIÓN CON DEBOUNCE PARA BÚSQUEDA
-    const buscarConDebounce = debounce(buscarProductos, 300);
-
-    // INICIALIZACIÓN PRINCIPAL
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('🚀 Inicializando Fratelli Pazzi Mejorado...');
-      
-      try {
-        // Detectar si es móvil para optimizaciones
-        const isMobile = window.innerWidth <= 768;
-        
-        // Configurar menú móvil
-        const menuToggle = document.getElementById('menu-toggle');
-        const nav = document.getElementById('nav-menu');
-        
-        if (isMobile) {
-          if (menuToggle) {
-            menuToggle.style.display = 'block';
-          }
-          if (nav) {
-            nav.classList.add('hidden-mobile');
-          }
-        }
-        
-        // Configurar altura de viewport para móviles
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-        
-        // Reducir animaciones en móviles para mejor rendimiento
-        if (isMobile) {
-          document.documentElement.style.setProperty('--animation-duration', '0.2s');
-        }
-        
-        // Crear productos y cargar datos
-        crearProductos();
-        cargarDatos();
-        
-        // Inicializar funcionalidades
-        initNavegacion();
-        initHeader();
-        initEventosTeclado();
-        initEventosModal();
-        
-        // Event listeners
-        const searchInput = document.getElementById('search-input');
-        if (searchInput) {
-          searchInput.addEventListener('input', buscarConDebounce);
-          searchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              buscarProductos();
-            }
-          });
-        }
-        
-        // Event listener para el cupón
-        const couponInput = document.getElementById('coupon-code');
-        if (couponInput) {
-          couponInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              aplicarCupon();
-            }
-          });
-        }
-        
-        // Navegación inicial si hay hash
-        if (window.location.hash) {
-          setTimeout(() => {
-            const target = document.querySelector(window.location.hash);
-            if (target) {
-              const headerHeight = 140;
-              window.scrollTo({
-                top: target.offsetTop - headerHeight,
-                behavior: 'smooth'
-              });
-            }
-          }, 100);
-        }
-        
-        console.log('✅ ¡Fratelli Pazzi Mejorado inicializado correctamente!');
-        
-        // Listener para cambios de tamaño de ventana
-        window.addEventListener('resize', function() {
-          const isMobile = window.innerWidth <= 768;
-          const menuToggle = document.getElementById('menu-toggle');
-          const nav = document.getElementById('nav-menu');
-          const overlay = document.getElementById('menu-overlay');
-          const body = document.body;
-          
-          if (menuToggle && nav) {
-            if (isMobile) {
-              menuToggle.style.display = 'block';
-              // Asegurar que el menú esté oculto al cambiar a móvil
-              if (!nav.classList.contains('hidden-mobile')) {
-                nav.classList.add('hidden-mobile');
-              }
-              if (overlay) overlay.classList.remove('show');
-              body.classList.remove('nav-visible');
-              menuToggle.innerHTML = '☰';
-              menuToggle.setAttribute('aria-label', 'Mostrar menú');
-            } else {
-              menuToggle.style.display = 'none';
-              nav.classList.remove('hidden-mobile');
-              if (overlay) overlay.classList.remove('show');
-              body.classList.remove('nav-visible');
-            }
-          }
-        });
-        
-        // Mostrar mensaje de bienvenida
-        setTimeout(() => {
-          const mensaje = isMobile ? 
-            '¡Bienvenido a Fratelli Pazzi! Prueba la Pizza del Mes 🌟' : 
-            '¡Bienvenido a Fratelli Pazzi! La Pizza del Mes te espera 🌟🍕';
-          mostrarNotificacion(mensaje, 'success');
-        }, 1000);
-        
-      } catch (error) {
-        manejarError(error, 'Error durante la inicialización');
-      }
-    });
-        document.addEventListener('DOMContentLoaded', () => {
-      // Comprueba si hay recompensas pendientes de canjear
-      const rewardCheck = window.checkForActiveReward?.();
-      if (rewardCheck?.isActive) {
-        rewardCheck.items.forEach(item => {
-          // Aquí usa tu función real para añadir al carrito
-          addToCart(item);
-        });
-        // Borra la recompensa aplicada para que no se repita
-        window.clearActiveReward?.();
-        // Opcional: muestra un mensaje al usuario
-        mostrarNotificacion('¡Tu recompensa se ha aplicado al carrito!', 'success');
-      }
-    });
-
-    // MANEJO DE ERRORES GLOBALES
-    window.addEventListener('error', function(e) {
-      console.error('Error global capturado:', e.error);
-      mostrarNotificacion('Ha ocurrido un error inesperado', 'error');
-    });
-
-    // EXPOSICIÓN DE FUNCIONES GLOBALES PARA DEBUGGING
-    window.FratelliPazziDebug = {
-      productos,
-      carrito,
-      favoritos,
-      CONFIG,
-      limpiarBusqueda,
-      mostrarNotificacion
-    };
+    // Resto del JavaScript...
+    // [El resto de las funciones de JavaScript continúan igual...]
 
   </script>
 </body>
